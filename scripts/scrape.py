@@ -19,6 +19,14 @@ from pathlib import Path
 import requests
 from bs4 import BeautifulSoup
 
+# curl_cffi: ブラウザのTLSフィンガープリント偽装でCloudflareを回避
+try:
+    from curl_cffi import requests as cffi_requests
+    HAS_CFFI = True
+except ImportError:
+    HAS_CFFI = False
+    print('⚠ curl_cffi未インストール（アナスロ・DMM取得不可）')
+
 JST = timezone(timedelta(hours=9))
 HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
@@ -242,11 +250,18 @@ def min_repo_機種データ抽出(detail_url):
 # ソース2: DMMぱちタウン (出玉ランキングTOP10)
 # ──────────────────────────────────────
 def dmm_出玉ランキング(shop_id):
-    """DMMぱちタウンの出玉ランキングTOP10を取得"""
-    if not shop_id: return None
+    """DMMぱちタウンの出玉ランキングTOP10を取得（curl_cffiでブラウザTLS偽装）"""
+    if not shop_id or not HAS_CFFI: return None
     url = f'https://p-town.dmm.com/shops/hokkaido/{shop_id}/jackpot'
-    html = fetch(url)
-    if not html: return None
+    try:
+        r = cffi_requests.get(url, headers={'Accept-Language': 'ja,en;q=0.9'}, impersonate='chrome120', timeout=20)
+        if r.status_code != 200:
+            print(f'    ⚠ DMM {r.status_code}')
+            return None
+        html = r.text
+    except Exception as e:
+        print(f'    ⚠ DMMエラー: {e}')
+        return None
 
     soup = BeautifulSoup(html, 'lxml')
     ランキング = {'パチンコ': [], 'スロット': []}
@@ -277,16 +292,19 @@ def dmm_出玉ランキング(shop_id):
 # ソース3: アナスロ (台番号レベル詳細データ)
 # ──────────────────────────────────────
 def anaslo_fetch(url):
-    """アナスロ用：Refererヘッダー付きで取得"""
+    """アナスロ用：curl_cffiでブラウザTLS偽装してCloudflare回避"""
+    if not HAS_CFFI:
+        return None
     for i in range(3):
         try:
-            r = requests.get(url, headers=ANASLO_HEADERS, timeout=20)
+            r = cffi_requests.get(url, headers=ANASLO_HEADERS, impersonate='chrome120', timeout=25)
             if r.status_code == 200:
-                r.encoding = r.apparent_encoding
                 return r.text
-            time.sleep(2)
+            print(f'    ⚠ アナスロ {r.status_code}: リトライ {i+1}/3')
+            time.sleep(3)
         except Exception as e:
-            time.sleep(2)
+            print(f'    ⚠ アナスロエラー: {e}')
+            time.sleep(3)
     return None
 
 
