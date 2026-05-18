@@ -32,12 +32,12 @@ HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
 }
 
-# アナスロ用ヘッダー（Referer必須）
+# アナスロ用ヘッダー（Referer必須、URLエンコード済）
 ANASLO_HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
     'Accept-Language': 'ja,en;q=0.9',
-    'Referer': 'https://ana-slo.com/ホールデータ/北海道/',
+    'Referer': 'https://ana-slo.com/%E3%83%9B%E3%83%BC%E3%83%AB%E3%83%87%E3%83%BC%E3%82%BF/%E5%8C%97%E6%B5%B7%E9%81%93/',
 }
 
 # ──────────────────────────────────────
