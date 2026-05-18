@@ -773,8 +773,11 @@ button, a { -webkit-touch-callout: none; user-select: none; }
 <!-- ===== エリア情報ページ ===== -->
 <div id="page-area" class="page">
   <div style="font-size:11px;color:var(--muted);letter-spacing:1px;margin-bottom:12px;text-align:right">
-    // データ収集日：2026年5月17日 | 出典：みんレポ・みんパチ・DMMぱちタウン・すろざんまい・X(旧Twitter)
+    // 出典：みんレポ・みんパチ・すろざんまい・X(旧Twitter)
   </div>
+
+  <!-- 動的データ（自動更新）-->
+  <div id="動的エリアデータ"></div>
 
   <!-- イベント日カレンダー -->
   <div class="カード">
@@ -1463,9 +1466,85 @@ function renderHallDetail() {
   }).join('')}</div>`;
 }
 
+// ── エリアページ全体描画 ──
+function renderArea() {
+  const remote = リモートデータ取得();
+  const 動的エリアEl = document.getElementById('動的エリアデータ');
+  if (動的エリアEl) {
+    if (remote && remote.ホール) {
+      const dt = new Date(remote.更新日時);
+      const エリア別 = {};
+      remote.ホール.forEach(h => {
+        if (!h.機種) return;
+        if (!エリア別[h.エリア]) エリア別[h.エリア] = [];
+        エリア別[h.エリア].push(h);
+      });
+
+      const エリア色 = { '苫小牧':'ピンク', '室蘭':'水色', '登別':'緑', '千歳':'金', '恵庭':'金' };
+      const 集計 = remote.集計 || {};
+
+      動的エリアEl.innerHTML = `
+        <div class="カード" style="border-left-color: var(--green)">
+          <div class="カードタイトル" style="color: var(--green); text-shadow: var(--glow-g)">📡 自動取得データ（最新）</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:12px">
+            <div class="エリア統計項目"><div class="エリア統計ラベル">最終更新</div><div class="エリア統計値" style="font-size:12px;color:var(--cyan)">${dt.toLocaleString('ja-JP', {month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'})}</div></div>
+            <div class="エリア統計項目"><div class="エリア統計ラベル">対象ホール</div><div class="エリア統計値 青">${集計.成功ホール数 || 0}<span style="font-size:11px">/${remote.対象ホール数 || 0}</span></div></div>
+            <div class="エリア統計項目"><div class="エリア統計ラベル">総機種データ</div><div class="エリア統計値 青">${集計.総機種データ || 0}</div></div>
+            <div class="エリア統計項目"><div class="エリア統計ラベル">エリア数</div><div class="エリア統計値 青">${Object.keys(エリア別).length}</div></div>
+          </div>
+          <div style="font-size:11px;color:var(--muted);letter-spacing:0.5px">出典: ${remote.出典 || 'みんレポ'}</div>
+        </div>
+
+        ${Object.entries(エリア別).map(([エリア, ホール一覧]) => `
+          <div class="カード">
+            <div class="カードタイトル">▶ ${エリア}エリア（${ホール一覧.length}ホール）</div>
+            <div class="エリアホール一覧">
+              ${ホール一覧.map(h => {
+                const 統計 = h.統計 || {};
+                const 上位 = (h.機種 || []).slice(0, 5);
+                return `<div class="エリアホールカード">
+                  <div class="エリアホールヘッダー">
+                    <span class="エリアタグ ${エリア色[エリア]||'水色'}">${エリア}</span>
+                    <span class="エリアホール名">${h.名}</span>
+                    <span class="エリア日付">${h.データ日 || ''}</span>
+                  </div>
+                  <div class="エリア統計">
+                    <div class="エリア統計項目"><div class="エリア統計ラベル">機種数</div><div class="エリア統計値 青">${h.機種数 || 0}</div></div>
+                    <div class="エリア統計項目"><div class="エリア統計ラベル">勝率</div><div class="エリア統計値 ${(統計.勝率||0)>=30?'プラス':'マイナス'}">${統計.勝率 || '-'}<span style="font-size:10px">%</span></div></div>
+                    <div class="エリア統計項目"><div class="エリア統計ラベル">平均G数</div><div class="エリア統計値 青">${(統計.平均G数||0).toLocaleString()}</div></div>
+                    <div class="エリア統計項目"><div class="エリア統計ラベル">イベ日</div><div class="エリア統計値" style="font-size:10px;color:var(--gold)">${h.イベント日 || '-'}</div></div>
+                  </div>
+                  <div class="機種ラベル">▶ TOP5機種（差枚順）</div>
+                  ${上位.map(m => {
+                    const cls = m.平均差枚 >= 0 ? 'プラス' : 'マイナス';
+                    return `<div class="機種行"><span class="機種名">${m.機種名}</span><span class="機種収支 ${cls}">${m.平均差枚>=0?'+':''}${m.平均差枚.toLocaleString()}枚 / ${m.出率||'-'}%</span></div>`;
+                  }).join('')}
+                </div>`;
+              }).join('')}
+            </div>
+          </div>
+        `).join('')}
+      `;
+    } else {
+      動的エリアEl.innerHTML = `
+        <div class="カード" style="border-left-color: var(--gold)">
+          <div class="カードタイトル" style="color: var(--gold)">⚠️ データ未取得</div>
+          <p style="font-size:13px;line-height:1.7">
+            最新の自動収集データを取得していません。<br>
+            「⚙️ 設定」タブで <strong style="color:var(--cyan)">「📥 今すぐ最新データを取得」</strong> をタップしてください。<br>
+            設定済みの場合、しばらくしてからアプリを再起動してください。
+          </p>
+        </div>
+      `;
+    }
+  }
+  // 既存の比較グラフ
+  renderエリアグラフ();
+}
+
 // ── エリアグラフ ──
 let エリアグラフインスタンス = null;
-function renderArea() {
+function renderエリアグラフ() {
   if (エリアグラフインスタンス) エリアグラフインスタンス.destroy();
   const halls = ['ベガスベガス\n苫小牧', 'ロイヤル\n登別', 'マルハン\n苫小牧', 'ビクトリア\n室蘭', 'ZEUS', 'ひまわり\n室蘭'];
   const winRates = [39.0, 35.8, null, 28.6, 21.4, null];
@@ -1928,7 +2007,11 @@ async function 最新データ取得() {
 // アプリ起動時に自動取得（前回から6時間以上経過時のみ）
 async function 自動取得チェック() {
   const s = 設定取得();
-  if (!s.githubUrl) return;
+  // GitHub URL未設定の場合はデフォルトを設定
+  if (!s.githubUrl) {
+    s.githubUrl = 'https://raw.githubusercontent.com/tamahome0208-prog/slot-dashboard-pwa/main/data/halls.json';
+    設定保存処理(s);
+  }
   const data = localStorage.getItem(REMOTE_DATA_KEY);
   let 経過時間 = Infinity;
   if (data) {
@@ -1941,6 +2024,12 @@ async function 自動取得チェック() {
     console.log('自動データ取得実行（前回から' + Math.round(経過時間) + '時間経過）');
     await 最新データ取得();
   }
+}
+
+// 取得済みリモートデータを取得
+function リモートデータ取得() {
+  try { return JSON.parse(localStorage.getItem(REMOTE_DATA_KEY) || 'null'); }
+  catch { return null; }
 }
 
 // ── バックアップ ──
