@@ -1,0 +1,38 @@
+name: 口コミ自動収集（週次）
+
+on:
+  schedule:
+    # 毎週月曜 朝7時（JST）= 日曜 UTC 22:00
+    - cron: '0 22 * * 0'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - run: |
+          python -m pip install --upgrade pip
+          pip install requests beautifulsoup4 lxml
+
+      - run: python scripts/scrape_reviews.py
+
+      - name: 変更をコミット
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add data/
+          if git diff --staged --quiet; then
+            echo "変更なし"
+          else
+            git commit -m "📝 口コミ自動更新 $(date +'%Y-%m-%d')"
+            git push
+          fi
