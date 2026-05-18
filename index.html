@@ -1,0 +1,2023 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>スロット管理システム</title>
+
+<!-- PWA メタタグ -->
+<meta name="theme-color" content="#0a0a14">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="スロット管理">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="application-name" content="スロット管理">
+<meta name="description" content="室蘭・登別・苫小牧エリアのスロット収支管理と機種データベース">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.svg">
+<link rel="icon" type="image/svg+xml" href="icon-192.svg">
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:     #0a0a14;
+  --bg2:    #12121f;
+  --bg3:    #1a1a2a;
+  --pink:   #ff5e9f;
+  --cyan:   #40e8ff;
+  --green:  #5fff5f;
+  --red:    #ff4d6d;
+  --gold:   #ffe066;
+  --text:   #f0f0fa;
+  --text2:  #c8c8d8;
+  --muted:  #8a8aa8;
+  --border: #2a2a40;
+  --glow-p: 0 0 6px #ff5e9f88, 0 0 14px #ff5e9f33;
+  --glow-c: 0 0 6px #40e8ff88, 0 0 14px #40e8ff33;
+  --glow-g: 0 0 6px #5fff5f88, 0 0 14px #5fff5f33;
+  --glow-r: 0 0 6px #ff4d6d88, 0 0 14px #ff4d6d33;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Noto Sans JP', sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(64,232,255,0.006) 3px, rgba(64,232,255,0.006) 6px);
+  pointer-events: none; z-index: 9998;
+}
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: linear-gradient(rgba(64,232,255,0.018) 1px, transparent 1px), linear-gradient(90deg, rgba(64,232,255,0.018) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none; z-index: 0;
+}
+
+/* ── ヘッダー ── */
+header {
+  position: relative; z-index: 10;
+  background: linear-gradient(135deg, #080810 0%, #0a0a18 100%);
+  border-bottom: 1px solid var(--pink);
+  box-shadow: 0 0 20px rgba(255,45,120,0.3), inset 0 -1px 0 var(--pink);
+  padding: 14px 20px;
+  display: flex; align-items: center; gap: 14px;
+}
+.header-icon { font-size: 26px; animation: flicker 3s infinite; }
+header h1 {
+  font-family: 'Orbitron', monospace;
+  font-size: 17px; font-weight: 900; letter-spacing: 4px;
+  color: var(--cyan); text-shadow: var(--glow-c);
+}
+.header-badge {
+  margin-left: auto;
+  font-family: 'Orbitron', monospace;
+  font-size: 11px; font-weight: 700; letter-spacing: 2px;
+  color: var(--pink); text-shadow: var(--glow-p);
+  border: 1px solid var(--pink); padding: 4px 10px; border-radius: 2px;
+  box-shadow: var(--glow-p), inset 0 0 8px rgba(255,45,120,0.1);
+  animation: pulse-border 2s ease-in-out infinite;
+}
+
+/* ── ナビ ── */
+nav {
+  position: relative; z-index: 10;
+  display: flex; background: var(--bg2);
+  border-bottom: 1px solid var(--border); overflow-x: auto;
+}
+nav button {
+  flex: 1; min-width: 80px; padding: 15px 8px;
+  background: none; border: none; color: var(--text2);
+  font-family: 'Hiragino Kaku Gothic ProN', sans-serif;
+  font-size: 14px; letter-spacing: 0.5px; cursor: pointer; font-weight: 600;
+  border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap;
+}
+nav button:hover { color: var(--cyan); }
+nav button.active {
+  color: var(--cyan); border-bottom-color: var(--cyan);
+  text-shadow: var(--glow-c);
+  background: linear-gradient(0deg, rgba(0,229,255,0.05), transparent);
+}
+
+/* ── ページ ── */
+.page { display: none; position: relative; z-index: 1; padding: 16px; max-width: 960px; margin: 0 auto; }
+.page.active { display: block; animation: slide-in 0.2s ease; }
+
+/* ── KPI ── */
+.kpi-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin-bottom: 14px; }
+@media(min-width:600px) { .kpi-grid { grid-template-columns: repeat(4,1fr); } }
+.kpi {
+  background: var(--bg2); border: 1px solid var(--border); border-radius: 4px;
+  padding: 20px 14px; text-align: center; position: relative; overflow: hidden;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.kpi::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--cyan), transparent); opacity: 0.7; }
+.kpi:hover { border-color: var(--cyan); box-shadow: var(--glow-c); }
+.kpi .ラベル { font-size: 13px; letter-spacing: 1px; color: var(--text2); margin-bottom: 12px; font-weight: 500; }
+.kpi .数値 { font-family: 'Orbitron', monospace; font-size: 30px; font-weight: 900; line-height: 1.1; }
+.kpi .数値.プラス { color: var(--green); text-shadow: var(--glow-g); }
+.kpi .数値.マイナス { color: var(--red); text-shadow: var(--glow-r); }
+.kpi .数値.青 { color: var(--cyan); text-shadow: var(--glow-c); }
+.kpi .数値.白 { color: var(--text); }
+.kpi .補足 { font-size: 12px; color: var(--muted); margin-top: 8px; }
+
+/* ── 目標バー ── */
+.目標エリア {
+  background: var(--bg2); border: 1px solid var(--border); border-radius: 2px;
+  padding: 16px; margin-bottom: 14px; position: relative; overflow: hidden;
+}
+.目標エリア::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,45,120,0.03), transparent 50%); pointer-events: none; }
+.目標ヘッダー { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+.目標タイトル { font-size: 11px; letter-spacing: 2px; color: var(--muted); }
+.目標パーセント { font-family: 'Orbitron', monospace; font-size: 24px; font-weight: 900; color: var(--green); text-shadow: var(--glow-g); }
+.バートラック { background: var(--bg3); border: 1px solid var(--border); border-radius: 1px; height: 8px; overflow: hidden; }
+.バーフィル { height: 100%; background: linear-gradient(90deg, var(--pink), var(--cyan)); box-shadow: 0 0 10px var(--cyan); border-radius: 1px; transition: width 0.8s cubic-bezier(.4,0,.2,1); position: relative; }
+.バーフィル::after { content: ''; position: absolute; top: 0; right: 0; width: 4px; height: 100%; background: white; box-shadow: 0 0 6px white; animation: blink 1s ease-in-out infinite; }
+.目標補足 { font-size: 11px; color: var(--muted); margin-top: 8px; }
+
+/* ── カード ── */
+.カード {
+  background: var(--bg2); border: 1px solid var(--border); border-radius: 4px;
+  padding: 20px 22px; margin-bottom: 18px; position: relative; overflow: hidden;
+}
+.カード::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: linear-gradient(180deg, var(--cyan), var(--pink)); }
+.カードタイトル { font-size: 16px; letter-spacing: 1px; color: var(--cyan); text-shadow: var(--glow-c); margin-bottom: 18px; padding-left: 10px; font-weight: 700; }
+
+label { font-size: 13px !important; letter-spacing: 0.5px; color: var(--text2); font-weight: 500; }
+
+input, select, textarea {
+  background: var(--bg3); border: 1px solid var(--border);
+  color: var(--text); border-radius: 4px; padding: 12px 14px; font-size: 15px !important;
+  font-family: inherit; outline: none; width: 100%;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* ── グラフ ── */
+.グラフボックス { position: relative; height: 210px; }
+
+/* ── ヒートマップ ── */
+.曜日マップ { display: grid; grid-template-columns: repeat(7,1fr); gap: 6px; }
+.曜日セル { border: 1px solid var(--border); border-radius: 2px; padding: 8px 4px; text-align: center; background: var(--bg3); transition: border-color 0.2s, box-shadow 0.2s; }
+.曜日セル:hover { border-color: var(--cyan); box-shadow: var(--glow-c); }
+.曜日ラベル { font-size: 12px; font-weight: 700; margin-bottom: 4px; }
+.曜日値 { font-family: 'Orbitron', monospace; font-size: 10px; }
+.曜日回数 { font-size: 10px; color: var(--muted); margin-top: 2px; }
+
+/* ── ホールカード ── */
+.ホールカード { background: var(--bg3); border: 1px solid var(--border); border-radius: 2px; padding: 12px 14px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; transition: border-color 0.2s, box-shadow 0.2s; }
+.ホールカード:hover { border-color: var(--pink); box-shadow: var(--glow-p); }
+.ホール名 { font-size: 14px; font-weight: 700; }
+.ホールメタ { font-size: 11px; color: var(--muted); margin-top: 3px; }
+.ホール収支 { font-family: 'Orbitron', monospace; font-size: 16px; font-weight: 900; text-align: right; }
+
+/* ── フォーム ── */
+.フォームグリッド { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+@media(min-width:600px) { .フォームグリッド { grid-template-columns: repeat(3,1fr); } }
+.フォームグループ { display: flex; flex-direction: column; gap: 5px; }
+.フォームグループ.全幅 { grid-column: 1 / -1; }
+
+label { font-size: 11px; letter-spacing: 1.5px; color: var(--muted); }
+
+input, select, textarea {
+  background: var(--bg3); border: 1px solid var(--border);
+  color: var(--text); border-radius: 2px; padding: 10px 11px; font-size: 14px;
+  font-family: 'Share Tech Mono', monospace; outline: none; width: 100%;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+input:focus, select:focus, textarea:focus { border-color: var(--cyan); box-shadow: 0 0 0 1px var(--cyan), var(--glow-c); }
+select option { background: var(--bg3); }
+
+/* ── プレビュー ── */
+.プレビューボックス { background: var(--bg3); border: 1px solid var(--border); border-radius: 2px; padding: 14px; text-align: center; margin: 12px 0; position: relative; overflow: hidden; }
+.プレビューラベル { font-size: 11px; letter-spacing: 2px; color: var(--muted); margin-bottom: 6px; }
+.プレビュー値 { font-family: 'Orbitron', monospace; font-size: 30px; font-weight: 900; }
+
+/* ── ボタン ── */
+.ボタン主 { background: transparent; color: var(--pink); border: 1px solid var(--pink); box-shadow: var(--glow-p), inset 0 0 12px rgba(255,45,120,0.08); border-radius: 2px; padding: 12px 24px; font-family: 'Share Tech Mono', monospace; font-size: 13px; letter-spacing: 2px; cursor: pointer; width: 100%; margin-top: 6px; transition: all 0.2s; }
+.ボタン主:hover { background: var(--pink); color: #000; box-shadow: var(--glow-p); }
+.ボタン副 { background: transparent; color: var(--cyan); border: 1px solid var(--cyan); box-shadow: 0 0 6px rgba(0,229,255,0.2); border-radius: 2px; padding: 9px 18px; font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 1px; cursor: pointer; transition: all 0.2s; }
+.ボタン副:hover { background: var(--cyan); color: #000; }
+.ボタン削除 { background: transparent; color: var(--red); border: 1px solid var(--red); border-radius: 2px; padding: 4px 10px; font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 1px; cursor: pointer; transition: all 0.2s; }
+.ボタン削除:hover { background: var(--red); color: #000; }
+
+/* ── テーブル ── */
+.テーブル枠 { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 15px; }
+thead th { text-align: left; padding: 12px 12px; color: var(--cyan); text-shadow: var(--glow-c); font-size: 13px; letter-spacing: 1px; border-bottom: 1px solid var(--border); white-space: nowrap; font-weight: 700; }
+tbody tr { border-bottom: 1px solid rgba(42,42,64,0.6); transition: background 0.15s; }
+tbody tr:hover { background: rgba(64,232,255,0.05); }
+tbody td { padding: 13px 12px; white-space: nowrap; font-size: 14px; color: var(--text); }
+
+/* ── 設定バッジ ── */
+.設定バッジ { display: inline-block; padding: 2px 8px; border-radius: 1px; font-size: 11px; font-weight: 700; font-family: 'Orbitron', monospace; letter-spacing: 1px; }
+.設定低 { border: 1px solid #333; color: #666; }
+.設定中 { border: 1px solid #1a4a1a; color: #39ff14; box-shadow: 0 0 4px rgba(57,255,20,0.3); }
+.設定高 { border: 1px solid var(--cyan); color: var(--cyan); box-shadow: var(--glow-c); }
+.設定不明 { border: 1px solid #333; color: #555; }
+
+/* ── 色 ── */
+.プラス { color: var(--green); text-shadow: var(--glow-g); }
+.マイナス { color: var(--red); text-shadow: var(--glow-r); }
+
+/* ── 絞り込み ── */
+.絞り込み行 { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; align-items: center; }
+.絞り込み行 select, .絞り込み行 input { max-width: 160px; }
+.絞り込み行 label { font-size: 11px; color: var(--muted); white-space: nowrap; }
+
+/* ── 空状態 ── */
+.空表示 { text-align: center; padding: 40px 20px; color: var(--muted); font-size: 13px; letter-spacing: 1px; }
+.空表示 .アイコン { font-size: 36px; margin-bottom: 10px; opacity: 0.4; }
+
+/* ── 危険ゾーン ── */
+.危険ゾーン { border: 1px solid var(--red); box-shadow: 0 0 8px rgba(255,23,68,0.15); border-radius: 2px; padding: 16px; margin-top: 14px; }
+.危険ゾーン .カードタイトル { color: var(--red); text-shadow: var(--glow-r); }
+
+/* ── 通知 ── */
+#通知 { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: var(--bg2); border: 1px solid var(--cyan); box-shadow: var(--glow-c); color: var(--cyan); padding: 10px 24px; border-radius: 2px; font-size: 13px; letter-spacing: 1px; opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 9999; }
+#通知.表示 { opacity: 1; }
+
+/* ── 四隅デコ ── */
+.角デコ { position: absolute; width: 10px; height: 10px; }
+.角デコ.左上 { top: 0; left: 0; border-top: 1px solid var(--cyan); border-left: 1px solid var(--cyan); }
+.角デコ.右上 { top: 0; right: 0; border-top: 1px solid var(--cyan); border-right: 1px solid var(--cyan); }
+.角デコ.左下 { bottom: 0; left: 0; border-bottom: 1px solid var(--cyan); border-left: 1px solid var(--cyan); }
+.角デコ.右下 { bottom: 0; right: 0; border-bottom: 1px solid var(--cyan); border-right: 1px solid var(--cyan); }
+
+/* ── エリアDB ── */
+.イベントタグ { display: inline-block; padding: 2px 8px; border-radius: 1px; font-size: 11px; font-family: 'Orbitron', monospace; letter-spacing: 1px; border: 1px solid var(--cyan); color: var(--cyan); margin-right: 4px; }
+.イベントタグ.ピンク { border-color: var(--pink); color: var(--pink); }
+.イベントタグ.金 { border-color: var(--gold); color: var(--gold); }
+
+.エリアホール一覧 { display: grid; grid-template-columns: 1fr; gap: 10px; }
+@media(min-width:700px) { .エリアホール一覧 { grid-template-columns: 1fr 1fr; } }
+
+.エリアホールカード { background: var(--bg3); border: 1px solid var(--border); border-radius: 2px; padding: 14px; transition: border-color 0.2s, box-shadow 0.2s; }
+.エリアホールカード:hover { border-color: var(--cyan); box-shadow: var(--glow-c); }
+.エリアホールカード.注目 { border-color: rgba(255,214,0,0.4); box-shadow: 0 0 8px rgba(255,214,0,0.1); }
+
+.エリアホールヘッダー { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+.エリアタグ { font-family: 'Orbitron', monospace; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 1px; letter-spacing: 1px; }
+.エリアタグ.水色 { background: rgba(0,229,255,0.1); border: 1px solid var(--cyan); color: var(--cyan); }
+.エリアタグ.緑 { background: rgba(57,255,20,0.1); border: 1px solid var(--green); color: var(--green); }
+.エリアタグ.ピンク { background: rgba(255,45,120,0.1); border: 1px solid var(--pink); color: var(--pink); }
+
+.エリアホール名 { font-size: 15px; font-weight: 700; flex: 1; }
+.エリア日付 { font-size: 11px; color: var(--muted); }
+
+.エリア統計 { display: grid; grid-template-columns: repeat(4,1fr); gap: 6px; margin-bottom: 10px; }
+.エリア統計項目 { background: var(--bg2); border: 1px solid var(--border); border-radius: 2px; padding: 7px; text-align: center; }
+.エリア統計ラベル { font-size: 10px; color: var(--muted); margin-bottom: 3px; }
+.エリア統計値 { font-family: 'Orbitron', monospace; font-size: 13px; font-weight: 700; }
+
+.機種ラベル { font-size: 10px; color: var(--muted); letter-spacing: 2px; margin-bottom: 6px; }
+.機種行 { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; border-bottom: 1px solid rgba(26,26,46,0.6); font-size: 12px; }
+.機種行:last-child { border-bottom: none; }
+.機種名 { color: var(--text); }
+.機種収支 { font-family: 'Orbitron', monospace; font-size: 10px; }
+
+/* ── 傾向グリッド ── */
+.傾向グリッド { display: grid; grid-template-columns: 1fr; gap: 10px; }
+@media(min-width:700px) { .傾向グリッド { grid-template-columns: 1fr 1fr; } }
+.傾向カード { background: var(--bg3); border: 1px solid var(--border); border-radius: 2px; padding: 14px; }
+.傾向タイトル { font-size: 13px; font-weight: 700; letter-spacing: 1px; margin-bottom: 10px; }
+.傾向内容 { display: flex; flex-direction: column; gap: 8px; }
+.傾向行 { display: flex; align-items: flex-start; gap: 8px; font-size: 12px; line-height: 1.6; }
+.傾向点 { width: 7px; height: 7px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+.傾向点.プラス { background: var(--green); box-shadow: var(--glow-g); }
+.傾向点.マイナス { background: var(--red); box-shadow: var(--glow-r); }
+.傾向点.金 { background: var(--gold); }
+
+/* ── 口コミ ── */
+.口コミグリッド { display: grid; grid-template-columns: 1fr; gap: 10px; }
+@media(min-width:700px) { .口コミグリッド { grid-template-columns: 1fr 1fr; } }
+.口コミカード { background: var(--bg3); border: 1px solid var(--border); border-radius: 2px; padding: 14px; }
+.口コミホール { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.口コミホール名 { font-size: 14px; font-weight: 700; flex: 1; }
+.評価点 { font-family: 'Orbitron', monospace; font-size: 18px; font-weight: 900; }
+.評価バー { display: flex; gap: 6px; margin-bottom: 10px; font-size: 11px; color: var(--muted); }
+.評価項目 { display: flex; flex-direction: column; gap: 2px; flex: 1; text-align: center; }
+.評価数値 { font-family: 'Orbitron', monospace; font-size: 13px; color: var(--text); }
+.声リスト { display: flex; flex-direction: column; gap: 6px; }
+.声 { font-size: 12px; line-height: 1.6; padding: 6px 8px; border-radius: 2px; }
+.声.良 { background: rgba(57,255,20,0.05); border-left: 2px solid var(--green); }
+.声.悪 { background: rgba(255,23,68,0.05); border-left: 2px solid var(--red); }
+.声.中 { background: rgba(0,229,255,0.05); border-left: 2px solid var(--cyan); }
+.声元 { font-size: 10px; color: var(--muted); margin-top: 2px; }
+
+.SNSバッジ { display: inline-block; font-size: 9px; padding: 1px 6px; border-radius: 10px; margin-right: 4px; font-family: 'Orbitron', monospace; }
+.SNSバッジ.twitter { background: rgba(29,161,242,0.15); color: #1da1f2; border: 1px solid #1da1f228; }
+.SNSバッジ.みんパチ { background: rgba(255,214,0,0.1); color: var(--gold); border: 1px solid rgba(255,214,0,0.2); }
+
+/* ── ホール説明 ── */
+.機能説明 { background: rgba(0,229,255,0.05); border: 1px solid rgba(0,229,255,0.2); border-radius: 2px; padding: 14px 16px; margin-bottom: 16px; font-size: 13px; line-height: 1.9; color: var(--muted); }
+.機能説明 strong { color: var(--cyan); }
+
+/* ── 機種DB ── */
+.機種フィルター { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; align-items: center; background: var(--bg3); border: 1px solid var(--border); border-radius: 2px; padding: 12px; }
+.機種フィルター input, .機種フィルター select { max-width: 200px; }
+
+.機種カード {
+  background: var(--bg3); border: 1px solid var(--border); border-radius: 2px;
+  padding: 16px; margin-bottom: 12px; position: relative; overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.機種カード:hover { border-color: var(--cyan); box-shadow: var(--glow-c); }
+.機種カード.推奨 { border-left: 3px solid var(--gold); }
+.機種カード.要注意 { border-left: 3px solid var(--red); }
+
+.機種カードヘッダー { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px; }
+.機種カード名 { font-size: 16px; font-weight: 700; color: var(--text); letter-spacing: 0.5px; }
+.機種スコア { display: flex; align-items: center; gap: 8px; }
+.機種スコア-値 { font-family: 'Orbitron', monospace; font-size: 20px; font-weight: 900; }
+
+.機種スペック { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; margin-bottom: 12px; }
+@media(min-width:600px) { .機種スペック { grid-template-columns: repeat(4,1fr); } }
+.スペック項目 { background: var(--bg2); border: 1px solid var(--border); border-radius: 2px; padding: 8px 10px; text-align: center; }
+.スペック項目 .ラベル { font-size: 10px; color: var(--muted); margin-bottom: 4px; letter-spacing: 1px; }
+.スペック項目 .値 { font-family: 'Orbitron', monospace; font-size: 14px; font-weight: 700; color: var(--text); }
+
+.ホール比較セクション { background: var(--bg2); border: 1px solid var(--border); border-radius: 2px; padding: 12px; margin-top: 10px; }
+.ホール比較タイトル { font-size: 11px; color: var(--cyan); letter-spacing: 2px; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+.ホール比較行 { display: grid; grid-template-columns: 1.5fr 0.7fr 1fr 1fr 0.8fr; gap: 8px; padding: 8px 4px; border-bottom: 1px solid rgba(26,26,46,0.6); align-items: center; font-size: 12px; }
+.ホール比較行:last-child { border-bottom: none; }
+.ホール比較行 .比較ホール { color: var(--text); }
+.ホール比較行 .比較値 { font-family: 'Orbitron', monospace; font-size: 12px; text-align: right; }
+
+.機種メモ { font-size: 12px; color: var(--muted); line-height: 1.7; margin-top: 10px; padding: 8px 10px; background: var(--bg2); border-left: 2px solid var(--cyan); border-radius: 2px; }
+.機種メモ strong { color: var(--text); }
+
+.推奨度バー { display: inline-block; padding: 3px 10px; border-radius: 2px; font-size: 11px; font-family: 'Orbitron', monospace; letter-spacing: 1px; font-weight: 700; }
+.推奨度バー.S { background: linear-gradient(135deg, var(--gold), #ff8c00); color: #000; }
+.推奨度バー.A { background: rgba(57,255,20,0.2); border: 1px solid var(--green); color: var(--green); }
+.推奨度バー.B { background: rgba(0,229,255,0.15); border: 1px solid var(--cyan); color: var(--cyan); }
+.推奨度バー.C { background: rgba(255,214,0,0.1); border: 1px solid var(--gold); color: var(--gold); }
+.推奨度バー.D { background: rgba(255,23,68,0.15); border: 1px solid var(--red); color: var(--red); }
+
+.機種ジャンプ { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+.ジャンプボタン { background: var(--bg3); border: 1px solid var(--border); color: var(--muted); padding: 6px 12px; border-radius: 2px; font-size: 11px; cursor: pointer; transition: all 0.2s; font-family: 'Share Tech Mono', monospace; }
+.ジャンプボタン:hover { border-color: var(--cyan); color: var(--cyan); box-shadow: var(--glow-c); }
+.ジャンプボタン.選択中 { border-color: var(--pink); color: var(--pink); box-shadow: var(--glow-p); }
+
+/* ── ホールサマリー ── */
+.ホールサマリーカード {
+  background: linear-gradient(135deg, var(--bg2) 0%, var(--bg3) 100%);
+  border: 1px solid var(--cyan);
+  box-shadow: var(--glow-c);
+  border-radius: 4px;
+  padding: 20px;
+  margin-bottom: 18px;
+}
+.ホールサマリーヘッダー { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+.ホールサマリーステータス { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+@media(min-width:600px) { .ホールサマリーステータス { grid-template-columns: repeat(4, 1fr); } }
+.サマリー項目 {
+  background: var(--bg); border: 1px solid var(--border); border-radius: 4px;
+  padding: 14px 10px; text-align: center;
+}
+.サマリーラベル { font-size: 12px; color: var(--text2); margin-bottom: 8px; font-weight: 500; }
+.サマリー値 { font-family: 'Orbitron', monospace; font-size: 28px; font-weight: 900; line-height: 1.1; }
+.サマリー値.プラス { color: var(--green); text-shadow: var(--glow-g); }
+.サマリー値.マイナス { color: var(--red); text-shadow: var(--glow-r); }
+.サマリー値.青 { color: var(--cyan); text-shadow: var(--glow-c); }
+.サマリー補足 { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+/* ── 選択ホールハイライト ── */
+.ホール比較行.選択中 {
+  background: rgba(64,232,255,0.12);
+  border: 1px solid var(--cyan) !important;
+  border-radius: 2px;
+  padding: 10px 8px !important;
+  box-shadow: 0 0 8px rgba(64,232,255,0.2);
+}
+.ホール比較行.選択中 .比較ホール { color: var(--cyan); font-weight: 700; }
+
+/* ── アニメーション ── */
+@keyframes pulse-border { 0%,100% { box-shadow: var(--glow-p), inset 0 0 8px rgba(255,45,120,0.1); } 50% { box-shadow: 0 0 16px #ff2d78, 0 0 32px #ff2d7860, inset 0 0 12px rgba(255,45,120,0.2); } }
+@keyframes flicker { 0%,95%,100% { opacity:1; } 96% { opacity:0.4; } 97% { opacity:1; } 98% { opacity:0.6; } }
+@keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0; } }
+@keyframes slide-in { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+
+/* ── スクロールバー ── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--muted); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--cyan); }
+
+/* ════════════════════════════════════════ */
+/* ── 📱 スマホ最適化（768px以下） ── */
+/* ════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+  body {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: calc(64px + env(safe-area-inset-bottom));
+    font-size: 15px;
+  }
+
+  /* ヘッダー：スティッキー */
+  header {
+    position: sticky; top: 0; z-index: 100;
+    padding: 12px 16px;
+    padding-top: calc(12px + env(safe-area-inset-top));
+  }
+  header h1 { font-size: 15px; letter-spacing: 2px; }
+  .header-icon { font-size: 22px; }
+  .header-badge { font-size: 10px; padding: 3px 8px; letter-spacing: 1px; }
+
+  /* ナビ：下部固定（親指でアクセス） */
+  nav {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+    background: var(--bg2); border-top: 1px solid var(--cyan);
+    border-bottom: none;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.5);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  nav button {
+    min-width: 0; padding: 12px 4px; font-size: 11px;
+    letter-spacing: 0; min-height: 56px;
+    line-height: 1.3; border-bottom: none; border-top: 2px solid transparent;
+  }
+  nav button.active {
+    background: linear-gradient(0deg, rgba(64,232,255,0.12), transparent);
+    border-top-color: var(--cyan); border-bottom-color: transparent;
+  }
+
+  .page { padding: 12px; }
+
+  /* KPI */
+  .kpi-grid { gap: 8px; }
+  .kpi { padding: 14px 8px; }
+  .kpi .ラベル { font-size: 11px; margin-bottom: 6px; }
+  .kpi .数値 { font-size: 22px; }
+  .kpi .補足 { font-size: 10px; margin-top: 4px; }
+
+  /* カード */
+  .カード { padding: 14px; margin-bottom: 12px; border-radius: 6px; }
+  .カードタイトル { font-size: 14px; margin-bottom: 12px; padding-left: 6px; }
+
+  /* 目標 */
+  .目標エリア { padding: 14px; border-radius: 6px; }
+  .目標パーセント { font-size: 20px; }
+
+  /* フォーム */
+  .フォームグリッド { grid-template-columns: 1fr; gap: 12px; }
+  input, select, textarea {
+    padding: 14px !important;
+    font-size: 16px !important; /* iOSズーム防止 */
+    min-height: 48px;
+    border-radius: 6px;
+  }
+  label { font-size: 14px !important; margin-bottom: 4px; }
+
+  /* ボタン：タップしやすく */
+  .ボタン主 { padding: 16px 24px; font-size: 14px; min-height: 52px; border-radius: 6px; }
+  .ボタン副 { padding: 12px 18px; font-size: 13px; min-height: 44px; border-radius: 6px; }
+  .ボタン削除 { padding: 8px 14px; font-size: 12px; min-height: 36px; min-width: 44px; }
+
+  /* テーブル */
+  table { font-size: 13px; }
+  thead th { padding: 10px 8px; font-size: 11px; }
+  tbody td { padding: 10px 8px; font-size: 13px; }
+
+  /* 曜日 */
+  .曜日マップ { gap: 4px; }
+  .曜日セル { padding: 10px 2px; }
+
+  /* ホールカード */
+  .ホールカード { padding: 12px; }
+  .ホール名 { font-size: 14px; }
+  .ホールメタ { font-size: 11px; }
+  .ホール収支 { font-size: 16px; }
+
+  /* エリアDB */
+  .エリアホールカード { padding: 12px; }
+  .エリアホール名 { font-size: 14px; }
+  .エリア統計 { grid-template-columns: repeat(2,1fr); gap: 5px; }
+  .エリア統計値 { font-size: 13px; }
+  .機種行 { font-size: 12px; padding: 6px 0; }
+
+  /* 傾向カード */
+  .傾向カード { padding: 12px; }
+  .傾向行 { font-size: 12px; }
+
+  /* 機種DB */
+  .機種フィルター { padding: 10px; gap: 8px; flex-direction: column; }
+  .機種フィルター select, .機種フィルター input { max-width: 100%; width: 100%; padding: 12px !important; }
+  .機種カード { padding: 14px; }
+  .機種カード名 { font-size: 14px; }
+  .機種スペック { grid-template-columns: repeat(2,1fr); gap: 6px; }
+  .スペック項目 .値 { font-size: 12px; }
+
+  /* ホール比較行：縦並びに変換 */
+  .ホール比較行 {
+    grid-template-columns: 1fr 1fr;
+    padding: 8px 6px;
+    gap: 4px;
+  }
+  .ホール比較行 .比較ホール { grid-column: 1 / -1; font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+  .ホール比較行 .比較値 { font-size: 11px; text-align: left !important; }
+
+  /* サマリー */
+  .ホールサマリーカード { padding: 14px; }
+  .ホールサマリーステータス { grid-template-columns: repeat(2,1fr); }
+  .サマリー値 { font-size: 22px; }
+
+  /* 口コミ */
+  .口コミグリッド { grid-template-columns: 1fr; }
+  .口コミカード { padding: 12px; }
+  .声 { font-size: 12px; padding: 8px 10px; line-height: 1.7; }
+
+  /* 絞り込み */
+  .絞り込み行 { gap: 6px; }
+  .絞り込み行 select, .絞り込み行 input { max-width: 100%; flex: 1; min-width: 130px; }
+
+  /* 通知バー：上部に */
+  #通知 {
+    bottom: auto; top: calc(70px + env(safe-area-inset-top));
+    font-size: 13px; padding: 12px 20px; max-width: 90%;
+  }
+
+  /* 機能説明 */
+  .機能説明 { font-size: 13px; padding: 12px; }
+
+  /* 背景軽量化 */
+  body::before { display: none; }
+  body::after { background-size: 60px 60px; opacity: 0.5; }
+}
+
+/* ── タッチデバイス共通 ── */
+@media (hover: none) {
+  .ボタン主:active { transform: scale(0.97); background: var(--pink); color: #000; }
+  .ボタン副:active { transform: scale(0.97); background: var(--cyan); color: #000; }
+  .ボタン削除:active { transform: scale(0.97); background: var(--red); color: #000; }
+  .kpi:active { border-color: var(--cyan); transform: scale(0.98); }
+  .ホールカード:active { border-color: var(--pink); }
+  .機種カード:active { border-color: var(--cyan); }
+  nav button:active { background: rgba(64,232,255,0.15); }
+  .ジャンプボタン:active { border-color: var(--cyan); color: var(--cyan); }
+
+  .kpi:hover, .カード:hover, .ホールカード:hover, .機種カード:hover { box-shadow: none; }
+}
+
+/* タップハイライト除去 */
+* { -webkit-tap-highlight-color: transparent; }
+button, a { -webkit-touch-callout: none; user-select: none; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-icon">🎰</div>
+  <h1>スロット管理システム</h1>
+  <div class="header-badge">目標：¥1,000,000</div>
+</header>
+
+<nav>
+  <button class="active" onclick="showPage('home',this)">📊 収支</button>
+  <button onclick="showPage('record',this)">✏️ 入力</button>
+  <button onclick="showPage('history',this)">📋 履歴</button>
+  <button onclick="showPage('hall',this)">🏢 自分のホール</button>
+  <button onclick="showPage('area',this)">🗾 エリア情報</button>
+  <button onclick="showPage('machine',this)">🎰 機種DB</button>
+  <button onclick="showPage('settings',this)">⚙️ 設定</button>
+</nav>
+
+<!-- ===== 収支ページ ===== -->
+<div id="page-home" class="page active">
+  <div class="kpi-grid" id="KPIグリッド"></div>
+
+  <div class="目標エリア">
+    <div class="角デコ 左上"></div><div class="角デコ 右上"></div>
+    <div class="角デコ 左下"></div><div class="角デコ 右下"></div>
+    <div class="目標ヘッダー">
+      <div class="目標タイトル">年間ミッション // 目標 <span id="目標金額ラベル">¥100万円</span></div>
+      <div class="目標パーセント" id="目標パーセント">0%</div>
+    </div>
+    <div class="バートラック"><div class="バーフィル" id="バーフィル" style="width:0%"></div></div>
+    <div class="目標補足" id="目標補足">// データを入力すると進捗が表示されます</div>
+  </div>
+
+  <div class="カード">
+    <div class="カードタイトル">▶ 月別収支グラフ</div>
+    <div class="グラフボックス"><canvas id="月別グラフ"></canvas></div>
+  </div>
+
+  <div class="カード">
+    <div class="カードタイトル">▶ 曜日別平均収支</div>
+    <div class="曜日マップ" id="曜日マップ"></div>
+  </div>
+
+  <div class="カード">
+    <div class="カードタイトル">▶ 優良ホールTOP5（自分の記録）</div>
+    <div id="ホールトップ5"></div>
+  </div>
+</div>
+
+<!-- ===== 入力ページ ===== -->
+<div id="page-record" class="page">
+  <div class="カード">
+    <div class="カードタイトル">▶ 新規実戦記録</div>
+    <div class="フォームグリッド">
+      <div class="フォームグループ">
+        <label>日付</label>
+        <input type="date" id="f-date">
+      </div>
+      <div class="フォームグループ">
+        <label>ホール名</label>
+        <input type="text" id="f-hall" list="ホールリスト" placeholder="例: ベガスベガス苫小牧店">
+        <datalist id="ホールリスト"></datalist>
+      </div>
+      <div class="フォームグループ">
+        <label>機種名</label>
+        <input type="text" id="f-machine" list="機種リスト" placeholder="例: 北斗転生の章2">
+        <datalist id="機種リスト"></datalist>
+      </div>
+      <div class="フォームグループ">
+        <label>投資額（円）</label>
+        <input type="number" id="f-invest" placeholder="10000" step="100">
+      </div>
+      <div class="フォームグループ">
+        <label>回収額（円）</label>
+        <input type="number" id="f-return" placeholder="15000" step="100">
+      </div>
+      <div class="フォームグループ">
+        <label>ゲーム数</label>
+        <input type="number" id="f-games" placeholder="3000">
+      </div>
+      <div class="フォームグループ">
+        <label>推測設定</label>
+        <select id="f-setting">
+          <option value="0">不明</option>
+          <option value="1">設定１</option>
+          <option value="2">設定２</option>
+          <option value="3">設定３</option>
+          <option value="4">設定４</option>
+          <option value="5">設定５</option>
+          <option value="6">設定６ ★</option>
+        </select>
+      </div>
+      <div class="フォームグループ">
+        <label>イベント種別</label>
+        <select id="f-event">
+          <option value="">なし</option>
+          <option value="旧イベント日">旧イベント日</option>
+          <option value="新台入替">新台入替</option>
+          <option value="周年">周年</option>
+          <option value="その他イベント">その他</option>
+        </select>
+      </div>
+      <div class="フォームグループ 全幅">
+        <label>メモ</label>
+        <input type="text" id="f-note" placeholder="ガコ音あり、BIG単発やめ、高設定濃厚...">
+      </div>
+    </div>
+
+    <div class="プレビューボックス">
+      <div class="角デコ 左上"></div><div class="角デコ 右上"></div>
+      <div class="角デコ 左下"></div><div class="角デコ 右下"></div>
+      <div class="プレビューラベル">▶ 収支プレビュー</div>
+      <div class="プレビュー値" id="preview">---</div>
+    </div>
+
+    <button class="ボタン主" onclick="記録保存()">【 記録を保存する 】</button>
+  </div>
+</div>
+
+<!-- ===== 履歴ページ ===== -->
+<div id="page-history" class="page">
+  <div class="カード">
+    <div class="カードタイトル">▶ 絞り込み</div>
+    <div class="絞り込み行">
+      <label>ホール</label>
+      <select id="fil-hall" onchange="renderHistory()"><option value="">すべて</option></select>
+      <label>機種</label>
+      <select id="fil-machine" onchange="renderHistory()"><option value="">すべて</option></select>
+      <label>期間</label>
+      <select id="fil-period" onchange="renderHistory()">
+        <option value="">全期間</option>
+        <option value="thisMonth">今月</option>
+        <option value="last3">直近3ヶ月</option>
+        <option value="thisYear">今年</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="カード">
+    <div class="カードタイトル">▶ 実戦記録一覧</div>
+    <div class="テーブル枠">
+      <table>
+        <thead><tr><th>日付</th><th>ホール名</th><th>機種名</th><th>ゲーム数</th><th>収支</th><th>設定</th><th></th></tr></thead>
+        <tbody id="historyBody"></tbody>
+      </table>
+    </div>
+    <div id="historyEmpty" class="空表示" style="display:none">
+      <div class="アイコン">📭</div>
+      記録がありません。「入力」タブから追加してください。
+    </div>
+  </div>
+</div>
+
+<!-- ===== 自分のホールページ ===== -->
+<div id="page-hall" class="page">
+  <div class="機能説明">
+    <strong>▶ このタブについて</strong><br>
+    このページはあなたが「入力」タブで記録した実戦データをもとに、<strong>自分だけのホール成績</strong>を集計・分析します。
+    通えば通うほど精度が上がります。エリア全体のホール比較は「🗾 エリア情報」タブをご確認ください。
+  </div>
+
+  <div class="カード">
+    <div class="カードタイトル">▶ ホール別収支ランキング</div>
+    <div id="hallRanking"></div>
+  </div>
+
+  <div class="カード">
+    <div class="カードタイトル">▶ ホール × 曜日分析</div>
+    <div class="絞り込み行">
+      <label>ホールを選択</label>
+      <select id="hall-select" onchange="renderHallDetail()">
+        <option value="">選択してください</option>
+      </select>
+    </div>
+    <div id="hallDetail"></div>
+  </div>
+
+  <div class="カード">
+    <div class="カードタイトル">▶ 機種別成績</div>
+    <div class="テーブル枠">
+      <table>
+        <thead><tr><th>機種名</th><th>試行回数</th><th>合計収支</th><th>平均収支</th><th>勝率</th></tr></thead>
+        <tbody id="machineBody"></tbody>
+      </table>
+    </div>
+    <div id="machineEmpty" class="空表示" style="display:none">
+      <div class="アイコン">🎰</div>データがありません
+    </div>
+  </div>
+</div>
+
+<!-- ===== エリア情報ページ ===== -->
+<div id="page-area" class="page">
+  <div style="font-size:11px;color:var(--muted);letter-spacing:1px;margin-bottom:12px;text-align:right">
+    // データ収集日：2026年5月17日 | 出典：みんレポ・みんパチ・DMMぱちタウン・すろざんまい・X(旧Twitter)
+  </div>
+
+  <!-- イベント日カレンダー -->
+  <div class="カード">
+    <div class="カードタイトル">▶ 旧イベント日カレンダー ─ 室蘭・登別・苫小牧</div>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:10px">特定日にねらい目を絞ると期待値UP。以下を参考に立ち回り日を計画してください。</div>
+    <div class="テーブル枠">
+      <table>
+        <thead><tr><th>エリア</th><th>ホール名</th><th>特定日パターン</th><th>規模</th><th>評価</th></tr></thead>
+        <tbody>
+          <tr><td style="color:var(--cyan)">室蘭</td><td>マルハン室蘭店</td><td><span class="イベントタグ">7のつく日</span></td><td>大型</td><td class="プラス">★★★</td></tr>
+          <tr><td style="color:var(--cyan)">室蘭</td><td>ビクトリア室蘭店</td><td><span class="イベントタグ">5のつく日</span></td><td>大型 252台</td><td class="プラス">★★★</td></tr>
+          <tr><td style="color:var(--cyan)">室蘭</td><td>ZEUS</td><td><span class="イベントタグ">毎週金曜日</span></td><td>小型 84台</td><td style="color:var(--gold)">★★☆</td></tr>
+          <tr><td style="color:var(--cyan)">室蘭</td><td>ひまわり室蘭店</td><td><span class="イベントタグ">0のつく日</span></td><td>中型</td><td style="color:var(--gold)">★★☆</td></tr>
+          <tr><td style="color:var(--green)">登別</td><td>ロイヤル登別店</td><td><span class="イベントタグ 金">8のつく日</span></td><td>中型 240台</td><td class="プラス">★★★</td></tr>
+          <tr><td style="color:var(--green)">登別</td><td>ダイナム登別店</td><td><span class="イベントタグ">7のつく日</span></td><td>中型</td><td style="color:var(--gold)">★★☆</td></tr>
+          <tr><td style="color:var(--pink)">苫小牧</td><td>ベガスベガス苫小牧店</td><td><span class="イベントタグ 金">5のつく日</span> <span class="イベントタグ 金">毎月11・22日</span></td><td>最大 449台</td><td class="プラス">★★★</td></tr>
+          <tr><td style="color:var(--pink)">苫小牧</td><td>マルハン苫小牧駅前店</td><td><span class="イベントタグ">7のつく日</span> <span class="イベントタグ">毎週金曜日</span></td><td>大型</td><td class="プラス">★★★</td></tr>
+          <tr><td style="color:var(--pink)">苫小牧</td><td>ひまわり苫小牧店</td><td><span class="イベントタグ">0のつく日</span></td><td>中型</td><td style="color:var(--gold)">★★☆</td></tr>
+          <tr><td style="color:var(--pink)">苫小牧</td><td>がちゃぽん苫小牧店</td><td><span class="イベントタグ">6のつく日</span></td><td>中型</td><td style="color:var(--gold)">★☆☆</td></tr>
+          <tr><td style="color:var(--pink)">苫小牧</td><td>ダイナム苫小牧店</td><td><span class="イベントタグ">7のつく日</span></td><td>中型</td><td style="color:var(--gold)">★☆☆</td></tr>
+          <tr><td style="color:var(--pink)">苫小牧</td><td>ロイヤル沼ノ端店</td><td><span class="イベントタグ ピンク">調査中</span></td><td>中型</td><td style="color:var(--gold)">★☆☆</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 最新ホールデータ -->
+  <div class="カード">
+    <div class="カードタイトル">▶ 最新ホール実績データ（2026年5月）</div>
+    <div class="エリアホール一覧">
+
+      <div class="エリアホールカード">
+        <div class="エリアホールヘッダー">
+          <span class="エリアタグ 水色">室蘭</span>
+          <span class="エリアホール名">ビクトリア室蘭店</span>
+          <span class="エリア日付">5/15(金)旧イベ</span>
+        </div>
+        <div class="エリア統計">
+          <div class="エリア統計項目"><div class="エリア統計ラベル">総台数</div><div class="エリア統計値 青">252</div></div>
+          <div class="エリア統計項目"><div class="エリア統計ラベル">勝率</div><div class="エリア統計値" style="color:var(--gold)">28.6%</div></div>
+          <div class="エリア統計項目"><div class="エリア統計ラベル">平均G数</div><div class="エリア統計値 青">3,388</div></div>
+          <div class="エリア統計項目"><div class="エリア統計ラベル">特記</div><div class="エリア統計値" style="font-size:10px;color:var(--muted)">5のつく日</div></div>
+        </div>
+        <div class="機種ラベル">▶ 注目機種</div>
+        <div class="機種行"><span class="機種名">Ｌ東京喰種</span><span class="機種収支 プラス">出率109.8%</span></div>
+        <div class="機種行"><span class="機種名">スマスロ バイオRE:3</span><span class="機種収支 マイナス">出率92.5%</span></div>
+      </div>
+
+      <div class="エリアホールカード">
+        <div class="エリアホールヘッダー">
+          <span class="エリアタグ 水色">室蘭</span>
+          <span class="エリアホール名">ZEUS</span>
+          <span class="エリア日付">5/15(金)</span>
+        </div>
+        <div class="エリア統計">
+          <div class="エリア統計項目"><div class="エリア統計ラベル">総台数</div><div class="エリア統計値 青">84</div></div>
+          <div class="エリア統計項目"><div class="エリア統計ラベル">勝率</div><div class="エリア統計値" style="color:var(--gold)">21.4%</div></div>
+          <div class="エリア統計項目"><div class="エリア統計ラベル">平均G数</div><div class="エリア統計値 青">667</div></div>
+          <div class="エリア統計項目"><div class="エリア統計ラベル">規模</div><div class="エリア統計値" style="font-size:10px;color:var(--muted)">小型店</div></div>
+        </div>
+        <div class="機種ラベル">▶ 注目機種</div>
+        <div class="機種行"><span class="機種名">Lゴジラ対エヴァ</span><span class="機種収支 プラス">+2,450 / 158.5%</span></div>
+        <div class="機種行"><span class="機種名">スマスロ北斗転生章2</span><span class="機種収支 プラス">+1,825 / 155.1%</span></div>
+        <div class="機種行"><span class="機種名">スーハナライジング-30</span><span class="機種収支 プラス">+825 / 145.9%</span></div>
+      </div>
+
+      <div class="エリアホールカード">
+        <div class="エリアホールヘッダー">
+          <span class="エリアタグ 水色">室蘭</span>
+          <span class="エリアホール名">ひまわり室蘭店</span>
+          <span class="エリア日付">5/10(日)0のつく日</span>
+        </div>
+        <div class="エリア統計">
+          <div class="エリア統計項目"><div class="エリア統計ラベル">傾向</div><div class="エリア統計値" style="color:var(--gold);font-size:11px">安定型</div></div>
+          <div class="エリア統計項目"><div class="エリア統計ラベル">稼働</div><div class="エリア統計値 青" style="font-size:11px">高稼働</div></div>
+        </div>
+        <div class="機種ラベル">▶ 注目機種</div>
+        <div class="機種行"><span class="機種名">スマスロ ミリオンゴッド</span><span class="機種収支 プラス">+1,198 / 105.1%</span></div>
+        <div class="機種行"><span class="機種名">スマスロ化物語</span><span class="機種収支 プラス">+988 / 109.5%</span></div>
+        <div class="機種行"><span class="機種名">新ハナビ</span><span class="機種収支 プラス">+835 / 107.0%</span></div>
+        <div class="機種行"><span class="機種名">マイジャグラーV（20台）</span><span class="機種収支 プラス">+578 / 102.7%</span></div>
+        <div class="機種行"><span class="機種名">ネオアイムジャグEX（28台）</span><span class="機種収支 プラス">+173 / 100.9%</span></div>
+      </div>
+
+      <div class="エリアホールカード 注目">
+        <div class="エリアホールヘッダー">
+          <span class="エリアタグ 緑">登別</span>
+          <span class="エリアホール名">ロイヤル登別店</span>
+          <span class="エリア日付">5/16(土)8のつく日</span>
+        </div>
+        <div class="エリア統計">
+          <div class="エリア統計項目"><div class="エリア統計ラベル">総台数</div><div class="エリア統計値 青">240</div></div>
+          <div class="エリア統計項目"><div class="エリア統計ラベル">勝率</div><div class="エリア統計値 プラス">35.8%</div></div>
+          <div class="エリア統計項目"><div class="エリア統計ラベル">平均G数</div><div class="エリア統計値 青">5,587</div></div>
+          <div class="エリア統計項目"><div class="エリア統計ラベル">評価</div><div class="エリア統計値" style="color:var(--gold);font-size:11px">◎ 高稼働</div></div>
+        </div>
+        <div class="機種ラベル">▶ 注目機種</div>
+        <div class="機種行"><span class="機種名">吉宗</span><span class="機種収支 プラス">+2,870 / 117.3%</span></div>
+        <div class="機種行"><span class="機種名">Lアズールレーン</span><span class="機種収支 プラス">+2,270 / 125.2%</span></div>
+        <div class="機種行"><span class="機種名">Lガンダムユニコーン</span><span class="機種収支 プラス">+1,295 / 111.1%</span></div>
+        <div class="機種行"><span class="機種名">スマスロ北斗転生章2（20台）</span><span class="機種収支 プラス">+1,003 / 106.3%</span></div>
+      </div>
+
+      <div class="エリアホールカード 注目">
+        <div class="エリアホールヘッダー">
+          <span class="エリアタグ ピンク">苫小牧</span>
+          <span class="エリアホール名">ベガスベガス苫小牧店</span>
+          <span class="エリア日付">5/17(日)</span>
+        </div>
+        <div class="エリア統計">
+          <div class="エリア統計項目"><div class="エリア統計ラベル">総台数</div><div class="エリア統計値 青">449</div></div>
+          <div class="エリア統計項目"><div class="エリア統計ラベル">勝率</div><div class="エリア統計値 プラス">39.0%</div></div>
+          <div class="エリア統計項目"><div class="エリア統計ラベル">平均G数</div><div class="エリア統計値 青">4,482</div></div>
+          <div class="エリア統計項目"><div class="エリア統計ラベル">評価</div><div class="エリア統計値" style="color:var(--gold);font-size:11px">◎ 最大規模</div></div>
+        </div>
+        <div class="機種ラベル">▶ 注目機種</div>
+        <div class="機種行"><span class="機種名">スマスロ ビッグドリーム</span><span class="機種収支 プラス">+2,830 / 114.5%</span></div>
+        <div class="機種行"><span class="機種名">スマスロ甲鉄城カバネリ海門（14台）</span><span class="機種収支 プラス">+2,402 / 113.4%</span></div>
+        <div class="機種行"><span class="機種名">Lアズールレーン THE ANIMATION</span><span class="機種収支 プラス">+1,817 / 135.4%</span></div>
+        <div class="機種行"><span class="機種名">Lパチスロ炎炎ノ消防隊２</span><span class="機種収支 プラス">+755 / 105.5%</span></div>
+        <div class="機種行"><span class="機種名">ファンキージャグラー２KT</span><span class="機種収支 プラス">+747 / 105.1%</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 傾向まとめ -->
+  <div class="カード">
+    <div class="カードタイトル">▶ エリア傾向まとめ</div>
+    <div class="傾向グリッド">
+      <div class="傾向カード">
+        <div class="傾向タイトル" style="color:var(--cyan)">🏆 最優先ホール</div>
+        <div class="傾向内容">
+          <div class="傾向行"><span class="傾向点 プラス"></span><b>ベガスベガス苫小牧</b>：勝率39%・449台・5日・11日・22日がねらい目</div>
+          <div class="傾向行"><span class="傾向点 プラス"></span><b>ロイヤル登別</b>：勝率35.8%・稼働・G数ともに高水準。8のつく日</div>
+          <div class="傾向行"><span class="傾向点 金"></span><b>マルハン苫小牧駅前</b>：毎週金曜＋7のつく日の2パターン</div>
+        </div>
+      </div>
+      <div class="傾向カード">
+        <div class="傾向タイトル" style="color:var(--green)">🎰 エリア全体で出ている機種</div>
+        <div class="傾向内容">
+          <div class="傾向行"><span class="傾向点 プラス"></span><b>スマスロ北斗の拳 転生の章2</b>：全ホール共通人気。高設定時+1,000〜+2,000</div>
+          <div class="傾向行"><span class="傾向点 プラス"></span><b>スマスロ甲鉄城カバネリ 海門決戦</b>：ベガスベガスで14台設置、平均+2,402</div>
+          <div class="傾向行"><span class="傾向点 プラス"></span><b>Lアズールレーン THE ANIMATION</b>：複数ホールで125〜135%</div>
+          <div class="傾向行"><span class="傾向点 プラス"></span><b>マイジャグラーV / ネオアイムEX</b>：ひまわり系で安定して出る</div>
+        </div>
+      </div>
+      <div class="傾向カード">
+        <div class="傾向タイトル" style="color:var(--pink)">⚠️ 注意・避けるべき状況</div>
+        <div class="傾向内容">
+          <div class="傾向行"><span class="傾向点 マイナス"></span>マルハン室蘭の非イベント日（5/17は全機種差枚ほぼゼロ）</div>
+          <div class="傾向行"><span class="傾向点 マイナス"></span><b>Lスマスロ北斗の拳（初代）</b>：ZEUSで平均88.3%と低迷</div>
+          <div class="傾向行"><span class="傾向点 マイナス"></span><b>スマスロ バイオハザードRE:3</b>：ビクトリア室蘭で92.5%</div>
+          <div class="傾向行"><span class="傾向点 マイナス"></span>ZEUSの吉宗・旧台は平均68.9%と壊滅的</div>
+        </div>
+      </div>
+      <div class="傾向カード">
+        <div class="傾向タイトル" style="color:var(--gold)">📅 今月の推奨立ち回り日</div>
+        <div class="傾向内容">
+          <div class="傾向行"><span class="傾向点 金"></span><b>5/20(水)</b>：ベガスベガス（11・22日パターン確認推奨）</div>
+          <div class="傾向行"><span class="傾向点 金"></span><b>5/22(金)</b>：マルハン苫小牧（毎週金曜）＋ベガスベガス（22日）</div>
+          <div class="傾向行"><span class="傾向点 金"></span><b>5/27(水)</b>：7のつく日 → マルハン室蘭・ダイナム系</div>
+          <div class="傾向行"><span class="傾向点 金"></span><b>5/28(木)</b>：ロイヤル登別（8のつく日）</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 比較チャート -->
+  <div class="カード">
+    <div class="カードタイトル">▶ ホール比較グラフ（勝率 & 平均G数）</div>
+    <div class="グラフボックス" style="height:190px"><canvas id="エリアグラフ"></canvas></div>
+  </div>
+
+  <!-- SNS・口コミセクション -->
+  <div class="カード">
+    <div class="カードタイトル">▶ 一般ユーザーの声（みんパチ・X/Twitter）</div>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:12px">実際に通っているユーザーのリアルな評判をまとめています。参考程度にご活用ください。</div>
+
+    <div class="口コミグリッド">
+
+      <div class="口コミカード">
+        <div class="口コミホール">
+          <span class="エリアタグ ピンク" style="font-size:9px">苫小牧</span>
+          <span class="口コミホール名">ベガスベガス苫小牧店</span>
+          <span class="評価点" style="color:var(--gold)">48点</span>
+        </div>
+        <div class="評価バー">
+          <div class="評価項目"><div style="font-size:10px;color:var(--muted)">営業</div><div class="評価数値">2.9</div></div>
+          <div class="評価項目"><div style="font-size:10px;color:var(--muted)">接客</div><div class="評価数値">2.6</div></div>
+          <div class="評価項目"><div style="font-size:10px;color:var(--muted)">設備</div><div class="評価数値">3.3</div></div>
+        </div>
+        <div class="声リスト">
+          <div class="声 中"><span class="SNSバッジ みんパチ">みんパチ</span>「5のつく日のスロット実績は平均+144枚。近隣では一番台数が多くて選択肢がある」</div>
+          <div class="声 悪"><span class="SNSバッジ みんパチ">みんパチ</span>「平日も特定日も回らない出ない。正直期待を裏切られることが多い」</div>
+          <div class="声 悪"><span class="SNSバッジ みんパチ">みんパチ</span>「オススメ台が全然出てない。グールなど客から取るだけのオススメ台が目立つ」</div>
+          <div class="声 中"><span class="SNSバッジ twitter">X</span>「苫小牧で打つならベガスが規模的に一番。ただ普通日は厳しいのでイベント日を狙うこと」</div>
+          <div class="声 良"><span class="SNSバッジ twitter">X</span>「周年イベントのときは設定が入る。12月28日の周年は熱かった🔥 #苫ベガ」</div>
+        </div>
+      </div>
+
+      <div class="口コミカード">
+        <div class="口コミホール">
+          <span class="エリアタグ 緑" style="font-size:9px">登別</span>
+          <span class="口コミホール名">ロイヤル登別店</span>
+          <span class="評価点" style="color:var(--gold)">55点</span>
+        </div>
+        <div class="評価バー">
+          <div class="評価項目"><div style="font-size:10px;color:var(--muted)">営業</div><div class="評価数値">4.0</div></div>
+          <div class="評価項目"><div style="font-size:10px;color:var(--muted)">接客</div><div class="評価数値">1.5</div></div>
+          <div class="評価項目"><div style="font-size:10px;color:var(--muted)">設備</div><div class="評価数値">2.5</div></div>
+        </div>
+        <div class="声リスト">
+          <div class="声 良"><span class="SNSバッジ みんパチ">みんパチ</span>「この界隈では優良店。カーペット敷きの広い空間で設備は良い。イベント日は力を入れている」</div>
+          <div class="声 良"><span class="SNSバッジ みんパチ">みんパチ</span>「スロットの高設定がそこそこ入っている。8のつく日は来る価値あり」</div>
+          <div class="声 悪"><span class="SNSバッジ みんパチ">みんパチ</span>「店員の態度がすこぶる悪い。接客は最低ランク。出玉は良くても気持ちよく打てない」</div>
+          <div class="声 中"><span class="SNSバッジ みんパチ">みんパチ</span>「スロット台あたり平均+54枚。小さい店だが特定日は本当に出る。穴場的存在」</div>
+        </div>
+      </div>
+
+      <div class="口コミカード">
+        <div class="口コミホール">
+          <span class="エリアタグ 水色" style="font-size:9px">室蘭</span>
+          <span class="口コミホール名">マルハン室蘭店</span>
+          <span class="評価点" style="color:var(--red)">39点</span>
+        </div>
+        <div class="評価バー">
+          <div class="評価項目"><div style="font-size:10px;color:var(--muted)">営業</div><div class="評価数値">2.1</div></div>
+          <div class="評価項目"><div style="font-size:10px;color:var(--muted)">接客</div><div class="評価数値">3.5</div></div>
+          <div class="評価項目"><div style="font-size:10px;color:var(--muted)">設備</div><div class="評価数値">3.1</div></div>
+        </div>
+        <div class="声リスト">
+          <div class="声 悪"><span class="SNSバッジ みんパチ">みんパチ</span>「設定使わないにも程がある。イベント日でも中間設定しか使わない店」</div>
+          <div class="声 悪"><span class="SNSバッジ みんパチ">みんパチ</span>「日曜日は恐ろしく出ない。スロット全滅状態が多い」</div>
+          <div class="声 中"><span class="SNSバッジ みんパチ">みんパチ</span>「パチンコは腰を据えて打てる。ひまわりよりイライラしない」</div>
+          <div class="声 悪"><span class="SNSバッジ みんパチ">みんパチ</span>「強い日でも遊べない。期待を裏切る営業が続いている」</div>
+        </div>
+      </div>
+
+      <div class="口コミカード">
+        <div class="口コミホール">
+          <span class="エリアタグ 水色" style="font-size:9px">室蘭</span>
+          <span class="口コミホール名">ZEUS</span>
+          <span class="評価点" style="color:var(--red)">32点</span>
+        </div>
+        <div class="評価バー">
+          <div class="評価項目"><div style="font-size:10px;color:var(--muted)">営業</div><div class="評価数値">2.5</div></div>
+          <div class="評価項目"><div style="font-size:10px;color:var(--muted)">接客</div><div class="評価数値">1.5</div></div>
+          <div class="評価項目"><div style="font-size:10px;color:var(--muted)">設備</div><div class="評価数値">2.5</div></div>
+        </div>
+        <div class="声リスト">
+          <div class="声 良"><span class="SNSバッジ みんパチ">みんパチ</span>「パルサー系は高設定が高い頻度で入っている印象。金曜日狙い目」</div>
+          <div class="声 悪"><span class="SNSバッジ みんパチ">みんパチ</span>「店員の態度が最悪。客に対して陰口を言う傾向がある」</div>
+          <div class="声 悪"><span class="SNSバッジ みんパチ">みんパチ</span>「バラエティコーナーは全台設定１。当たらない回らない続かない」</div>
+          <div class="声 中"><span class="SNSバッジ みんパチ">みんパチ</span>「スロット平均差枚-53枚。台の汚れが気になる。清掃が雑」</div>
+        </div>
+      </div>
+
+      <div class="口コミカード">
+        <div class="口コミホール">
+          <span class="エリアタグ 水色" style="font-size:9px">室蘭</span>
+          <span class="口コミホール名">ひまわり室蘭店</span>
+          <span class="評価点" style="color:var(--gold)">35点</span>
+        </div>
+        <div class="評価バー">
+          <div class="評価項目"><div style="font-size:10px;color:var(--muted)">営業</div><div class="評価数値">2.0</div></div>
+          <div class="評価項目"><div style="font-size:10px;color:var(--muted)">接客</div><div class="評価数値">3.5</div></div>
+          <div class="評価項目"><div style="font-size:10px;color:var(--muted)">設備</div><div class="評価数値">2.5</div></div>
+        </div>
+        <div class="声リスト">
+          <div class="声 良"><span class="SNSバッジ みんパチ">みんパチ</span>「スロット平均差枚+43枚。0のつく日はジャグラー系が動く印象」</div>
+          <div class="声 悪"><span class="SNSバッジ みんパチ">みんパチ</span>「ノーマルタイプは中間設定が多め。AT機は設定6（ベタピン）状態が多い」</div>
+          <div class="声 中"><span class="SNSバッジ みんパチ">みんパチ</span>「接客はそこそこ良い。台の損耗が激しいのが気になる点」</div>
+        </div>
+      </div>
+
+      <div class="口コミカード" style="border-color:rgba(0,229,255,0.2)">
+        <div class="口コミホール">
+          <span style="font-size:12px">📡</span>
+          <span class="口コミホール名">X(旧Twitter) まとめ</span>
+          <span style="font-size:10px;color:var(--muted)">公式・非公式</span>
+        </div>
+        <div class="声リスト">
+          <div class="声 中"><span class="SNSバッジ twitter">ベガスX公式</span>「本日10のつく日！皆様のご来店お待ちしております🥰 #苫ベガ #スロット」（@vvtomakomai）</div>
+          <div class="声 良"><span class="SNSバッジ twitter">アナスロ北海道</span>「ベガスベガス苫小牧の5のつく日データ集計中。設定配分が読みやすい特定日」（@anaslo_hokkaido）</div>
+          <div class="声 中"><span class="SNSバッジ twitter">AIPOS北海道</span>「室蘭・登別エリアはロイヤル登別が抜けた存在。苫小牧遠征も視野に」（@HOKKAIDO_AIPOS）</div>
+          <div class="声 中"><span class="SNSバッジ twitter">一般ユーザー</span>「ロイヤル登別8のつく日行ってきた。北斗転生の章2で5000枚超えた。やっぱここが一番信頼できる」</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- ===== 機種DBページ ===== -->
+<div id="page-machine" class="page">
+
+  <div class="機能説明">
+    <strong>▶ 機種データベースについて</strong><br>
+    室蘭・登別・苫小牧エリア5ホールの実データから集計した<strong>機種別の出玉成績</strong>です。
+    機械割（スペック）・天井情報・各ホールでの出方・推奨度をまとめています。
+    <strong style="color:var(--gold)">推奨度S/A</strong>から狙うのがオススメ。
+  </div>
+
+  <!-- フィルター -->
+  <div class="機種フィルター">
+    <label style="font-size:13px">▶ 絞り込み：</label>
+    <select id="機種フィルタ-ホール" onchange="renderMachine()">
+      <option value="">🏢 すべてのホール</option>
+      <option value="ベガスベガス苫小牧店">🏢 ベガスベガス苫小牧店</option>
+      <option value="ロイヤル登別店">🏢 ロイヤル登別店</option>
+      <option value="マルハン苫小牧駅前店">🏢 マルハン苫小牧駅前店</option>
+      <option value="ビクトリア室蘭店">🏢 ビクトリア室蘭店</option>
+      <option value="ひまわり室蘭店">🏢 ひまわり室蘭店</option>
+      <option value="ZEUS">🏢 ZEUS</option>
+    </select>
+    <select id="機種フィルタ-ジャンル" onchange="renderMachine()">
+      <option value="">すべてのジャンル</option>
+      <option value="AT">AT機（出玉重視）</option>
+      <option value="ジャグラー">ジャグラー系（ノーマル）</option>
+      <option value="A">Aタイプ（ノーマル）</option>
+      <option value="バラエティ">バラエティ・少数台</option>
+    </select>
+    <select id="機種フィルタ-推奨" onchange="renderMachine()">
+      <option value="">推奨度すべて</option>
+      <option value="S">S（最推奨）のみ</option>
+      <option value="A">A以上</option>
+      <option value="B">B以上</option>
+    </select>
+    <input type="text" id="機種フィルタ-検索" oninput="renderMachine()" placeholder="🔍 機種名で検索">
+  </div>
+
+  <!-- ホール別サマリー -->
+  <div id="ホール別サマリー"></div>
+
+  <!-- クイックジャンプ -->
+  <div class="機種ジャンプ" id="機種ジャンプ"></div>
+
+  <!-- 機種カード一覧 -->
+  <div id="機種カード一覧"></div>
+
+</div>
+
+<!-- ===== 設定ページ ===== -->
+<div id="page-settings" class="page">
+  <div class="カード">
+    <div class="カードタイトル">▶ 年間目標の設定</div>
+    <div class="フォームグリッド">
+      <div class="フォームグループ">
+        <label>年間目標金額（円）</label>
+        <input type="number" id="s-goal" placeholder="1000000" step="10000">
+      </div>
+      <div class="フォームグループ">
+        <label>対象年</label>
+        <input type="number" id="s-year" placeholder="2026">
+      </div>
+    </div>
+    <button class="ボタン主" onclick="設定保存()" style="margin-top:12px">【 設定を保存する 】</button>
+  </div>
+
+  <div class="カード">
+    <div class="カードタイトル">▶ スマホ・PCにアプリとしてインストール</div>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:12px;line-height:1.7">
+      ホーム画面にアイコンを追加して、ブラウザを開かずにアプリのように起動できます。<br>
+      <strong style="color:var(--cyan)">📱 Android/Chrome：</strong>下のボタンをタップ<br>
+      <strong style="color:var(--cyan)">🍎 iPhone/Safari：</strong>共有ボタン[ ↑ ]→「ホーム画面に追加」
+    </p>
+    <button class="ボタン主" id="インストールボタン" onclick="アプリインストール()" style="display:none">
+      📲 アプリをインストール
+    </button>
+    <button class="ボタン副" onclick="アプリインストール()" style="margin-top:8px">
+      📲 インストール方法を表示（iPhone用）
+    </button>
+  </div>
+
+  <div class="カード">
+    <div class="カードタイトル">▶ 🤖 自動データ更新（GitHub連携）</div>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:12px;line-height:1.7">
+      GitHubに自動スクレイパーを設置すると、毎日朝7時に最新の台データを取得できます。<br>
+      設定後、下のURLに <code style="background:var(--bg);padding:2px 6px;border-radius:2px;color:var(--cyan)">あなたのユーザー名/リポジトリ名</code> を入力してください。
+    </p>
+    <div class="フォームグループ" style="margin-bottom:12px">
+      <label>GitHub データURL</label>
+      <input type="text" id="s-github-url" placeholder="例: https://raw.githubusercontent.com/yourname/slot-dashboard-pwa/main/data/halls.json">
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="ボタン副" onclick="設定保存()">URL保存</button>
+      <button class="ボタン副" onclick="最新データ取得()">📥 今すぐ最新データを取得</button>
+    </div>
+    <div id="最終更新時刻" style="font-size:12px;color:var(--muted);margin-top:10px"></div>
+  </div>
+
+  <div class="カード">
+    <div class="カードタイトル">▶ データのバックアップ</div>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:12px">JSONファイルで書き出し・読み込みができます。機種変更時などにご利用ください。</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="ボタン副" onclick="データ出力()">エクスポート</button>
+      <button class="ボタン副" onclick="document.getElementById('importFile').click()">インポート</button>
+    </div>
+    <input type="file" id="importFile" accept=".json" style="display:none" onchange="データ入力(event)">
+  </div>
+
+  <div class="危険ゾーン">
+    <div class="カードタイトル">▶ 全データ削除</div>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:12px">全ての実戦記録を削除します。この操作は取り消せません。</p>
+    <button class="ボタン削除" onclick="全削除()">【 全データを削除する 】</button>
+  </div>
+</div>
+
+<div id="通知"></div>
+
+<script>
+// ── データ管理 ──
+const STORAGE_KEY = 'slot_records';
+const SETTINGS_KEY = 'slot_settings';
+
+const 記録取得 = () => { try { return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]'); } catch { return []; } };
+const 記録保存処理 = r => localStorage.setItem(STORAGE_KEY, JSON.stringify(r));
+const 設定取得 = () => { try { return JSON.parse(localStorage.getItem(SETTINGS_KEY)||'{}'); } catch { return {}; } };
+const 設定保存処理 = s => localStorage.setItem(SETTINGS_KEY, JSON.stringify(s));
+
+// ── ページ切替 ──
+function showPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  if (btn) btn.classList.add('active');
+  if (id === 'home') renderHome();
+  if (id === 'history') renderHistory();
+  if (id === 'hall') renderHall();
+  if (id === 'area') renderArea();
+  if (id === 'machine') renderMachine();
+  if (id === 'settings') renderSettings();
+}
+
+// ── 通知 ──
+function 通知表示(msg, dur=2500) {
+  const el = document.getElementById('通知');
+  el.textContent = msg; el.classList.add('表示');
+  setTimeout(() => el.classList.remove('表示'), dur);
+}
+
+// ── 入力フォーム ──
+document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
+
+function プレビュー更新() {
+  const inv = parseFloat(document.getElementById('f-invest').value)||0;
+  const ret = parseFloat(document.getElementById('f-return').value)||0;
+  const d = ret - inv;
+  const el = document.getElementById('preview');
+  if (!inv && !ret) { el.textContent='---'; el.className='プレビュー値'; return; }
+  el.textContent = (d>=0?'+':'') + d.toLocaleString() + '円';
+  el.className = 'プレビュー値 ' + (d>=0?'プラス':'マイナス');
+}
+['f-invest','f-return'].forEach(id => document.getElementById(id).addEventListener('input', プレビュー更新));
+
+function 記録保存() {
+  const date = document.getElementById('f-date').value;
+  const hall = document.getElementById('f-hall').value.trim();
+  const machine = document.getElementById('f-machine').value.trim();
+  const invest = parseFloat(document.getElementById('f-invest').value);
+  const ret = parseFloat(document.getElementById('f-return').value);
+  const games = parseInt(document.getElementById('f-games').value)||0;
+  const setting = parseInt(document.getElementById('f-setting').value);
+  const event_ = document.getElementById('f-event').value;
+  const note = document.getElementById('f-note').value.trim();
+
+  if (!date) { 通知表示('エラー：日付を入力してください'); return; }
+  if (!hall) { 通知表示('エラー：ホール名を入力してください'); return; }
+  if (isNaN(invest)||isNaN(ret)) { 通知表示('エラー：投資額・回収額を入力してください'); return; }
+
+  const records = 記録取得();
+  records.push({ id: Date.now(), date, hall, machine, invest, ret, games, setting, event: event_, note, pnl: ret - invest });
+  記録保存処理(records);
+  データリスト更新();
+
+  ['f-invest','f-return','f-games','f-note','f-machine'].forEach(id => document.getElementById(id).value='');
+  document.getElementById('f-setting').value='0';
+  document.getElementById('f-event').value='';
+  document.getElementById('preview').textContent='---';
+  document.getElementById('preview').className='プレビュー値';
+  通知表示('実戦記録を保存しました ✓');
+}
+
+function データリスト更新() {
+  const records = 記録取得();
+  const halls = [...new Set(records.map(r=>r.hall))];
+  const machines = [...new Set(records.map(r=>r.machine).filter(Boolean))];
+
+  document.getElementById('ホールリスト').innerHTML = halls.map(h=>`<option value="${h}">`).join('');
+  document.getElementById('機種リスト').innerHTML = machines.map(m=>`<option value="${m}">`).join('');
+
+  const fh = document.getElementById('fil-hall'), cv = fh.value;
+  fh.innerHTML = '<option value="">すべて</option>' + halls.map(h=>`<option value="${h}">${h}</option>`).join('');
+  fh.value = cv;
+
+  const fm = document.getElementById('fil-machine'), cvm = fm.value;
+  fm.innerHTML = '<option value="">すべて</option>' + machines.map(m=>`<option value="${m}">${m}</option>`).join('');
+  fm.value = cvm;
+
+  const hs = document.getElementById('hall-select'), cvh = hs.value;
+  hs.innerHTML = '<option value="">選択してください</option>' + halls.map(h=>`<option value="${h}">${h}</option>`).join('');
+  hs.value = cvh;
+}
+
+// ── 収支ページ ──
+let 月別グラフインスタンス = null;
+
+function renderHome() {
+  const records = 記録取得();
+  const s = 設定取得();
+  const year = s.year || new Date().getFullYear();
+  const goal = s.goal || 1000000;
+  const yr = records.filter(r => r.date && r.date.startsWith(String(year)));
+
+  const total = yr.reduce((a,r)=>a+r.pnl,0);
+  const wins = yr.filter(r=>r.pnl>0).length;
+  const n = yr.length;
+  const wr = n ? Math.round(wins/n*100) : 0;
+  const avg = n ? Math.round(total/n) : 0;
+
+  document.getElementById('KPIグリッド').innerHTML = `
+    <div class="kpi">
+      <div class="ラベル">${year}年 累計収支</div>
+      <div class="数値 ${total>=0?'プラス':'マイナス'}">${(total>=0?'+':'')+total.toLocaleString()}</div>
+      <div class="補足">円</div>
+    </div>
+    <div class="kpi">
+      <div class="ラベル">勝率</div>
+      <div class="数値 青">${wr}<span style="font-size:13px">%</span></div>
+      <div class="補足">${wins}勝 ${n-wins}敗</div>
+    </div>
+    <div class="kpi">
+      <div class="ラベル">実戦回数</div>
+      <div class="数値 白">${n}</div>
+      <div class="補足">回</div>
+    </div>
+    <div class="kpi">
+      <div class="ラベル">1回あたり平均収支</div>
+      <div class="数値 ${avg>=0?'プラス':'マイナス'}">${(avg>=0?'+':'')+avg.toLocaleString()}</div>
+      <div class="補足">円／回</div>
+    </div>
+  `;
+
+  const pct = Math.min(Math.max(Math.round(total/goal*100),0),100);
+  document.getElementById('目標金額ラベル').textContent = '¥'+(goal/10000)+'万円';
+  document.getElementById('目標パーセント').textContent = pct+'%';
+  document.getElementById('バーフィル').style.width = pct+'%';
+  const remain = goal - total;
+  const daysLeft = Math.ceil((new Date(year,11,31)-new Date())/86400000);
+  document.getElementById('目標補足').textContent = total >= goal
+    ? '// ミッションコンプリート！目標達成おめでとうございます ★'
+    : `// 残り${remain.toLocaleString()}円 | 年末まであと${daysLeft}日 | 平均${(avg>=0?'+':'')+avg.toLocaleString()}円／回`;
+
+  // 月別グラフ
+  const months = Array.from({length:12},(_,i)=>i+1);
+  const mData = months.map(m => {
+    const k = `${year}-${String(m).padStart(2,'0')}`;
+    return yr.filter(r=>r.date&&r.date.startsWith(k)).reduce((a,r)=>a+r.pnl,0);
+  });
+  if (月別グラフインスタンス) 月別グラフインスタンス.destroy();
+  月別グラフインスタンス = new Chart(document.getElementById('月別グラフ'), {
+    type: 'bar',
+    data: {
+      labels: months.map(m=>m+'月'),
+      datasets: [{ data: mData, backgroundColor: mData.map(v=>v>=0?'rgba(57,255,20,0.5)':'rgba(255,23,68,0.5)'), borderColor: mData.map(v=>v>=0?'#39ff14':'#ff1744'), borderWidth: 1, borderRadius: 2, hoverBackgroundColor: mData.map(v=>v>=0?'rgba(57,255,20,0.8)':'rgba(255,23,68,0.8)') }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { backgroundColor: '#0a0a12', borderColor: '#00e5ff', borderWidth: 1, titleColor: '#00e5ff', bodyColor: '#e0e0f0', callbacks: { label: ctx => (ctx.raw>=0?'+':'')+ctx.raw.toLocaleString()+'円' } } },
+      scales: {
+        x: { grid: { color: 'rgba(0,229,255,0.05)' }, ticks: { color: '#5a5a7a', font: { size: 11, family: "'Share Tech Mono'" } } },
+        y: { grid: { color: 'rgba(0,229,255,0.05)' }, ticks: { color: '#5a5a7a', font: { size: 11, family: "'Share Tech Mono'" }, callback: v => (v>=0?'+':'')+(v/10000).toFixed(0)+'万' } }
+      }
+    }
+  });
+
+  // 曜日
+  const days = ['日','月','火','水','木','金','土'];
+  const dayColors = ['var(--pink)','var(--muted)','var(--muted)','var(--muted)','var(--muted)','var(--muted)','var(--cyan)'];
+  document.getElementById('曜日マップ').innerHTML = days.map((d,i) => {
+    const dr = yr.filter(r=>new Date(r.date).getDay()===i);
+    const av = dr.length ? Math.round(dr.reduce((a,r)=>a+r.pnl,0)/dr.length) : null;
+    return `<div class="曜日セル">
+      <div class="曜日ラベル" style="color:${dayColors[i]}">${d}</div>
+      <div class="曜日値 ${av===null?'':av>=0?'プラス':'マイナス'}">${av===null?'---':(av>=0?'+':'')+av.toLocaleString()}</div>
+      <div class="曜日回数">${dr.length}回</div>
+    </div>`;
+  }).join('');
+
+  // ホールTOP5
+  const hm = {};
+  yr.forEach(r => { if (!hm[r.hall]) hm[r.hall]={pnl:0,count:0,wins:0}; hm[r.hall].pnl+=r.pnl; hm[r.hall].count++; if(r.pnl>0) hm[r.hall].wins++; });
+  const sorted = Object.entries(hm).sort((a,b)=>b[1].pnl-a[1].pnl).slice(0,5);
+  document.getElementById('ホールトップ5').innerHTML = sorted.length===0
+    ? '<div class="空表示"><div class="アイコン">🏢</div>データがありません</div>'
+    : sorted.map(([name,d],i)=>`<div class="ホールカード"><div><div class="ホール名">${i+1}. ${name}</div><div class="ホールメタ">${d.count}回 | 勝率${Math.round(d.wins/d.count*100)}% | 平均${Math.round(d.pnl/d.count).toLocaleString()}円/回</div></div><div class="ホール収支 ${d.pnl>=0?'プラス':'マイナス'}">${(d.pnl>=0?'+':'')+d.pnl.toLocaleString()}円</div></div>`).join('');
+}
+
+// ── 履歴 ──
+function フィルター適用() {
+  let r = 記録取得();
+  const hall = document.getElementById('fil-hall').value;
+  const machine = document.getElementById('fil-machine').value;
+  const period = document.getElementById('fil-period').value;
+  if (hall) r = r.filter(x=>x.hall===hall);
+  if (machine) r = r.filter(x=>x.machine===machine);
+  if (period==='thisMonth') { const m=new Date().toISOString().slice(0,7); r=r.filter(x=>x.date&&x.date.startsWith(m)); }
+  else if (period==='last3') { const d=new Date(); d.setMonth(d.getMonth()-3); r=r.filter(x=>x.date&&new Date(x.date)>=d); }
+  else if (period==='thisYear') { const y=String(new Date().getFullYear()); r=r.filter(x=>x.date&&x.date.startsWith(y)); }
+  return r.sort((a,b)=>b.date.localeCompare(a.date));
+}
+
+function renderHistory() {
+  データリスト更新();
+  const records = フィルター適用();
+  const body = document.getElementById('historyBody');
+  const empty = document.getElementById('historyEmpty');
+  if (!records.length) { body.innerHTML=''; empty.style.display='block'; return; }
+  empty.style.display='none';
+  body.innerHTML = records.map(r => {
+    const badge = r.setting>0
+      ? `<span class="設定バッジ ${r.setting>=6?'設定高':r.setting>=3?'設定中':'設定低'}">設定${r.setting}</span>`
+      : `<span class="設定バッジ 設定不明">不明</span>`;
+    return `<tr>
+      <td>${r.date}</td>
+      <td>${r.hall}</td>
+      <td>${r.machine||'---'}</td>
+      <td>${r.games?r.games.toLocaleString()+'G':'---'}</td>
+      <td class="${r.pnl>=0?'プラス':'マイナス'}" style="font-family:'Orbitron',monospace;font-weight:700">${(r.pnl>=0?'+':'')+r.pnl.toLocaleString()}円</td>
+      <td>${badge}</td>
+      <td><button class="ボタン削除" onclick="記録削除(${r.id})">削除</button></td>
+    </tr>`;
+  }).join('');
+}
+
+function 記録削除(id) {
+  if (!confirm('この実戦記録を削除しますか？')) return;
+  記録保存処理(記録取得().filter(r=>r.id!==id));
+  renderHistory();
+  通知表示('記録を削除しました');
+}
+
+// ── ホールページ ──
+function renderHall() {
+  データリスト更新();
+  const records = 記録取得();
+  const hm = {};
+  records.forEach(r => { if (!hm[r.hall]) hm[r.hall]={pnl:0,count:0,wins:0}; hm[r.hall].pnl+=r.pnl; hm[r.hall].count++; if(r.pnl>0) hm[r.hall].wins++; });
+  const sorted = Object.entries(hm).sort((a,b)=>b[1].pnl-a[1].pnl);
+  document.getElementById('hallRanking').innerHTML = sorted.length===0
+    ? '<div class="空表示"><div class="アイコン">🏢</div>データがありません<br><small style="font-size:11px;margin-top:8px;display:block">入力タブから実戦記録を追加すると<br>ここに成績が表示されます</small></div>'
+    : sorted.map(([name,d],i)=>`<div class="ホールカード"><div><div class="ホール名">${i+1}. ${name}</div><div class="ホールメタ">${d.count}回 | 勝率${Math.round(d.wins/d.count*100)}% | 平均${Math.round(d.pnl/d.count).toLocaleString()}円/回</div></div><div class="ホール収支 ${d.pnl>=0?'プラス':'マイナス'}">${(d.pnl>=0?'+':'')+d.pnl.toLocaleString()}円</div></div>`).join('');
+
+  const mm = {};
+  records.filter(r=>r.machine).forEach(r => { if(!mm[r.machine]) mm[r.machine]={pnl:0,count:0,wins:0}; mm[r.machine].pnl+=r.pnl; mm[r.machine].count++; if(r.pnl>0) mm[r.machine].wins++; });
+  const ms = Object.entries(mm).sort((a,b)=>b[1].pnl-a[1].pnl);
+  const mb = document.getElementById('machineBody');
+  const me = document.getElementById('machineEmpty');
+  if (!ms.length) { mb.innerHTML=''; me.style.display='block'; }
+  else {
+    me.style.display='none';
+    mb.innerHTML = ms.map(([name,d])=>`<tr>
+      <td>${name}</td><td>${d.count}回</td>
+      <td class="${d.pnl>=0?'プラス':'マイナス'}">${(d.pnl>=0?'+':'')+d.pnl.toLocaleString()}円</td>
+      <td class="${Math.round(d.pnl/d.count)>=0?'プラス':'マイナス'}">${(Math.round(d.pnl/d.count)>=0?'+':'')+Math.round(d.pnl/d.count).toLocaleString()}円</td>
+      <td>${Math.round(d.wins/d.count*100)}%</td>
+    </tr>`).join('');
+  }
+}
+
+function renderHallDetail() {
+  const hall = document.getElementById('hall-select').value;
+  const el = document.getElementById('hallDetail');
+  if (!hall) { el.innerHTML=''; return; }
+  const records = 記録取得().filter(r=>r.hall===hall);
+  if (!records.length) { el.innerHTML='<div class="空表示">このホールのデータがありません</div>'; return; }
+  const days = ['日','月','火','水','木','金','土'];
+  const dayColors = ['var(--pink)','var(--muted)','var(--muted)','var(--muted)','var(--muted)','var(--muted)','var(--cyan)'];
+  el.innerHTML = `<p style="font-size:12px;color:var(--muted);margin-bottom:10px">${hall} の曜日別平均収支</p>
+  <div class="曜日マップ">${days.map((d,i)=>{
+    const dr = records.filter(r=>new Date(r.date).getDay()===i);
+    const av = dr.length ? Math.round(dr.reduce((a,r)=>a+r.pnl,0)/dr.length) : null;
+    return `<div class="曜日セル"><div class="曜日ラベル" style="color:${dayColors[i]}">${d}</div><div class="曜日値 ${av===null?'':av>=0?'プラス':'マイナス'}">${av===null?'---':(av>=0?'+':'')+av.toLocaleString()}</div><div class="曜日回数">${dr.length}回</div></div>`;
+  }).join('')}</div>`;
+}
+
+// ── エリアグラフ ──
+let エリアグラフインスタンス = null;
+function renderArea() {
+  if (エリアグラフインスタンス) エリアグラフインスタンス.destroy();
+  const halls = ['ベガスベガス\n苫小牧', 'ロイヤル\n登別', 'マルハン\n苫小牧', 'ビクトリア\n室蘭', 'ZEUS', 'ひまわり\n室蘭'];
+  const winRates = [39.0, 35.8, null, 28.6, 21.4, null];
+  const avgG = [4482, 5587, 5333, 3388, 667, null];
+  エリアグラフインスタンス = new Chart(document.getElementById('エリアグラフ'), {
+    type: 'bar',
+    data: {
+      labels: ['VVガス苫小牧', 'ロイヤル登別', 'マルハン苫小牧', 'ビクトリア室蘭', 'ZEUS', 'ひまわり室蘭'],
+      datasets: [
+        { label: '勝率(%)', data: winRates, backgroundColor: 'rgba(255,214,0,0.6)', borderColor: '#ffd600', borderWidth: 1, borderRadius: 2, yAxisID: 'y' },
+        { label: '平均G数', data: avgG, type: 'line', borderColor: '#00e5ff', backgroundColor: 'rgba(0,229,255,0.1)', borderWidth: 2, pointBackgroundColor: '#00e5ff', pointRadius: 4, tension: 0.3, yAxisID: 'y2' }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { labels: { color: '#5a5a7a', font: { size: 11, family: "'Share Tech Mono'" } } }, tooltip: { backgroundColor: '#0a0a12', borderColor: '#00e5ff', borderWidth: 1, titleColor: '#00e5ff', bodyColor: '#e0e0f0' } },
+      scales: {
+        x: { grid: { color: 'rgba(0,229,255,0.05)' }, ticks: { color: '#5a5a7a', font: { size: 10, family: "'Share Tech Mono'" } } },
+        y: { grid: { color: 'rgba(0,229,255,0.05)' }, ticks: { color: '#ffd600', font: { size: 10 }, callback: v => v+'%' }, position: 'left' },
+        y2: { grid: { display: false }, ticks: { color: '#00e5ff', font: { size: 10 }, callback: v => v.toLocaleString()+'G' }, position: 'right' }
+      }
+    }
+  });
+}
+
+// ── 機種データベース ──
+const 機種DB = [
+  {
+    名: 'スマスロ北斗の拳 転生の章2',
+    ジャンル: 'AT',
+    機械割: '97.9〜114.8%',
+    天井: '通常1536あべし',
+    導入: '2024年',
+    推奨度: 'S',
+    スコア: 92,
+    ホール: [
+      { 名: 'ロイヤル登別店', 台数: 20, 差枚: 1003, G数: 5306, 出率: 106.3 },
+      { 名: 'ZEUS', 台数: 2, 差枚: 1825, G数: 1104, 出率: 155.1 },
+      { 名: 'マルハン苫小牧駅前店', 台数: 25, 差枚: 0, G数: 5333, 出率: 100.0 },
+      { 名: 'ひまわり室蘭店', 台数: 6, 差枚: -500, G数: 3703, 出率: 94.7 },
+    ],
+    メモ: '<strong>エリア全体で最も人気のスマスロ機種。</strong>ロイヤル登別の8のつく日では平均+1,003枚、ZEUSでは爆裂出率155%を記録。設定6なら256あべしまでにAT当選率50%以上。狙い目は780あべし以降。'
+  },
+  {
+    名: 'スマスロ 甲鉄城のカバネリ 海門決戦',
+    ジャンル: 'AT',
+    機械割: '97.8〜114.7%',
+    天井: '1280G',
+    導入: '2024年',
+    推奨度: 'S',
+    スコア: 90,
+    ホール: [
+      { 名: 'ベガスベガス苫小牧店', 台数: 14, 差枚: 2402, G数: 5982, 出率: 113.4 },
+      { 名: 'ロイヤル登別店', 台数: 10, 差枚: 706, G数: 6780, 出率: 103.5 },
+      { 名: 'ひまわり室蘭店', 台数: 8, 差枚: 616, G数: 6007, 出率: 103.4 },
+    ],
+    メモ: '<strong>ベガスベガスで圧倒的な実績。</strong>14台中平均+2,402枚は驚異的。ロイヤル登別・ひまわりでも安定して+600枚以上。設置台数の多いホールほど高設定投入率が高い傾向。'
+  },
+  {
+    名: 'Lアズールレーン THE ANIMATION',
+    ジャンル: 'AT',
+    機械割: '98〜114.5%',
+    天井: '1500G相当',
+    導入: '2024年',
+    推奨度: 'S',
+    スコア: 88,
+    ホール: [
+      { 名: 'ロイヤル登別店', 台数: 2, 差枚: 2270, G数: 3008, 出率: 125.2 },
+      { 名: 'ベガスベガス苫小牧店', 台数: 3, 差枚: 1817, G数: 1708, 出率: 135.4 },
+      { 名: 'ひまわり室蘭店', 台数: 2, 差枚: -1500, G数: 3237, 出率: 82.2 },
+    ],
+    メモ: '<strong>少数設置の隠れ高設定機。</strong>ロイヤル登別・ベガスベガスでは出率125〜135%と爆発力◎。ただしひまわり室蘭では低設定運用が多い。導入台数の少ない店ほど狙い目。'
+  },
+  {
+    名: 'スマスロ ビッグドリーム THE GOLDEN PUSHER',
+    ジャンル: 'AT',
+    機械割: '97.5〜114%',
+    天井: '999G',
+    導入: '2025年',
+    推奨度: 'A',
+    スコア: 82,
+    ホール: [
+      { 名: 'ベガスベガス苫小牧店', 台数: 3, 差枚: 2830, G数: 6518, 出率: 114.5 },
+    ],
+    メモ: '<strong>新台導入特需中。</strong>ベガスベガスで平均+2,830枚と絶好調。新台入替時は設定6投入濃厚。'
+  },
+  {
+    名: 'マイジャグラーV',
+    ジャンル: 'ジャグラー',
+    機械割: '96.2〜111.0%',
+    天井: 'なし',
+    導入: '2023年',
+    推奨度: 'A',
+    スコア: 78,
+    ホール: [
+      { 名: 'ひまわり室蘭店', 台数: 20, 差枚: 578, G数: 7116, 出率: 102.7 },
+      { 名: 'ベガスベガス苫小牧店', 台数: 75, 差枚: 152, G数: 6000, 出率: 100.8 },
+      { 名: 'ビクトリア室蘭店', 台数: 28, 差枚: -250, G数: 5521, 出率: 98.1 },
+    ],
+    メモ: '<strong>ジャグラー系の主力機種。</strong>ひまわり室蘭が最も実績◎（+578枚／20台）。ベガスベガスは75台の大量設置でほぼ機械割通り。ビクトリア室蘭はやや低調。'
+  },
+  {
+    名: 'ファンキージャグラー2KT',
+    ジャンル: 'ジャグラー',
+    機械割: '96.0〜111.5%',
+    天井: 'なし',
+    導入: '2024年',
+    推奨度: 'A',
+    スコア: 76,
+    ホール: [
+      { 名: 'ベガスベガス苫小牧店', 台数: 6, 差枚: 747, G数: 4858, 出率: 105.1 },
+      { 名: 'ロイヤル登別店', 台数: 10, 差枚: 231, G数: 6374, 出率: 101.2 },
+      { 名: 'ひまわり室蘭店', 台数: 2, 差枚: -500, G数: 3480, 出率: 94.9 },
+    ],
+    メモ: '<strong>少数設置でも高設定が見抜きやすい。</strong>ベガスベガスでは6台中4台勝ち（67%）と好成績。ジャグ系の中では高設定使用率が高い印象。'
+  },
+  {
+    名: 'L東京喰種',
+    ジャンル: 'AT',
+    機械割: '97.5〜113.5%',
+    天井: '700G',
+    導入: '2023年',
+    推奨度: 'A',
+    スコア: 75,
+    ホール: [
+      { 名: 'ビクトリア室蘭店', 台数: 8, 差枚: 1615, G数: 5514, 出率: 109.8 },
+      { 名: 'ベガスベガス苫小牧店', 台数: 22, 差枚: 524, G数: 5459, 出率: 103.2 },
+      { 名: 'ひまわり室蘭店', 台数: 8, 差枚: -250, G数: 5497, 出率: 97.6 },
+    ],
+    メモ: '<strong>ビクトリア室蘭の主力機種。</strong>5のつく日に+1,615枚と特化型。ベガスベガスは設置台数が多く（22台）安定。'
+  },
+  {
+    名: 'スマスロモンキーターンV',
+    ジャンル: 'AT',
+    機械割: '97.8〜114.4%',
+    天井: '1500G',
+    導入: '2023年',
+    推奨度: 'B',
+    スコア: 70,
+    ホール: [
+      { 名: 'ひまわり室蘭店', 台数: 8, 差枚: 609, G数: 2841, 出率: 107.1 },
+      { 名: 'ベガスベガス苫小牧店', 台数: 19, 差枚: 455, G数: 4530, 出率: 103.3 },
+      { 名: 'ロイヤル登別店', 台数: 10, 差枚: 338, G数: 4810, 出率: 102.3 },
+      { 名: 'ビクトリア室蘭店', 台数: 8, 差枚: -150, G数: 1130, 出率: 95.1 },
+    ],
+    メモ: '<strong>安定して中位設定が入る機種。</strong>3ホールで平均+340〜+609枚。ビクトリアはやや低調。'
+  },
+  {
+    名: 'スマスロ ミリオンゴッド-神々の軌跡-',
+    ジャンル: 'AT',
+    機械割: '97.6〜114.2%',
+    天井: '1500G',
+    導入: '2024年',
+    推奨度: 'B',
+    スコア: 68,
+    ホール: [
+      { 名: 'ひまわり室蘭店', 台数: 4, 差枚: 1198, G数: 7853, 出率: 105.1 },
+      { 名: 'ロイヤル登別店', 台数: 10, 差枚: -250, G数: 6674, 出率: 98.3 },
+    ],
+    メモ: '<strong>ひまわり室蘭で爆発実績あり。</strong>4台中1台が大量出玉で平均+1,198枚に。ロイヤルは低調。'
+  },
+  {
+    名: 'スマスロ化物語',
+    ジャンル: 'AT',
+    機械割: '97.5〜114.0%',
+    天井: '1280G',
+    導入: '2023年',
+    推奨度: 'B',
+    スコア: 68,
+    ホール: [
+      { 名: 'ひまわり室蘭店', 台数: 4, 差枚: 988, G数: 3481, 出率: 109.5 },
+      { 名: 'ロイヤル登別店', 台数: 4, 差枚: -150, G数: 5567, 出率: 98.8 },
+    ],
+    メモ: 'ひまわり室蘭で安定（出率109.5%）。少数設置の店舗は穴場の可能性。'
+  },
+  {
+    名: '吉宗',
+    ジャンル: 'A',
+    機械割: '97.0〜112.5%',
+    天井: 'なし',
+    導入: '2022年（復刻）',
+    推奨度: 'C',
+    スコア: 55,
+    ホール: [
+      { 名: 'ロイヤル登別店', 台数: 2, 差枚: 2870, G数: 5519, 出率: 117.3 },
+      { 名: 'ひまわり室蘭店', 台数: 2, 差枚: -1000, G数: 4997, 出率: 93.2 },
+      { 名: 'ZEUS', 台数: 2, 差枚: -750, G数: 901, 出率: 68.9 },
+    ],
+    メモ: '<strong>ホールによる差が極端。</strong>ロイヤル登別は爆発したが、ZEUS・ひまわりは壊滅的。打つ店を選ぶこと。'
+  },
+  {
+    名: 'Lパチスロからくりサーカス',
+    ジャンル: 'AT',
+    機械割: '97.5〜114.0%',
+    天井: '1500G',
+    導入: '2024年',
+    推奨度: 'C',
+    スコア: 52,
+    ホール: [
+      { 名: 'ビクトリア室蘭店', 台数: 4, 差枚: 888, G数: 859, 出率: 134.5 },
+      { 名: 'ひまわり室蘭店', 台数: 4, 差枚: -1500, G数: 2110, 出率: 73.8 },
+      { 名: 'ZEUS', 台数: 2, 差枚: -500, G数: 728, 出率: 73.9 },
+    ],
+    メモ: '<strong>ビクトリア室蘭ではG数少なくても出率134%。</strong>ZEUS・ひまわりでは大マイナス。狙うならビクトリア限定。'
+  },
+  {
+    名: 'ネオアイムジャグラーEX',
+    ジャンル: 'ジャグラー',
+    機械割: '96.0〜111.0%',
+    天井: 'なし',
+    導入: '2023年',
+    推奨度: 'C',
+    スコア: 50,
+    ホール: [
+      { 名: 'ひまわり室蘭店', 台数: 28, 差枚: 173, G数: 6622, 出率: 100.9 },
+      { 名: 'ビクトリア室蘭店', 台数: 28, 差枚: 8, G数: 5007, 出率: 100.1 },
+      { 名: 'ロイヤル登別店', 台数: 34, 差枚: -61, G数: 5620, 出率: 99.6 },
+      { 名: 'ベガスベガス苫小牧店', 台数: 22, 差枚: -150, G数: 5700, 出率: 99.0 },
+    ],
+    メモ: 'メイン設置のジャグラー。どのホールも機械割±100%付近で安定。設定看破に時間がかかるため、長時間勝負向き。'
+  },
+  {
+    名: 'Lスマスロ北斗の拳（初代）',
+    ジャンル: 'AT',
+    機械割: '97.5〜113.5%',
+    天井: '999G',
+    導入: '2022年',
+    推奨度: 'D',
+    スコア: 35,
+    ホール: [
+      { 名: 'ZEUS', 台数: 5, 差枚: -40, G数: 114, 出率: 88.3 },
+      { 名: 'ビクトリア室蘭店', 台数: 12, 差枚: -18, G数: 484, 出率: 98.8 },
+      { 名: 'ひまわり室蘭店', 台数: 8, 差枚: -750, G数: 1448, 出率: 80.2 },
+    ],
+    メモ: '<strong>稼働率が極端に低く、ほぼ低設定運用。</strong>転生の章2が出てからは旧型扱い。狙う価値なし。'
+  },
+  {
+    名: 'スマスロ バイオハザードRE:3',
+    ジャンル: 'AT',
+    機械割: '97.5〜113.5%',
+    天井: '1280G',
+    導入: '2025年',
+    推奨度: 'D',
+    スコア: 30,
+    ホール: [
+      { 名: 'ビクトリア室蘭店', 台数: 5, 差枚: -500, G数: 1800, 出率: 92.5 },
+    ],
+    メモ: '<strong>新台ながら低調。</strong>ビクトリア5台で出率92.5%と低迷。様子見推奨。'
+  },
+];
+
+let 現在の機種フィルタ = { ホール: '', ジャンル: '', 推奨: '', 検索: '' };
+
+function renderMachine() {
+  現在の機種フィルタ.ホール = document.getElementById('機種フィルタ-ホール').value;
+  現在の機種フィルタ.ジャンル = document.getElementById('機種フィルタ-ジャンル').value;
+  現在の機種フィルタ.推奨 = document.getElementById('機種フィルタ-推奨').value;
+  現在の機種フィルタ.検索 = document.getElementById('機種フィルタ-検索').value.trim();
+
+  let 絞り = 機種DB.slice();
+  if (現在の機種フィルタ.ホール) 絞り = 絞り.filter(m => m.ホール.some(h => h.名 === 現在の機種フィルタ.ホール));
+  if (現在の機種フィルタ.ジャンル) 絞り = 絞り.filter(m => m.ジャンル === 現在の機種フィルタ.ジャンル);
+  if (現在の機種フィルタ.推奨) {
+    const order = { S:5, A:4, B:3, C:2, D:1 };
+    const min = order[現在の機種フィルタ.推奨];
+    絞り = 絞り.filter(m => order[m.推奨度] >= min);
+  }
+  if (現在の機種フィルタ.検索) 絞り = 絞り.filter(m => m.名.includes(現在の機種フィルタ.検索));
+
+  // ソート: ホール選択時はそのホールの差枚順、それ以外はスコア順
+  if (現在の機種フィルタ.ホール) {
+    絞り.sort((a, b) => {
+      const ah = a.ホール.find(h => h.名 === 現在の機種フィルタ.ホール);
+      const bh = b.ホール.find(h => h.名 === 現在の機種フィルタ.ホール);
+      return (bh?.差枚 || 0) - (ah?.差枚 || 0);
+    });
+  } else {
+    絞り.sort((a,b) => b.スコア - a.スコア);
+  }
+
+  // ホール別サマリーの表示
+  const サマリーEl = document.getElementById('ホール別サマリー');
+  if (現在の機種フィルタ.ホール) {
+    const ホール名 = 現在の機種フィルタ.ホール;
+    const ホール機種 = 機種DB.filter(m => m.ホール.some(h => h.名 === ホール名));
+    const 出データ = ホール機種.map(m => m.ホール.find(h => h.名 === ホール名)).filter(Boolean);
+    const 総差枚 = 出データ.reduce((a, h) => a + h.差枚 * h.台数, 0);
+    const 総台数 = 出データ.reduce((a, h) => a + h.台数, 0);
+    const 平均差枚 = 総台数 ? Math.round(総差枚 / 総台数) : 0;
+    const プラス機種 = 出データ.filter(h => h.差枚 > 0).length;
+    const 平均出率 = 出データ.length ? (出データ.reduce((a, h) => a + h.出率, 0) / 出データ.length).toFixed(1) : 0;
+    サマリーEl.innerHTML = `
+      <div class="ホールサマリーカード">
+        <div class="ホールサマリーヘッダー">
+          <span style="font-size:24px">🏢</span>
+          <span style="font-size:18px;font-weight:700;color:var(--cyan)">${ホール名}</span>
+          <span style="font-size:12px;color:var(--muted);margin-left:auto">直近データ集計</span>
+        </div>
+        <div class="ホールサマリーステータス">
+          <div class="サマリー項目">
+            <div class="サマリーラベル">登録機種数</div>
+            <div class="サマリー値 青">${ホール機種.length}<span style="font-size:14px">機種</span></div>
+          </div>
+          <div class="サマリー項目">
+            <div class="サマリーラベル">総設置台数</div>
+            <div class="サマリー値 青">${総台数}<span style="font-size:14px">台</span></div>
+          </div>
+          <div class="サマリー項目">
+            <div class="サマリーラベル">プラス機種率</div>
+            <div class="サマリー値 ${プラス機種/ホール機種.length>=0.5?'プラス':'マイナス'}">${ホール機種.length?Math.round(プラス機種/ホール機種.length*100):0}<span style="font-size:14px">%</span></div>
+            <div class="サマリー補足">${プラス機種}/${ホール機種.length} 機種プラス</div>
+          </div>
+          <div class="サマリー項目">
+            <div class="サマリーラベル">平均出率</div>
+            <div class="サマリー値 ${平均出率>=100?'プラス':'マイナス'}">${平均出率}<span style="font-size:14px">%</span></div>
+          </div>
+        </div>
+        <div style="font-size:13px;color:var(--text2);margin-top:14px;padding:10px 12px;background:rgba(64,232,255,0.05);border-left:3px solid var(--cyan);border-radius:2px;line-height:1.7">
+          💡 <strong style="color:var(--text)">${ホール名}</strong>で出ている機種を<strong style="color:var(--green)">差枚プラス順</strong>で表示中。トップの機種から狙うのがオススメです。
+        </div>
+      </div>`;
+  } else {
+    サマリーEl.innerHTML = '';
+  }
+
+  // クイックジャンプ
+  const ジャンプHtml = ['すべて','AT','ジャグラー','A','バラエティ'].map(g => {
+    const sel = g === 'すべて' ? (現在の機種フィルタ.ジャンル === '' ? '選択中' : '') : (g === 現在の機種フィルタ.ジャンル ? '選択中' : '');
+    return `<button class="ジャンプボタン ${sel}" onclick="フィルタジャンル切替('${g === 'すべて' ? '' : g}')">${g}</button>`;
+  }).join('');
+  document.getElementById('機種ジャンプ').innerHTML = ジャンプHtml;
+
+  // カード生成
+  const ジャンル色 = { 'AT': 'var(--pink)', 'ジャグラー': 'var(--gold)', 'A': 'var(--cyan)', 'バラエティ': 'var(--muted)' };
+  const html = 絞り.length === 0
+    ? '<div class="空表示"><div class="アイコン">🔍</div>該当する機種が見つかりませんでした</div>'
+    : 絞り.map(m => {
+        const クラス = m.推奨度 === 'S' || m.推奨度 === 'A' ? '推奨' : (m.推奨度 === 'D' ? '要注意' : '');
+        // 選択ホールを先頭に並べ替え
+        const ソート済ホール = m.ホール.slice().sort((a, b) => {
+          if (現在の機種フィルタ.ホール) {
+            if (a.名 === 現在の機種フィルタ.ホール) return -1;
+            if (b.名 === 現在の機種フィルタ.ホール) return 1;
+          }
+          return b.差枚 - a.差枚;
+        });
+        const ホール比較 = ソート済ホール.map(h => {
+          const cls = h.差枚 >= 0 ? 'プラス' : 'マイナス';
+          const 出率cls = h.出率 >= 100 ? 'プラス' : 'マイナス';
+          const 選択cls = h.名 === 現在の機種フィルタ.ホール ? '選択中' : '';
+          return `<div class="ホール比較行 ${選択cls}">
+            <div class="比較ホール">${選択cls ? '🔵 ' : ''}${h.名}</div>
+            <div class="比較値" style="color:var(--muted)">${h.台数}台</div>
+            <div class="比較値 ${cls}">${h.差枚>=0?'+':''}${h.差枚.toLocaleString()}枚</div>
+            <div class="比較値" style="color:var(--text)">${h.G数.toLocaleString()}G</div>
+            <div class="比較値 ${出率cls}">${h.出率}%</div>
+          </div>`;
+        }).join('');
+
+        return `<div class="機種カード ${クラス}">
+          <div class="機種カードヘッダー">
+            <div>
+              <span style="display:inline-block;font-size:10px;color:${ジャンル色[m.ジャンル]||'var(--muted)'};border:1px solid ${ジャンル色[m.ジャンル]||'var(--muted)'};padding:1px 6px;border-radius:2px;margin-right:8px;font-family:'Orbitron',monospace;letter-spacing:1px">${m.ジャンル}</span>
+              <span class="機種カード名">${m.名}</span>
+            </div>
+            <div class="機種スコア">
+              <span class="推奨度バー ${m.推奨度}">${m.推奨度}</span>
+              <span class="機種スコア-値" style="color:${m.スコア>=80?'var(--green)':m.スコア>=65?'var(--cyan)':m.スコア>=50?'var(--gold)':'var(--red)'}">${m.スコア}<span style="font-size:11px;color:var(--muted)">/100</span></span>
+            </div>
+          </div>
+
+          <div class="機種スペック">
+            <div class="スペック項目"><div class="ラベル">機械割</div><div class="値">${m.機械割}</div></div>
+            <div class="スペック項目"><div class="ラベル">天井</div><div class="値">${m.天井}</div></div>
+            <div class="スペック項目"><div class="ラベル">導入</div><div class="値">${m.導入}</div></div>
+            <div class="スペック項目"><div class="ラベル">ジャンル</div><div class="値" style="color:${ジャンル色[m.ジャンル]||'var(--text)'}">${m.ジャンル}</div></div>
+          </div>
+
+          <div class="ホール比較セクション">
+            <div class="ホール比較タイトル">▶ ホール別実績（直近）</div>
+            <div class="ホール比較行" style="font-size:10px;color:var(--muted);border-bottom:1px solid var(--border);padding-bottom:5px;margin-bottom:5px">
+              <div>ホール名</div>
+              <div style="text-align:right">台数</div>
+              <div style="text-align:right">平均差枚</div>
+              <div style="text-align:right">平均G数</div>
+              <div style="text-align:right">出率</div>
+            </div>
+            ${ホール比較}
+          </div>
+
+          <div class="機種メモ">💡 ${m.メモ}</div>
+        </div>`;
+      }).join('');
+
+  document.getElementById('機種カード一覧').innerHTML = html;
+}
+
+function フィルタジャンル切替(g) {
+  document.getElementById('機種フィルタ-ジャンル').value = g;
+  renderMachine();
+}
+
+// ── 設定 ──
+function renderSettings() {
+  const s = 設定取得();
+  document.getElementById('s-goal').value = s.goal||1000000;
+  document.getElementById('s-year').value = s.year||new Date().getFullYear();
+  document.getElementById('s-github-url').value = s.githubUrl || '';
+  最終更新時刻表示();
+}
+function 設定保存() {
+  const 現在 = 設定取得();
+  設定保存処理({
+    ...現在,
+    goal: parseInt(document.getElementById('s-goal').value)||1000000,
+    year: parseInt(document.getElementById('s-year').value)||new Date().getFullYear(),
+    githubUrl: document.getElementById('s-github-url').value.trim()
+  });
+  通知表示('設定を保存しました ✓');
+}
+
+// ── 自動データ取得 ──
+const REMOTE_DATA_KEY = 'remote_halls_data';
+
+function 最終更新時刻表示() {
+  const el = document.getElementById('最終更新時刻');
+  if (!el) return;
+  const data = localStorage.getItem(REMOTE_DATA_KEY);
+  if (!data) { el.textContent = '※ まだ取得していません'; return; }
+  try {
+    const parsed = JSON.parse(data);
+    const dt = new Date(parsed.更新日時);
+    el.innerHTML = `✅ 最終取得: <strong style="color:var(--cyan)">${dt.toLocaleString('ja-JP')}</strong> / 出典: ${parsed.出典 || 'みんレポ'}`;
+  } catch { el.textContent = '※ データ形式エラー'; }
+}
+
+async function 最新データ取得() {
+  const s = 設定取得();
+  if (!s.githubUrl) { 通知表示('❌ GitHub URLを先に設定してください'); return; }
+
+  通知表示('📡 取得中...', 5000);
+  try {
+    const res = await fetch(s.githubUrl + '?t=' + Date.now(), { cache: 'no-cache' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    if (!data.ホール) throw new Error('データ形式が不正です');
+
+    localStorage.setItem(REMOTE_DATA_KEY, JSON.stringify(data));
+    通知表示(`✅ ${data.ホール.length}ホール分のデータを取得しました`);
+    最終更新時刻表示();
+
+    // エリア・機種ページを再描画（開いていれば）
+    if (document.getElementById('page-area').classList.contains('active')) renderArea();
+    if (document.getElementById('page-machine').classList.contains('active')) renderMachine();
+  } catch (e) {
+    通知表示('❌ 取得失敗: ' + e.message, 4000);
+  }
+}
+
+// アプリ起動時に自動取得（前回から6時間以上経過時のみ）
+async function 自動取得チェック() {
+  const s = 設定取得();
+  if (!s.githubUrl) return;
+  const data = localStorage.getItem(REMOTE_DATA_KEY);
+  let 経過時間 = Infinity;
+  if (data) {
+    try {
+      const parsed = JSON.parse(data);
+      経過時間 = (Date.now() - new Date(parsed.更新日時).getTime()) / 3600000;
+    } catch {}
+  }
+  if (経過時間 > 6) {
+    console.log('自動データ取得実行（前回から' + Math.round(経過時間) + '時間経過）');
+    await 最新データ取得();
+  }
+}
+
+// ── バックアップ ──
+function データ出力() {
+  const blob = new Blob([JSON.stringify({records:記録取得(),settings:設定取得(),exportedAt:new Date().toISOString()},null,2)],{type:'application/json'});
+  const a = document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download=`slot-backup-${new Date().toISOString().slice(0,10)}.json`; a.click();
+  通知表示('エクスポートしました ✓');
+}
+function データ入力(e) {
+  const file = e.target.files[0]; if(!file) return;
+  const r = new FileReader();
+  r.onload = ev => {
+    try {
+      const data = JSON.parse(ev.target.result);
+      if(!confirm(`${(data.records||[]).length}件のデータをインポートします。よろしいですか？`)) return;
+      const ex = 記録取得();
+      const newR = (data.records||[]).filter(nr=>!ex.find(er=>er.id===nr.id));
+      記録保存処理([...ex,...newR]);
+      if(data.settings) 設定保存処理(data.settings);
+      通知表示(`${newR.length}件インポートしました ✓`);
+      データリスト更新();
+    } catch { 通知表示('エラー：ファイルが読み込めませんでした'); }
+  };
+  r.readAsText(file); e.target.value='';
+}
+function 全削除() {
+  if(!confirm('本当に全データを削除しますか？この操作は取り消せません。')) return;
+  if(!confirm('最終確認：全データを削除します。よろしいですか？')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  通知表示('全データを削除しました');
+  renderHome();
+}
+
+// ── PWA インストール ──
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  const btn = document.getElementById('インストールボタン');
+  if (btn) btn.style.display = 'inline-block';
+});
+
+function アプリインストール() {
+  if (!deferredPrompt) {
+    通知表示('iPhoneの方：Safari共有メニューから「ホーム画面に追加」を選択してください');
+    return;
+  }
+  deferredPrompt.prompt();
+  deferredPrompt.userChoice.then(choice => {
+    if (choice.outcome === 'accepted') {
+      通知表示('アプリをインストールしました ✓');
+      document.getElementById('インストールボタン').style.display = 'none';
+    }
+    deferredPrompt = null;
+  });
+}
+
+// インストール済み判定
+window.addEventListener('appinstalled', () => {
+  通知表示('インストール完了！ホーム画面から起動できます ✓');
+  document.getElementById('インストールボタン').style.display = 'none';
+});
+
+// ── サービスワーカー登録 ──
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').then(reg => {
+      console.log('SW登録成功:', reg.scope);
+    }).catch(err => console.log('SW登録失敗:', err));
+  });
+}
+
+// ── 初期化 ──
+データリスト更新();
+renderHome();
+自動取得チェック();
+</script>
+</body>
+</html>
