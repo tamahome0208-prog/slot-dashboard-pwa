@@ -22,7 +22,7 @@
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-:root {
+:root, :root[data-theme="dark"] {
   --bg:     #0a0a14;
   --bg2:    #12121f;
   --bg3:    #1a1a2a;
@@ -40,6 +40,28 @@
   --glow-g: 0 0 6px #5fff5f88, 0 0 14px #5fff5f33;
   --glow-r: 0 0 6px #ff4d6d88, 0 0 14px #ff4d6d33;
 }
+
+:root[data-theme="light"] {
+  --bg:     #f5f5fa;
+  --bg2:    #ffffff;
+  --bg3:    #eef0f7;
+  --pink:   #e6266a;
+  --cyan:   #0099cc;
+  --green:  #2eaa2e;
+  --red:    #d93651;
+  --gold:   #cc9900;
+  --text:   #1a1a2a;
+  --text2:  #3a3a4a;
+  --muted:  #7a7a8a;
+  --border: #d0d0e0;
+  --glow-p: 0 0 4px #e6266a44, 0 1px 3px rgba(230,38,106,0.15);
+  --glow-c: 0 0 4px #0099cc44, 0 1px 3px rgba(0,153,204,0.15);
+  --glow-g: 0 0 4px #2eaa2e44, 0 1px 3px rgba(46,170,46,0.15);
+  --glow-r: 0 0 4px #d9365144, 0 1px 3px rgba(217,54,81,0.15);
+}
+
+:root[data-theme="light"] body::before { display: none; }
+:root[data-theme="light"] body::after { background-image: linear-gradient(rgba(0,153,204,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,153,204,0.04) 1px, transparent 1px); opacity: 0.6; }
 
 html { scroll-behavior: smooth; }
 
@@ -649,8 +671,9 @@ button, a { -webkit-touch-callout: none; user-select: none; }
   <button onclick="showPage('record',this)">✏️ 入力</button>
   <button onclick="showPage('history',this)">📋 履歴</button>
   <button onclick="showPage('hall',this)">🏢 自分のホール</button>
-  <button onclick="showPage('area',this)">🗾 エリア情報</button>
+  <button onclick="showPage('area',this)">🗾 エリア</button>
   <button onclick="showPage('machine',this)">🎰 機種DB</button>
+  <button onclick="showPage('tools',this)">🛠️ ツール</button>
   <button onclick="showPage('settings',this)">⚙️ 設定</button>
 </nav>
 
@@ -1185,8 +1208,112 @@ button, a { -webkit-touch-callout: none; user-select: none; }
 
 </div>
 
+<!-- ===== ツールページ ===== -->
+<div id="page-tools" class="page">
+
+  <div class="機能説明">
+    <strong>▶ 実戦サポートツール</strong><br>
+    現場で判断に使える3つのツール。<strong>📍 近くのホール</strong>・<strong>🎯 設定推測</strong>・<strong>⏰ 天井期待値</strong>を1つの画面に集約。
+  </div>
+
+  <!-- 📍 近くのホール -->
+  <div class="カード">
+    <div class="カードタイトル">▶ 📍 近くのホール</div>
+    <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:12px">
+      GPSで現在地を取得し、エリア内ホールを<strong style="color:var(--cyan)">距離順</strong>に並び替えます。Googleマップで経路検索もワンタップ。
+    </p>
+    <button class="ボタン主" onclick="近くのホール取得()">📡 現在地を取得して並び替える</button>
+    <div id="近くのホールリスト" style="margin-top:14px"></div>
+  </div>
+
+  <!-- 🎯 設定推測ツール -->
+  <div class="カード">
+    <div class="カードタイトル">▶ 🎯 設定推測ツール（ジャグラー系）</div>
+    <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:12px">
+      実戦中に小役・ボーナス回数を入力すると、<strong style="color:var(--cyan)">ベイズ推論</strong>で設定1〜6の確率を表示します。<br>
+      <small>※マイジャグラーV・アイムジャグラーEX等の設定差を元に計算</small>
+    </p>
+    <div class="フォームグリッド">
+      <div class="フォームグループ">
+        <label>機種</label>
+        <select id="ja-machine">
+          <option value="mai">マイジャグラーV</option>
+          <option value="aim">SアイムジャグラーEX</option>
+          <option value="funky">ファンキージャグラー2KT</option>
+          <option value="happy">ハッピージャグラーVIII</option>
+          <option value="neo">ネオアイムジャグラーEX</option>
+        </select>
+      </div>
+      <div class="フォームグループ">
+        <label>総ゲーム数 G</label>
+        <input type="number" id="ja-games" placeholder="例: 5000" inputmode="numeric">
+      </div>
+      <div class="フォームグループ">
+        <label>BB回数</label>
+        <input type="number" id="ja-bb" placeholder="例: 15" inputmode="numeric">
+      </div>
+      <div class="フォームグループ">
+        <label>RB回数</label>
+        <input type="number" id="ja-rb" placeholder="例: 18" inputmode="numeric">
+      </div>
+      <div class="フォームグループ">
+        <label>ぶどう回数（任意）</label>
+        <input type="number" id="ja-budo" placeholder="例: 860" inputmode="numeric">
+      </div>
+    </div>
+    <button class="ボタン主" onclick="設定推測実行()">🔍 設定を推測する</button>
+    <div id="設定推測結果" style="margin-top:14px"></div>
+  </div>
+
+  <!-- ⏰ 天井期待値計算機 -->
+  <div class="カード">
+    <div class="カードタイトル">▶ ⏰ 天井期待値計算機</div>
+    <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:12px">
+      機種を選び、現在のハマりゲーム数を入力すると、<strong style="color:var(--cyan)">「打つべきか／ヤメるべきか」</strong>を即判定します。
+    </p>
+    <div class="フォームグリッド">
+      <div class="フォームグループ">
+        <label>機種</label>
+        <select id="tj-machine"></select>
+      </div>
+      <div class="フォームグループ">
+        <label>現在のG数</label>
+        <input type="number" id="tj-games" placeholder="例: 500" inputmode="numeric">
+      </div>
+      <div class="フォームグループ">
+        <label>交換率</label>
+        <select id="tj-rate">
+          <option value="1.0">等価交換 (20→20)</option>
+          <option value="0.875" selected>5.6枚交換</option>
+          <option value="0.83">6枚交換</option>
+        </select>
+      </div>
+      <div class="フォームグループ">
+        <label>状態</label>
+        <select id="tj-state">
+          <option value="normal">通常時</option>
+          <option value="reset">リセット後（朝一）</option>
+        </select>
+      </div>
+    </div>
+    <button class="ボタン主" onclick="天井期待値計算()">💰 期待値を計算する</button>
+    <div id="期待値結果" style="margin-top:14px"></div>
+  </div>
+
+</div>
+
 <!-- ===== 設定ページ ===== -->
 <div id="page-settings" class="page">
+  <div class="カード">
+    <div class="カードタイトル">▶ 🎨 テーマ切替</div>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:12px;line-height:1.7">画面の明るさを切り替えられます。ホール内ではダーク、外出時はライトがおすすめ。</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="ボタン副 テーマボタン" data-theme="dark" onclick="テーマ切替('dark')">🌙 ダーク（Cyber）</button>
+      <button class="ボタン副 テーマボタン" data-theme="light" onclick="テーマ切替('light')">☀️ ライト</button>
+      <button class="ボタン副 テーマボタン" data-theme="auto" onclick="テーマ切替('auto')">🔄 端末に合わせる</button>
+    </div>
+  </div>
+
   <div class="カード">
     <div class="カードタイトル">▶ 年間目標の設定</div>
     <div class="フォームグリッド">
@@ -1274,6 +1401,7 @@ function showPage(id, btn) {
   if (id === 'hall') renderHall();
   if (id === 'area') renderArea();
   if (id === 'machine') renderMachine();
+  if (id === 'tools') renderTools();
   if (id === 'settings') renderSettings();
 }
 
@@ -2206,6 +2334,374 @@ function 全削除() {
   通知表示('全データを削除しました');
   renderHome();
 }
+
+// ════════════════════════════════════════
+// ── 🛠️ ツール: 近くのホール ──
+// ════════════════════════════════════════
+const ホール座標 = {
+  // 苫小牧
+  'ベガスベガス苫小牧店': { 緯度: 42.6356, 経度: 141.5783, 住所: '北海道苫小牧市木場町2丁目1-1' },
+  'マルハン苫小牧駅前店': { 緯度: 42.6347, 経度: 141.6056, 住所: '北海道苫小牧市表町5丁目11-5' },
+  'プレイランドハッピー三光店': { 緯度: 42.6477, 経度: 141.6112, 住所: '北海道苫小牧市三光町3丁目1-1' },
+  'コアシティ': { 緯度: 42.6242, 経度: 141.5664, 住所: '北海道苫小牧市光洋町1丁目8-25' },
+  'ひまわり苫小牧店': { 緯度: 42.6515, 経度: 141.6147, 住所: '北海道苫小牧市住吉町2丁目4-1' },
+  'ロイヤル沼ノ端店': { 緯度: 42.6692, 経度: 141.7286, 住所: '北海道苫小牧市沼ノ端中央2丁目1-1' },
+  'ロイヤル苫小牧店': { 緯度: 42.6388, 経度: 141.5847, 住所: '北海道苫小牧市木場町1丁目4-23' },
+  // 登別
+  'ロイヤル登別店': { 緯度: 42.4344, 経度: 141.1542, 住所: '北海道登別市鷲別町1丁目10-1' },
+  'ダイナム登別店': { 緯度: 42.4108, 経度: 141.0997, 住所: '北海道登別市新生町3丁目18-3' },
+  // 室蘭
+  'ビクトリア室蘭店': { 緯度: 42.4214, 経度: 141.1289, 住所: '北海道室蘭市日の出町2丁目1-5' },
+  'ひまわり室蘭店': { 緯度: 42.3422, 経度: 140.9961, 住所: '北海道室蘭市東町2丁目22-13' },
+  'マルハン室蘭店': { 緯度: 42.3406, 経度: 140.9978, 住所: '北海道室蘭市東町2丁目25-1' },
+  'ZEUS': { 緯度: 42.3475, 経度: 140.9844, 住所: '北海道室蘭市港北町1丁目5-20' },
+  // 千歳
+  'マルハン千歳店': { 緯度: 42.8203, 経度: 141.6489, 住所: '北海道千歳市富丘1丁目1-1' },
+  'プレイランドハッピー千歳駅前店': { 緯度: 42.8175, 経度: 141.6536, 住所: '北海道千歳市千代田町7丁目1786-1' },
+  'クラブイーグル千歳店': { 緯度: 42.8233, 経度: 141.6411, 住所: '北海道千歳市信濃3丁目1-1' },
+  // 恵庭
+  'マルハン恵庭店': { 緯度: 42.8836, 経度: 141.5775, 住所: '北海道恵庭市黄金中央2丁目5-1' },
+  'パーラー恵み野': { 緯度: 42.9119, 経度: 141.5856, 住所: '北海道恵庭市恵み野西2丁目10-1' },
+};
+
+function ハバーサイン距離(緯度1, 経度1, 緯度2, 経度2) {
+  const R = 6371; // km
+  const dLat = (緯度2 - 緯度1) * Math.PI / 180;
+  const dLon = (経度2 - 経度1) * Math.PI / 180;
+  const a = Math.sin(dLat/2)**2 + Math.cos(緯度1*Math.PI/180) * Math.cos(緯度2*Math.PI/180) * Math.sin(dLon/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+function 近くのホール取得() {
+  const el = document.getElementById('近くのホールリスト');
+  el.innerHTML = '<div style="text-align:center;color:var(--muted);padding:20px">📡 位置情報を取得中...</div>';
+
+  if (!navigator.geolocation) {
+    el.innerHTML = '<div class="空表示">この端末は位置情報に対応していません</div>';
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(pos => {
+    const my緯度 = pos.coords.latitude;
+    const my経度 = pos.coords.longitude;
+
+    const remote = リモートデータ取得();
+    const 実績map = {};
+    if (remote && remote.ホール) {
+      remote.ホール.forEach(h => { 実績map[h.名] = h; });
+    }
+
+    const ホール一覧 = Object.entries(ホール座標).map(([名, c]) => {
+      const 距離 = ハバーサイン距離(my緯度, my経度, c.緯度, c.経度);
+      const 実績 = 実績map[名];
+      return { 名, 距離, ...c, 実績 };
+    }).sort((a, b) => a.距離 - b.距離);
+
+    el.innerHTML = `
+      <div style="font-size:12px;color:var(--muted);margin-bottom:10px">📍 現在地から近い順に18ホールを表示</div>
+      ${ホール一覧.map((h, i) => {
+        const 統計 = h.実績?.統計 || {};
+        const top機種 = (h.実績?.機種 || [])[0];
+        const 距離表示 = h.距離 < 1 ? `${Math.round(h.距離 * 1000)}m` : `${h.距離.toFixed(1)}km`;
+        const url = `https://www.google.com/maps/dir/?api=1&destination=${h.緯度},${h.経度}&travelmode=driving`;
+        return `<div class="ホールカード" style="flex-direction:column;align-items:stretch;gap:8px">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+            <div>
+              <div class="ホール名">${i+1}. ${h.名}</div>
+              <div class="ホールメタ">${h.住所}</div>
+            </div>
+            <div class="ホール収支 青" style="font-size:18px">${距離表示}</div>
+          </div>
+          ${h.実績 ? `
+          <div style="display:flex;gap:8px;font-size:12px;color:var(--text2);padding:6px 8px;background:var(--bg2);border-radius:4px">
+            <span>📊 勝率 <strong style="color:${(統計.勝率||0)>=30?'var(--green)':'var(--red)'}">${統計.勝率 || '-'}%</strong></span>
+            ${top機種 ? `<span>🏆 ${top機種.機種名}: <strong class="${top機種.平均差枚>=0?'プラス':'マイナス'}">${top機種.平均差枚>=0?'+':''}${top機種.平均差枚}枚</strong></span>` : ''}
+          </div>` : ''}
+          <a href="${url}" target="_blank" rel="noopener" class="ボタン副" style="text-align:center;text-decoration:none;display:block">🗺️ Googleマップで経路</a>
+        </div>`;
+      }).join('')}
+    `;
+  }, err => {
+    el.innerHTML = `<div class="空表示">
+      <div class="アイコン">⚠️</div>
+      位置情報の取得に失敗しました<br>
+      <small style="font-size:11px">${err.message}</small>
+    </div>`;
+  }, { enableHighAccuracy: true, timeout: 10000 });
+}
+
+// ════════════════════════════════════════
+// ── 🎯 設定推測ツール（ベイズ推論）──
+// ════════════════════════════════════════
+const ジャグラー機種データ = {
+  // [設定1, 設定2, 設定3, 設定4, 設定5, 設定6] の分母
+  mai: {
+    名: 'マイジャグラーV',
+    BB: [273.07, 270.81, 264.26, 257.97, 248.24, 240.94],
+    RB: [439.65, 399.61, 364.09, 327.68, 277.41, 268.62],
+    ぶどう: [6.35, 6.31, 6.26, 6.23, 6.16, 6.07],
+  },
+  aim: {
+    名: 'SアイムジャグラーEX',
+    BB: [273.07, 273.07, 273.07, 256.00, 256.00, 240.94],
+    RB: [439.83, 399.61, 364.09, 314.18, 277.41, 255.50],
+    ぶどう: [6.35, 6.31, 6.26, 6.21, 6.15, 6.07],
+  },
+  funky: {
+    名: 'ファンキージャグラー2KT',
+    BB: [273.07, 270.81, 264.26, 257.97, 251.96, 240.94],
+    RB: [546.13, 481.88, 425.98, 364.09, 312.38, 273.07],
+    ぶどう: [5.82, 5.78, 5.74, 5.68, 5.61, 5.51],
+  },
+  happy: {
+    名: 'ハッピージャグラーVIII',
+    BB: [273.07, 270.81, 264.26, 257.97, 248.24, 240.94],
+    RB: [468.11, 423.72, 384.00, 348.46, 297.89, 270.81],
+    ぶどう: [6.16, 6.12, 6.06, 6.02, 5.93, 5.83],
+  },
+  neo: {
+    名: 'ネオアイムジャグラーEX',
+    BB: [273.07, 273.07, 273.07, 256.00, 256.00, 240.94],
+    RB: [439.83, 399.61, 364.09, 314.18, 277.41, 255.50],
+    ぶどう: [6.35, 6.31, 6.26, 6.21, 6.15, 6.07],
+  },
+};
+
+// ポアソン近似で観測確率を計算
+function 観測確率(回数, 分母, ゲーム数) {
+  const λ = ゲーム数 / 分母;
+  if (λ === 0) return 回数 === 0 ? 1 : 0;
+  // log P で計算（精度確保）
+  let logP = -λ + 回数 * Math.log(λ);
+  for (let i = 1; i <= 回数; i++) logP -= Math.log(i);
+  return Math.exp(logP);
+}
+
+function 設定推測実行() {
+  const key = document.getElementById('ja-machine').value;
+  const G = parseInt(document.getElementById('ja-games').value);
+  const BB = parseInt(document.getElementById('ja-bb').value);
+  const RB = parseInt(document.getElementById('ja-rb').value);
+  const ぶどう = parseInt(document.getElementById('ja-budo').value) || 0;
+  const data = ジャグラー機種データ[key];
+  const resultEl = document.getElementById('設定推測結果');
+
+  if (!G || isNaN(BB) || isNaN(RB)) {
+    resultEl.innerHTML = '<div style="color:var(--red);font-size:13px">⚠️ 総ゲーム数・BB回数・RB回数を入力してください</div>';
+    return;
+  }
+
+  // 各設定の尤度計算
+  const 尤度 = [];
+  for (let s = 0; s < 6; s++) {
+    let p = 観測確率(BB, data.BB[s], G) * 観測確率(RB, data.RB[s], G);
+    if (ぶどう > 0) p *= 観測確率(ぶどう, data.ぶどう[s], G);
+    尤度.push(p);
+  }
+  const 合計 = 尤度.reduce((a, b) => a + b, 0);
+  const 確率 = 尤度.map(p => 合計 > 0 ? p / 合計 * 100 : 0);
+
+  const 合算 = BB + RB > 0 ? `1/${(G / (BB + RB)).toFixed(1)}` : '-';
+  const ぶどう確率 = ぶどう > 0 ? `1/${(G / ぶどう).toFixed(2)}` : '-';
+  const 最高設定 = 確率.indexOf(Math.max(...確率)) + 1;
+
+  resultEl.innerHTML = `
+    <div style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:14px">
+      <div style="font-size:13px;color:var(--text2);margin-bottom:10px">
+        ${data.名} / ${G.toLocaleString()}G / BB ${BB} / RB ${RB} / 合算 ${合算} / ぶどう ${ぶどう確率}
+      </div>
+      <div style="font-size:14px;font-weight:700;color:var(--cyan);margin-bottom:12px">
+        🎯 最有力: <span style="color:${最高設定>=5?'var(--green)':最高設定>=3?'var(--gold)':'var(--red)'};font-size:18px">設定${最高設定}</span>
+      </div>
+      ${確率.map((p, i) => {
+        const 設定 = i + 1;
+        const 色 = 設定 >= 5 ? 'var(--green)' : 設定 >= 3 ? 'var(--gold)' : 'var(--muted)';
+        return `<div style="display:grid;grid-template-columns:60px 1fr 50px;gap:8px;align-items:center;margin-bottom:5px;font-size:12px">
+          <div style="color:${色};font-weight:700">設定${設定}</div>
+          <div style="background:var(--bg2);height:14px;border-radius:2px;overflow:hidden">
+            <div style="width:${p}%;height:100%;background:${色};box-shadow:0 0 8px ${色}80"></div>
+          </div>
+          <div style="text-align:right;font-family:'Orbitron',monospace;font-weight:700;color:${色}">${p.toFixed(1)}%</div>
+        </div>`;
+      }).join('')}
+      <div style="font-size:11px;color:var(--muted);margin-top:10px;line-height:1.6">
+        💡 推奨アクション：${最高設定 >= 5 ? '<strong style="color:var(--green)">続行推奨。高設定濃厚</strong>' : 最高設定 >= 3 ? '<strong style="color:var(--gold)">様子見。データ蓄積で再判断</strong>' : '<strong style="color:var(--red)">低設定濃厚。撤退検討</strong>'}
+      </div>
+    </div>
+  `;
+}
+
+// ════════════════════════════════════════
+// ── ⏰ 天井期待値計算機 ──
+// ════════════════════════════════════════
+const 天井機種データ = {
+  hokuto2: {
+    名: 'スマスロ北斗の拳 転生の章2',
+    通常天井: 1536,
+    リセット天井: 1280,
+    平均獲得: 2200,
+    1G消化コスト: 1.8,
+    狙い目: { normal: 350, reset: 50 },
+  },
+  kabaneri: {
+    名: 'スマスロ甲鉄城のカバネリ 海門決戦',
+    通常天井: 1280,
+    リセット天井: 596,
+    平均獲得: 2400,
+    1G消化コスト: 1.9,
+    狙い目: { normal: 600, reset: 60 },
+  },
+  azur: {
+    名: 'Lアズールレーン THE ANIMATION',
+    通常天井: 1500,
+    リセット天井: 600,
+    平均獲得: 2300,
+    1G消化コスト: 1.85,
+    狙い目: { normal: 350, reset: 100 },
+  },
+  bigdream: {
+    名: 'スマスロ ビッグドリーム',
+    通常天井: 999,
+    リセット天井: 500,
+    平均獲得: 2100,
+    1G消化コスト: 1.7,
+    狙い目: { normal: 400, reset: 0 },
+  },
+  tokyoG: {
+    名: 'L東京喰種',
+    通常天井: 1200,
+    リセット天井: 200,
+    平均獲得: 2000,
+    1G消化コスト: 1.85,
+    狙い目: { normal: 450, reset: 0 },
+  },
+  monkey: {
+    名: 'スマスロモンキーターンV',
+    通常天井: 1500,
+    リセット天井: 700,
+    平均獲得: 2100,
+    1G消化コスト: 1.85,
+    狙い目: { normal: 700, reset: 350 },
+  },
+  god: {
+    名: 'スマスロ ミリオンゴッド',
+    通常天井: 1500,
+    リセット天井: 800,
+    平均獲得: 2500,
+    1G消化コスト: 1.9,
+    狙い目: { normal: 800, reset: 400 },
+  },
+  bake: {
+    名: 'スマスロ化物語',
+    通常天井: 1280,
+    リセット天井: 600,
+    平均獲得: 2200,
+    1G消化コスト: 1.8,
+    狙い目: { normal: 600, reset: 0 },
+  },
+};
+
+function 天井機種ドロップダウン初期化() {
+  const sel = document.getElementById('tj-machine');
+  if (!sel || sel.options.length > 0) return;
+  Object.entries(天井機種データ).forEach(([key, m]) => {
+    const opt = document.createElement('option');
+    opt.value = key;
+    opt.textContent = m.名;
+    sel.appendChild(opt);
+  });
+}
+
+function 天井期待値計算() {
+  const key = document.getElementById('tj-machine').value;
+  const G = parseInt(document.getElementById('tj-games').value);
+  const rate = parseFloat(document.getElementById('tj-rate').value);
+  const state = document.getElementById('tj-state').value;
+  const data = 天井機種データ[key];
+  const el = document.getElementById('期待値結果');
+
+  if (!G) {
+    el.innerHTML = '<div style="color:var(--red);font-size:13px">⚠️ 現在のG数を入力してください</div>';
+    return;
+  }
+
+  const 天井 = state === 'reset' ? data.リセット天井 : data.通常天井;
+  const 残りG = Math.max(0, 天井 - G);
+  const 投資 = 残りG * data.1G消化コスト;
+  const 獲得 = data.平均獲得 * rate * 20; // 1枚20円換算
+  const 期待値 = Math.round(獲得 - 投資);
+  const 狙い目 = state === 'reset' ? data.狙い目.reset : data.狙い目.normal;
+  const 判定 = G >= 狙い目 ? (期待値 >= 1000 ? '🟢 積極的に打つべき' : 期待値 >= 0 ? '🟡 打ってOK' : '🟠 微妙') : '🔴 まだ早い';
+  const 色 = 期待値 >= 1000 ? 'var(--green)' : 期待値 >= 0 ? 'var(--gold)' : 'var(--red)';
+
+  el.innerHTML = `
+    <div style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:14px">
+      <div style="font-size:13px;color:var(--text2);margin-bottom:10px">
+        ${data.名} / 現在${G}G / 天井${天井}G (${state === 'reset' ? 'リセット後' : '通常時'})
+      </div>
+      <div style="text-align:center;padding:16px;background:var(--bg2);border-radius:4px;margin-bottom:12px;border:2px solid ${色}">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:6px">期待値</div>
+        <div style="font-family:'Orbitron',monospace;font-size:32px;font-weight:900;color:${色}">
+          ${期待値 >= 0 ? '+' : ''}${期待値.toLocaleString()}<span style="font-size:14px">円</span>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px">
+        <div style="background:var(--bg2);padding:8px;border-radius:3px;text-align:center">
+          <div style="color:var(--muted)">残りG数</div>
+          <div style="font-family:'Orbitron',monospace;font-size:16px;color:var(--cyan)">${残りG}G</div>
+        </div>
+        <div style="background:var(--bg2);padding:8px;border-radius:3px;text-align:center">
+          <div style="color:var(--muted)">想定投資</div>
+          <div style="font-family:'Orbitron',monospace;font-size:16px;color:var(--text)">¥${Math.round(投資).toLocaleString()}</div>
+        </div>
+        <div style="background:var(--bg2);padding:8px;border-radius:3px;text-align:center">
+          <div style="color:var(--muted)">想定獲得</div>
+          <div style="font-family:'Orbitron',monospace;font-size:16px;color:var(--gold)">¥${Math.round(獲得).toLocaleString()}</div>
+        </div>
+        <div style="background:var(--bg2);padding:8px;border-radius:3px;text-align:center">
+          <div style="color:var(--muted)">狙い目G</div>
+          <div style="font-family:'Orbitron',monospace;font-size:16px;color:var(--cyan)">${狙い目}G〜</div>
+        </div>
+      </div>
+      <div style="margin-top:14px;padding:12px;background:rgba(64,232,255,0.05);border-left:3px solid var(--cyan);border-radius:2px;font-size:14px;font-weight:700">
+        ${判定}
+      </div>
+    </div>
+  `;
+}
+
+function renderTools() {
+  天井機種ドロップダウン初期化();
+}
+
+// ── テーマ切替 ──
+function テーマ適用(mode) {
+  const root = document.documentElement;
+  if (mode === 'auto') {
+    const sys = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    root.setAttribute('data-theme', sys);
+  } else {
+    root.setAttribute('data-theme', mode);
+  }
+  // ボタンハイライト
+  document.querySelectorAll('.テーマボタン').forEach(b => {
+    b.style.background = b.dataset.theme === mode ? 'var(--cyan)' : 'transparent';
+    b.style.color = b.dataset.theme === mode ? 'var(--bg)' : 'var(--cyan)';
+  });
+  // メタテーマカラー更新
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.content = getComputedStyle(root).getPropertyValue('--bg').trim();
+}
+function テーマ切替(mode) {
+  localStorage.setItem('theme_mode', mode);
+  テーマ適用(mode);
+  通知表示(mode === 'dark' ? '🌙 ダークテーマに切替' : mode === 'light' ? '☀️ ライトテーマに切替' : '🔄 端末設定に追従');
+}
+// 起動時に適用
+(() => {
+  const saved = localStorage.getItem('theme_mode') || 'dark';
+  テーマ適用(saved);
+})();
 
 // ── PWA インストール ──
 let deferredPrompt = null;
