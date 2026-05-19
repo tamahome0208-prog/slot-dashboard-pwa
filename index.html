@@ -62,6 +62,11 @@
 
 :root[data-theme="light"] body::before { display: none; }
 :root[data-theme="light"] body::after { background-image: linear-gradient(rgba(0,153,204,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,153,204,0.04) 1px, transparent 1px); opacity: 0.6; }
+:root[data-theme="light"] header { background: linear-gradient(135deg, #ffffff 0%, #f0f0f7 100%); box-shadow: 0 2px 8px rgba(230,38,106,0.1), inset 0 -1px 0 var(--pink); }
+:root[data-theme="light"] nav { background: #ffffff; box-shadow: 0 -2px 12px rgba(0,0,0,0.08); }
+:root[data-theme="light"] nav button.active { background: linear-gradient(0deg, rgba(0,153,204,0.08), transparent); }
+:root[data-theme="light"] .header-badge { box-shadow: 0 0 4px rgba(230,38,106,0.2), inset 0 0 4px rgba(230,38,106,0.05); }
+:root[data-theme="light"] .打ち方ガイド { background: linear-gradient(135deg, rgba(204,153,0,0.06) 0%, rgba(0,153,204,0.06) 100%); border-color: rgba(204,153,0,0.35); }
 
 html { scroll-behavior: smooth; }
 
@@ -506,16 +511,27 @@ tbody td { padding: 13px 12px; white-space: nowrap; font-size: 14px; color: var(
     border-bottom: none;
     box-shadow: 0 -4px 20px rgba(0,0,0,0.5);
     padding-bottom: env(safe-area-inset-bottom);
+    overflow: visible;
   }
   nav button {
-    min-width: 0; padding: 12px 4px; font-size: 11px;
+    min-width: 0; padding: 8px 2px; font-size: 10px;
     letter-spacing: 0; min-height: 56px;
-    line-height: 1.3; border-bottom: none; border-top: 2px solid transparent;
+    line-height: 1.1; border-bottom: none; border-top: 2px solid transparent;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 4px;
   }
   nav button.active {
     background: linear-gradient(0deg, rgba(64,232,255,0.12), transparent);
     border-top-color: var(--cyan); border-bottom-color: transparent;
   }
+  nav button .nv-ic { font-size: 18px; line-height: 1; }
+  nav button .nv-lb { font-size: 10px; line-height: 1; white-space: nowrap; }
+
+  /* ヘッダー：折返し防止 */
+  header { padding: 10px 14px; padding-top: calc(10px + env(safe-area-inset-top)); flex-wrap: nowrap; }
+  header h1 { font-size: 13px; letter-spacing: 1.5px; flex: 1; min-width: 0; }
+  .header-icon { font-size: 20px; flex-shrink: 0; }
+  .header-badge { font-size: 9px; padding: 3px 6px; letter-spacing: 0.5px; white-space: nowrap; flex-shrink: 0; }
 
   .page { padding: 12px; }
 
@@ -667,14 +683,14 @@ button, a { -webkit-touch-callout: none; user-select: none; }
 </header>
 
 <nav>
-  <button class="active" onclick="showPage('home',this)">📊 収支</button>
-  <button onclick="showPage('record',this)">✏️ 入力</button>
-  <button onclick="showPage('history',this)">📋 履歴</button>
-  <button onclick="showPage('hall',this)">🏢 自分のホール</button>
-  <button onclick="showPage('area',this)">🗾 エリア</button>
-  <button onclick="showPage('machine',this)">🎰 機種DB</button>
-  <button onclick="showPage('tools',this)">🛠️ ツール</button>
-  <button onclick="showPage('settings',this)">⚙️ 設定</button>
+  <button class="active" onclick="showPage('home',this)"><span class="nv-ic">📊</span><span class="nv-lb">収支</span></button>
+  <button onclick="showPage('record',this)"><span class="nv-ic">✏️</span><span class="nv-lb">入力</span></button>
+  <button onclick="showPage('history',this)"><span class="nv-ic">📋</span><span class="nv-lb">履歴</span></button>
+  <button onclick="showPage('hall',this)"><span class="nv-ic">🏢</span><span class="nv-lb">自店</span></button>
+  <button onclick="showPage('area',this)"><span class="nv-ic">🗾</span><span class="nv-lb">エリア</span></button>
+  <button onclick="showPage('machine',this)"><span class="nv-ic">🎰</span><span class="nv-lb">機種</span></button>
+  <button onclick="showPage('tools',this)"><span class="nv-ic">🛠️</span><span class="nv-lb">ツール</span></button>
+  <button onclick="showPage('settings',this)"><span class="nv-ic">⚙️</span><span class="nv-lb">設定</span></button>
 </nav>
 
 <!-- ===== 収支ページ ===== -->
@@ -2728,7 +2744,7 @@ const 天井機種データ = {
     通常天井: 1536,
     リセット天井: 1280,
     平均獲得: 2200,
-    1G消化コスト: 1.8,
+    消化コスト: 1.8,
     狙い目: { normal: 350, reset: 50 },
   },
   kabaneri: {
@@ -2736,7 +2752,7 @@ const 天井機種データ = {
     通常天井: 1280,
     リセット天井: 596,
     平均獲得: 2400,
-    1G消化コスト: 1.9,
+    消化コスト: 1.9,
     狙い目: { normal: 600, reset: 60 },
   },
   azur: {
@@ -2744,7 +2760,7 @@ const 天井機種データ = {
     通常天井: 1500,
     リセット天井: 600,
     平均獲得: 2300,
-    1G消化コスト: 1.85,
+    消化コスト: 1.85,
     狙い目: { normal: 350, reset: 100 },
   },
   bigdream: {
@@ -2752,7 +2768,7 @@ const 天井機種データ = {
     通常天井: 999,
     リセット天井: 500,
     平均獲得: 2100,
-    1G消化コスト: 1.7,
+    消化コスト: 1.7,
     狙い目: { normal: 400, reset: 0 },
   },
   tokyoG: {
@@ -2760,7 +2776,7 @@ const 天井機種データ = {
     通常天井: 1200,
     リセット天井: 200,
     平均獲得: 2000,
-    1G消化コスト: 1.85,
+    消化コスト: 1.85,
     狙い目: { normal: 450, reset: 0 },
   },
   monkey: {
@@ -2768,7 +2784,7 @@ const 天井機種データ = {
     通常天井: 1500,
     リセット天井: 700,
     平均獲得: 2100,
-    1G消化コスト: 1.85,
+    消化コスト: 1.85,
     狙い目: { normal: 700, reset: 350 },
   },
   god: {
@@ -2776,7 +2792,7 @@ const 天井機種データ = {
     通常天井: 1500,
     リセット天井: 800,
     平均獲得: 2500,
-    1G消化コスト: 1.9,
+    消化コスト: 1.9,
     狙い目: { normal: 800, reset: 400 },
   },
   bake: {
@@ -2784,7 +2800,7 @@ const 天井機種データ = {
     通常天井: 1280,
     リセット天井: 600,
     平均獲得: 2200,
-    1G消化コスト: 1.8,
+    消化コスト: 1.8,
     狙い目: { normal: 600, reset: 0 },
   },
 };
@@ -2815,9 +2831,11 @@ function 天井期待値計算() {
 
   const 天井 = state === 'reset' ? data.リセット天井 : data.通常天井;
   const 残りG = Math.max(0, 天井 - G);
-  const 投資 = 残りG * data.1G消化コスト;
+  const 投資 = 残りG * data.消化コスト;
   const 獲得 = data.平均獲得 * rate * 20; // 1枚20円換算
-  const 期待値 = Math.round(獲得 - 投資);
+  // 天井到達率（簡易：残りG少ないほど高い、最大80%想定）
+  const 到達率 = 残りG <= 0 ? 1 : Math.min(0.85, 1 - (残りG / 天井) * 0.7);
+  const 期待値 = Math.round(獲得 * 到達率 - 投資);
   const 狙い目 = state === 'reset' ? data.狙い目.reset : data.狙い目.normal;
   const 判定 = G >= 狙い目 ? (期待値 >= 1000 ? '🟢 積極的に打つべき' : 期待値 >= 0 ? '🟡 打ってOK' : '🟠 微妙') : '🔴 まだ早い';
   const 色 = 期待値 >= 1000 ? 'var(--green)' : 期待値 >= 0 ? 'var(--gold)' : 'var(--red)';
@@ -2853,6 +2871,9 @@ function 天井期待値計算() {
       </div>
       <div style="margin-top:14px;padding:12px;background:rgba(64,232,255,0.05);border-left:3px solid var(--cyan);border-radius:2px;font-size:14px;font-weight:700">
         ${判定}
+      </div>
+      <div style="font-size:10px;color:var(--muted);margin-top:8px;line-height:1.6">
+        ⚠ 簡易計算：天井到達率（推定${Math.round(到達率*100)}%）×想定獲得 − 投資。実際の挙動は途中当選・モード等で変動します。
       </div>
     </div>
   `;
