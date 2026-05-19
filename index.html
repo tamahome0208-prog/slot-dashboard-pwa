@@ -710,6 +710,20 @@ button, a { -webkit-touch-callout: none; user-select: none; }
 
 <!-- ===== 入力ページ ===== -->
 <div id="page-record" class="page">
+  <div class="カード" style="border-left-color: var(--gold)">
+    <div class="カードタイトル" style="color:var(--gold);text-shadow:0 0 6px rgba(255,214,0,0.4)">▶ 📷 写真から自動入力（AI）</div>
+    <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:10px">
+      スロットの<strong>データカウンター・出玉グラフ</strong>を撮影すると、AIが差枚・G数を読み取って下のフォームに自動入力します。
+    </p>
+    <input type="file" id="ocr-camera" accept="image/*" capture="environment" style="display:none" onchange="OCR画像送信(event)">
+    <input type="file" id="ocr-file" accept="image/*" style="display:none" onchange="OCR画像送信(event)">
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="ボタン主" style="flex:1;min-width:140px" onclick="document.getElementById('ocr-camera').click()">📸 カメラで撮影</button>
+      <button class="ボタン副" style="flex:1;min-width:140px" onclick="document.getElementById('ocr-file').click()">🖼️ 画像を選択</button>
+    </div>
+    <div id="OCR結果" style="margin-top:12px"></div>
+  </div>
+
   <div class="カード">
     <div class="カードタイトル">▶ 新規実戦記録</div>
     <div class="フォームグリッド">
@@ -1342,6 +1356,29 @@ button, a { -webkit-touch-callout: none; user-select: none; }
     <button class="ボタン副" onclick="アプリインストール()" style="margin-top:8px">
       📲 インストール方法を表示（iPhone用）
     </button>
+  </div>
+
+  <div class="カード">
+    <div class="カードタイトル">▶ 📷 写真OCR（Gemini AI 連携）</div>
+    <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:12px">
+      スロット台の<strong>出玉グラフ／データカウンター</strong>を撮影するだけで、差枚・G数・BB/RB回数を自動入力できます。<br>
+      <strong style="color:var(--cyan)">Google Geminiの無料APIキー</strong>が必要です（5分で取得可能・月数千回まで無料）。
+    </p>
+    <details style="margin-bottom:12px;background:var(--bg3);padding:10px 14px;border-radius:4px;border:1px solid var(--border)">
+      <summary style="cursor:pointer;font-size:13px;color:var(--cyan);font-weight:700">📝 APIキー取得手順（クリックで展開）</summary>
+      <ol style="margin:10px 0 0 20px;font-size:13px;line-height:1.8;color:var(--text2)">
+        <li><a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener" style="color:var(--cyan)">Google AI Studio</a> にアクセス（Googleアカウントでログイン）</li>
+        <li>「<strong>Create API key</strong>」をクリック</li>
+        <li>表示されたキーをコピー</li>
+        <li>下の入力欄に貼り付け → 「保存」</li>
+      </ol>
+    </details>
+    <div class="フォームグループ" style="margin-bottom:12px">
+      <label>Gemini API キー</label>
+      <input type="password" id="s-gemini-key" placeholder="AIzaSy... で始まる文字列">
+    </div>
+    <button class="ボタン副" onclick="設定保存()">APIキーを保存</button>
+    <div id="ocr状態" style="font-size:12px;color:var(--muted);margin-top:10px"></div>
   </div>
 
   <div class="カード">
@@ -2224,7 +2261,10 @@ function renderSettings() {
   document.getElementById('s-goal').value = s.goal||1000000;
   document.getElementById('s-year').value = s.year||new Date().getFullYear();
   document.getElementById('s-github-url').value = s.githubUrl || '';
+  document.getElementById('s-gemini-key').value = s.geminiKey || '';
   最終更新時刻表示();
+  const ocrSt = document.getElementById('ocr状態');
+  if (ocrSt) ocrSt.textContent = s.geminiKey ? '✅ APIキー設定済み（写真OCR利用可能）' : '※ APIキー未設定（写真OCRは利用不可）';
 }
 function 設定保存() {
   const 現在 = 設定取得();
@@ -2232,8 +2272,10 @@ function 設定保存() {
     ...現在,
     goal: parseInt(document.getElementById('s-goal').value)||1000000,
     year: parseInt(document.getElementById('s-year').value)||new Date().getFullYear(),
-    githubUrl: document.getElementById('s-github-url').value.trim()
+    githubUrl: document.getElementById('s-github-url').value.trim(),
+    geminiKey: document.getElementById('s-gemini-key').value.trim()
   });
+  renderSettings();
   通知表示('設定を保存しました ✓');
 }
 
@@ -2333,6 +2375,152 @@ function 全削除() {
   localStorage.removeItem(STORAGE_KEY);
   通知表示('全データを削除しました');
   renderHome();
+}
+
+// ════════════════════════════════════════
+// ── 📷 写真OCR (Gemini API連携) ──
+// ════════════════════════════════════════
+async function 画像リサイズ(file, maxDim = 1024) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = new Image();
+      img.onload = () => {
+        const scale = Math.min(maxDim / img.width, maxDim / img.height, 1);
+        const w = Math.round(img.width * scale);
+        const h = Math.round(img.height * scale);
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        const base64 = canvas.toDataURL('image/jpeg', 0.85).split(',')[1];
+        resolve(base64);
+      };
+      img.onerror = reject;
+      img.src = e.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+async function OCR画像送信(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const s = 設定取得();
+  const apiKey = s.geminiKey;
+  const resultEl = document.getElementById('OCR結果');
+
+  if (!apiKey) {
+    resultEl.innerHTML = `<div style="padding:12px;background:rgba(255,77,109,0.1);border:1px solid var(--red);border-radius:4px;font-size:13px;line-height:1.7">
+      ❌ <strong>APIキーが未設定です</strong><br>
+      「⚙️ 設定」タブで Gemini API キーを設定してください。<br>
+      <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener" style="color:var(--cyan)">→ APIキー取得（無料）</a>
+    </div>`;
+    e.target.value = '';
+    return;
+  }
+
+  resultEl.innerHTML = `<div style="text-align:center;padding:20px;background:var(--bg3);border-radius:4px">
+    <div style="font-size:30px;margin-bottom:8px">🔍</div>
+    <div style="color:var(--cyan);font-size:14px;font-weight:700">AI解析中...</div>
+    <div style="color:var(--muted);font-size:11px;margin-top:6px">通常5〜15秒</div>
+  </div>`;
+
+  try {
+    const base64 = await 画像リサイズ(file);
+    const プロンプト = `この画像はパチスロ台のデータカウンターまたは出玉グラフです。以下の情報を読み取って、JSON形式のみで返してください（説明文や ` + "```" + ` は不要、JSONそのものだけ返答）。
+
+{
+  "差枚": 数値（プラス・マイナスの整数、不明ならnull）,
+  "G数": 数値（ゲーム数、不明ならnull）,
+  "BB": 数値（BIG回数、不明ならnull）,
+  "RB": 数値（REG回数、不明ならnull）,
+  "機種名": 文字列（読み取れる機種名、不明なら空文字）,
+  "信頼度": "high"または"medium"または"low",
+  "備考": 読み取り上の注意点（任意、20字以内）
+}
+
+注意：
+- 差枚は持ち玉の増減（プラスなら勝ち、マイナスなら負け）
+- 数値が読み取れない項目はnullにする
+- 出玉グラフの場合、最終値の差枚を読み取る`;
+
+    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{
+          parts: [
+            { text: プロンプト },
+            { inline_data: { mime_type: 'image/jpeg', data: base64 } }
+          ]
+        }],
+        generationConfig: { temperature: 0.1, maxOutputTokens: 500 }
+      })
+    });
+
+    if (!res.ok) {
+      const errText = await res.text();
+      throw new Error(`API ${res.status}: ${errText.substring(0, 150)}`);
+    }
+
+    const data = await res.json();
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) throw new Error('JSONレスポンスを取得できませんでした');
+
+    const result = JSON.parse(jsonMatch[0]);
+    OCR結果表示(result);
+  } catch (err) {
+    resultEl.innerHTML = `<div style="padding:12px;background:rgba(255,77,109,0.1);border:1px solid var(--red);border-radius:4px;font-size:13px">
+      ❌ <strong>解析失敗</strong><br>
+      ${err.message}<br>
+      <small style="color:var(--muted)">APIキーが正しいか、画像が鮮明かを確認してください</small>
+    </div>`;
+  } finally {
+    e.target.value = '';
+  }
+}
+
+function OCR結果表示(r) {
+  const 信頼度色 = { high: 'var(--green)', medium: 'var(--gold)', low: 'var(--red)' };
+  const 信頼度ラベル = { high: '高（自動入力推奨）', medium: '中（確認推奨）', low: '低（要確認）' };
+  const 信頼度 = r.信頼度 || 'medium';
+
+  document.getElementById('OCR結果').innerHTML = `
+    <div style="background:var(--bg3);border:1px solid ${信頼度色[信頼度]};border-radius:4px;padding:14px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <div style="font-size:14px;font-weight:700;color:var(--cyan)">🔍 AI解析結果</div>
+        <div style="font-size:11px;padding:3px 10px;border:1px solid ${信頼度色[信頼度]};color:${信頼度色[信頼度]};border-radius:10px">信頼度: ${信頼度ラベル[信頼度]}</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px">
+        ${r.機種名 ? `<div class="エリア統計項目" style="grid-column:1/-1"><div class="エリア統計ラベル">機種名</div><div class="エリア統計値 青" style="font-size:14px">${r.機種名}</div></div>` : ''}
+        ${r.差枚 !== null && r.差枚 !== undefined ? `<div class="エリア統計項目"><div class="エリア統計ラベル">差枚</div><div class="エリア統計値 ${r.差枚>=0?'プラス':'マイナス'}">${r.差枚>=0?'+':''}${r.差枚}</div></div>` : ''}
+        ${r.G数 !== null && r.G数 !== undefined ? `<div class="エリア統計項目"><div class="エリア統計ラベル">G数</div><div class="エリア統計値 青">${r.G数.toLocaleString()}</div></div>` : ''}
+        ${r.BB !== null && r.BB !== undefined ? `<div class="エリア統計項目"><div class="エリア統計ラベル">BB</div><div class="エリア統計値 青">${r.BB}</div></div>` : ''}
+        ${r.RB !== null && r.RB !== undefined ? `<div class="エリア統計項目"><div class="エリア統計ラベル">RB</div><div class="エリア統計値 青">${r.RB}</div></div>` : ''}
+      </div>
+      ${r.備考 ? `<div style="font-size:11px;color:var(--muted);margin-bottom:10px">💬 ${r.備考}</div>` : ''}
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="ボタン主" style="flex:1;min-width:140px" onclick='OCR結果適用(${JSON.stringify(r).replace(/'/g, "\\'")})'>✓ フォームに反映</button>
+        <button class="ボタン副" style="flex:0;min-width:80px" onclick="document.getElementById('OCR結果').innerHTML=''">破棄</button>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:8px;line-height:1.6">
+        💡 反映後、投資額と回収額は手動入力してください（OCRでは読み取れません）
+      </div>
+    </div>`;
+}
+
+function OCR結果適用(r) {
+  if (r.機種名) document.getElementById('f-machine').value = r.機種名;
+  if (r.G数 != null) document.getElementById('f-games').value = r.G数;
+  // 差枚→回収額の参考表示（投資10000円仮定）
+  if (r.差枚 != null) {
+    document.getElementById('f-note').value = `差枚 ${r.差枚>=0?'+':''}${r.差枚}枚` + (r.BB!=null?` / BB${r.BB}`:'') + (r.RB!=null?` / RB${r.RB}`:'');
+  }
+  通知表示('✓ フォームに反映しました。投資額・回収額を入力してください');
+  document.getElementById('OCR結果').innerHTML = '';
+  document.getElementById('f-invest').focus();
 }
 
 // ════════════════════════════════════════
