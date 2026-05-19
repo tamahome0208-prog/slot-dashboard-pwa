@@ -684,9 +684,9 @@ button, a { -webkit-touch-callout: none; user-select: none; }
 
 <nav>
   <button class="active" onclick="showPage('home',this)"><span class="nv-ic">📊</span><span class="nv-lb">収支</span></button>
+  <button onclick="showPage('myhall',this)" style="position:relative"><span class="nv-ic">🏆</span><span class="nv-lb" style="color:var(--gold)">マイホ</span></button>
   <button onclick="showPage('record',this)"><span class="nv-ic">✏️</span><span class="nv-lb">入力</span></button>
   <button onclick="showPage('history',this)"><span class="nv-ic">📋</span><span class="nv-lb">履歴</span></button>
-  <button onclick="showPage('hall',this)"><span class="nv-ic">🏢</span><span class="nv-lb">自店</span></button>
   <button onclick="showPage('area',this)"><span class="nv-ic">🗾</span><span class="nv-lb">エリア</span></button>
   <button onclick="showPage('machine',this)"><span class="nv-ic">🎰</span><span class="nv-lb">機種</span></button>
   <button onclick="showPage('tools',this)"><span class="nv-ic">🛠️</span><span class="nv-lb">ツール</span></button>
@@ -1323,6 +1323,192 @@ button, a { -webkit-touch-callout: none; user-select: none; }
 
 </div>
 
+<!-- ===== 🏆 マイホール（ロイヤル登別）専用ページ ===== -->
+<div id="page-myhall" class="page">
+
+  <!-- ヘッダーカード -->
+  <div class="カード" style="border-left-color:var(--gold);background:linear-gradient(135deg, var(--bg2) 0%, rgba(255,214,0,0.08) 100%)">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+      <div style="font-size:36px">🏆</div>
+      <div style="flex:1">
+        <div style="font-family:'Orbitron',monospace;font-size:18px;font-weight:900;color:var(--gold);text-shadow:0 0 8px rgba(255,214,0,0.4)">ロイヤル登別店</div>
+        <div style="font-size:11px;color:var(--text2);margin-top:2px">マイホール / 北海道登別市栄町1-15-1</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px">
+      <div class="エリア統計項目"><div class="エリア統計ラベル">総台数</div><div class="エリア統計値 青">800</div></div>
+      <div class="エリア統計項目"><div class="エリア統計ラベル">スロット</div><div class="エリア統計値 青">280台</div></div>
+      <div class="エリア統計項目"><div class="エリア統計ラベル">営業時間</div><div class="エリア統計値" style="font-size:11px">9:00〜22:45</div></div>
+      <div class="エリア統計項目"><div class="エリア統計ラベル">駐車場</div><div class="エリア統計値" style="font-size:11px">800台</div></div>
+    </div>
+    <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+      <a href="https://www.google.com/maps/dir/?api=1&destination=42.4344,141.1542&travelmode=driving" target="_blank" rel="noopener" class="ボタン副" style="flex:1;text-align:center;text-decoration:none;min-width:120px">🗺️ ナビ開始</a>
+      <a href="https://p-town.dmm.com/shops/hokkaido/1429/jackpot" target="_blank" rel="noopener" class="ボタン副" style="flex:1;text-align:center;text-decoration:none;min-width:120px">📊 DMM公式</a>
+    </div>
+  </div>
+
+  <!-- イベント日カード -->
+  <div class="カード" style="border-left-color:var(--cyan)">
+    <div class="カードタイトル">▶ 📅 イベント日（旧イベ）</div>
+    <div style="text-align:center;padding:16px;background:var(--bg3);border-radius:6px;margin-bottom:12px">
+      <div style="font-size:11px;color:var(--muted);margin-bottom:6px">特定日パターン</div>
+      <div style="font-family:'Orbitron',monospace;font-size:24px;font-weight:900;color:var(--gold);text-shadow:0 0 8px rgba(255,214,0,0.4)">8のつく日</div>
+      <div style="font-size:11px;color:var(--text2);margin-top:6px">8日 / 18日 / 28日</div>
+    </div>
+    <div style="font-size:13px;color:var(--text2);line-height:1.8">
+      <div>📆 <strong style="color:var(--green)">直近のイベント日: 5/28(木)</strong></div>
+      <div>📆 次々回: 6/8(月) / 6/18(木) / 6/28(日)</div>
+    </div>
+  </div>
+
+  <!-- 🚨 注目台アラート -->
+  <div class="カード" style="border-left-color:var(--red);background:linear-gradient(135deg, var(--bg2) 0%, rgba(255,77,109,0.06) 100%)">
+    <div class="カードタイトル" style="color:var(--red);text-shadow:var(--glow-r)">▶ 🚨 設定6固定濃厚 緊急アラート</div>
+    <div style="background:rgba(255,77,109,0.1);border:2px solid var(--red);border-radius:6px;padding:14px;box-shadow:0 0 12px rgba(255,77,109,0.2)">
+      <div style="font-size:13px;color:var(--muted);margin-bottom:6px">⚡ 同一台が3日連続TOP10</div>
+      <div style="font-family:'Orbitron',monospace;font-size:20px;font-weight:900;color:var(--gold);margin-bottom:8px">
+        L ミリオンゴッド 台番号 578
+      </div>
+      <div style="font-size:13px;line-height:1.8;color:var(--text)">
+        過去3日: <strong class="プラス">+11,558</strong> → <strong class="プラス">+10,519</strong> → <strong class="プラス">+10,045</strong> 枚<br>
+        <strong style="color:var(--red);font-size:15px">👉 朝一抽選で最優先で確保！</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- 💎 注目シマ -->
+  <div class="カード" style="border-left-color:var(--green)">
+    <div class="カードタイトル" style="color:var(--green);text-shadow:var(--glow-g)">▶ 💎 シマぐるみで熱い機種</div>
+    <div style="display:grid;gap:10px">
+      <div style="background:var(--bg3);border-left:3px solid var(--gold);padding:12px;border-radius:3px">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div><strong style="font-size:14px">L ミリオンゴッド‐神々の軌跡‐</strong><br>
+          <span style="font-size:11px;color:var(--muted)">設置10台 / TOP10内に4台ランクイン</span></div>
+          <div class="プラス" style="font-family:'Orbitron',monospace;font-size:18px;font-weight:900">+1,927</div>
+        </div>
+        <div style="font-size:12px;color:var(--cyan);margin-top:6px">推奨台: 572 / 578 / 579 / 580番台</div>
+      </div>
+      <div style="background:var(--bg3);border-left:3px solid var(--cyan);padding:12px;border-radius:3px">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div><strong style="font-size:14px">スマスロ北斗の拳 転生の章2</strong><br>
+          <span style="font-size:11px;color:var(--muted)">設置20台 / メイン機種</span></div>
+          <div class="プラス" style="font-family:'Orbitron',monospace;font-size:18px;font-weight:900">+805</div>
+        </div>
+        <div style="font-size:12px;color:var(--cyan);margin-top:6px">推奨台: 549番台</div>
+      </div>
+      <div style="background:var(--bg3);border-left:3px solid var(--cyan);padding:12px;border-radius:3px">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div><strong style="font-size:14px">スマスロ バイオハザードRE:3</strong><br>
+          <span style="font-size:11px;color:var(--muted)">設置4台 / 5/18平均 出率126.4%</span></div>
+          <div class="プラス" style="font-family:'Orbitron',monospace;font-size:18px;font-weight:900">+7,518</div>
+        </div>
+        <div style="font-size:12px;color:var(--cyan);margin-top:6px">穴場機種！少数設置で高設定濃厚</div>
+      </div>
+      <div style="background:var(--bg3);border-left:3px solid var(--cyan);padding:12px;border-radius:3px">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div><strong style="font-size:14px">沖ドキ!BLACK</strong><br>
+          <span style="font-size:11px;color:var(--muted)">設置20台 / ジャンルメイン</span></div>
+          <div class="プラス" style="font-family:'Orbitron',monospace;font-size:18px;font-weight:900">+220</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🏆 出玉ランキングTOP10 -->
+  <div class="カード">
+    <div class="カードタイトル">▶ 🏆 出玉ランキングTOP10（5/19 火）</div>
+    <div style="font-size:11px;color:var(--muted);margin-bottom:10px">出典: DMMぱちタウン公式</div>
+    <div class="テーブル枠">
+      <table style="font-size:12px">
+        <thead><tr><th>順位</th><th>機種名</th><th>台番号</th><th>差枚</th></tr></thead>
+        <tbody>
+          <tr><td>🥇</td><td>L ミリオンゴッド</td><td style="color:var(--gold);font-weight:700">572</td><td class="プラス" style="font-family:'Orbitron',monospace">+14,201</td></tr>
+          <tr><td>🥈</td><td>L 甲鉄城のカバネリ</td><td>705</td><td class="プラス" style="font-family:'Orbitron',monospace">+13,853</td></tr>
+          <tr><td>🥉</td><td>L モンキーターン</td><td>660</td><td class="プラス" style="font-family:'Orbitron',monospace">+13,430</td></tr>
+          <tr><td>4</td><td>L 北斗の拳 転生の章2</td><td>549</td><td class="プラス" style="font-family:'Orbitron',monospace">+12,894</td></tr>
+          <tr><td>5</td><td>L 炎炎ノ消防隊2</td><td>631</td><td class="プラス" style="font-family:'Orbitron',monospace">+12,652</td></tr>
+          <tr><td>6</td><td>L ミリオンゴッド</td><td style="color:var(--gold);font-weight:700">579</td><td class="プラス" style="font-family:'Orbitron',monospace">+11,681</td></tr>
+          <tr style="background:rgba(255,214,0,0.08)"><td>7</td><td>L ミリオンゴッド ⚡</td><td style="color:var(--gold);font-weight:700">578</td><td class="プラス" style="font-family:'Orbitron',monospace">+11,558</td></tr>
+          <tr style="background:rgba(255,214,0,0.08)"><td>8</td><td>L ミリオンゴッド ⚡</td><td style="color:var(--gold);font-weight:700">578</td><td class="プラス" style="font-family:'Orbitron',monospace">+10,519</td></tr>
+          <tr style="background:rgba(255,214,0,0.08)"><td>9</td><td>L ミリオンゴッド ⚡</td><td style="color:var(--gold);font-weight:700">578</td><td class="プラス" style="font-family:'Orbitron',monospace">+10,045</td></tr>
+          <tr><td>10</td><td>L 沖ドキ!DUO アンコール</td><td>732</td><td class="プラス" style="font-family:'Orbitron',monospace">+9,839</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="font-size:11px;color:var(--muted);margin-top:8px">⚡ = 設定6固定濃厚台</div>
+  </div>
+
+  <!-- 📊 全機種実績テーブル -->
+  <div class="カード">
+    <div class="カードタイトル">▶ 📊 全機種実績（5/18 月）</div>
+    <div style="font-size:11px;color:var(--muted);margin-bottom:10px">出典: みんレポ / 平均差枚順 / 全体勝率91/240（38%）平均G数4,272</div>
+    <div class="テーブル枠">
+      <table style="font-size:12px">
+        <thead><tr><th>機種名</th><th>台数</th><th>平均差枚</th><th>出率</th></tr></thead>
+        <tbody id="マイホ機種テーブル"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 📋 立ち回り戦略 -->
+  <div class="カード" style="border-left-color:var(--cyan)">
+    <div class="カードタイトル" style="color:var(--cyan);text-shadow:var(--glow-c)">▶ 📋 立ち回り戦略マニュアル</div>
+
+    <div style="background:var(--bg3);padding:14px;border-radius:6px;margin-bottom:12px">
+      <div style="font-size:13px;font-weight:700;color:var(--gold);margin-bottom:8px">🌅 朝一抽選の優先順位</div>
+      <ol style="margin-left:20px;font-size:13px;line-height:1.9;color:var(--text)">
+        <li><strong>ミリオンゴッド 578</strong>（設定6固定濃厚）</li>
+        <li><strong>ミリオンゴッド 572 / 579 / 580番台</strong>（シマぐるみ）</li>
+        <li><strong>カバネリ 705 / モンキー 660 / 北斗 549</strong>（前日大量出玉）</li>
+        <li><strong>バイオRE:3</strong>（4台中3台勝ち・出率126%）</li>
+        <li>北斗転生章2 / 沖ドキBLACK の高設定示唆台</li>
+      </ol>
+    </div>
+
+    <div style="background:var(--bg3);padding:14px;border-radius:6px;margin-bottom:12px">
+      <div style="font-size:13px;font-weight:700;color:var(--green);margin-bottom:8px">📆 イベント日（8のつく日）の動き</div>
+      <ul style="margin-left:20px;font-size:13px;line-height:1.9;color:var(--text)">
+        <li>9:00開店 30分前には到着推奨</li>
+        <li>ミリオンゴッドシマ周辺は激戦区</li>
+        <li>勝率35.8% → 平日より約8%高い</li>
+        <li>北斗・カバネリ・モンキー・炎炎は20台規模で高設定散らし</li>
+      </ul>
+    </div>
+
+    <div style="background:var(--bg3);padding:14px;border-radius:6px">
+      <div style="font-size:13px;font-weight:700;color:var(--red);margin-bottom:8px">⚠️ 避けるべき機種（5/18データ）</div>
+      <ul style="margin-left:20px;font-size:13px;line-height:1.9;color:var(--text)">
+        <li>L タクトオーパス デスティニー（-3,000 / 81.6%）</li>
+        <li>L 虚構推理（-2,500 / 86.4%）</li>
+        <li>真打 吉宗（-2,000 / 88.9%）</li>
+        <li>スマスロ 攻殻機動隊（-1,750 / 92.1%）</li>
+        <li>スマスロ スーパーリオエース2（-1,750 / 90.3%）</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 💬 口コミ -->
+  <div class="カード">
+    <div class="カードタイトル">▶ 💬 一般ユーザーの声（みんパチ）</div>
+    <div style="text-align:center;margin-bottom:12px">
+      <span style="font-family:'Orbitron',monospace;font-size:28px;font-weight:900;color:var(--gold)">55</span>
+      <span style="font-size:13px;color:var(--muted)">点 / 評価4件</span>
+    </div>
+    <div class="評価バー">
+      <div class="評価項目"><div style="font-size:10px;color:var(--muted)">営業</div><div class="評価数値 プラス">4.0</div></div>
+      <div class="評価項目"><div style="font-size:10px;color:var(--muted)">接客</div><div class="評価数値 マイナス">1.5</div></div>
+      <div class="評価項目"><div style="font-size:10px;color:var(--muted)">設備</div><div class="評価数値" style="color:var(--gold)">2.5</div></div>
+    </div>
+    <div class="声リスト" style="margin-top:12px">
+      <div class="声 良">この界隈では優良店。カーペット敷きの広い空間で設備は良い。イベント日は力を入れている</div>
+      <div class="声 良">スロットの高設定がそこそこ入っている。8のつく日は来る価値あり</div>
+      <div class="声 悪">店員の態度がすこぶる悪い。接客は最低ランク。出玉は良くても気持ちよく打てない</div>
+      <div class="声 中">スロット台あたり平均+54枚。小さい店だが特定日は本当に出る。穴場的存在</div>
+    </div>
+  </div>
+
+</div>
+
 <!-- ===== ツールページ ===== -->
 <div id="page-tools" class="page">
 
@@ -1540,6 +1726,7 @@ function showPage(id, btn) {
   if (id === 'area') renderArea();
   if (id === 'machine') renderMachine();
   if (id === 'tools') renderTools();
+  if (id === 'myhall') renderMyHall();
   if (id === 'settings') renderSettings();
 }
 
@@ -2476,6 +2663,59 @@ function 全削除() {
   localStorage.removeItem(STORAGE_KEY);
   通知表示('全データを削除しました');
   renderHome();
+}
+
+// ════════════════════════════════════════
+// ── 🏆 マイホール（ロイヤル登別）データ ──
+// ════════════════════════════════════════
+const マイホ機種データ = [
+  { 名: 'スマスロ バイオハザードRE:3', 台数: 4, 差枚: 7518, G数: 9483, 勝率: '3/4', 出率: 126.4 },
+  { 名: 'Lパチスロ ガンダムユニコーン 覚醒DRIVE', 台数: 4, 差枚: 2528, G数: 4000, 勝率: '2/4', 出率: 121.1 },
+  { 名: 'スマスロ ミリオンゴッド-神々の軌跡-', 台数: 10, 差枚: 1927, G数: 7011, 勝率: '5/10', 出率: 109.2 },
+  { 名: '吉宗', 台数: 2, 差枚: 1395, G数: 2049, 勝率: '2/2', 出率: 122.7 },
+  { 名: 'スマスロ ハナビ', 台数: 4, 差枚: 833, G数: 4280, 勝率: '2/4', 出率: 106.5 },
+  { 名: 'スマスロ北斗の拳 転生の章2', 台数: 20, 差枚: 805, G数: 3622, 勝率: '8/20', 出率: 107.4 },
+  { 名: 'スマスロ 沖ドキ!DUO アンコール', 台数: 15, 差枚: 705, G数: 1867, 勝率: '4/15', 出率: 112.6 },
+  { 名: 'スマスロヨルムンガンド', 台数: 4, 差枚: 643, G数: 2831, 勝率: '1/4', 出率: 107.6 },
+  { 名: 'ウルトラミラクルジャグラー', 台数: 6, 差枚: 500, G数: 4684, 勝率: '4/6', 出率: 103.6 },
+  { 名: 'ファンキージャグラー2KT', 台数: 10, 差枚: 459, G数: 4219, 勝率: '4/10', 出率: 103.6 },
+  { 名: '沖ドキ！BLACK', 台数: 20, 差枚: 220, G数: 5260, 勝率: '11/20', 出率: 101.4 },
+  { 名: 'ハッピージャグラーVIII', 台数: 20, 差枚: 205, G数: 4527, 勝率: '10/20', 出率: 101.5 },
+  { 名: 'スマスロ甲鉄城のカバネリ 海門決戦', 台数: 10, 差枚: 202, G数: 7522, 勝率: '4/10', 出率: 100.9 },
+  { 名: 'ネオアイムジャグラーEX', 台数: 34, 差枚: 101, G数: 3939, 勝率: '13/34', 出率: 100.9 },
+  { 名: 'Lパチスロ炎炎ノ消防隊2', 台数: 4, 差枚: 45, G数: 3647, 勝率: '2/4', 出率: 100.4 },
+  { 名: 'スマスロ ゴッドイーター リザレクション', 台数: 4, 差枚: 18, G数: 2325, 勝率: '2/4', 出率: 100.3 },
+  { 名: 'Lアクダマドライブ', 台数: 3, 差枚: 7, G数: 1491, 勝率: '1/3', 出率: 100.1 },
+  { 名: '新ハナビ', 台数: 2, 差枚: -15, G数: 1831, 勝率: '1/2', 出率: 99.7 },
+  { 名: 'スマスロモンキーターンV', 台数: 10, 差枚: -150, G数: 3762, 勝率: '3/10', 出率: 98.4 },
+  { 名: 'L東京喰種', 台数: 10, 差枚: -200, G数: 7173, 勝率: '2/10', 出率: 98.9 },
+  { 名: 'Lアズールレーン THE ANIMATION', 台数: 2, 差枚: -250, G数: 1941, 勝率: '1/2', 出率: 94.7 },
+  { 名: 'ハイビリターン-30', 台数: 5, 差枚: -250, G数: 1094, 勝率: '2/5', 出率: 90.4 },
+  { 名: 'Lパチスロ革命機ヴァルヴレイヴ2', 台数: 6, 差枚: -250, G数: 1663, 勝率: '1/6', 出率: 92.3 },
+  { 名: 'A-SLOT+異世界かるてっとBT', 台数: 2, 差枚: -500, G数: 3519, 勝率: '1/2', 出率: 94.2 },
+  { 名: 'ミスタージャグラー', 台数: 6, 差枚: -500, G数: 2600, 勝率: '1/6', 出率: 91.0 },
+  { 名: 'スマスロ化物語', 台数: 4, 差枚: -750, G数: 2198, 勝率: '0/4', 出率: 86.0 },
+  { 名: 'L無職転生〜異世界行ったら本気だす〜', 台数: 2, 差枚: -750, G数: 1563, 勝率: '0/2', 出率: 79.3 },
+  { 名: 'スマスロ スーパーリオエース2', 台数: 4, 差枚: -1750, G数: 6433, 勝率: '1/4', 出率: 90.3 },
+  { 名: 'スマスロ 攻殻機動隊', 台数: 2, 差枚: -1750, G数: 8051, 勝率: '0/2', 出率: 92.1 },
+  { 名: '真打 吉宗', 台数: 4, 差枚: -2000, G数: 6378, 勝率: '0/4', 出率: 88.9 },
+  { 名: 'L虚構推理', 台数: 2, 差枚: -2500, G数: 6301, 勝率: '0/2', 出率: 86.4 },
+  { 名: 'Lタクトオーパス デスティニー', 台数: 2, 差枚: -3000, G数: 5574, 勝率: '0/2', 出率: 81.6 },
+];
+
+function renderMyHall() {
+  const tbody = document.getElementById('マイホ機種テーブル');
+  if (!tbody) return;
+  tbody.innerHTML = マイホ機種データ.map(m => {
+    const cls = m.差枚 >= 0 ? 'プラス' : 'マイナス';
+    const 出率cls = m.出率 >= 100 ? 'プラス' : 'マイナス';
+    return `<tr>
+      <td style="white-space:normal;line-height:1.4">${m.名}</td>
+      <td style="text-align:center">${m.台数}</td>
+      <td class="${cls}" style="font-family:'Orbitron',monospace;text-align:right">${m.差枚>=0?'+':''}${m.差枚.toLocaleString()}</td>
+      <td class="${出率cls}" style="font-family:'Orbitron',monospace;text-align:right">${m.出率}%</td>
+    </tr>`;
+  }).join('');
 }
 
 // ════════════════════════════════════════
