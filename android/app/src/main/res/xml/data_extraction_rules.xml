@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data-extraction-rules>
+    <cloud-backup>
+        <include domain="sharedpref" path="adblocker_settings.xml" />
+        <exclude domain="sharedpref" path="adblocker_stats.xml" />
+    </cloud-backup>
+    <device-transfer>
+        <include domain="sharedpref" path="adblocker_settings.xml" />
+    </device-transfer>
+</data-extraction-rules>

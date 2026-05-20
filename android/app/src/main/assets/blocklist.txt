@@ -1,0 +1,104 @@
+# Bundled starter blocklist (hosts file format).
+# Lines starting with '#' are comments. Whitespace lines are ignored.
+# Either "0.0.0.0 domain.example" or just "domain.example" works.
+# Subdomains are matched automatically by the runtime.
+#
+# This is a small high-confidence list to get the user started.
+# Use "Download remote lists" in the app to pull in a full hosts file
+# (StevenBlack hosts by default) which adds ~100,000+ entries.
+
+# --- Google / DoubleClick ads ---
+doubleclick.net
+googlesyndication.com
+googleadservices.com
+googletagservices.com
+adservice.google.com
+pagead2.googlesyndication.com
+g.doubleclick.net
+ad.doubleclick.net
+admob.com
+
+# --- Facebook / Meta tracking ---
+graph.facebook.com
+connect.facebook.net
+an.facebook.com
+business.facebook.com
+
+# --- Twitter / X analytics ---
+ads-twitter.com
+analytics.twitter.com
+ads-api.twitter.com
+
+# --- Amazon ads ---
+amazon-adsystem.com
+adsystem.amazon.com
+aax.amazon-adsystem.com
+
+# --- Microsoft / Bing ads ---
+ads.microsoft.com
+bat.bing.com
+
+# --- Common ad networks ---
+adcolony.com
+adnxs.com
+adsense.com
+adsrvr.org
+adtech.com
+applovin.com
+chartboost.com
+criteo.com
+criteo.net
+inmobi.com
+moatads.com
+mopub.com
+outbrain.com
+pubmatic.com
+quantserve.com
+rubiconproject.com
+scorecardresearch.com
+serving-sys.com
+smaato.net
+smartadserver.com
+taboola.com
+tapjoy.com
+unityads.unity3d.com
+yieldmo.com
+zedo.com
+
+# --- Analytics ---
+google-analytics.com
+googletagmanager.com
+hotjar.com
+mixpanel.com
+segment.com
+segment.io
+amplitude.com
+appsflyer.com
+adjust.com
+branch.io
+kochava.com
+mparticle.com
+flurry.com
+crashlytics.com
+
+# --- Misc trackers ---
+yandex.metrika
+mc.yandex.ru
+fullstory.com
+heap.io
+heapanalytics.com
+optimizely.com
+clarity.ms
+
+# --- Japanese ad/tracking networks ---
+i-mobile.co.jp
+microad.jp
+fout.jp
+fout.co.jp
+nend.net
+adingo.jp
+ad-stir.com
+genieesspv.jp
+shinobi.jp
+research-artisan.com
+i2i.jp

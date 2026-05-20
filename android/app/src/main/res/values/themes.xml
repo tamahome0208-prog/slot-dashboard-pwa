@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.AdBlocker" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/seed</item>
+        <item name="android:statusBarColor">?attr/colorPrimary</item>
+    </style>
+
+    <style name="Stat">
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+
+    <style name="StatValue">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">?attr/textAppearanceHeadlineSmall</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="StatLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">?attr/textAppearanceLabelMedium</item>
+        <item name="android:layout_marginTop">2dp</item>
+    </style>
+</resources>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">広告ブロッカー</string>
+    <string name="title_blocklist">ブロックリスト・設定</string>
+
+    <string name="status_active">保護: 有効</string>
+    <string name="status_inactive">保護: 無効</string>
+    <string name="toggle_label">広告とトラッカーをブロック</string>
+
+    <string name="section_stats">統計</string>
+    <string name="stat_blocked">ブロック</string>
+    <string name="stat_total">合計</string>
+    <string name="stat_ratio">率</string>
+    <string name="stat_blocklist_size">ブロックリスト件数</string>
+
+    <string name="section_lists">リスト管理</string>
+    <string name="action_open_blocklist">ブロックリスト・設定を開く</string>
+    <string name="action_refresh_lists">リモートリストを更新</string>
+    <string name="action_downloading">ダウンロード中…</string>
+    <string name="action_reset_stats">統計をリセット</string>
+    <string name="action_save">保存</string>
+    <string name="action_stop">停止</string>
+
+    <string name="section_recent">最近のクエリ</string>
+    <string name="recent_empty">クエリはまだありません。</string>
+
+    <string name="section_custom_blocked">独自ブロックドメイン</string>
+    <string name="section_allowed">許可ドメイン (ホワイトリスト)</string>
+    <string name="hint_one_domain_per_line">1 行に 1 ドメイン。サブドメインは自動的にマッチします。</string>
+    <string name="hint_upstream_dns">上流 DNS</string>
+    <string name="hint_upstream_dns_fallback">フォールバック DNS</string>
+    <string name="setting_upstream_dns">上流 DNS サーバー</string>
+    <string name="setting_start_on_boot">起動時に自動開始</string>
+
+    <string name="toast_vpn_permission_denied">VPN の許可が拒否されました。</string>
+    <string name="toast_lists_updated">リストを更新しました。%1$d 件のドメインが有効です。</string>
+    <string name="toast_lists_partial">%2$d 件中 %1$d 件のリストが失敗しました。</string>
+
+    <string name="notification_channel_vpn">VPN ステータス</string>
+    <string name="notification_channel_vpn_desc">広告ブロックが動作中に表示されます。</string>
+    <string name="notification_active_title">広告ブロックを実行中</string>
+    <string name="notification_active_text">DNS ベースで広告とトラッカーをブロックしています。</string>
+</resources>

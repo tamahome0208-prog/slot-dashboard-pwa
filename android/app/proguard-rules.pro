@@ -1,0 +1,3 @@
+-keep class app.adblocker.vpn.** { *; }
+-keepattributes Signature
+-keepattributes *Annotation*

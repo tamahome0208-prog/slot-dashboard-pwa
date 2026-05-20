@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AdBlocker</string>
+    <string name="title_blocklist">Blocklist &amp; Settings</string>
+
+    <string name="status_active">Protection: ON</string>
+    <string name="status_inactive">Protection: OFF</string>
+    <string name="toggle_label">Block ads &amp; trackers</string>
+
+    <string name="section_stats">Statistics</string>
+    <string name="stat_blocked">Blocked</string>
+    <string name="stat_total">Total</string>
+    <string name="stat_ratio">Ratio</string>
+    <string name="stat_blocklist_size">Blocklist size</string>
+    <string name="percent_format">%1$d%%</string>
+
+    <string name="section_lists">Lists</string>
+    <string name="action_open_blocklist">Open blocklist &amp; settings</string>
+    <string name="action_refresh_lists">Download remote lists</string>
+    <string name="action_downloading">Downloading…</string>
+    <string name="action_reset_stats">Reset statistics</string>
+    <string name="action_save">Save</string>
+    <string name="action_stop">Stop</string>
+
+    <string name="section_recent">Recent queries</string>
+    <string name="recent_empty">No queries yet.</string>
+
+    <string name="section_custom_blocked">Custom blocked domains</string>
+    <string name="section_allowed">Allowed (whitelist)</string>
+    <string name="hint_one_domain_per_line">One domain per line. Subdomains are matched automatically.</string>
+    <string name="hint_upstream_dns">Upstream DNS</string>
+    <string name="hint_upstream_dns_fallback">Fallback DNS</string>
+    <string name="setting_upstream_dns">Upstream DNS server</string>
+    <string name="setting_start_on_boot">Start on device boot</string>
+
+    <string name="toast_vpn_permission_denied">VPN permission denied.</string>
+    <string name="toast_lists_updated">Lists updated. %1$d domains active.</string>
+    <string name="toast_lists_partial">%1$d of %2$d lists failed.</string>
+
+    <string name="notification_channel_vpn">VPN status</string>
+    <string name="notification_channel_vpn_desc">Shown while ad blocking is active.</string>
+    <string name="notification_active_title">AdBlocker is active</string>
+    <string name="notification_active_text">DNS-based ad and tracker blocking is running.</string>
+</resources>
