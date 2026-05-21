@@ -1194,6 +1194,20 @@ input:focus, select:focus, textarea:focus {
   letter-spacing: -0.5px;
 }
 
+/* ✨ ゲーム用アニメーション */
+@keyframes freeze-pulse {
+  from { transform: scale(1); filter: brightness(1); }
+  to { transform: scale(1.08); filter: brightness(1.4); }
+}
+@keyframes lamp-pulse-1 {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+@keyframes lamp-pulse-2 {
+  0%, 100% { opacity: 0.4; transform: scale(0.85); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
 /* ✨ ナビバースト・タップリップル・確変バックドロップ */
 @keyframes nav-burst {
   0% { transform: scale(0.3); opacity: 1; }
@@ -2442,55 +2456,94 @@ button, a { -webkit-touch-callout: none; user-select: none; }
     <div style="font-size:11px;color:var(--muted);margin-top:8px">スマスロ MILLION GOD - SIMULATOR</div>
   </div>
 
-  <!-- スロット筐体 -->
-  <div class="カード" style="background:linear-gradient(180deg, #0a0a14 0%, #1a1a2e 50%, #0a0a14 100%);border:2px solid var(--gold);box-shadow:0 0 40px rgba(255,214,0,0.3), inset 0 0 30px rgba(0,0,0,0.5);padding:20px">
-    <!-- カウンター表示 -->
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px">
-      <div style="background:#000;border:1px solid var(--cyan);padding:6px;text-align:center;border-radius:3px">
-        <div style="font-size:9px;color:var(--muted)">CREDIT</div>
-        <div id="g-credit" style="font-family:'Orbitron',monospace;font-size:18px;color:var(--cyan);text-shadow:var(--glow-c);font-weight:900">300</div>
-      </div>
-      <div style="background:#000;border:1px solid var(--green);padding:6px;text-align:center;border-radius:3px">
-        <div style="font-size:9px;color:var(--muted)">DIFF</div>
-        <div id="g-diff" style="font-family:'Orbitron',monospace;font-size:18px;color:var(--green);text-shadow:0 0 8px var(--green);font-weight:900">+0</div>
-      </div>
-      <div style="background:#000;border:1px solid var(--pink);padding:6px;text-align:center;border-radius:3px">
-        <div style="font-size:9px;color:var(--muted)">GAME</div>
-        <div id="g-games" style="font-family:'Orbitron',monospace;font-size:18px;color:var(--pink);text-shadow:0 0 8px var(--pink);font-weight:900">0</div>
+  <!-- スロット筐体（リアル化版） -->
+  <div class="カード" style="background:linear-gradient(180deg, #1a1a14 0%, #0a0a08 50%, #1a1a14 100%);border:3px solid #ffd700;box-shadow:0 0 60px rgba(255,214,0,0.4), inset 0 0 30px rgba(0,0,0,0.7);padding:14px;position:relative;overflow:hidden">
+
+    <!-- 上部サイドランプ -->
+    <div style="position:absolute;top:6px;left:0;right:0;display:flex;justify-content:space-between;padding:0 12px;pointer-events:none">
+      <div class="g-side-lamp" style="width:14px;height:14px;border-radius:50%;background:radial-gradient(circle,#ff4500,#660000);box-shadow:0 0 10px #ff4500;animation:lamp-pulse-1 1.5s ease infinite"></div>
+      <div class="g-side-lamp" style="width:14px;height:14px;border-radius:50%;background:radial-gradient(circle,#ffd700,#664400);box-shadow:0 0 10px #ffd700;animation:lamp-pulse-2 1.5s ease infinite"></div>
+      <div class="g-side-lamp" style="width:14px;height:14px;border-radius:50%;background:radial-gradient(circle,#ff4500,#660000);box-shadow:0 0 10px #ff4500;animation:lamp-pulse-1 1.5s ease infinite"></div>
+    </div>
+
+    <!-- 🖥️ 液晶画面（演出表示） -->
+    <div id="g-screen" style="background:linear-gradient(135deg,#000033 0%,#000011 50%,#000033 100%);border:2px solid #ffd700;border-radius:8px;height:160px;margin:18px 6px 14px;position:relative;overflow:hidden;box-shadow:inset 0 0 30px #000,0 0 12px rgba(255,214,0,0.4)">
+      <div id="g-screen-bg" style="position:absolute;inset:0;opacity:0.5;background:radial-gradient(circle at 50% 50%,rgba(255,214,0,0.15),transparent 70%)"></div>
+      <div id="g-screen-content" style="position:relative;z-index:2;width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;color:#fff;text-align:center;font-family:'Orbitron',monospace">
+        <div style="font-size:11px;color:#ffd700;letter-spacing:4px;opacity:0.7">MILLION GOD</div>
+        <div style="font-size:18px;color:#ffd700;font-weight:900;text-shadow:0 0 10px #ffd700;letter-spacing:3px;margin-top:4px">神々の軌跡</div>
+        <div style="font-size:9px;color:#666;margin-top:8px">READY TO SPIN</div>
       </div>
     </div>
 
-    <!-- 状態表示（GG中表示エリア） -->
-    <div id="g-state" style="text-align:center;margin-bottom:14px;min-height:32px"></div>
+    <!-- カウンター表示 -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px">
+      <div style="background:#000;border:1px solid var(--cyan);padding:5px;text-align:center;border-radius:3px">
+        <div style="font-size:8px;color:var(--muted);letter-spacing:1px">CREDIT</div>
+        <div id="g-credit" style="font-family:'Orbitron',monospace;font-size:16px;color:var(--cyan);text-shadow:var(--glow-c);font-weight:900">300</div>
+      </div>
+      <div style="background:#000;border:1px solid var(--green);padding:5px;text-align:center;border-radius:3px">
+        <div style="font-size:8px;color:var(--muted);letter-spacing:1px">DIFF</div>
+        <div id="g-diff" style="font-family:'Orbitron',monospace;font-size:16px;color:var(--green);text-shadow:0 0 8px var(--green);font-weight:900">+0</div>
+      </div>
+      <div style="background:#000;border:1px solid var(--pink);padding:5px;text-align:center;border-radius:3px">
+        <div style="font-size:8px;color:var(--muted);letter-spacing:1px">GAME</div>
+        <div id="g-games" style="font-family:'Orbitron',monospace;font-size:16px;color:var(--pink);text-shadow:0 0 8px var(--pink);font-weight:900">0</div>
+      </div>
+    </div>
 
-    <!-- リール -->
-    <div id="g-reels" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;background:#000;padding:10px;border:2px solid var(--gold);border-radius:4px;box-shadow:inset 0 0 20px rgba(0,0,0,0.8),0 0 20px rgba(255,214,0,0.3);position:relative;overflow:hidden;height:180px">
-      <div class="g-reel" data-r="0" style="background:linear-gradient(180deg,#222,#000,#222);border:1px solid #444;overflow:hidden;position:relative;border-radius:2px">
-        <div class="g-reel-inner" style="position:absolute;width:100%;transition:transform 0s linear"></div>
+    <!-- GG状態表示 -->
+    <div id="g-state" style="text-align:center;margin-bottom:10px;min-height:32px"></div>
+
+    <!-- 🎰 3Dリール -->
+    <div id="g-reels-container" style="perspective:600px;perspective-origin:50% 50%;background:linear-gradient(180deg,#000,#0a0a0a,#000);border:3px solid #ffd700;border-radius:6px;box-shadow:inset 0 0 30px rgba(0,0,0,0.9),0 0 24px rgba(255,214,0,0.4);position:relative;overflow:hidden;padding:8px;margin:0 4px">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;height:180px;transform-style:preserve-3d">
+        <div class="g-reel" data-r="0" style="background:#000;border:1px solid #553;overflow:hidden;position:relative;border-radius:2px;transform:rotateY(8deg)">
+          <div class="g-reel-inner" style="position:absolute;width:100%;transition:transform 0s linear"></div>
+          <!-- リールの3D影 -->
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.6) 0%,transparent 30%,transparent 70%,rgba(0,0,0,0.6) 100%);pointer-events:none;z-index:3"></div>
+        </div>
+        <div class="g-reel" data-r="1" style="background:#000;border:1px solid #553;overflow:hidden;position:relative;border-radius:2px">
+          <div class="g-reel-inner" style="position:absolute;width:100%;transition:transform 0s linear"></div>
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.6) 0%,transparent 30%,transparent 70%,rgba(0,0,0,0.6) 100%);pointer-events:none;z-index:3"></div>
+        </div>
+        <div class="g-reel" data-r="2" style="background:#000;border:1px solid #553;overflow:hidden;position:relative;border-radius:2px;transform:rotateY(-8deg)">
+          <div class="g-reel-inner" style="position:absolute;width:100%;transition:transform 0s linear"></div>
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.6) 0%,transparent 30%,transparent 70%,rgba(0,0,0,0.6) 100%);pointer-events:none;z-index:3"></div>
+        </div>
       </div>
-      <div class="g-reel" data-r="1" style="background:linear-gradient(180deg,#222,#000,#222);border:1px solid #444;overflow:hidden;position:relative;border-radius:2px">
-        <div class="g-reel-inner" style="position:absolute;width:100%;transition:transform 0s linear"></div>
-      </div>
-      <div class="g-reel" data-r="2" style="background:linear-gradient(180deg,#222,#000,#222);border:1px solid #444;overflow:hidden;position:relative;border-radius:2px">
-        <div class="g-reel-inner" style="position:absolute;width:100%;transition:transform 0s linear"></div>
-      </div>
-      <!-- 中段判定ライン -->
-      <div style="position:absolute;top:50%;left:6px;right:6px;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);box-shadow:0 0 8px var(--gold);transform:translateY(-1px);pointer-events:none;z-index:5"></div>
+      <!-- 中段ライン -->
+      <div style="position:absolute;top:50%;left:8px;right:8px;height:2px;background:linear-gradient(90deg,transparent,#ffd700 30%,#ff8c00 50%,#ffd700 70%,transparent);box-shadow:0 0 12px #ffd700,0 0 24px rgba(255,140,0,0.5);transform:translateY(-1px);pointer-events:none;z-index:10"></div>
+      <!-- 上段ライン（細） -->
+      <div style="position:absolute;top:calc(8px + 30px);left:8px;right:8px;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent);pointer-events:none;z-index:10"></div>
+      <!-- 下段ライン（細） -->
+      <div style="position:absolute;bottom:calc(8px + 30px);left:8px;right:8px;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent);pointer-events:none;z-index:10"></div>
+      <!-- 斜めライン -->
+      <svg style="position:absolute;inset:8px;width:calc(100% - 16px);height:calc(100% - 16px);pointer-events:none;z-index:9;opacity:0.15" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <line x1="0" y1="10" x2="100" y2="90" stroke="#ffd700" stroke-width="0.3" stroke-dasharray="2,2"/>
+        <line x1="0" y1="90" x2="100" y2="10" stroke="#ffd700" stroke-width="0.3" stroke-dasharray="2,2"/>
+      </svg>
     </div>
 
     <!-- 操作ボタン -->
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:14px">
-      <button class="ボタン副" id="g-stop-0" disabled onclick="gStopReel(0)" style="padding:14px 0;font-weight:900">STOP</button>
-      <button class="ボタン副" id="g-stop-1" disabled onclick="gStopReel(1)" style="padding:14px 0;font-weight:900">STOP</button>
-      <button class="ボタン副" id="g-stop-2" disabled onclick="gStopReel(2)" style="padding:14px 0;font-weight:900">STOP</button>
+      <button class="ボタン副" id="g-stop-0" disabled onclick="gStopReel(0)" style="padding:16px 0;font-weight:900;font-size:14px;letter-spacing:2px">STOP</button>
+      <button class="ボタン副" id="g-stop-1" disabled onclick="gStopReel(1)" style="padding:16px 0;font-weight:900;font-size:14px;letter-spacing:2px">STOP</button>
+      <button class="ボタン副" id="g-stop-2" disabled onclick="gStopReel(2)" style="padding:16px 0;font-weight:900;font-size:14px;letter-spacing:2px">STOP</button>
     </div>
-    <button class="ボタン主" id="g-spin" onclick="gSpin()" style="margin-top:8px;font-size:16px;letter-spacing:3px;padding:18px">▶ SPIN（ベット3）</button>
+    <button class="ボタン主" id="g-spin" onclick="gSpin()" style="margin-top:8px;font-size:18px;letter-spacing:4px;padding:20px;background:linear-gradient(135deg,#ff8c00,#ffd700,#ff8c00);background-size:200% 200%;animation:gradient-shift 2s linear infinite;color:#000;border:2px solid #fff;text-shadow:0 0 4px #fff">▶ SPIN（ベット3）</button>
 
-    <!-- リセット・速度 -->
+    <!-- リセット・自動 -->
     <div style="display:flex;gap:6px;margin-top:8px">
       <button class="ボタン副" style="flex:1;font-size:11px" onclick="gAutoToggle()" id="g-auto-btn">⚡ AUTO OFF</button>
       <button class="ボタン副" style="flex:1;font-size:11px" onclick="gReset()">🔄 リセット</button>
     </div>
+  </div>
+
+  <!-- フリーズオーバーレイ -->
+  <div id="g-freeze-overlay" style="position:fixed;inset:0;z-index:99998;pointer-events:none;opacity:0;transition:opacity 0.3s;background:radial-gradient(circle at center,rgba(255,255,255,0.9) 0%,rgba(255,214,0,0.5) 30%,rgba(255,140,0,0.3) 60%,rgba(0,0,0,0.9) 100%);display:flex;align-items:center;justify-content:center;flex-direction:column">
+    <div id="g-freeze-text" style="font-family:'Orbitron',monospace;font-size:64px;font-weight:900;color:#fff;text-shadow:0 0 30px #ffd700,0 0 60px #ff0000;letter-spacing:8px;animation:freeze-pulse 0.5s ease infinite alternate"></div>
+    <div id="g-freeze-sub" style="font-family:'Orbitron',monospace;font-size:20px;color:#ffd700;text-shadow:0 0 12px #ffd700;letter-spacing:4px;margin-top:20px"></div>
   </div>
 
   <!-- 統計 -->
@@ -2508,27 +2561,34 @@ button, a { -webkit-touch-callout: none; user-select: none; }
 
   <!-- 説明 -->
   <div class="カード">
-    <div class="カードタイトル">▶ ❓ 遊び方</div>
+    <div class="カードタイトル">▶ ❓ 遊び方（実機準拠）</div>
     <div style="font-size:12px;line-height:1.8;color:var(--text2)">
-      <strong style="color:var(--cyan)">基本ルール</strong><br>
-      ・SPIN ボタンで3リール回転（クレジット3消費）<br>
-      ・STOP ボタンで各リール停止<br>
-      ・中段にラインで揃った図柄で抽選<br>
+      <strong style="color:var(--cyan)">図柄（チェリー・スイカは無し！）</strong><br>
+      ・⭐ <strong>GOD</strong>: 最強プレミア / 神の像<br>
+      ・🔴 <strong>赤7</strong>: SGG突入役<br>
+      ・🟡 <strong>黄7</strong>: 払い出し+示唆<br>
+      ・🟠 <strong>黄7B</strong>: バリエーション<br>
+      ・💠 <strong>GAIA</strong>: チャンス目<br>
+      ・🔔 <strong>ベル</strong>: 払い出し<br>
+      ・🔁 <strong>リプレイ</strong>: 再ベット<br>
       <br>
-      <strong style="color:var(--gold)">役と恩恵</strong><br>
-      ・🟡 黄7揃い: 50枚払い出し<br>
-      ・🔵 ベル: 7枚（ナビなしも揃う）<br>
-      ・🍒 チェリー: 4枚（左成立）<br>
-      ・🔴 赤7揃い [SGG]: <strong>GG突入 + ループ50%以上濃厚</strong><br>
-      ・⭐ GOD揃い [PGG]: <strong>GG 4セット + ループストック大量獲得</strong><br>
+      <strong style="color:var(--gold)">リプレイ揃いの種類（実機準拠）</strong><br>
+      ・<strong>中段リプレイ</strong>: 通常<br>
+      ・<strong>右下がりリプレイ</strong>: 強チャンス<br>
+      ・<strong>右上がりリプレイ</strong>: 強チャンス<br>
       <br>
-      <strong style="color:var(--green)">GG中（純増7.0枚/G）</strong><br>
+      <strong style="color:var(--green)">GG（GOD GAME・純増7枚/G）</strong><br>
       ・1セット平均350枚<br>
-      ・ループストック: 1%/25%/50%/80%が各16.7%、1%+Z-ZONE 33.2%<br>
-      ・継続率で連チャン<br>
+      ・ループ抽選: 1%/25%/50%/80% 各16.7%<br>
+      ・GOD揃いで <strong>フリーズ発生→4セット+強ループ+Z-ZONE</strong><br>
+      <br>
+      <strong style="color:var(--red)">🔥 GODフリーズ演出</strong><br>
+      ・GOD揃い時にリール停止+画面真っ白フラッシュ<br>
+      ・「FREEZE！」「PREMIUM GOD GAME」演出<br>
+      ・強振動 + 七色フラッシュ<br>
       <br>
       <strong style="color:var(--pink)">⚡ AUTO モード</strong><br>
-      ・SPIN/STOPを自動でやる超高速プレイモード（傾向確認に）
+      ・自動高速プレイで長期傾向確認
     </div>
   </div>
 </div>
@@ -5050,25 +5110,26 @@ function ベイズ推測実行() {
 // ════════════════════════════════════════
 // ── 🎮 ミリオンゴッド シミュレータ ──
 // ════════════════════════════════════════
-// 図柄定義: 通常時、図柄は7種類
-const G_SYMBOLS = [
-  { id: 'god', label: 'GOD', color: '#ffd700', text: '🌟', glow: true },
-  { id: 'red7', label: '赤7', color: '#ff4d6d', text: '7', red: true },
-  { id: 'y7a', label: '黄7A', color: '#ffe066', text: '7', y: true },
-  { id: 'y7b', label: '黄7B', color: '#ffaa00', text: '7', y: true },
-  { id: 'gaia', label: 'ガイア', color: '#88f4ff', text: '◆' },
-  { id: 'bell', label: 'ベル', color: '#ffcc44', text: '🔔' },
-  { id: 'cherry', label: 'チェリー', color: '#ff5e9f', text: '🍒' },
-];
+// 図柄定義: 実機準拠（チェリー・スイカは無し！リプレイ追加）
+const G_SYMBOLS = {
+  god:  { label: 'GOD',  text: 'G', bg: 'radial-gradient(circle,#ffd700 0%,#ff6600 50%,#3a0000 100%)', color: '#fff', glow: '#ffd700', size: 26 },
+  red7: { label: '赤7',  text: '7', bg: 'radial-gradient(circle,#ff4d6d 0%,#660014 100%)', color: '#fff', glow: '#ff4d6d', size: 32 },
+  y7a:  { label: '黄7',  text: '7', bg: 'radial-gradient(circle,#ffe066 0%,#665500 100%)', color: '#332200', glow: '#ffd700', size: 32 },
+  y7b:  { label: '黄7B', text: '7', bg: 'radial-gradient(circle,#ffaa00 0%,#553300 100%)', color: '#fff', glow: '#ffaa00', size: 32 },
+  gaia: { label: 'GAIA', text: 'G', bg: 'radial-gradient(circle,#88f4ff 0%,#003355 100%)', color: '#fff', glow: '#88f4ff', size: 24 },
+  bell: { label: 'ベル', text: '◆', bg: 'radial-gradient(circle,#ffcc44 0%,#664400 100%)', color: '#fff', glow: '#ffcc44', size: 26 },
+  rep:  { label: 'REP',  text: 'R', bg: 'radial-gradient(circle,#4ad9ff 0%,#003366 100%)', color: '#fff', glow: '#4ad9ff', size: 22 },
+};
 
-// 各リールの図柄並び（実機の配列風）
+// 各リールの図柄並び（実機準拠：チェリー・スイカは存在しない）
+// 21コマ、リプレイメイン、要所に7・GOD
 const G_REELS_DEF = [
-  // 左
-  ['cherry','y7a','bell','gaia','y7b','bell','red7','bell','y7a','gaia','bell','y7b','bell','god','gaia','y7a','bell','cherry','bell','gaia'],
-  // 中
-  ['gaia','y7a','bell','red7','bell','y7b','bell','gaia','y7a','bell','god','bell','y7b','bell','gaia','y7a','bell','y7b','bell','gaia'],
-  // 右
-  ['bell','y7a','gaia','bell','y7b','bell','red7','gaia','y7a','bell','y7b','bell','god','bell','gaia','y7a','bell','y7b','bell','gaia'],
+  // 左リール
+  ['rep','y7a','bell','rep','gaia','rep','y7b','rep','bell','red7','rep','y7a','bell','rep','gaia','rep','god','rep','y7b','bell','rep'],
+  // 中リール
+  ['rep','y7a','rep','bell','y7b','rep','gaia','rep','red7','rep','y7a','rep','bell','god','rep','y7b','rep','bell','rep','gaia','rep'],
+  // 右リール
+  ['rep','y7a','bell','rep','y7b','rep','gaia','rep','bell','red7','rep','y7a','rep','god','bell','rep','y7b','rep','gaia','rep','bell'],
 ];
 
 const SYMBOL_HEIGHT = 60;  // 各図柄のpx高さ
@@ -5106,19 +5167,109 @@ function gInit() {
     if (!reel || reel.dataset.init === '1') continue;
     reel.dataset.init = '1';
     let html = '';
-    // 図柄を5回繰り返してリール風に
     for (let i = 0; i < 5; i++) {
       G_REELS_DEF[r].forEach(symId => {
-        const sym = G_SYMBOLS.find(s => s.id === symId);
-        const isGod = sym.id === 'god';
-        const isRed = sym.red;
-        html += `<div style="height:${SYMBOL_HEIGHT}px;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:900;font-family:'Orbitron',monospace;background:${isGod?'radial-gradient(circle,#ffd700,#aa6600)':isRed?'radial-gradient(circle,#ff4d6d,#660014)':sym.y?'radial-gradient(circle,#ffe066,#665500)':sym.id==='gaia'?'radial-gradient(circle,#88f4ff,#003355)':sym.id==='bell'?'radial-gradient(circle,#ffcc44,#664400)':sym.id==='cherry'?'radial-gradient(circle,#ff5e9f,#660033)':'#222'};color:${sym.color};text-shadow:0 0 8px ${sym.color};border-bottom:1px solid #000">${sym.text}</div>`;
+        const sym = G_SYMBOLS[symId];
+        html += `<div style="height:${SYMBOL_HEIGHT}px;display:flex;align-items:center;justify-content:center;font-size:${sym.size}px;font-weight:900;font-family:'Orbitron',monospace;background:${sym.bg};color:${sym.color};text-shadow:0 0 10px ${sym.glow},0 0 20px ${sym.glow};border-bottom:1px solid rgba(0,0,0,0.6);box-shadow:inset 0 0 8px rgba(0,0,0,0.5);position:relative">${sym.text}</div>`;
       });
     }
     reel.innerHTML = html;
     reel.style.transform = `translateY(-${G_REELS_DEF[r].length * 2 * SYMBOL_HEIGHT}px)`;
   }
+  gScreenSet('READY', '神々の軌跡', 'READY TO SPIN');
   gUpdateUI();
+}
+
+// 液晶表示
+function gScreenSet(title, big, sub) {
+  const c = document.getElementById('g-screen-content');
+  if (!c) return;
+  c.innerHTML = `
+    <div style="font-size:11px;color:#ffd700;letter-spacing:4px;opacity:0.7">${title}</div>
+    <div style="font-size:18px;color:#ffd700;font-weight:900;text-shadow:0 0 10px #ffd700;letter-spacing:3px;margin-top:4px">${big}</div>
+    <div style="font-size:9px;color:#aaa;margin-top:8px">${sub}</div>
+  `;
+}
+
+// 液晶エフェクト演出
+function gScreenEffect(type) {
+  const bg = document.getElementById('g-screen-bg');
+  const c = document.getElementById('g-screen-content');
+  if (!bg || !c) return;
+
+  if (type === 'gg') {
+    bg.style.background = 'radial-gradient(circle at 50% 50%,rgba(255,214,0,0.4),transparent 70%)';
+    bg.style.animation = 'gradient-shift 1s linear infinite';
+    c.innerHTML = `
+      <div style="font-size:14px;color:#fff;letter-spacing:3px;animation:pulse-glow-gold 0.6s ease infinite">⚡ GOD GAME ⚡</div>
+      <div style="font-size:28px;color:#ffd700;font-weight:900;text-shadow:0 0 15px #ffd700,0 0 30px #ff8c00;letter-spacing:4px;margin-top:6px;animation:icon-bounce 0.6s ease infinite">CHANCE</div>
+      <div style="font-size:11px;color:#fff;margin-top:8px">純増 +7枚/G</div>
+    `;
+  } else if (type === 'god') {
+    bg.style.background = 'radial-gradient(circle at 50% 50%,#fff 0%,#ffd700 30%,#ff0000 70%,#000 100%)';
+    bg.style.animation = 'gradient-shift 0.3s linear infinite';
+    c.innerHTML = `
+      <div style="font-size:48px;font-weight:900;color:#fff;text-shadow:0 0 20px #ffd700,0 0 40px #ff0000;letter-spacing:6px;animation:icon-bounce 0.3s ease infinite">GOD!!</div>
+      <div style="font-size:14px;color:#ffd700;margin-top:8px;animation:pulse-glow-gold 0.4s ease infinite">PREMIUM GOD GAME</div>
+    `;
+  } else if (type === 'sgg') {
+    bg.style.background = 'radial-gradient(circle at 50% 50%,rgba(255,0,0,0.5),rgba(255,140,0,0.3),#000)';
+    c.innerHTML = `
+      <div style="font-size:32px;font-weight:900;color:#ff4d6d;text-shadow:0 0 15px #ff4d6d;letter-spacing:4px">SGG!!</div>
+      <div style="font-size:14px;color:#ffd700;margin-top:8px">SUPER GOD GAME</div>
+    `;
+  } else if (type === 'win') {
+    bg.style.background = 'radial-gradient(circle at 50% 50%,rgba(95,255,95,0.3),transparent 70%)';
+    c.innerHTML = `
+      <div style="font-size:32px;color:#5fff5f;font-weight:900;text-shadow:0 0 15px #5fff5f;letter-spacing:3px">WIN</div>
+      <div style="font-size:11px;color:#fff;margin-top:6px">役成立</div>
+    `;
+  } else if (type === 'spin') {
+    bg.style.background = 'radial-gradient(circle at 50% 50%,rgba(0,229,255,0.2),transparent 70%)';
+    bg.style.animation = 'gradient-shift 0.5s linear infinite';
+    c.innerHTML = `
+      <div style="font-size:11px;color:#40e8ff;letter-spacing:4px">SPINNING</div>
+      <div style="font-size:24px;color:#40e8ff;font-weight:900;text-shadow:0 0 10px #40e8ff;letter-spacing:3px;margin-top:4px;animation:flicker 0.8s infinite">回転中...</div>
+    `;
+  } else {
+    bg.style.animation = '';
+    bg.style.background = 'radial-gradient(circle at 50% 50%,rgba(255,214,0,0.15),transparent 70%)';
+  }
+}
+
+// 🔥 GODフリーズ演出
+function gFreeze(type) {
+  return new Promise(resolve => {
+    const overlay = document.getElementById('g-freeze-overlay');
+    const text = document.getElementById('g-freeze-text');
+    const sub = document.getElementById('g-freeze-sub');
+    if (!overlay) { resolve(); return; }
+
+    if (type === 'god') {
+      text.textContent = 'FREEZE!!';
+      text.style.color = '#fff';
+      text.style.textShadow = '0 0 30px #ffd700,0 0 60px #ff0000';
+      sub.innerHTML = '⭐ PREMIUM GOD GAME ⭐<br>4セット確定 + Z-ZONE';
+      sub.style.color = '#ffd700';
+      overlay.style.background = 'radial-gradient(circle at center,#fff 0%,#ffd700 20%,#ff4500 50%,#000 100%)';
+    } else if (type === 'sgg') {
+      text.textContent = 'SGG!!';
+      text.style.color = '#fff';
+      text.style.textShadow = '0 0 30px #ff4d6d,0 0 60px #ff0000';
+      sub.textContent = 'SUPER GOD GAME 確定';
+      sub.style.color = '#ff4d6d';
+      overlay.style.background = 'radial-gradient(circle at center,rgba(255,255,255,0.8) 0%,rgba(255,77,109,0.7) 40%,#000 100%)';
+    }
+
+    overlay.style.opacity = '1';
+    if (navigator.vibrate) navigator.vibrate(type === 'god' ? [150,80,150,80,150,80,400] : [120,60,120,60,300]);
+    if (typeof 七色フラッシュ === 'function') 七色フラッシュ();
+
+    setTimeout(() => {
+      overlay.style.opacity = '0';
+      setTimeout(resolve, 400);
+    }, type === 'god' ? 2800 : 1800);
+  });
 }
 
 function gUpdateUI() {
@@ -5185,6 +5336,7 @@ function gSpin() {
   gState.games++;
   gState.spinning_all = true;
   gState.pendingResult = gDecideResult();
+  gScreenEffect('spin');
 
   // リール回転開始
   for (let r = 0; r < 3; r++) {
@@ -5196,41 +5348,30 @@ function gSpin() {
 }
 
 function gDecideResult() {
-  // 当選抽選
-  // AT中ならば GG内処理（簡略：1ゲームごとに 350枚払い出し相当の差枚増加）
   if (gState.inGG) {
-    // GG中は7枚純増、AT継続抽選
-    return { type: 'gg-game', payout: 10 }; // 入力3＋純増7
+    return { type: 'gg-game', payout: 10, symbol: 'rep' }; // GG中
   }
 
-  // 通常時抽選
   const rand = Math.random();
-  // 0.34%: GOD揃い（PGG）
-  if (rand < 0.0034) {
-    return { type: 'god', payout: 0 };
-  }
-  // 0.5%: 赤7揃い（SGG = GG突入）
-  if (rand < 0.0084) {
-    return { type: 'red7', payout: 0 };
-  }
-  // 0.3%: GG直撃（黄7揃い→GGロケ）
-  if (rand < 0.0114) {
-    return { type: 'gg-direct', payout: 0 };
-  }
-  // 2%: 黄7揃い
-  if (rand < 0.0314) {
-    return { type: 'y7', payout: 50 };
-  }
-  // 30%: ベル
-  if (rand < 0.3314) {
-    return { type: 'bell', payout: 7 };
-  }
-  // 5%: チェリー
-  if (rand < 0.3814) {
-    return { type: 'cherry', payout: 4 };
-  }
-  // それ以外: ハズレ
-  return { type: 'hazure', payout: 0 };
+  // 0.34%: GOD揃い → フリーズ→PGG
+  if (rand < 0.0034) return { type: 'god', payout: 0, symbol: 'god', freeze: true };
+  // 0.5%: 赤7揃い → SGG（小フリーズ付き）
+  if (rand < 0.0084) return { type: 'red7', payout: 0, symbol: 'red7', freeze: true };
+  // 0.3%: 黄7揃い→GG直撃
+  if (rand < 0.0114) return { type: 'gg-direct', payout: 0, symbol: 'y7a' };
+  // 2%: 黄7揃い（払い出し）
+  if (rand < 0.0314) return { type: 'y7', payout: 50, symbol: 'y7a' };
+  // 8%: ガイア成立（チャンス目）
+  if (rand < 0.1114) return { type: 'gaia', payout: 0, symbol: 'gaia' };
+  // 10%: ベル
+  if (rand < 0.2114) return { type: 'bell', payout: 9, symbol: 'bell' };
+  // 30%: リプレイ（中段）
+  if (rand < 0.5114) return { type: 'rep-mid', payout: 3, symbol: 'rep' };
+  // 2%: 右下がりリプレイ（強チャンス）
+  if (rand < 0.5314) return { type: 'rep-down', payout: 3, symbol: 'rep' };
+  // 1.5%: 右上がりリプレイ（強チャンス）
+  if (rand < 0.5464) return { type: 'rep-up', payout: 3, symbol: 'rep' };
+  return { type: 'hazure', payout: 0, symbol: null };
 }
 
 function gAnimateReel(r) {
@@ -5252,27 +5393,32 @@ function gAnimateReel(r) {
 function gStopReel(r) {
   if (!gState.spinning[r]) return;
 
-  // 結果に応じて停止位置を決定
   const result = gState.pendingResult;
   const reelSyms = G_REELS_DEF[r];
   let targetIdx = Math.floor(Math.random() * reelSyms.length);
+  let targetSym = result.symbol;
 
-  if (result.type === 'god') {
-    // GOD揃い位置
-    const godIdx = reelSyms.indexOf('god');
-    if (godIdx >= 0) targetIdx = godIdx;
-  } else if (result.type === 'red7') {
-    const idx = reelSyms.indexOf('red7');
-    if (idx >= 0) targetIdx = idx;
-  } else if (result.type === 'gg-direct' || result.type === 'y7') {
-    // 黄7揃い
-    const idx = reelSyms.indexOf('y7a');
-    if (idx >= 0) targetIdx = idx;
-  } else if (result.type === 'bell') {
-    const idx = reelSyms.indexOf('bell');
-    if (idx >= 0) targetIdx = idx;
-  } else if (result.type === 'cherry' && r === 0) {
-    const idx = reelSyms.indexOf('cherry');
+  // リプレイの種類で停止位置を変化
+  if (result.type === 'rep-mid') {
+    // 中段揃い（同じインデックス）
+    const idxs = reelSyms.map((s, i) => s === 'rep' ? i : -1).filter(i => i >= 0);
+    if (idxs.length > 0) targetIdx = idxs[Math.floor(Math.random() * idxs.length)];
+  } else if (result.type === 'rep-down') {
+    // 右下がり: r=0は上段rep、r=1は中段rep、r=2は下段rep
+    const idxs = reelSyms.map((s, i) => s === 'rep' ? i : -1).filter(i => i >= 0);
+    if (idxs.length > 0) {
+      const base = idxs[0];
+      targetIdx = (base + r) % reelSyms.length;
+    }
+  } else if (result.type === 'rep-up') {
+    // 右上がり: r=0は下段rep、r=1は中段rep、r=2は上段rep
+    const idxs = reelSyms.map((s, i) => s === 'rep' ? i : -1).filter(i => i >= 0);
+    if (idxs.length > 0) {
+      const base = idxs[0];
+      targetIdx = (base - r + reelSyms.length) % reelSyms.length;
+    }
+  } else if (targetSym && reelSyms.includes(targetSym)) {
+    const idx = reelSyms.indexOf(targetSym);
     if (idx >= 0) targetIdx = idx;
   }
 
@@ -5298,32 +5444,49 @@ function gStopReel(r) {
   gUpdateUI();
 }
 
-function gAfterStop() {
+async function gAfterStop() {
   gState.spinning_all = false;
   const r = gState.pendingResult;
 
   if (r.type === 'god') {
     gState.godCount++;
-    gState.diff += 0; // GG中の純増で稼ぐ
-    gFlashScreen('GOD');
-    gStartGG(4, 'GOD'); // 4セット確定+ループストック
+    gScreenEffect('god');
+    await gFreeze('god'); // フリーズ演出
+    gStartGG(4, 'GOD');
   } else if (r.type === 'red7') {
-    gFlashScreen('SGG');
+    gScreenEffect('sgg');
+    await gFreeze('sgg');
     gStartGG(1, 'SGG');
   } else if (r.type === 'gg-direct') {
-    gFlashScreen('GG');
+    gScreenEffect('gg');
+    if (navigator.vibrate) navigator.vibrate([80,40,80]);
     gStartGG(1, 'AT');
   } else if (r.type === 'y7') {
     gState.credit += r.payout;
     gState.diff += r.payout - 3;
-  } else if (r.type === 'bell' || r.type === 'cherry') {
+    gScreenEffect('win');
+    setTimeout(() => gScreenSet('READY','神々の軌跡','BONUS!'), 800);
+  } else if (r.type === 'rep-down' || r.type === 'rep-up') {
+    gState.credit += r.payout;
+    gState.diff += 0; // リプレイは差し引き0
+    gScreenEffect('win');
+    const c = document.getElementById('g-screen-content');
+    if (c) c.innerHTML = `<div style="font-size:24px;color:#4ad9ff;font-weight:900;text-shadow:0 0 12px #4ad9ff">${r.type==='rep-down'?'右下がり':'右上がり'}REP</div><div style="font-size:12px;color:#ffd700;margin-top:6px">⚡ チャンス！</div>`;
+    setTimeout(() => gScreenSet('READY','神々の軌跡','READY TO SPIN'), 1200);
+  } else if (r.type === 'rep-mid') {
+    gState.credit += r.payout;
+    gState.diff += 0;
+  } else if (r.type === 'bell') {
     gState.credit += r.payout;
     gState.diff += r.payout - 3;
+  } else if (r.type === 'gaia') {
+    const c = document.getElementById('g-screen-content');
+    if (c) c.innerHTML = `<div style="font-size:24px;color:#88f4ff;font-weight:900;text-shadow:0 0 12px #88f4ff">GAIA!</div><div style="font-size:11px;color:#ffd700;margin-top:6px">チャンス目</div>`;
+    setTimeout(() => gScreenSet('READY','神々の軌跡','READY TO SPIN'), 1200);
   } else if (r.type === 'gg-game') {
-    // GG中ゲーム
     gState.credit += r.payout;
     gState.diff += r.payout - 3;
-    gState.ggRemainSets -= 1/30; // 1セット30G想定
+    gState.ggRemainSets -= 1/30;
     if (gState.ggRemainSets <= 0) gEndGGSet();
   }
 
