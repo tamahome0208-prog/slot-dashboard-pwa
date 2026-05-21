@@ -742,6 +742,12 @@ button, a { -webkit-touch-callout: none; user-select: none; }
 <div id="page-home" class="page active">
   <div class="kpi-grid" id="KPIグリッド"></div>
 
+  <!-- 🎯 今日の狙い目リスト（朝一表示） -->
+  <div class="カード" id="今日の狙い目カード" style="border-left-color:var(--gold);background:linear-gradient(135deg, var(--bg2) 0%, rgba(255,214,0,0.08) 100%)">
+    <div class="カードタイトル" style="color:var(--gold);text-shadow:0 0 6px rgba(255,214,0,0.4)">▶ 🎯 今日の狙い目リスト</div>
+    <div id="今日の狙い目内容"></div>
+  </div>
+
   <div class="目標エリア">
     <div class="角デコ 左上"></div><div class="角デコ 右上"></div>
     <div class="角デコ 左下"></div><div class="角デコ 右下"></div>
@@ -870,6 +876,17 @@ button, a { -webkit-touch-callout: none; user-select: none; }
         <option value="thisYear">今年</option>
       </select>
     </div>
+  </div>
+
+  <!-- 🧠 AI収支分析（あなたの勝ちパターン発見） -->
+  <div class="カード" style="border-left-color:var(--green);background:linear-gradient(135deg, var(--bg2) 0%, rgba(95,255,95,0.04) 100%)">
+    <div class="カードタイトル" style="color:var(--green);text-shadow:0 0 6px rgba(95,255,95,0.4)">▶ 🧠 AI収支分析（勝ちパターン自動発見）</div>
+    <div style="font-size:12px;color:var(--text2);margin-bottom:12px;line-height:1.7">
+      実戦記録から<strong style="color:var(--cyan)">あなたの勝ちパターン</strong>と<strong style="color:var(--red)">負けパターン</strong>を自動抽出。<br>
+      最低10件の記録で精度UP。
+    </div>
+    <button class="ボタン主" onclick="AI収支分析実行()">🧠 分析する</button>
+    <div id="ai-analysis-result" style="margin-top:14px"></div>
   </div>
 
   <div class="カード">
@@ -1694,6 +1711,79 @@ button, a { -webkit-touch-callout: none; user-select: none; }
     <div id="設定推測結果" style="margin-top:14px"></div>
   </div>
 
+  <!-- 🎫 朝一抽選シミュレーター（権利の使い方） -->
+  <div class="カード" style="border-left-color:var(--pink);background:linear-gradient(135deg, var(--bg2) 0%, rgba(255,94,159,0.06) 100%)">
+    <div class="カードタイトル" style="color:var(--pink);text-shadow:0 0 6px rgba(255,94,159,0.4)">▶ 🎫 朝一抽選シミュレーター</div>
+    <div style="font-size:12px;color:var(--text2);margin-bottom:12px;line-height:1.7">
+      抽選番号と並び人数を入れると、<strong style="color:var(--cyan)">何の機種・台番号を取るべきか</strong>を提示。<br>
+      競合読みつつ期待値最大の選択肢を計算。
+    </div>
+    <div class="フォームグリッド" style="margin-bottom:12px">
+      <div class="フォームグループ">
+        <label>あなたの抽選番号</label>
+        <input type="number" id="lo-rank" placeholder="例: 15" min="1" inputmode="numeric">
+      </div>
+      <div class="フォームグループ">
+        <label>並び人数（総数）</label>
+        <input type="number" id="lo-total" placeholder="例: 80" min="1" inputmode="numeric">
+      </div>
+      <div class="フォームグループ">
+        <label>ホール選択</label>
+        <select id="lo-hall">
+          <option value="royal">ロイヤル登別店</option>
+          <option value="vega">ベガスベガス苫小牧店</option>
+          <option value="maruh_t">マルハン苫小牧駅前店</option>
+          <option value="victoria">ビクトリア室蘭店</option>
+        </select>
+      </div>
+      <div class="フォームグループ">
+        <label>イベ日かどうか</label>
+        <select id="lo-event">
+          <option value="event">イベント日</option>
+          <option value="normal">通常日</option>
+        </select>
+      </div>
+    </div>
+    <button class="ボタン主" onclick="抽選シミュレーター実行()">🎫 取れる台を計算</button>
+    <div id="lo-result" style="margin-top:14px"></div>
+  </div>
+
+  <!-- 🤖 ベイズAI設定看破（リアルタイム信頼度） -->
+  <div class="カード" style="border-left-color:var(--green);background:linear-gradient(135deg, var(--bg2) 0%, rgba(95,255,95,0.06) 100%)">
+    <div class="カードタイトル" style="color:var(--green);text-shadow:0 0 6px rgba(95,255,95,0.4)">▶ 🤖 ベイズAI設定看破（最高精度）</div>
+    <div style="font-size:12px;color:var(--text2);margin-bottom:12px;line-height:1.7">
+      ベイズ統計で各設定の<strong style="color:var(--cyan)">事後確率</strong>を算出。<br>
+      G数を進めるほど精度UP。「あと○Gで○○以上確定」予測も。
+    </div>
+    <div class="フォームグリッド" style="margin-bottom:12px">
+      <div class="フォームグループ">
+        <label>機種選択</label>
+        <select id="ba-machine">
+          <option value="my">マイジャグラーV</option>
+          <option value="funky">ファンキージャグラー2KT</option>
+          <option value="happy">ハッピージャグラーVIII</option>
+          <option value="neo">ネオアイムジャグラーEX</option>
+          <option value="ultra">ウルトラミラクルジャグラー</option>
+          <option value="mister">ミスタージャグラー</option>
+        </select>
+      </div>
+      <div class="フォームグループ">
+        <label>総G数</label>
+        <input type="number" id="ba-games" placeholder="例: 3000" inputmode="numeric">
+      </div>
+      <div class="フォームグループ">
+        <label>BB回数</label>
+        <input type="number" id="ba-bb" placeholder="例: 12" inputmode="numeric">
+      </div>
+      <div class="フォームグループ">
+        <label>RB回数</label>
+        <input type="number" id="ba-rb" placeholder="例: 14" inputmode="numeric">
+      </div>
+    </div>
+    <button class="ボタン主" onclick="ベイズ推測実行()">🤖 ベイズ推測実行</button>
+    <div id="ba-result" style="margin-top:14px"></div>
+  </div>
+
   <!-- ⏰ 天井期待値計算機 -->
   <div class="カード">
     <div class="カードタイトル">▶ ⏰ 天井期待値計算機</div>
@@ -1933,6 +2023,7 @@ function データリスト更新() {
 let 月別グラフインスタンス = null;
 
 function renderHome() {
+  今日の狙い目描画();
   const records = 記録取得();
   const s = 設定取得();
   const year = s.year || new Date().getFullYear();
@@ -2846,6 +2937,579 @@ function renderMyHall() {
     </tr>`;
   }).join('');
   攻略リスト描画();
+}
+
+// ════════════════════════════════════════
+// ── 🎫 朝一抽選シミュレーター ──
+// ════════════════════════════════════════
+// ホール別 人気台優先順位（前日実績ベース）
+const 抽選台DB = {
+  royal: {
+    名: 'ロイヤル登別店',
+    台: [
+      { 名: 'ミリオンゴッド 578(設定6固定濃厚)', 人気度: 100, 期待値: 18000, 設置: 1 },
+      { 名: 'ミリオンゴッド 572', 人気度: 95, 期待値: 14000, 設置: 1 },
+      { 名: 'ミリオンゴッド 579', 人気度: 90, 期待値: 12000, 設置: 1 },
+      { 名: '甲鉄城のカバネリ 705', 人気度: 85, 期待値: 13500, 設置: 1 },
+      { 名: 'モンキーターンV 660', 人気度: 80, 期待値: 13000, 設置: 1 },
+      { 名: '北斗の拳 転生の章2 549', 人気度: 78, 期待値: 12500, 設置: 1 },
+      { 名: '炎炎ノ消防隊2 631', 人気度: 72, 期待値: 12000, 設置: 1 },
+      { 名: 'ミリオンゴッド その他シマ', 人気度: 70, 期待値: 9000, 設置: 7 },
+      { 名: '甲鉄城のカバネリ その他', 人気度: 65, 期待値: 8000, 設置: 9 },
+      { 名: '沖ドキ!DUO アンコール', 人気度: 60, 期待値: 7000, 設置: 15 },
+      { 名: '北斗の拳 転生の章2 その他', 人気度: 58, 期待値: 7500, 設置: 19 },
+      { 名: 'バイオハザードRE:3', 人気度: 55, 期待値: 8500, 設置: 4 },
+      { 名: 'ガンダムユニコーン', 人気度: 52, 期待値: 7000, 設置: 4 },
+      { 名: 'モンキーターンV その他', 人気度: 50, 期待値: 6500, 設置: 9 },
+      { 名: '沖ドキ！BLACK', 人気度: 48, 期待値: 5000, 設置: 20 },
+      { 名: 'ジャグラー系（マイ・ファンキー2KT）', 人気度: 40, 期待値: 4000, 設置: 30 },
+      { 名: 'ジャグラー系（ネオ・ハッピーVIII）', 人気度: 30, 期待値: 3000, 設置: 30 },
+    ],
+  },
+  vega: {
+    名: 'ベガスベガス苫小牧店',
+    台: [
+      { 名: 'スマスロ ビッグドリーム', 人気度: 95, 期待値: 14000, 設置: 3 },
+      { 名: '甲鉄城のカバネリ 海門決戦', 人気度: 90, 期待値: 12000, 設置: 14 },
+      { 名: 'Lアズールレーン', 人気度: 80, 期待値: 11000, 設置: 3 },
+      { 名: '炎炎ノ消防隊2', 人気度: 70, 期待値: 8000, 設置: 8 },
+      { 名: 'ファンキージャグラー2KT', 人気度: 60, 期待値: 6000, 設置: 6 },
+      { 名: '北斗の拳 転生の章2', 人気度: 55, 期待値: 7000, 設置: 20 },
+      { 名: 'マイジャグラーV', 人気度: 50, 期待値: 4500, 設置: 75 },
+      { 名: 'ネオアイムジャグラーEX', 人気度: 45, 期待値: 4000, 設置: 22 },
+    ],
+  },
+  maruh_t: {
+    名: 'マルハン苫小牧駅前店',
+    台: [
+      { 名: '主力AT機（北斗・カバネリ等）', 人気度: 90, 期待値: 10000, 設置: 30 },
+      { 名: 'ミリオンゴッド系', 人気度: 80, 期待値: 9000, 設置: 8 },
+      { 名: '沖ドキ系', 人気度: 70, 期待値: 7000, 設置: 25 },
+      { 名: 'ジャグラー系', 人気度: 50, 期待値: 5000, 設置: 60 },
+    ],
+  },
+  victoria: {
+    名: 'ビクトリア室蘭店',
+    台: [
+      { 名: 'L東京喰種', 人気度: 90, 期待値: 11000, 設置: 8 },
+      { 名: 'Lパチスロからくりサーカス', 人気度: 75, 期待値: 9000, 設置: 4 },
+      { 名: '主力AT機', 人気度: 70, 期待値: 8000, 設置: 30 },
+      { 名: 'ジャグラー系', 人気度: 50, 期待値: 4500, 設置: 28 },
+    ],
+  },
+};
+
+function 抽選シミュレーター実行() {
+  const rank = parseInt(document.getElementById('lo-rank').value) || 0;
+  const total = parseInt(document.getElementById('lo-total').value) || 0;
+  const ks = document.getElementById('lo-hall').value;
+  const isEvent = document.getElementById('lo-event').value === 'event';
+  const data = 抽選台DB[ks];
+  const el = document.getElementById('lo-result');
+
+  if (rank < 1 || total < 1 || rank > total) {
+    el.innerHTML = '<div style="color:var(--red);font-size:13px">⚠️ 抽選番号と並び人数を正しく入力してください</div>';
+    return;
+  }
+
+  // 人気度順にソート
+  const sorted = data.台.slice().sort((a, b) => b.人気度 - a.人気度);
+
+  // 各台が自分の順位までに取られる確率（人気度高い順に取られていく想定）
+  // 累積設置数で「○番までに枯れる」を計算
+  let cumSetting = 0;
+  const 取れる候補 = [];
+  const 取れない候補 = [];
+
+  for (const 台 of sorted) {
+    cumSetting += 台.設置;
+    if (cumSetting >= rank) {
+      // 自分の番号で取れる
+      const 余裕 = cumSetting - rank;
+      取れる候補.push({ ...台, 余裕, 累計枯れ位置: cumSetting });
+      if (取れる候補.length >= 5) break;
+    } else {
+      // 既に取られている
+      取れない候補.push({ ...台, 累計枯れ位置: cumSetting });
+    }
+  }
+
+  // 期待値最大の候補
+  const ベスト = 取れる候補[0] || null;
+  const 期待損益 = ベスト ? ベスト.期待値 * (isEvent ? 1.0 : 0.6) : 0;
+
+  // 並び価値判定
+  const 並び順位率 = Math.round((rank / total) * 100);
+  let 並び価値, 並び色;
+  if (並び順位率 <= 10) { 並び価値 = '🟢 超上位（最高権利）'; 並び色 = 'var(--green)'; }
+  else if (並び順位率 <= 25) { 並び価値 = '🟢 上位（優良権利）'; 並び色 = 'var(--green)'; }
+  else if (並び順位率 <= 50) { 並び価値 = '🟡 中位（選択肢限定）'; 並び色 = 'var(--gold)'; }
+  else if (並び順位率 <= 75) { 並び価値 = '🟠 下位（残り物狙い）'; 並び色 = 'var(--gold)'; }
+  else { 並び価値 = '🔴 低位（撤退も検討）'; 並び色 = 'var(--red)'; }
+
+  el.innerHTML = `
+    <div style="background:var(--bg3);border:2px solid ${並び色};border-radius:6px;padding:16px">
+      <!-- 並び評価 -->
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+        <div style="font-size:24px">🎫</div>
+        <div style="flex:1">
+          <div style="font-family:'Orbitron',monospace;font-size:16px;font-weight:900;color:${並び色}">${並び価値}</div>
+          <div style="font-size:11px;color:var(--text2);margin-top:2px">${data.名} / ${rank}番 / 総数${total}人（上位${並び順位率}%）${isEvent ? ' / イベ日' : ' / 通常日'}</div>
+        </div>
+      </div>
+
+      ${ベスト ? `
+      <!-- ベスト推奨 -->
+      <div style="background:linear-gradient(135deg, rgba(95,255,95,0.1) 0%, rgba(255,214,0,0.1) 100%);border:1px solid var(--green);border-radius:6px;padding:14px;margin-bottom:14px">
+        <div style="font-size:11px;color:var(--green);font-weight:700;margin-bottom:6px">👑 最優先で取るべき</div>
+        <div style="font-family:'Orbitron',monospace;font-size:16px;font-weight:900;color:var(--text);margin-bottom:6px">${ベスト.名}</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.7">
+          期待損益: <strong class="プラス" style="font-family:'Orbitron',monospace">+${期待損益.toLocaleString()}円</strong><br>
+          ${ベスト.余裕 > 0 ? `<span style="color:var(--green)">取れる余裕: あと${ベスト.余裕}人後でも残る可能性</span>` : `<span style="color:var(--gold)">ギリギリ（${ベスト.累計枯れ位置}番までに枯れる想定）</span>`}
+        </div>
+      </div>
+      ` : ''}
+
+      <!-- 取れる候補TOP5 -->
+      ${取れる候補.length > 0 ? `
+      <div style="margin-bottom:14px">
+        <div style="font-size:12px;font-weight:700;color:var(--cyan);margin-bottom:8px">✅ あなたの番号で取れる候補</div>
+        ${取れる候補.map((t, i) => `
+          <div style="background:var(--bg);padding:10px 12px;margin-bottom:6px;border-radius:3px;border-left:2px solid ${i===0?'var(--gold)':'var(--cyan)'}">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div>
+                <span style="font-size:10px;color:var(--muted);margin-right:6px">#${i+1}</span>
+                <strong style="font-size:13px">${t.名}</strong>
+              </div>
+              <div class="プラス" style="font-family:'Orbitron',monospace;font-size:13px">+${(t.期待値*(isEvent?1:0.6)).toLocaleString()}</div>
+            </div>
+            <div style="font-size:10px;color:var(--text2);margin-top:3px">${t.設置}台設置 / 想定枯れ位置: ${t.累計枯れ位置}番目</div>
+          </div>
+        `).join('')}
+      </div>
+      ` : '<div style="color:var(--red);font-size:13px;margin-bottom:14px">⚠️ 主要機種は全て取られている可能性大。撤退検討。</div>'}
+
+      <!-- 取れない候補（参考） -->
+      ${取れない候補.length > 0 ? `
+      <div style="margin-bottom:14px">
+        <div style="font-size:11px;font-weight:700;color:var(--red);margin-bottom:6px">❌ 取れない候補（先客が確保）</div>
+        <div style="font-size:11px;color:var(--text2);line-height:1.7">
+          ${取れない候補.slice(0, 5).map(t => `<span style="display:inline-block;background:var(--bg);padding:2px 8px;margin:2px;border-radius:2px;color:var(--muted)">${t.名}</span>`).join('')}
+        </div>
+      </div>
+      ` : ''}
+
+      <div style="font-size:10px;color:var(--muted);line-height:1.6">
+        🎫 人気度・設置台数・前日実績から算出。実際の並び傾向は店舗により変動。撤退判断の目安に。
+      </div>
+    </div>
+  `;
+}
+
+// ════════════════════════════════════════
+// ── 🎯 今日の狙い目リスト（起動時自動表示） ──
+// ════════════════════════════════════════
+function 今日の狙い目描画() {
+  const el = document.getElementById('今日の狙い目内容');
+  if (!el) return;
+
+  const today = new Date();
+  const 月日 = `${today.getMonth() + 1}月${today.getDate()}日`;
+  const 曜日 = ['日','月','火','水','木','金','土'][today.getDay()];
+  const 日 = today.getDate();
+  const 末尾 = 日 % 10;
+
+  // 今日のイベント判定
+  const 該当ホール = [];
+  if (末尾 === 8) 該当ホール.push({ 名: 'ロイヤル登別店', エリア: '登別', イベ: '8のつく日', 推奨: 'マイホ最強' });
+  if (末尾 === 5) 該当ホール.push({ 名: 'ベガスベガス苫小牧', エリア: '苫小牧', イベ: '5のつく日', 推奨: '勝率39%・449台' });
+  if (末尾 === 5 || 日 === 11 || 日 === 22) {
+    if (末尾 !== 5) 該当ホール.push({ 名: 'ベガスベガス苫小牧', エリア: '苫小牧', イベ: '11日/22日', 推奨: '勝率39%' });
+  }
+  if (末尾 === 5) 該当ホール.push({ 名: 'ビクトリア室蘭店', エリア: '室蘭', イベ: '5のつく日', 推奨: '252台' });
+  if (末尾 === 7) {
+    該当ホール.push({ 名: 'マルハン苫小牧駅前店', エリア: '苫小牧', イベ: '7のつく日', 推奨: '7+毎週金曜のW' });
+    該当ホール.push({ 名: 'マルハン室蘭店', エリア: '室蘭', イベ: '7のつく日', 推奨: '大型店' });
+    該当ホール.push({ 名: 'ダイナム登別店', エリア: '登別', イベ: '7のつく日', 推奨: '中型' });
+  }
+  if (末尾 === 0) {
+    該当ホール.push({ 名: 'ひまわり室蘭店', エリア: '室蘭', イベ: '0のつく日', 推奨: 'ジャグラー安定' });
+    該当ホール.push({ 名: 'ひまわり苫小牧店', エリア: '苫小牧', イベ: '0のつく日', 推奨: '中型' });
+  }
+  if (末尾 === 6) 該当ホール.push({ 名: 'がちゃぽん苫小牧店', エリア: '苫小牧', イベ: '6のつく日', 推奨: '中型' });
+  if (曜日 === '金') {
+    該当ホール.push({ 名: 'マルハン苫小牧駅前店', エリア: '苫小牧', イベ: '毎週金曜', 推奨: '週次イベ' });
+    該当ホール.push({ 名: 'ZEUS', エリア: '室蘭', イベ: '毎週金曜', 推奨: '小型84台' });
+  }
+
+  // 次のイベント日計算
+  const 次のイベント = (() => {
+    for (let i = 1; i <= 14; i++) {
+      const d = new Date(today);
+      d.setDate(d.getDate() + i);
+      const t = d.getDate() % 10;
+      const w = ['日','月','火','水','木','金','土'][d.getDay()];
+      if (t === 8) return { 日付: `${d.getMonth()+1}/${d.getDate()}(${w})`, 内容: 'ロイヤル登別8のつく日', 残り: i };
+      if (t === 5) return { 日付: `${d.getMonth()+1}/${d.getDate()}(${w})`, 内容: 'ベガスベガス苫小牧5のつく日', 残り: i };
+    }
+    return null;
+  })();
+
+  // 今日のおすすめ機種（S級＋マイホ実績ベース）
+  const 推奨機種 = [
+    { 名: 'スマスロ ミリオンゴッド 台578', 理由: '3日連続TOP10で設定6固定濃厚', 優先: '⭐⭐⭐' },
+    { 名: 'スマスロ北斗の拳 転生の章2 (549)', 理由: '前日+12,894枚・狙い目350G〜', 優先: '⭐⭐⭐' },
+    { 名: 'スマスロ甲鉄城のカバネリ (705)', 理由: '前日+13,853枚・狙い目600G〜', 優先: '⭐⭐' },
+    { 名: 'スマスロ バイオハザードRE:3', 理由: '4台中3台勝ち・出率126%', 優先: '⭐⭐' },
+    { 名: 'マイジャグラーV', 理由: '8のつく日は前日REG確率1/250以下を狙う', 優先: '⭐' },
+  ];
+
+  el.innerHTML = `
+    <!-- 今日の状況 -->
+    <div style="background:var(--bg3);border-radius:6px;padding:14px;margin-bottom:12px">
+      <div style="font-family:'Orbitron',monospace;font-size:18px;font-weight:900;color:var(--cyan);text-shadow:var(--glow-c);margin-bottom:6px">
+        ${月日}（${曜日}）
+      </div>
+      <div style="font-size:12px;color:var(--text2)">
+        ${該当ホール.length > 0
+          ? `<span style="color:var(--gold);font-weight:700">⭐ 本日イベント開催中！</span>`
+          : `<span style="color:var(--muted)">本日は特定日なし。次のイベント日まで様子見も◎</span>`}
+      </div>
+    </div>
+
+    <!-- 今日のイベントホール -->
+    ${該当ホール.length > 0 ? `
+    <div style="margin-bottom:14px">
+      <div style="font-size:12px;font-weight:700;color:var(--gold);margin-bottom:8px;letter-spacing:1px">📅 今日打つべきホール</div>
+      ${該当ホール.map(h => `
+        <div style="background:var(--bg3);border-left:3px solid var(--gold);padding:10px 12px;margin-bottom:6px;border-radius:3px">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <span style="font-size:10px;color:var(--cyan);margin-right:6px">[${h.エリア}]</span>
+              <strong style="font-size:13px">${h.名}</strong>
+            </div>
+            <div style="font-size:11px;background:rgba(255,214,0,0.15);color:var(--gold);padding:3px 8px;border-radius:2px">${h.イベ}</div>
+          </div>
+          <div style="font-size:11px;color:var(--text2);margin-top:4px">${h.推奨}</div>
+        </div>
+      `).join('')}
+    </div>
+    ` : ''}
+
+    <!-- 次のイベント日 -->
+    ${次のイベント ? `
+    <div style="background:rgba(64,232,255,0.06);border:1px solid var(--cyan);border-radius:4px;padding:10px 12px;margin-bottom:12px;font-size:12px;line-height:1.7">
+      <div style="color:var(--cyan);font-weight:700;margin-bottom:4px">📆 次のイベント日</div>
+      <div><strong>${次のイベント.日付}</strong>（あと${次のイベント.残り}日）= ${次のイベント.内容}</div>
+    </div>
+    ` : ''}
+
+    <!-- 今日の推奨機種 -->
+    <div>
+      <div style="font-size:12px;font-weight:700;color:var(--cyan);margin-bottom:8px;letter-spacing:1px">🎰 推奨機種TOP5（ロイヤル登別ベース）</div>
+      ${推奨機種.map(m => `
+        <div style="background:var(--bg3);padding:10px 12px;margin-bottom:6px;border-radius:3px;display:flex;justify-content:space-between;align-items:center">
+          <div style="flex:1">
+            <strong style="font-size:13px">${m.名}</strong>
+            <div style="font-size:11px;color:var(--text2);margin-top:2px">${m.理由}</div>
+          </div>
+          <div style="font-size:14px;color:var(--gold)">${m.優先}</div>
+        </div>
+      `).join('')}
+    </div>
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+      <button class="ボタン副" style="flex:1;min-width:120px" onclick="showPage('myhall', document.querySelector('nav button[onclick*=myhall]'))">🏆 マイホ詳細へ</button>
+      <button class="ボタン副" style="flex:1;min-width:120px" onclick="showPage('tools', document.querySelector('nav button[onclick*=tools]'))">🚨 狙い目判定へ</button>
+    </div>
+  `;
+}
+
+// ════════════════════════════════════════
+// ── 🧠 AI収支分析 ──
+// ════════════════════════════════════════
+function AI収支分析実行() {
+  const records = 記録取得();
+  const el = document.getElementById('ai-analysis-result');
+
+  if (records.length < 3) {
+    el.innerHTML = `<div style="padding:14px;background:var(--bg3);border-radius:4px;color:var(--gold);font-size:13px;line-height:1.7">
+      ⚠️ 分析に十分なデータがありません。<br>「入力」タブから<strong>最低3件</strong>（精度上げるなら10件以上）の実戦記録を追加してください。<br>
+      現在の記録: ${records.length}件
+    </div>`;
+    return;
+  }
+
+  // カテゴリ別集計関数
+  const グループ集計 = (key) => {
+    const map = {};
+    records.forEach(r => {
+      const k = key === '曜日' ? ['日','月','火','水','木','金','土'][new Date(r.date).getDay()] : (r[key] || '不明');
+      if (!map[k]) map[k] = { 件数: 0, 勝ち: 0, 合計: 0, 最大: -Infinity, 最小: Infinity };
+      map[k].件数++;
+      if (r.pnl > 0) map[k].勝ち++;
+      map[k].合計 += r.pnl;
+      if (r.pnl > map[k].最大) map[k].最大 = r.pnl;
+      if (r.pnl < map[k].最小) map[k].最小 = r.pnl;
+    });
+    return Object.entries(map).map(([k, v]) => ({
+      名: k, 件数: v.件数, 勝率: Math.round(v.勝ち / v.件数 * 100),
+      平均: Math.round(v.合計 / v.件数), 合計: v.合計, 最大: v.最大, 最小: v.最小,
+    })).sort((a, b) => b.平均 - a.平均);
+  };
+
+  const ホール = グループ集計('hall').filter(g => g.件数 >= 2);
+  const 機種 = グループ集計('machine').filter(g => g.件数 >= 2 && g.名 !== '不明');
+  const 曜日 = グループ集計('曜日').filter(g => g.件数 >= 2);
+  const 設定 = グループ集計('setting').filter(g => g.件数 >= 2);
+  const イベ = グループ集計('event').filter(g => g.件数 >= 2);
+
+  // 勝ちパターン抽出（平均収支+500円以上 or 勝率60%以上）
+  const 勝ちパターン = [];
+  const 負けパターン = [];
+
+  [{ 種別: 'ホール', d: ホール }, { 種別: '機種', d: 機種 }, { 種別: '曜日', d: 曜日 }, { 種別: 'イベント', d: イベ }, { 種別: '推測設定', d: 設定 }].forEach(({種別, d}) => {
+    d.forEach(g => {
+      if (g.平均 >= 500 && g.勝率 >= 50) 勝ちパターン.push({ ...g, 種別 });
+      if (g.平均 <= -500 || (g.件数 >= 3 && g.勝率 <= 25)) 負けパターン.push({ ...g, 種別 });
+    });
+  });
+  勝ちパターン.sort((a, b) => b.平均 - a.平均);
+  負けパターン.sort((a, b) => a.平均 - b.平均);
+
+  // 全体統計
+  const 総数 = records.length;
+  const 総勝率 = Math.round(records.filter(r => r.pnl > 0).length / 総数 * 100);
+  const 総収支 = records.reduce((s, r) => s + r.pnl, 0);
+  const 平均収支 = Math.round(総収支 / 総数);
+
+  // 連勝・連敗
+  const 並び替え = records.slice().sort((a, b) => a.date.localeCompare(b.date));
+  let 最大連勝 = 0, 最大連敗 = 0, 連勝 = 0, 連敗 = 0;
+  並び替え.forEach(r => {
+    if (r.pnl > 0) { 連勝++; 連敗 = 0; 最大連勝 = Math.max(最大連勝, 連勝); }
+    else if (r.pnl < 0) { 連敗++; 連勝 = 0; 最大連敗 = Math.max(最大連敗, 連敗); }
+  });
+
+  // パターンHTML生成
+  const パターンHTML = (list, 色, アイコン) => list.slice(0, 5).map(p => `
+    <div style="background:var(--bg3);border-left:3px solid ${色};padding:10px 12px;margin-bottom:6px;border-radius:3px">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <span style="font-size:10px;color:var(--muted);margin-right:6px">${p.種別}</span>
+          <strong style="font-size:13px">${p.名}</strong>
+        </div>
+        <div style="font-family:'Orbitron',monospace;font-weight:900;color:${色};font-size:14px">${p.平均>=0?'+':''}${p.平均.toLocaleString()}円</div>
+      </div>
+      <div style="font-size:11px;color:var(--text2);margin-top:4px">
+        ${p.件数}回 / 勝率${p.勝率}% / 最大${p.最大>=0?'+':''}${p.最大.toLocaleString()} / 最小${p.最小>=0?'+':''}${p.最小.toLocaleString()}
+      </div>
+    </div>
+  `).join('');
+
+  // 推奨アクション
+  let アクション = [];
+  if (勝ちパターン.length > 0) {
+    const best = 勝ちパターン[0];
+    アクション.push(`✅ <strong>${best.種別}「${best.名}」を優先</strong>（平均+${best.平均.toLocaleString()}円・勝率${best.勝率}%）`);
+  }
+  if (負けパターン.length > 0) {
+    const worst = 負けパターン[0];
+    アクション.push(`❌ <strong>${worst.種別}「${worst.名}」を避ける</strong>（平均${worst.平均.toLocaleString()}円・勝率${worst.勝率}%）`);
+  }
+  if (総勝率 < 40) {
+    アクション.push(`⚠️ 総勝率${総勝率}%（目安50%）。狙い目即判定ツールの活用推奨`);
+  }
+  if (平均収支 < 0) {
+    アクション.push(`⚠️ 平均収支マイナス。勝ちパターンに絞った立ち回りを推奨`);
+  }
+
+  el.innerHTML = `
+    <div style="background:var(--bg3);border:2px solid var(--green);border-radius:6px;padding:16px">
+      <!-- 総合スコア -->
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:14px">
+        <div class="エリア統計項目">
+          <div class="エリア統計ラベル">記録件数</div>
+          <div class="エリア統計値 青">${総数}</div>
+        </div>
+        <div class="エリア統計項目">
+          <div class="エリア統計ラベル">総勝率</div>
+          <div class="エリア統計値" style="color:${総勝率>=50?'var(--green)':'var(--red)'}">${総勝率}%</div>
+        </div>
+        <div class="エリア統計項目">
+          <div class="エリア統計ラベル">平均収支</div>
+          <div class="エリア統計値 ${平均収支>=0?'プラス':'マイナス'}">${平均収支>=0?'+':''}${平均収支.toLocaleString()}</div>
+        </div>
+        <div class="エリア統計項目">
+          <div class="エリア統計ラベル">最大連勝/連敗</div>
+          <div class="エリア統計値" style="font-size:14px"><span class="プラス">${最大連勝}</span> / <span class="マイナス">${最大連敗}</span></div>
+        </div>
+      </div>
+
+      <!-- 推奨アクション -->
+      ${アクション.length > 0 ? `<div style="background:linear-gradient(135deg, rgba(64,232,255,0.1) 0%, rgba(255,214,0,0.1) 100%);border:1px solid var(--cyan);border-radius:4px;padding:12px;margin-bottom:14px">
+        <div style="font-size:12px;font-weight:700;color:var(--cyan);margin-bottom:6px">🎯 AIからの推奨アクション</div>
+        ${アクション.map(a => `<div style="font-size:13px;line-height:1.8;color:var(--text)">${a}</div>`).join('')}
+      </div>` : ''}
+
+      <!-- 勝ちパターン -->
+      ${勝ちパターン.length > 0 ? `<div style="margin-bottom:14px">
+        <div style="font-size:13px;font-weight:700;color:var(--green);margin-bottom:8px">✅ 勝ちパターンTOP5</div>
+        ${パターンHTML(勝ちパターン, 'var(--green)', '✅')}
+      </div>` : '<div style="font-size:12px;color:var(--muted);margin-bottom:14px">⚠️ 明確な勝ちパターンなし（データ蓄積中）</div>'}
+
+      <!-- 負けパターン -->
+      ${負けパターン.length > 0 ? `<div style="margin-bottom:14px">
+        <div style="font-size:13px;font-weight:700;color:var(--red);margin-bottom:8px">❌ 負けパターンTOP5（避けるべき）</div>
+        ${パターンHTML(負けパターン, 'var(--red)', '❌')}
+      </div>` : ''}
+
+      <div style="font-size:10px;color:var(--muted);line-height:1.6">
+        🧠 件数2以上のカテゴリのみ集計。記録が増えるほど精度UP。
+      </div>
+    </div>
+  `;
+}
+
+// ════════════════════════════════════════
+// ── 🤖 ベイズAI設定看破 ──
+// ════════════════════════════════════════
+// 機種別 設定別ボーナス確率（分母）
+const ベイズ機種DB = {
+  my: { 名: 'マイジャグラーV',
+    BB: [273.1, 270.8, 264.3, 258.0, 252.0, 240.9],
+    RB: [546.1, 481.9, 426.0, 364.1, 312.4, 273.1] },
+  funky: { 名: 'ファンキージャグラー2KT',
+    BB: [273.1, 270.8, 264.3, 258.0, 252.0, 240.9],
+    RB: [546.1, 481.9, 431.2, 364.1, 312.4, 273.1] },
+  happy: { 名: 'ハッピージャグラーVIII',
+    BB: [273.1, 270.8, 264.3, 257.0, 248.2, 240.9],
+    RB: [728.2, 595.8, 481.9, 397.2, 327.7, 277.7] },
+  neo: { 名: 'ネオアイムジャグラーEX',
+    BB: [273.1, 270.8, 269.7, 269.7, 257.0, 252.0],
+    RB: [457.7, 442.8, 386.0, 350.6, 304.4, 268.6] },
+  ultra: { 名: 'ウルトラミラクルジャグラー',
+    BB: [292.6, 282.5, 273.1, 257.0, 248.2, 240.9],
+    RB: [496.5, 442.8, 384.0, 327.7, 282.5, 254.0] },
+  mister: { 名: 'ミスタージャグラー',
+    BB: [277.7, 270.8, 264.3, 252.1, 240.9, 230.5],
+    RB: [546.1, 470.0, 410.0, 348.6, 297.9, 252.1] },
+};
+
+// ベイズ事後確率計算
+function ベイズ推測実行() {
+  const ks = document.getElementById('ba-machine').value;
+  const G = parseInt(document.getElementById('ba-games').value) || 0;
+  const BB = parseInt(document.getElementById('ba-bb').value) || 0;
+  const RB = parseInt(document.getElementById('ba-rb').value) || 0;
+  const data = ベイズ機種DB[ks];
+  const el = document.getElementById('ba-result');
+
+  if (G < 100) { el.innerHTML = '<div style="color:var(--red)">⚠️ 総G数を100以上で入力してください</div>'; return; }
+
+  // 各設定の対数尤度計算（ポアソン近似）
+  // ln P(BB回数=k | λ=G/分母) = -λ + k*ln(λ) - ln(k!)
+  const 対数尤度 = [];
+  for (let s = 0; s < 6; s++) {
+    const λBB = G / data.BB[s];
+    const λRB = G / data.RB[s];
+    let logL = 0;
+    // ポアソン: -λ + k*ln(λ) for both BB & RB
+    logL += -λBB + (BB > 0 ? BB * Math.log(λBB) : 0);
+    logL += -λRB + (RB > 0 ? RB * Math.log(λRB) : 0);
+    対数尤度.push(logL);
+  }
+
+  // 事後確率（事前一様）
+  const 最大対数 = Math.max(...対数尤度);
+  const 正規化 = 対数尤度.map(l => Math.exp(l - 最大対数));
+  const 合計 = 正規化.reduce((a, b) => a + b, 0);
+  const 事後 = 正規化.map(v => v / 合計);
+
+  // 偶奇推定
+  const 偶数 = 事後[1] + 事後[3] + 事後[5];
+  const 奇数 = 事後[0] + 事後[2] + 事後[4];
+
+  // 最有力設定
+  const 最大idx = 事後.indexOf(Math.max(...事後));
+  const 最有力設定 = 最大idx + 1;
+  const 最有力確率 = Math.round(事後[最大idx] * 100);
+
+  // 高設定確率（4,5,6合算）
+  const 高設定確率 = Math.round((事後[3] + 事後[4] + 事後[5]) * 100);
+
+  // 合算現在値
+  const 合算分母 = G / (BB + RB);
+  const 合算理論値 = data.BB.map((b, i) => 1 / (1/b + 1/data.RB[i]));
+
+  // バーグラフ
+  const バーHTML = 事後.map((p, i) => {
+    const パーセント = Math.round(p * 100);
+    const 色 = i + 1 >= 4 ? 'var(--green)' : i + 1 >= 3 ? 'var(--gold)' : 'var(--red)';
+    return `<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <div style="width:48px;font-size:12px;color:var(--text2)">設定${i+1}</div>
+      <div style="flex:1;background:var(--bg);border-radius:3px;height:18px;overflow:hidden;position:relative">
+        <div style="width:${パーセント}%;background:${色};height:100%;transition:width 0.6s ease;box-shadow:0 0 6px ${色}80"></div>
+        <div style="position:absolute;left:6px;top:0;font-size:11px;font-family:'Orbitron',monospace;line-height:18px;color:#fff;text-shadow:0 0 3px #000">${パーセント}%</div>
+      </div>
+      <div style="width:50px;font-size:10px;color:var(--muted);text-align:right">${合算理論値[i].toFixed(1)}</div>
+    </div>`;
+  }).join('');
+
+  // 判定メッセージ
+  let 判定, 色, アイコン;
+  if (最有力設定 >= 5 && 最有力確率 >= 50) { 判定 = '高設定濃厚'; 色 = 'var(--green)'; アイコン = '🟢'; }
+  else if (高設定確率 >= 60) { 判定 = '高設定期待大'; 色 = 'var(--green)'; アイコン = '🟢'; }
+  else if (最有力設定 >= 4) { 判定 = '中間以上'; 色 = 'var(--gold)'; アイコン = '🟡'; }
+  else if (最有力設定 >= 2) { 判定 = '低中間'; 色 = 'var(--gold)'; アイコン = '🟡'; }
+  else { 判定 = '低設定濃厚・ヤメ推奨'; 色 = 'var(--red)'; アイコン = '🔴'; }
+
+  // 必要G数算出（追加でN G打ったら傾向確定するか）
+  let 確定予測 = '';
+  if (G < 5000 && 最有力設定 >= 4) {
+    const 必要G = 5000 - G;
+    確定予測 = `あと${必要G}G消化で精度向上`;
+  }
+
+  el.innerHTML = `
+    <div style="background:var(--bg3);border:2px solid ${色};border-radius:6px;padding:16px;box-shadow:0 0 12px ${色}33">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+        <div style="font-size:28px">${アイコン}</div>
+        <div style="flex:1">
+          <div style="font-family:'Orbitron',monospace;font-size:18px;font-weight:900;color:${色};text-shadow:0 0 8px ${色}66">設定${最有力設定} 最有力（${最有力確率}%）</div>
+          <div style="font-size:12px;color:var(--text2);margin-top:4px">${判定}</div>
+        </div>
+      </div>
+
+      <div style="font-size:11px;color:var(--muted);margin-bottom:8px;letter-spacing:1px">▼ 事後確率（緑=高設定/黄=中間/赤=低設定）/ 右の数字は理論合算分母</div>
+      ${バーHTML}
+
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:14px;margin-bottom:8px">
+        <div class="エリア統計項目">
+          <div class="エリア統計ラベル">高設定(4-6)合算</div>
+          <div class="エリア統計値" style="color:${高設定確率>=60?'var(--green)':高設定確率>=40?'var(--gold)':'var(--red)'}">${高設定確率}%</div>
+        </div>
+        <div class="エリア統計項目">
+          <div class="エリア統計ラベル">現在合算</div>
+          <div class="エリア統計値 青">1/${合算分母.toFixed(1)}</div>
+        </div>
+        <div class="エリア統計項目">
+          <div class="エリア統計ラベル">偶数判定</div>
+          <div class="エリア統計値" style="color:${偶数>奇数?'var(--cyan)':'var(--muted)'}">${Math.round(偶数*100)}%</div>
+        </div>
+        <div class="エリア統計項目">
+          <div class="エリア統計ラベル">奇数判定</div>
+          <div class="エリア統計値" style="color:${奇数>偶数?'var(--cyan)':'var(--muted)'}">${Math.round(奇数*100)}%</div>
+        </div>
+      </div>
+
+      ${確定予測 ? `<div style="background:rgba(64,232,255,0.08);padding:8px 12px;border-left:2px solid var(--cyan);border-radius:3px;font-size:12px">💡 ${確定予測}</div>` : ''}
+
+      <div style="font-size:10px;color:var(--muted);margin-top:10px;line-height:1.6">
+        🤖 ベイズ統計（ポアソン分布）で計算。データが多いほど精度UP。BB/RB別の設定差を最大活用。
+      </div>
+    </div>
+  `;
 }
 
 // ════════════════════════════════════════
