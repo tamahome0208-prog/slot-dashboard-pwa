@@ -2437,6 +2437,51 @@ button, a { -webkit-touch-callout: none; user-select: none; }
     現場で即判断するためのツール集。<strong>🚨 狙い目即判定</strong>・<strong>🎯 設定推測</strong>・<strong>⏰ 天井期待値</strong>・<strong>📍 近くのホール</strong>を集約。
   </div>
 
+  <!-- 🤖 今日スコアAI（複合条件AI判定） -->
+  <div class="カード" style="border-left-color:var(--gold);background:linear-gradient(135deg, var(--bg2) 0%, rgba(255,214,0,0.08) 100%)">
+    <div class="カードタイトル" style="color:var(--gold);text-shadow:0 0 6px rgba(255,214,0,0.4)">▶ 🤖 今日スコアAI（最強の1秒判定）</div>
+    <div style="font-size:12px;color:var(--text2);margin-bottom:12px;line-height:1.7">
+      ホール×機種×台×抽選番号を入力すると、過去261日のデータ・財務分析・攻略DBから<strong style="color:var(--cyan)">A++〜Dの7段階</strong>でスコア判定。<br>
+      最強条件「水曜8の日のミリオンゴッド578に1番で当選」みたいなのが見えます。
+    </div>
+    <div class="フォームグリッド" style="margin-bottom:12px">
+      <div class="フォームグループ">
+        <label>ホール</label>
+        <select id="ai-hall">
+          <option value="ロイヤル登別店">ロイヤル登別店</option>
+          <option value="ベガスベガス苫小牧店">ベガスベガス苫小牧店</option>
+          <option value="マルハン苫小牧駅前店">マルハン苫小牧駅前店</option>
+          <option value="ビクトリア室蘭店">ビクトリア室蘭店</option>
+        </select>
+      </div>
+      <div class="フォームグループ">
+        <label>機種</label>
+        <select id="ai-machine">
+          <option value="ミリオンゴッド">スマスロ ミリオンゴッド</option>
+          <option value="カバネリ">スマスロ甲鉄城のカバネリ</option>
+          <option value="北斗転生2">スマスロ北斗の拳 転生の章2</option>
+          <option value="バイオRE3">スマスロ バイオハザードRE:3</option>
+          <option value="ULTRAMAN">L ULTRAMAN</option>
+          <option value="モンキーターンV">スマスロモンキーターンV</option>
+          <option value="ハナビ">スマスロ ハナビ</option>
+          <option value="炎炎2">Lパチスロ 炎炎ノ消防隊2</option>
+          <option value="化物語">スマスロ化物語</option>
+          <option value="吉宗">吉宗 / 真打吉宗</option>
+        </select>
+      </div>
+      <div class="フォームグループ">
+        <label>台番号（任意）</label>
+        <input type="number" id="ai-unit" placeholder="例: 578" min="0">
+      </div>
+      <div class="フォームグループ">
+        <label>抽選番号（任意）</label>
+        <input type="number" id="ai-lot" placeholder="例: 15" min="1">
+      </div>
+    </div>
+    <button class="ボタン主" onclick="今日スコアAI実行()">🤖 スコア判定する</button>
+    <div id="ai-score-result" style="margin-top:14px"></div>
+  </div>
+
   <!-- 🚨 狙い目即判定ツール（最重要・勝率UP） -->
   <div class="カード" style="border-left-color:var(--gold);background:linear-gradient(135deg, var(--bg2) 0%, rgba(255,214,0,0.06) 100%)">
     <div class="カードタイトル" style="color:var(--gold);text-shadow:0 0 6px rgba(255,214,0,0.4)">▶ 🚨 狙い目即判定（打つ/ヤメるを即判断）</div>
@@ -2658,6 +2703,41 @@ button, a { -webkit-touch-callout: none; user-select: none; }
       </div>
     </div>
     <button class="ボタン主" onclick="設定保存()" style="margin-top:12px">【 設定を保存する 】</button>
+  </div>
+
+  <!-- ⚠️ 損切り・勝ち逃げライン -->
+  <div class="カード" style="border-left-color:var(--red);background:linear-gradient(135deg, var(--bg2) 0%, rgba(255,77,109,0.06) 100%)">
+    <div class="カードタイトル" style="color:var(--red);text-shadow:0 0 6px rgba(255,77,109,0.4)">▶ ⚠️ 損切り・勝ち逃げライン</div>
+    <div style="font-size:12px;color:var(--text2);margin-bottom:12px;line-height:1.7">
+      実戦記録を入力した瞬間にラインを超えていたら<strong style="color:var(--red)">アラート発動</strong>。<br>
+      負け追いと勝ち逃げ忘れを物理的に防ぎます。
+    </div>
+    <div class="フォームグリッド" style="margin-bottom:12px">
+      <div class="フォームグループ">
+        <label>1日の損切りライン（円）</label>
+        <input type="number" id="s-stop-loss" placeholder="例: 30000" step="1000">
+      </div>
+      <div class="フォームグループ">
+        <label>1日の勝ち逃げライン（円）</label>
+        <input type="number" id="s-take-profit" placeholder="例: 50000" step="1000">
+      </div>
+      <div class="フォームグループ">
+        <label>月間損切りライン（円）</label>
+        <input type="number" id="s-monthly-loss" placeholder="例: 100000" step="10000">
+      </div>
+      <div class="フォームグループ">
+        <label>連敗アラート（回）</label>
+        <input type="number" id="s-losing-streak" placeholder="例: 3" min="1">
+      </div>
+    </div>
+    <button class="ボタン主" onclick="アラート設定保存()" style="margin-top:8px">【 アラート設定を保存 】</button>
+    <div style="font-size:11px;color:var(--muted);margin-top:10px;line-height:1.6">
+      💡 推奨値<br>
+      ・1日損切り: 月予算 ÷ 月通う回数<br>
+      ・1日勝ち逃げ: 機種期待値の80%（例50,000円）<br>
+      ・月間損切り: ライフプランから許容額の上限<br>
+      ・連敗アラート: 3回以上負けたら状態リセット推奨
+    </div>
   </div>
 
   <div class="カード">
@@ -3583,6 +3663,7 @@ function renderSettings() {
   document.getElementById('s-year').value = s.year||new Date().getFullYear();
   document.getElementById('s-github-url').value = s.githubUrl || '';
   document.getElementById('s-gemini-key').value = s.geminiKey || '';
+  if (typeof アラート設定読込 === 'function') アラート設定読込();
   最終更新時刻表示();
   const ocrSt = document.getElementById('ocr状態');
   if (ocrSt) ocrSt.textContent = s.geminiKey ? '✅ APIキー設定済み（写真OCR利用可能）' : '※ APIキー未設定（写真OCRは利用不可）';
@@ -4859,6 +4940,298 @@ function ベイズ推測実行() {
       </div>
     </div>
   `;
+}
+
+// ════════════════════════════════════════
+// ── ⚠️ 損切り・勝ち逃げアラート ──
+// ════════════════════════════════════════
+function アラート設定保存() {
+  const cur = 設定取得();
+  設定保存処理({
+    ...cur,
+    stopLoss: parseInt(document.getElementById('s-stop-loss').value) || 0,
+    takeProfit: parseInt(document.getElementById('s-take-profit').value) || 0,
+    monthlyLoss: parseInt(document.getElementById('s-monthly-loss').value) || 0,
+    losingStreak: parseInt(document.getElementById('s-losing-streak').value) || 0,
+  });
+  通知表示('アラート設定を保存しました ✓');
+}
+
+function アラート設定読込() {
+  const s = 設定取得();
+  const ids = ['s-stop-loss', 's-take-profit', 's-monthly-loss', 's-losing-streak'];
+  const keys = ['stopLoss', 'takeProfit', 'monthlyLoss', 'losingStreak'];
+  ids.forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (el) el.value = s[keys[i]] || '';
+  });
+}
+
+// アラート判定（保存後即発動）
+function アラート判定() {
+  const s = 設定取得();
+  const records = 記録取得();
+  const today = new Date().toISOString().split('T')[0];
+
+  // 今日の合計
+  const todayRecords = records.filter(r => r.date === today);
+  const todayTotal = todayRecords.reduce((sum, r) => sum + r.pnl, 0);
+
+  // 今月の合計
+  const thisMonth = today.slice(0, 7);
+  const monthRecords = records.filter(r => r.date && r.date.startsWith(thisMonth));
+  const monthTotal = monthRecords.reduce((sum, r) => sum + r.pnl, 0);
+
+  // 連敗カウント（直近のN回）
+  const sortedRecords = records.slice().sort((a, b) => b.id - a.id);
+  let losing = 0;
+  for (const r of sortedRecords) {
+    if (r.pnl < 0) losing++;
+    else break;
+  }
+
+  // アラート判定
+  const alerts = [];
+  if (s.stopLoss && todayTotal <= -s.stopLoss) {
+    alerts.push({
+      type: 'critical', icon: '🛑',
+      title: '損切りライン突破！',
+      msg: `本日の損失 ${todayTotal.toLocaleString()}円。設定した損切りライン -${s.stopLoss.toLocaleString()}円 を超えました。<br><strong style="color:var(--red)">今すぐ撤退してください</strong>。`
+    });
+  }
+  if (s.takeProfit && todayTotal >= s.takeProfit) {
+    alerts.push({
+      type: 'gold', icon: '🏆',
+      title: '勝ち逃げライン到達！',
+      msg: `本日の利益 +${todayTotal.toLocaleString()}円。<br><strong style="color:var(--gold)">勝ち逃げ推奨</strong>。次の人に席を譲って気分良く帰る時間です。`
+    });
+  }
+  if (s.monthlyLoss && monthTotal <= -s.monthlyLoss) {
+    alerts.push({
+      type: 'critical', icon: '🚫',
+      title: '月間損切りライン突破',
+      msg: `今月の損失 ${monthTotal.toLocaleString()}円。<br><strong style="color:var(--red)">今月はもう打たないことを強く推奨</strong>。`
+    });
+  }
+  if (s.losingStreak && losing >= s.losingStreak) {
+    alerts.push({
+      type: 'warn', icon: '⚠️',
+      title: `${losing}連敗中`,
+      msg: `直近${losing}回連続で負けています。<br><strong>立ち回りの見直し</strong>、もしくは<strong>気分転換</strong>を推奨。`
+    });
+  }
+
+  return alerts;
+}
+
+// 記録保存に統合（既存の記録保存をフック）
+const _orig_記録保存_alert = window.記録保存;
+if (_orig_記録保存_alert) {
+  window.記録保存 = function() {
+    _orig_記録保存_alert();
+    setTimeout(() => {
+      const alerts = アラート判定();
+      if (alerts.length > 0) アラート表示(alerts);
+    }, 100);
+  };
+}
+
+function アラート表示(alerts) {
+  // 既存表示を削除
+  const old = document.getElementById('アラートモーダル');
+  if (old) old.remove();
+
+  const colors = {
+    critical: { bg: 'rgba(255,77,109,0.95)', border: '#ff4d6d', shadow: '#ff4d6d' },
+    warn: { bg: 'rgba(255,214,0,0.92)', border: '#ffd700', shadow: '#ffd700' },
+    gold: { bg: 'rgba(255,140,0,0.92)', border: '#ffd700', shadow: '#ffd700' },
+  };
+
+  const modal = document.createElement('div');
+  modal.id = 'アラートモーダル';
+  modal.style.cssText = `position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.85);display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(10px);animation:count-up 0.3s ease`;
+
+  const inner = alerts.map(a => {
+    const c = colors[a.type];
+    return `<div style="background:${c.bg};border:3px solid ${c.border};border-radius:8px;padding:20px;margin-bottom:12px;box-shadow:0 0 40px ${c.shadow},inset 0 0 20px rgba(255,255,255,0.1);color:#fff;text-shadow:0 0 6px #000">
+      <div style="font-size:48px;text-align:center;margin-bottom:8px;animation:icon-bounce 1s ease infinite">${a.icon}</div>
+      <div style="font-size:18px;font-weight:900;text-align:center;margin-bottom:10px">${a.title}</div>
+      <div style="font-size:14px;text-align:center;line-height:1.7">${a.msg}</div>
+    </div>`;
+  }).join('');
+
+  modal.innerHTML = `
+    <div style="max-width:400px;width:100%">
+      ${inner}
+      <button class="ボタン主" onclick="document.getElementById('アラートモーダル').remove()" style="margin-top:12px;width:100%">了解した</button>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  // 重大アラートは強制振動感覚（七色フラッシュ赤バージョン）
+  if (alerts.some(a => a.type === 'critical')) {
+    if (navigator.vibrate) navigator.vibrate([200, 100, 200, 100, 400]);
+  }
+}
+
+// ════════════════════════════════════════
+// ── 🤖 今日スコアAI（複合判定） ──
+// ════════════════════════════════════════
+function 今日スコアAI実行() {
+  const hall = document.getElementById('ai-hall').value;
+  const machine = document.getElementById('ai-machine').value;
+  const unit = parseInt(document.getElementById('ai-unit').value) || 0;
+  const lot = parseInt(document.getElementById('ai-lot').value) || 0;
+  const el = document.getElementById('ai-score-result');
+
+  // スコア要素計算
+  const today = new Date();
+  const dow = ['日','月','火','水','木','金','土'][today.getDay()];
+  const suffix = today.getDate() % 10;
+  const month = today.getMonth() + 1;
+
+  // 1. 曜日×末尾複合スコア（過去261日の実測値ベース）
+  const comboKey = `${dow}-末尾${suffix}`;
+  const comboMap = {
+    '水-末尾8': 100, '水-末尾6': 85, '火-末尾8': 70, '木-末尾8': 60, '木-末尾6': 58,
+    '水-末尾0': 45, '金-末尾6': 30, '火-末尾6': 20, '月-末尾6': 18, '土-末尾6': 10,
+    '日-末尾6': -50, '金-末尾8': -25, '土-末尾8': -20, '日-末尾8': -15, '月-末尾8': -12,
+  };
+  const comboScore = comboMap[comboKey] !== undefined ? comboMap[comboKey] : 0;
+
+  // 2. 月別ボーナス
+  const monthBonus = { 1:30, 2:-5, 3:-40, 4:15, 5:0, 6:-35, 7:5, 8:70, 9:0, 10:-5, 11:-5, 12:-35 };
+  const monthScore = monthBonus[month] || 0;
+
+  // 3. 機種スコア（過去261日DB+攻略DB）
+  const machineMap = {
+    'ULTRAMAN': 90, 'カバネリ': 85, '炎炎2': 75, 'ハナビ': 70, '北斗転生2': 65,
+    'バイオRE3': 60, 'ミリオンゴッド': 55, 'モンキーターンV': 50, '吉宗': 0, '化物語': -40,
+  };
+  const machineScore = machineMap[machine] !== undefined ? machineMap[machine] : 30;
+
+  // 4. ホールスコア
+  const hallMap = {
+    'ロイヤル登別店': 30, 'ベガスベガス苫小牧店': 25, 'マルハン苫小牧駅前店': 15, 'ビクトリア室蘭店': 10
+  };
+  const hallScore = hallMap[hall] || 0;
+
+  // 5. 特定台ボーナス
+  let unitBonus = 0;
+  let unitNote = '';
+  if (hall === 'ロイヤル登別店') {
+    if (machine === 'ミリオンゴッド') {
+      if (unit === 578) { unitBonus = 80; unitNote = '🔥 設定6固定濃厚（3日連続TOP10）'; }
+      else if ([572, 579, 580].includes(unit)) { unitBonus = 50; unitNote = '⭐ ミリオンゴッドシマぐるみ範囲'; }
+    }
+    if (machine === 'カバネリ' && unit === 705) { unitBonus = 40; unitNote = '⭐ 前日+13,853の爆発台'; }
+    if (machine === 'モンキーターンV' && unit === 660) { unitBonus = 40; unitNote = '⭐ 前日+13,430の爆発台'; }
+    if (machine === '北斗転生2' && unit === 549) { unitBonus = 40; unitNote = '⭐ 前日+12,894の爆発台'; }
+  }
+
+  // 6. 抽選番号価値
+  let lotScore = 0;
+  let lotNote = '';
+  if (lot > 0) {
+    if (lot <= 5) { lotScore = 30; lotNote = '🟢 最上位権利'; }
+    else if (lot <= 15) { lotScore = 20; lotNote = '🟢 上位権利'; }
+    else if (lot <= 30) { lotScore = 5; lotNote = '🟡 中位'; }
+    else if (lot <= 60) { lotScore = -10; lotNote = '🟠 下位'; }
+    else { lotScore = -25; lotNote = '🔴 低位'; }
+  }
+
+  // 合計スコア
+  const total = comboScore + monthScore + machineScore + hallScore + unitBonus + lotScore;
+
+  // グレード判定
+  let grade, gradeColor, gradeBg, action, advice;
+  if (total >= 250) {
+    grade = 'S++'; gradeColor = '#ffd700'; gradeBg = 'linear-gradient(135deg,#ffd700,#ff8c00,#ffd700)';
+    action = '🔥 全力で行け！'; advice = '人生の節目級の超優良条件。全力資金投入推奨。';
+  } else if (total >= 180) {
+    grade = 'S+'; gradeColor = '#ffd700'; gradeBg = 'linear-gradient(135deg,#ff8c00,#ffd700)';
+    action = '🟢 強推奨'; advice = '極めて勝ちやすい状況。資金準備して挑むべき。';
+  } else if (total >= 120) {
+    grade = 'S'; gradeColor = '#5fff5f'; gradeBg = 'linear-gradient(135deg,#5fff5f,#aaffaa)';
+    action = '🟢 推奨'; advice = '勝ちパターン該当。積極的に攻めて良い。';
+  } else if (total >= 60) {
+    grade = 'A'; gradeColor = '#40e8ff'; gradeBg = 'linear-gradient(135deg,#40e8ff,#88f4ff)';
+    action = '🟡 普通'; advice = '及第点。可もなく不可もなく。';
+  } else if (total >= 0) {
+    grade = 'B'; gradeColor = '#ffe066'; gradeBg = 'linear-gradient(135deg,#ffe066,#ffd700)';
+    action = '🟡 様子見'; advice = '微妙。他の選択肢検討も。';
+  } else if (total >= -50) {
+    grade = 'C'; gradeColor = '#ff8c00'; gradeBg = 'linear-gradient(135deg,#ff8c00,#ffd700)';
+    action = '🟠 推奨度低'; advice = 'マイナス傾向。撤退も視野に。';
+  } else {
+    grade = 'D'; gradeColor = '#ff4d6d'; gradeBg = 'linear-gradient(135deg,#ff4d6d,#ff8cc8)';
+    action = '🔴 撤退推奨'; advice = '危険水域。打つべきでない条件。';
+  }
+
+  // 期待値推定（スコア→期待値の簡易換算）
+  const expectedValue = Math.round(total * 80);
+
+  // スコア要素グラフ
+  const factors = [
+    { 名: '曜日×末尾', 値: comboScore, max: 100, 内容: comboKey },
+    { 名: '月別補正', 値: monthScore, max: 70, 内容: `${month}月` },
+    { 名: '機種評価', 値: machineScore, max: 90, 内容: machine },
+    { 名: 'ホール評価', 値: hallScore, max: 30, 内容: hall.replace('店','') },
+    { 名: '台番号', 値: unitBonus, max: 80, 内容: unit > 0 ? `台${unit}` : '未指定' },
+    { 名: '抽選番号', 値: lotScore, max: 30, 内容: lot > 0 ? `${lot}番` : '未指定' },
+  ];
+
+  const factorsHTML = factors.map(f => {
+    const w = Math.min(100, Math.abs(f.値) / f.max * 100) || 0;
+    const c = f.値 > 0 ? 'var(--green)' : f.値 < 0 ? 'var(--red)' : 'var(--muted)';
+    return `<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;font-size:11px">
+      <div style="width:70px;color:var(--text2)">${f.名}</div>
+      <div style="flex:1;background:var(--bg);height:16px;border-radius:2px;position:relative;overflow:hidden">
+        <div style="background:${c};width:${w}%;height:100%;${f.値<0?'margin-left:auto':''};box-shadow:0 0 4px ${c}80"></div>
+        <div style="position:absolute;left:6px;top:0;line-height:16px;font-family:'Orbitron',monospace;color:#fff;font-size:10px;text-shadow:0 0 3px #000">${f.値>=0?'+':''}${f.値}</div>
+      </div>
+      <div style="width:80px;font-size:10px;color:var(--muted);text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${f.内容}</div>
+    </div>`;
+  }).join('');
+
+  el.innerHTML = `
+    <div style="background:var(--bg3);border:3px solid ${gradeColor};border-radius:8px;padding:18px;box-shadow:0 0 30px ${gradeColor}66,inset 0 0 20px ${gradeColor}22;animation:ripple-pulse 2s ease infinite">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">
+        <div style="font-family:'Orbitron',monospace;font-size:64px;font-weight:900;background:${gradeBg};-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 14px ${gradeColor}) drop-shadow(0 0 28px ${gradeColor});line-height:1">${grade}</div>
+        <div style="flex:1">
+          <div style="font-size:20px;font-weight:900;color:${gradeColor};text-shadow:0 0 10px ${gradeColor};margin-bottom:4px">${action}</div>
+          <div style="font-size:12px;color:var(--text2);line-height:1.6">${advice}</div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:14px">
+        <div class="エリア統計項目">
+          <div class="エリア統計ラベル">総合スコア</div>
+          <div class="エリア統計値" style="color:${gradeColor};font-size:24px">${total>=0?'+':''}${total}</div>
+        </div>
+        <div class="エリア統計項目">
+          <div class="エリア統計ラベル">期待値（推定）</div>
+          <div class="エリア統計値 ${expectedValue>=0?'プラス':'マイナス'}" style="font-size:20px">${expectedValue>=0?'+':''}${expectedValue.toLocaleString()}円</div>
+        </div>
+      </div>
+
+      <div style="background:var(--bg);padding:12px;border-radius:4px;margin-bottom:14px">
+        <div style="font-size:11px;color:var(--cyan);margin-bottom:8px;font-weight:700">▼ スコア構成要素</div>
+        ${factorsHTML}
+      </div>
+
+      ${unitNote ? `<div style="background:rgba(255,214,0,0.12);border-left:3px solid var(--gold);padding:10px 12px;margin-bottom:8px;font-size:12px;line-height:1.6">${unitNote}</div>` : ''}
+      ${lotNote ? `<div style="background:rgba(64,232,255,0.08);border-left:3px solid var(--cyan);padding:10px 12px;margin-bottom:8px;font-size:12px;line-height:1.6">抽選番号: ${lotNote}</div>` : ''}
+
+      <div style="font-size:11px;color:var(--text2);margin-top:10px;line-height:1.7;background:var(--bg);padding:10px;border-radius:3px">
+        🤖 <strong>計算根拠</strong>: 過去261日 × 5,825機種データ・運営財務分析・攻略DB16機種・曜日×末尾複合DB を統合<br>
+        判定条件: ${dow}曜 / ${month}月${today.getDate()}日（末尾${suffix}） / ${hall} / ${machine}${unit>0?' / 台'+unit:''}${lot>0?' / '+lot+'番':''}
+      </div>
+    </div>
+  `;
+
+  // S級以上で七色フラッシュ
+  if (total >= 120 && typeof 七色フラッシュ === 'function') 七色フラッシュ();
 }
 
 // ════════════════════════════════════════

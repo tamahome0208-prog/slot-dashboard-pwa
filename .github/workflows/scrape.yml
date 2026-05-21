@@ -30,6 +30,10 @@ jobs:
       - name: スクレイピング実行
         run: python scripts/scrape.py
 
+      - name: ロイヤル登別 履歴追記
+        run: python scripts/royal_daily.py
+        continue-on-error: true
+
       - name: 変更をコミット
         run: |
           git config --local user.email "action@github.com"
