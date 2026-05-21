@@ -515,11 +515,225 @@ tbody td { padding: 13px 12px; white-space: nowrap; font-size: 14px; color: var(
 }
 .ホール比較行.選択中 .比較ホール { color: var(--cyan); font-weight: 700; }
 
-/* ── アニメーション ── */
+/* ── 基本アニメーション ── */
 @keyframes pulse-border { 0%,100% { box-shadow: var(--glow-p), inset 0 0 8px rgba(255,45,120,0.1); } 50% { box-shadow: 0 0 16px #ff2d78, 0 0 32px #ff2d7860, inset 0 0 12px rgba(255,45,120,0.2); } }
 @keyframes flicker { 0%,95%,100% { opacity:1; } 96% { opacity:0.4; } 97% { opacity:1; } 98% { opacity:0.6; } }
 @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0; } }
 @keyframes slide-in { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+
+/* ── 🚀 アドレナリン演出 ── */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes pulse-glow-green {
+  0%, 100% { text-shadow: 0 0 6px #5fff5f88, 0 0 14px #5fff5f33; transform: scale(1); }
+  50% { text-shadow: 0 0 12px #5fff5f, 0 0 28px #5fff5f88, 0 0 40px #5fff5f44; transform: scale(1.02); }
+}
+@keyframes pulse-glow-red {
+  0%, 100% { text-shadow: 0 0 6px #ff4d6d88, 0 0 14px #ff4d6d33; }
+  50% { text-shadow: 0 0 12px #ff4d6d, 0 0 28px #ff4d6d88; }
+}
+@keyframes pulse-glow-gold {
+  0%, 100% { text-shadow: 0 0 6px #ffe06688, 0 0 14px #ffe06633; }
+  50% { text-shadow: 0 0 14px #ffe066, 0 0 32px #ffe06688, 0 0 48px #ffe06644; }
+}
+@keyframes border-flow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes float-bg {
+  0%, 100% { transform: translate(0, 0); }
+  33% { transform: translate(10px, -10px); }
+  66% { transform: translate(-10px, 10px); }
+}
+@keyframes scan-line {
+  0% { transform: translateY(-100%); opacity: 0; }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.6; }
+  100% { transform: translateY(100%); opacity: 0; }
+}
+@keyframes ripple-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(255,214,0,0.6); }
+  100% { box-shadow: 0 0 0 16px rgba(255,214,0,0); }
+}
+@keyframes neon-flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+    text-shadow: 0 0 5px var(--cyan), 0 0 10px var(--cyan), 0 0 20px var(--cyan), 0 0 40px var(--cyan);
+    color: var(--cyan);
+  }
+  20%, 22%, 24%, 55% {
+    text-shadow: none;
+    color: #1a4555;
+  }
+}
+@keyframes slot-roll {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(0); }
+}
+@keyframes count-up {
+  from { transform: scale(0.7); opacity: 0; filter: blur(4px); }
+  to { transform: scale(1); opacity: 1; filter: blur(0); }
+}
+@keyframes border-rainbow {
+  0% { border-image-source: linear-gradient(90deg, var(--cyan), var(--pink)); }
+  33% { border-image-source: linear-gradient(90deg, var(--pink), var(--gold)); }
+  66% { border-image-source: linear-gradient(90deg, var(--gold), var(--green)); }
+  100% { border-image-source: linear-gradient(90deg, var(--green), var(--cyan)); }
+}
+@keyframes lightning-bg {
+  0%, 100% { opacity: 0; }
+  3% { opacity: 0.3; }
+  4% { opacity: 0; }
+  6% { opacity: 0.6; }
+  7% { opacity: 0; }
+  10% { opacity: 0.2; }
+  11% { opacity: 0; }
+}
+@keyframes float-up {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-30px); opacity: 0; }
+}
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ── 🚀 適用クラス ── */
+/* KPI数値にカウントアップ + パルスグロー */
+.kpi .数値.プラス { animation: pulse-glow-green 2.5s ease-in-out infinite; }
+.kpi .数値.マイナス { animation: pulse-glow-red 2.5s ease-in-out infinite; }
+.kpi .数値 { animation: count-up 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+
+/* ヘッダータイトル：ネオンフリッカー */
+header h1 { animation: neon-flicker 8s infinite; }
+
+/* カード：左ボーダーが流れる */
+.カード::before {
+  background: linear-gradient(180deg, var(--cyan), var(--pink), var(--gold), var(--cyan));
+  background-size: 100% 300%;
+  animation: gradient-shift 8s ease infinite;
+}
+
+/* ボタン主：内側シマー */
+.ボタン主 {
+  position: relative;
+  overflow: hidden;
+}
+.ボタン主::before {
+  content: '';
+  position: absolute; top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+.ボタン主:hover::before { left: 100%; }
+
+/* プラス/マイナス値にホットなグロー */
+.プラス { transition: text-shadow 0.3s; }
+.マイナス { transition: text-shadow 0.3s; }
+
+/* 重要数値（Orbitron）に控えめなパルス */
+[class*="エリア統計値"].プラス { animation: pulse-glow-green 3s ease-in-out infinite; }
+[class*="エリア統計値"].マイナス { animation: pulse-glow-red 3s ease-in-out infinite; }
+
+/* ナビボタン .active にゴールドのパルス */
+nav button.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 30px; height: 2px;
+  background: var(--cyan);
+  box-shadow: 0 0 8px var(--cyan), 0 0 16px var(--cyan);
+  animation: pulse-glow-green 1.5s ease-in-out infinite;
+}
+nav button { position: relative; }
+
+/* カード：マウスホバー時にやや浮き上がる */
+.カード {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.カード:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,229,255,0.15), 0 0 0 1px rgba(0,229,255,0.2);
+}
+
+/* 推奨度Sバッジに虹色グロー */
+.攻略バッジ.S {
+  background: linear-gradient(135deg, #ffd700, #ff8c00, #ffd700);
+  background-size: 200% 100%;
+  animation: gradient-shift 3s ease infinite, ripple-pulse 2s ease-out infinite;
+}
+
+/* ライブインジケーター（赤点滅） */
+.live-dot {
+  display: inline-block;
+  width: 8px; height: 8px;
+  background: var(--red);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--red);
+  animation: blink 1.2s ease infinite;
+  margin-right: 6px;
+}
+
+/* スコア・大きな数値：スロットロール風 */
+.slot-roll {
+  display: inline-block;
+  overflow: hidden;
+  animation: slot-roll 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* 背景：稲光エフェクト（控えめ） */
+body::after {
+  animation: float-bg 30s ease infinite;
+}
+
+/* タイトル付近に動くアクセントライン */
+.カードタイトル {
+  position: relative;
+  background: linear-gradient(90deg, var(--cyan), var(--text), var(--cyan));
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: gradient-shift 4s ease infinite;
+}
+
+/* リップル：S級・最重要要素 */
+.ripple {
+  animation: ripple-pulse 2s ease-out infinite;
+}
+
+/* hover時のエッジグロー強化 */
+button:hover, .ホールカード:hover, .機種カード:hover, .攻略カード:hover {
+  transition: all 0.2s ease;
+}
+
+/* 数字テキストに金属的シャイン */
+.shine-text {
+  background: linear-gradient(90deg, var(--text) 0%, #fff 50%, var(--text) 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 3s linear infinite;
+}
+
+/* 推奨ボタン強化 */
+.ボタン主:active { transform: scale(0.95); }
+
+/* ジャンプボタン：ホバーで輝く */
+.ジャンプボタン {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+.ジャンプボタン:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,229,255,0.3);
+}
 
 /* ── スクロールバー ── */
 ::-webkit-scrollbar { width: 4px; height: 4px; }
