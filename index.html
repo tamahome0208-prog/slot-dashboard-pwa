@@ -23,22 +23,22 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root, :root[data-theme="dark"] {
-  --bg:     #0a0a14;
-  --bg2:    #12121f;
-  --bg3:    #1a1a2a;
-  --pink:   #ff5e9f;
-  --cyan:   #40e8ff;
-  --green:  #5fff5f;
-  --red:    #ff4d6d;
-  --gold:   #ffe066;
-  --text:   #f0f0fa;
-  --text2:  #c8c8d8;
-  --muted:  #8a8aa8;
-  --border: #2a2a40;
-  --glow-p: 0 0 6px #ff5e9f88, 0 0 14px #ff5e9f33;
-  --glow-c: 0 0 6px #40e8ff88, 0 0 14px #40e8ff33;
-  --glow-g: 0 0 6px #5fff5f88, 0 0 14px #5fff5f33;
-  --glow-r: 0 0 6px #ff4d6d88, 0 0 14px #ff4d6d33;
+  --bg:     #0b0d12;
+  --bg2:    #14171f;
+  --bg3:    #1c2029;
+  --pink:   #ec4899;
+  --cyan:   #0ea5e9;
+  --green:  #10b981;
+  --red:    #ef4444;
+  --gold:   #f59e0b;
+  --text:   #f3f4f6;
+  --text2:  #d1d5db;
+  --muted:  #6b7280;
+  --border: #1f2937;
+  --glow-p: 0 0 0 1px rgba(236,72,153,0.4);
+  --glow-c: 0 0 0 1px rgba(14,165,233,0.4);
+  --glow-g: 0 0 0 1px rgba(16,185,129,0.4);
+  --glow-r: 0 0 0 1px rgba(239,68,68,0.4);
 }
 
 :root[data-theme="light"] {
@@ -484,9 +484,9 @@ tbody td { padding: 13px 12px; white-space: nowrap; font-size: 14px; color: var(
 
 /* ── ホールサマリー ── */
 .ホールサマリーカード {
-  background: linear-gradient(135deg, var(--bg2) 0%, var(--bg3) 100%);
-  border: 1px solid var(--cyan);
-  box-shadow: var(--glow-c);
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  box-shadow: none;
   border-radius: 4px;
   padding: 20px;
   margin-bottom: 18px;
@@ -601,20 +601,16 @@ tbody td { padding: 13px 12px; white-space: nowrap; font-size: 14px; color: var(
   100% { background-position: 0% 50%; }
 }
 
-/* ── 🚀 適用クラス ── */
-/* KPI数値にカウントアップ + パルスグロー */
-.kpi .数値.プラス { animation: pulse-glow-green 2.5s ease-in-out infinite; }
-.kpi .数値.マイナス { animation: pulse-glow-red 2.5s ease-in-out infinite; }
-.kpi .数値 { animation: count-up 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+/* ── 🚀 適用クラス（プロ仕様：発光控えめ） ── */
+/* KPI数値：カウントアップのみ、常時パルスは廃止 */
+.kpi .数値 { animation: count-up 0.5s ease-out; }
 
-/* ヘッダータイトル：ネオンフリッカー */
-header h1 { animation: neon-flicker 8s infinite; }
+/* ヘッダータイトル：フリッカー廃止 */
+header h1 { animation: none; }
 
-/* カード：左ボーダーが流れる */
+/* カード：左ボーダーは静的 */
 .カード::before {
-  background: linear-gradient(180deg, var(--cyan), var(--pink), var(--gold), var(--cyan));
-  background-size: 100% 300%;
-  animation: gradient-shift 8s ease infinite;
+  background: var(--cyan);
 }
 
 /* ボタン主：内側シマー */
@@ -635,9 +631,7 @@ header h1 { animation: neon-flicker 8s infinite; }
 .プラス { transition: text-shadow 0.3s; }
 .マイナス { transition: text-shadow 0.3s; }
 
-/* 重要数値（Orbitron）に控えめなパルス */
-[class*="エリア統計値"].プラス { animation: pulse-glow-green 3s ease-in-out infinite; }
-[class*="エリア統計値"].マイナス { animation: pulse-glow-red 3s ease-in-out infinite; }
+/* 重要数値：パルスは廃止 */
 
 /* ナビボタン .active にゴールドのパルス */
 nav button.active::after {
@@ -739,16 +733,14 @@ button:hover, .ホールカード:hover, .機種カード:hover, .攻略カー�
 /* ── 🔥 ゴリゴリPart2: 3D・glass・パーティクル・神演出 ── */
 /* ════════════════════════════════════════════════════ */
 
-/* ✨ 動く光球背景（body全体） */
+/* ✨ 控えめな背景アクセント（プロ仕様） */
 body::before {
   content: '';
   position: fixed; inset: 0;
   background:
-    radial-gradient(ellipse 600px 400px at 20% 30%, rgba(255,45,120,0.18) 0%, transparent 60%),
-    radial-gradient(ellipse 500px 500px at 80% 70%, rgba(0,229,255,0.15) 0%, transparent 55%),
-    radial-gradient(ellipse 400px 600px at 50% 90%, rgba(255,214,0,0.12) 0%, transparent 50%);
+    radial-gradient(ellipse 800px 500px at 20% 10%, rgba(14,165,233,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 600px 600px at 80% 90%, rgba(236,72,153,0.04) 0%, transparent 50%);
   pointer-events: none; z-index: 0;
-  animation: orb-float 20s ease-in-out infinite;
 }
 
 @keyframes orb-float {
@@ -763,232 +755,122 @@ body::before {
   100% { transform: rotate(360deg); }
 }
 
-/* ✨ KPI: glassmorphism + 動くborder光 */
+/* ✨ KPI: glassmorphism シンプル */
 .kpi {
-  background: linear-gradient(135deg, rgba(18,18,31,0.85) 0%, rgba(26,26,42,0.85) 100%);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: var(--bg2);
+  border: 1px solid var(--border);
   overflow: hidden;
   isolation: isolate;
+  transition: border-color 0.2s, transform 0.2s;
 }
-.kpi::after {
-  content: '';
-  position: absolute;
-  inset: -50%;
-  background: conic-gradient(from 0deg, transparent 0deg, rgba(0,229,255,0.4) 30deg, transparent 60deg, transparent 360deg);
-  animation: conic-spin 6s linear infinite;
-  z-index: -1;
-  opacity: 0;
-  transition: opacity 0.4s;
-}
-.kpi:hover::after { opacity: 1; }
 .kpi:hover {
-  transform: translateY(-4px) scale(1.02);
-  box-shadow:
-    0 12px 30px rgba(0,229,255,0.3),
-    0 0 0 1px rgba(0,229,255,0.4),
-    inset 0 0 20px rgba(0,229,255,0.1);
+  transform: translateY(-1px);
+  border-color: var(--cyan);
 }
 
-/* ✨ KPI数値：超大型・グラデーション */
+/* ✨ KPI数値：プロ仕様（発光抑制） */
 .kpi .数値 {
-  font-size: 32px !important;
-  font-weight: 900;
-  letter-spacing: -1px;
-  text-shadow:
-    0 0 10px currentColor,
-    0 0 20px currentColor,
-    0 0 40px rgba(255,255,255,0.2);
-  filter: drop-shadow(0 0 8px currentColor);
+  font-size: 30px !important;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  text-shadow: none;
 }
-.kpi .数値.プラス {
-  background: linear-gradient(180deg, #aaffaa 0%, #5fff5f 50%, #2acc2a 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: pulse-glow-green 2s ease-in-out infinite, text-glow-pulse 1.5s ease infinite;
-}
-.kpi .数値.マイナス {
-  background: linear-gradient(180deg, #ffaabb 0%, #ff4d6d 50%, #cc2a44 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: pulse-glow-red 2s ease-in-out infinite;
-}
+.kpi .数値.プラス { color: var(--green); }
+.kpi .数値.マイナス { color: var(--red); }
+.kpi .数値.青 { color: var(--cyan); }
 
-@keyframes text-glow-pulse {
-  0%, 100% { filter: drop-shadow(0 0 8px #5fff5f) brightness(1); }
-  50% { filter: drop-shadow(0 0 16px #5fff5f) brightness(1.3); }
-}
-
-/* ✨ カード：3D tilt + glass */
+/* ✨ カード：プロ仕様（シンプルglass） */
 .カード {
-  background: linear-gradient(135deg, rgba(18,18,31,0.7) 0%, rgba(26,26,42,0.6) 100%);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,0.06);
-  transform-style: preserve-3d;
-  perspective: 1000px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
   position: relative;
-  isolation: isolate;
 }
-
-/* カード上のキラキラハイライト */
-.カード::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-  z-index: 1;
-  opacity: 0;
-  animation: card-shine 6s ease infinite;
-}
-@keyframes card-shine {
-  0%, 90%, 100% { opacity: 0; transform: translateX(-100%); }
-  5%, 10% { opacity: 1; transform: translateX(100%); }
-}
-
+.カード::after { display: none; }
 .カード:hover {
-  transform: translateY(-3px) perspective(1000px) rotateX(2deg);
-  box-shadow:
-    0 12px 40px rgba(0,229,255,0.15),
-    0 0 0 1px rgba(0,229,255,0.25),
-    inset 0 1px 0 rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.12);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-/* ✨ ヘッダー：強化グロー */
+/* ✨ ヘッダー：プロ仕様（シンプル） */
 header {
-  background:
-    linear-gradient(135deg, rgba(8,8,16,0.95) 0%, rgba(10,10,24,0.95) 100%),
-    radial-gradient(ellipse at top right, rgba(255,45,120,0.3), transparent 60%);
-  box-shadow:
-    0 0 30px rgba(255,45,120,0.4),
-    inset 0 -1px 0 var(--pink),
-    inset 0 -3px 10px rgba(255,45,120,0.2);
-  backdrop-filter: blur(10px);
+  background: rgba(14,17,25,0.85);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.04);
+  backdrop-filter: blur(20px);
 }
 
 header h1 {
-  font-size: 19px;
-  letter-spacing: 5px;
-  background: linear-gradient(180deg, #fff 0%, var(--cyan) 50%, #00aaff 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 8px var(--cyan)) drop-shadow(0 0 16px var(--cyan));
-  animation: neon-flicker 8s infinite, text-cyan-pulse 3s ease infinite;
-}
-@keyframes text-cyan-pulse {
-  0%, 100% { filter: drop-shadow(0 0 8px var(--cyan)) drop-shadow(0 0 16px var(--cyan)); }
-  50% { filter: drop-shadow(0 0 14px var(--cyan)) drop-shadow(0 0 28px var(--cyan)) drop-shadow(0 0 40px var(--cyan)); }
+  font-size: 18px;
+  letter-spacing: 3px;
+  color: var(--text);
+  text-shadow: none;
+  filter: none;
+  animation: none;
 }
 
-/* ✨ ヘッダーアイコン：3D回転 */
 .header-icon {
-  font-size: 28px;
-  animation: icon-bounce 3s ease infinite, flicker 3s infinite;
+  font-size: 24px;
+  filter: none;
+  animation: none;
   display: inline-block;
-  filter: drop-shadow(0 0 8px var(--gold));
-}
-@keyframes icon-bounce {
-  0%, 100% { transform: translateY(0) rotate(0); }
-  25% { transform: translateY(-3px) rotate(-5deg); }
-  75% { transform: translateY(0) rotate(5deg); }
 }
 
-/* ✨ ヘッダーバッジ：パルスする発光 */
 .header-badge {
-  background: linear-gradient(135deg, rgba(255,45,120,0.2), rgba(255,45,120,0.05));
-  border: 1px solid var(--pink);
-  box-shadow:
-    0 0 12px var(--pink),
-    inset 0 0 8px rgba(255,45,120,0.3);
-  animation: pulse-border 2s ease-in-out infinite, badge-pulse 1.5s ease infinite;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  box-shadow: none;
+  animation: none;
+  color: var(--text2);
   position: relative;
   overflow: hidden;
 }
-@keyframes badge-pulse {
-  0%, 100% { background: linear-gradient(135deg, rgba(255,45,120,0.2), rgba(255,45,120,0.05)); }
-  50% { background: linear-gradient(135deg, rgba(255,45,120,0.4), rgba(255,45,120,0.15)); }
-}
-.header-badge::before {
-  content: '';
-  position: absolute; top: 0; left: -100%;
-  width: 100%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-  animation: badge-shine 3s infinite;
-}
-@keyframes badge-shine {
-  0% { left: -100%; }
-  50%, 100% { left: 100%; }
-}
+.header-badge::before { display: none; }
 
-/* ✨ ナビ：下部発光バー */
+/* ✨ ナビ：プロ仕様 */
 nav {
-  background:
-    linear-gradient(180deg, rgba(18,18,31,0.95) 0%, rgba(10,10,20,0.98) 100%),
-    radial-gradient(ellipse at bottom, rgba(0,229,255,0.15), transparent 60%);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-top: 1px solid var(--cyan);
-  box-shadow:
-    0 -4px 30px rgba(0,0,0,0.6),
-    0 -1px 0 rgba(0,229,255,0.3),
-    inset 0 1px 0 rgba(0,229,255,0.15);
+  background: rgba(14,17,25,0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border);
+  box-shadow: 0 -2px 20px rgba(0,0,0,0.3);
 }
 
 nav button.active {
-  background:
-    linear-gradient(0deg, rgba(0,229,255,0.25) 0%, transparent 80%),
-    radial-gradient(ellipse at bottom, rgba(0,229,255,0.3), transparent 50%);
+  background: linear-gradient(0deg, rgba(14,165,233,0.12), transparent);
+  color: var(--cyan);
 }
-nav button.active .nv-ic {
-  filter: drop-shadow(0 0 6px var(--cyan)) drop-shadow(0 0 12px var(--cyan));
-  animation: icon-bounce 2s ease infinite;
-}
+nav button.active .nv-ic { filter: none; animation: none; }
 
-/* ✨ ボタン主：超強化 + シマー連射 */
+/* ✨ ボタン主：プロ仕様 */
 .ボタン主 {
-  background: linear-gradient(135deg, transparent 0%, rgba(255,45,120,0.15) 50%, transparent 100%);
+  background: var(--pink);
   border: 1px solid var(--pink);
-  box-shadow:
-    0 0 12px var(--pink),
-    0 0 24px rgba(255,45,120,0.3),
-    inset 0 0 12px rgba(255,45,120,0.1);
-  position: relative;
-  overflow: hidden;
-  text-shadow: 0 0 8px var(--pink);
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  color: #fff;
+  text-shadow: none;
+  transition: all 0.15s ease;
 }
 .ボタン主:hover {
-  background: linear-gradient(135deg, var(--pink) 0%, #ff8cc8 100%);
-  color: #000 !important;
-  text-shadow: none;
-  transform: translateY(-2px) scale(1.02);
-  box-shadow:
-    0 8px 30px var(--pink),
-    0 0 40px rgba(255,45,120,0.5),
-    0 0 80px rgba(255,45,120,0.3);
+  background: #db2777;
+  border-color: #db2777;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(236,72,153,0.3);
 }
-.ボタン主:active {
-  transform: translateY(0) scale(0.98);
-}
+.ボタン主:active { transform: translateY(0); }
 
-/* ✨ ボタン副：シアン強化 */
+/* ✨ ボタン副 */
 .ボタン副 {
-  background: linear-gradient(135deg, transparent 0%, rgba(0,229,255,0.15) 50%, transparent 100%);
-  border: 1px solid var(--cyan);
-  box-shadow: 0 0 8px var(--cyan), inset 0 0 8px rgba(0,229,255,0.1);
-  position: relative;
-  overflow: hidden;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  box-shadow: none;
+  color: var(--text);
+  transition: all 0.15s ease;
 }
 .ボタン副:hover {
-  background: linear-gradient(135deg, var(--cyan) 0%, #88f4ff 100%);
-  color: #000 !important;
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 6px 24px var(--cyan), 0 0 40px rgba(0,229,255,0.4);
+  background: var(--bg2);
+  border-color: var(--cyan);
+  color: var(--cyan);
+  transform: translateY(-1px);
 }
 
 /* ✨ 全button: タップ波紋 */
@@ -1073,14 +955,14 @@ button:active::before { width: 300px; height: 300px; transition: 0s; }
     0 0 0 1px rgba(255,45,120,0.3);
 }
 
-/* ✨ ホール収支 / 機種収支：超デカ発光 */
+/* ホール/機種収支：シンプル */
 .ホール収支, .機種収支 {
-  font-size: 18px !important;
-  font-weight: 900;
-  filter: drop-shadow(0 0 6px currentColor);
+  font-size: 16px !important;
+  font-weight: 700;
+  filter: none;
+  text-shadow: none;
 }
-.ホール収支.プラス, .機種収支.プラス { animation: pulse-glow-green 2.5s ease infinite; }
-.ホール収支.マイナス, .機種収支.マイナス { animation: pulse-glow-red 2.5s ease infinite; }
+.ホール収支.プラス, .機種収支.プラス, .ホール収支.マイナス, .機種収支.マイナス { animation: none; }
 
 /* ✨ テーブル行：ホバー時に光のスライド */
 tbody tr:hover {
@@ -1174,19 +1056,9 @@ input:focus, select:focus, textarea:focus {
   box-shadow: 0 0 6px var(--cyan);
 }
 
-/* ✨ プラス/マイナス値の常時パルス強化 */
-.プラス {
-  text-shadow:
-    0 0 6px #5fff5f,
-    0 0 12px #5fff5f88,
-    0 0 24px #5fff5f44;
-}
-.マイナス {
-  text-shadow:
-    0 0 6px #ff4d6d,
-    0 0 12px #ff4d6d88,
-    0 0 24px #ff4d6d44;
-}
+/* ✨ プラス/マイナス値：シンプルカラー */
+.プラス { color: var(--green); text-shadow: none; }
+.マイナス { color: var(--red); text-shadow: none; }
 
 /* ✨ 大型数値（Orbitronクラス全部）金属シャイン */
 [class*="統計値"], .ホール収支, .機種収支, .目標パーセント, .サマリー値 {
@@ -7778,7 +7650,7 @@ function テーマ切替(mode) {
   }
 
   // 初期粒子数（モバイル軽量化）
-  const MAX_PARTICLES = window.innerWidth < 600 ? 35 : 70;
+  const MAX_PARTICLES = window.innerWidth < 600 ? 10 : 20;
   for (let i = 0; i < MAX_PARTICLES; i++) {
     const p = createParticle();
     p.y = Math.random() * H;
@@ -7799,7 +7671,7 @@ function テーマ切替(mode) {
       }
 
       ctx.save();
-      ctx.globalAlpha = p.life * 0.7;
+      ctx.globalAlpha = p.life * 0.25;
       ctx.fillStyle = p.color;
       ctx.shadowBlur = p.blur * 3;
       ctx.shadowColor = p.color;
