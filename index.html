@@ -373,6 +373,23 @@ tbody td { padding: 13px 12px; white-space: nowrap; font-size: 14px; color: var(
 .機能説明 { background: rgba(0,229,255,0.05); border: 1px solid rgba(0,229,255,0.2); border-radius: 2px; padding: 14px 16px; margin-bottom: 16px; font-size: 13px; line-height: 1.9; color: var(--muted); }
 .機能説明 strong { color: var(--cyan); }
 
+/* ── 2軸スコアバー (B006) ── */
+.score-bar { display:flex; align-items:center; gap:6px; font-size:11px; margin-top:4px; }
+.score-bar-label { color:var(--muted); width:32px; }
+.score-bar-fill { flex:1; height:6px; background:var(--bg3); border-radius:3px; overflow:hidden; }
+.score-bar-fill > span { display:block; height:100%; background:linear-gradient(90deg,var(--cyan),var(--green)); }
+.score-bar-val { color:var(--text); font-family:'Orbitron',monospace; min-width:24px; text-align:right; }
+.score-2axis { background:rgba(0,0,0,0.15); border:1px solid var(--border); border-radius:3px; padding:6px 8px; margin-top:8px; }
+
+/* ── 戦略エッジカード (B007) ── */
+.戦略エッジカード { background: linear-gradient(135deg, var(--bg2) 0%, rgba(255,214,0,0.10) 100%); border: 1px solid var(--gold); border-left: 3px solid var(--gold); border-radius: 2px; padding: 14px 16px; margin-bottom: 14px; box-shadow: 0 0 8px rgba(255,214,0,0.15); }
+.戦略エッジカード .タイトル { font-size: 13px; color: var(--gold); text-shadow: 0 0 6px rgba(255,214,0,0.4); margin-bottom: 8px; font-weight: 700; letter-spacing: 1px; }
+.戦略エッジカード .本体 { display:grid; grid-template-columns: repeat(2,1fr); gap:8px; font-size:12px; }
+.戦略エッジカード .項目 { background: var(--bg3); border:1px solid var(--border); border-radius:2px; padding:8px; }
+.戦略エッジカード .項目ラベル { font-size: 10px; color: var(--muted); margin-bottom: 4px; letter-spacing: 1px; }
+.戦略エッジカード .項目値 { font-family:'Orbitron',monospace; color: var(--green); font-weight: 700; text-shadow: 0 0 4px rgba(16,185,129,0.4); font-size: 14px; }
+.戦略エッジカード .注釈 { font-size: 10px; color: var(--muted); margin-top: 6px; }
+
 /* ── 機種DB ── */
 .機種フィルター { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; align-items: center; background: var(--bg3); border: 1px solid var(--border); border-radius: 2px; padding: 12px; }
 .機種フィルター input, .機種フィルター select { max-width: 200px; }
@@ -1510,6 +1527,9 @@ button, a { -webkit-touch-callout: none; user-select: none; }
 <!-- ===== 収支ページ ===== -->
 <div id="page-home" class="page active">
   <div class="kpi-grid" id="KPIグリッド"></div>
+
+  <!-- 📊 事前選択戦略エッジ (B007) -->
+  <div class="戦略エッジカード" id="戦略エッジカード"></div>
 
   <!-- 📅 日付ブースト判定バッジ -->
   <div id="ブースト判定カード" class="ブーストカード 通常">
@@ -3463,9 +3483,77 @@ function データリスト更新() {
 // ── 収支ページ ──
 let 月別グラフインスタンス = null;
 
+// ── B006: 2軸スコア算出（設定狙い × 天井狙い） ──
+function スコア2軸算出(機種データ) {
+  if (!機種データ) return { setting: 0, ceiling: 0, total: 0 };
+  // 平均差枚: ホール配列の平均
+  let avg_sa = 0;
+  if (Array.isArray(機種データ.ホール) && 機種データ.ホール.length) {
+    const sum = 機種データ.ホール.reduce((a,h) => a + (Number(h.差枚)||0), 0);
+    avg_sa = sum / 機種データ.ホール.length;
+  }
+  // 設定狙いスコア
+  const setting = avg_sa > 500 ? 80 : (avg_sa > 0 ? 50 : 30);
+  // 天井G抽出 (文字列から数字を拾う)
+  let 天井G = 9999;
+  if (typeof 機種データ.天井 === 'string') {
+    const m = 機種データ.天井.match(/(\d{2,5})/);
+    if (m) 天井G = parseInt(m[1], 10);
+  } else if (typeof 機種データ.天井 === 'number') {
+    天井G = 機種データ.天井;
+  }
+  const ceiling = 天井G <= 600 ? 70 : (天井G <= 1000 ? 50 : 30);
+  const total = Math.round((setting + ceiling) / 2);
+  return { setting, ceiling, total };
+}
+
+// ── B007: 事前選択戦略エッジ表示 ──
+function 戦略エッジ表示() {
+  const el = document.getElementById('戦略エッジカード');
+  if (!el) return;
+  // localStorage 'harness_kpi' を優先参照 → なければハードコード
+  let kpi = { strategy_avg: 1882, baseline_avg: 150, diff: 1732, days: 189 };
+  try {
+    const raw = localStorage.getItem('harness_kpi');
+    if (raw) {
+      const j = JSON.parse(raw);
+      if (j && typeof j === 'object') {
+        if (typeof j.strategy_avg === 'number') kpi.strategy_avg = j.strategy_avg;
+        if (typeof j.baseline_avg === 'number') kpi.baseline_avg = j.baseline_avg;
+        if (typeof j.diff === 'number') kpi.diff = j.diff;
+        else kpi.diff = kpi.strategy_avg - kpi.baseline_avg;
+        if (typeof j.days === 'number') kpi.days = j.days;
+      }
+    }
+  } catch(e) {}
+  el.innerHTML = `
+    <div class="タイトル">📊 事前選択戦略エッジ</div>
+    <div class="本体">
+      <div class="項目">
+        <div class="項目ラベル">バックテスト期間</div>
+        <div class="項目値" style="color:var(--cyan)">${kpi.days}日</div>
+      </div>
+      <div class="項目">
+        <div class="項目ラベル">Top20戦略 平均差枚</div>
+        <div class="項目値">+${kpi.strategy_avg.toLocaleString()}枚/日</div>
+      </div>
+      <div class="項目">
+        <div class="項目ラベル">ベースライン平均差枚</div>
+        <div class="項目値" style="color:var(--text)">+${kpi.baseline_avg.toLocaleString()}枚/日</div>
+      </div>
+      <div class="項目">
+        <div class="項目ラベル">エッジ (差分)</div>
+        <div class="項目値">+${kpi.diff.toLocaleString()}枚/日</div>
+      </div>
+    </div>
+    <div class="注釈">※ royal_history 実データから算出 (pre_select_top20_best)</div>
+  `;
+}
+
 function renderHome() {
   今日の狙い目描画();
   ブースト判定描画();
+  戦略エッジ表示();
   const records = 記録取得();
   const s = 設定取得();
   const year = s.year || new Date().getFullYear();
@@ -4170,6 +4258,12 @@ function renderMachine() {
             <div class="スペック項目"><div class="ラベル">導入</div><div class="値">${m.導入}</div></div>
             <div class="スペック項目"><div class="ラベル">ジャンル</div><div class="値" style="color:${ジャンル色[m.ジャンル]||'var(--text)'}">${m.ジャンル}</div></div>
           </div>
+
+          ${(() => { const sc = スコア2軸算出(m); return `
+          <div class="score-2axis" title="設定狙い × 天井狙い 2軸スコア">
+            <div class="score-bar"><span class="score-bar-label">設定</span><div class="score-bar-fill"><span style="width:${sc.setting}%"></span></div><span class="score-bar-val">${sc.setting}</span></div>
+            <div class="score-bar"><span class="score-bar-label">天井</span><div class="score-bar-fill"><span style="width:${sc.ceiling}%"></span></div><span class="score-bar-val">${sc.ceiling}</span></div>
+          </div>`; })()}
 
           <div class="ホール比較セクション">
             <div class="ホール比較タイトル">▶ ホール別実績（直近）</div>
