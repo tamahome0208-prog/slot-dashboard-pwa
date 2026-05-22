@@ -2776,6 +2776,16 @@ button, a { -webkit-touch-callout: none; user-select: none; }
       <!-- 🌑 背景フラッシュ -->
       <div id="g-screen-bg" style="position:absolute;inset:0;opacity:0.4;background:radial-gradient(circle at 50% 50%,rgba(255,214,0,0.15),transparent 70%);z-index:7;pointer-events:none"></div>
 
+      <!-- 🔢 偶奇示唆ナンバー（リール回転毎に表示） -->
+      <div id="g-suji" style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);z-index:9;display:flex;gap:14px;padding:6px 14px;background:rgba(0,0,0,0.6);border-radius:6px;border:1px solid rgba(255,214,0,0.3);backdrop-filter:blur(4px);pointer-events:none">
+        <div class="g-suji-cell" data-i="0" style="font-family:'Orbitron',monospace;font-size:28px;font-weight:900;color:#666;text-shadow:0 0 6px currentColor;width:30px;text-align:center;transition:all 0.3s">-</div>
+        <div class="g-suji-cell" data-i="1" style="font-family:'Orbitron',monospace;font-size:28px;font-weight:900;color:#666;text-shadow:0 0 6px currentColor;width:30px;text-align:center;transition:all 0.3s">-</div>
+        <div class="g-suji-cell" data-i="2" style="font-family:'Orbitron',monospace;font-size:28px;font-weight:900;color:#666;text-shadow:0 0 6px currentColor;width:30px;text-align:center;transition:all 0.3s">-</div>
+      </div>
+
+      <!-- 🎯 示唆ラベル -->
+      <div id="g-suji-label" style="position:absolute;bottom:60px;left:50%;transform:translateX(-50%);z-index:9;font-family:'Orbitron',monospace;font-size:12px;font-weight:900;letter-spacing:3px;opacity:0;transition:opacity 0.4s;pointer-events:none;text-shadow:0 0 8px currentColor,0 2px 4px #000"></div>
+
       <!-- 中央テキストエリア（最前面） -->
       <div id="g-screen-content" style="position:relative;z-index:8;width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;color:#fff;text-align:center;font-family:'Orbitron',monospace;text-shadow:0 2px 4px rgba(0,0,0,0.8);pointer-events:none">
         <div style="font-size:11px;color:#ffd700;letter-spacing:4px;opacity:0.9;text-shadow:0 0 6px #ffd700,0 2px 4px #000">MILLION GOD</div>
@@ -2903,6 +2913,14 @@ button, a { -webkit-touch-callout: none; user-select: none; }
       ・<strong>中段リプレイ</strong>: 通常<br>
       ・<strong>右下がりリプレイ</strong>: 強チャンス<br>
       ・<strong>右上がりリプレイ</strong>: 強チャンス<br>
+      <br>
+      <strong style="color:#40e8ff">🔢 偶奇示唆（液晶下部・一撃法則準拠）</strong><br>
+      ・回転毎に3桁の数字がルーレット風に出現<br>
+      ・<span style="color:#40e8ff">全て偶数（2/4/6/8）</span> → 偶数設定示唆<br>
+      ・<span style="color:#ff8cc8">全て奇数（1/3/5/7）</span> → 奇数設定示唆<br>
+      ・<span style="color:#ffd700">ゾロ目</span> → 強示唆（偶奇問わず）<br>
+      ・<strong style="color:#ffd700">2-4-6・6-6-6 等の特殊パターン</strong> → 高設定示唆<br>
+      ・混在 → 示唆なし<br>
       <br>
       <strong style="color:var(--green)">GG（GOD GAME・純増7枚/G）</strong><br>
       ・1セット平均350枚<br>
@@ -5666,6 +5684,98 @@ function gScreenEffect(type) {
   }
 }
 
+// 🔢 偶奇示唆ナンバー生成（リール回転毎・1geki法則準拠）
+function g偶奇示唆生成() {
+  const cells = document.querySelectorAll('.g-suji-cell');
+  const label = document.getElementById('g-suji-label');
+  if (!cells.length) return;
+
+  // モード抽選（実機の頻度準拠）
+  // 60%: 混在（示唆なし）
+  // 18%: 全偶数（偶数示唆）
+  // 18%: 全奇数（奇数示唆）
+  // 3%: ゾロ目（強示唆）
+  // 1%: 高設定示唆（246/468/666 などの特殊パターン）
+  const r = Math.random();
+  let mode, numbers, color, glow, labelText;
+
+  if (r < 0.01) {
+    // 特殊パターン（高設定示唆）
+    const specials = [[2,4,6],[4,6,8],[6,6,6],[2,4,6],[1,3,5],[3,5,7],[5,5,5]];
+    numbers = specials[Math.floor(Math.random()*specials.length)];
+    const isEven = numbers[0] % 2 === 0;
+    mode = isEven ? 'kousettei-even' : 'kousettei-odd';
+    color = isEven ? '#40e8ff' : '#ff8cc8';
+    glow = color;
+    labelText = isEven ? '⚡ 高設定示唆（偶数）' : '⚡ 高設定示唆（奇数）';
+  } else if (r < 0.04) {
+    // ゾロ目
+    const n = Math.floor(Math.random()*8)+1;
+    numbers = [n, n, n];
+    const isEven = n % 2 === 0;
+    mode = 'zoro';
+    color = isEven ? '#88f4ff' : '#ff6699';
+    glow = color;
+    labelText = isEven ? `🎯 ゾロ目 偶数示唆` : `🎯 ゾロ目 奇数示唆`;
+  } else if (r < 0.22) {
+    // 全偶数
+    const evens = [2,4,6,8];
+    numbers = [evens[Math.floor(Math.random()*4)], evens[Math.floor(Math.random()*4)], evens[Math.floor(Math.random()*4)]];
+    mode = 'even';
+    color = '#40e8ff';
+    glow = '#40e8ff';
+    labelText = '偶数示唆';
+  } else if (r < 0.40) {
+    // 全奇数
+    const odds = [1,3,5,7];
+    numbers = [odds[Math.floor(Math.random()*4)], odds[Math.floor(Math.random()*4)], odds[Math.floor(Math.random()*4)]];
+    mode = 'odd';
+    color = '#ff8cc8';
+    glow = '#ff8cc8';
+    labelText = '奇数示唆';
+  } else {
+    // 混在（示唆なし）
+    numbers = [Math.floor(Math.random()*8)+1, Math.floor(Math.random()*8)+1, Math.floor(Math.random()*8)+1];
+    mode = 'mixed';
+    color = '#888';
+    glow = '#888';
+    labelText = '';
+  }
+
+  // 数字をルーレット風に回転して停止
+  cells.forEach((cell, i) => {
+    cell.style.color = '#ccc';
+    cell.style.textShadow = '0 0 4px #fff';
+    let frame = 0;
+    const rollInterval = setInterval(() => {
+      cell.textContent = Math.floor(Math.random()*8)+1;
+      frame++;
+      if (frame >= 8 + i*4) {
+        clearInterval(rollInterval);
+        cell.textContent = numbers[i];
+        cell.style.color = color;
+        cell.style.textShadow = `0 0 12px ${glow},0 0 24px ${glow},0 2px 4px #000`;
+        // ポップアニメ
+        cell.style.animation = 'count-up 0.3s ease';
+        setTimeout(() => { cell.style.animation = ''; }, 350);
+      }
+    }, 60);
+  });
+
+  // ラベル表示
+  setTimeout(() => {
+    if (label) {
+      label.textContent = labelText;
+      label.style.color = color;
+      label.style.opacity = labelText ? '1' : '0';
+      if (labelText) {
+        label.style.animation = 'pulse-glow-gold 1s ease infinite';
+        setTimeout(() => { label.style.animation = ''; }, 2000);
+      }
+    }
+  }, 700);
+}
+
 // 🔥 GODフリーズ演出（稲妻+画面振動+リール枠発光+大型ロゴ）
 function gFreeze(type) {
   return new Promise(resolve => {
@@ -5799,6 +5909,7 @@ function gSpin() {
   gState.spinning_all = true;
   gState.pendingResult = gDecideResult();
   gScreenEffect('spin');
+  g偶奇示唆生成();
 
   // リール回転開始
   for (let r = 0; r < 3; r++) {
