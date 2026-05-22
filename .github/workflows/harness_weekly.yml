@@ -1,0 +1,40 @@
+name: ハーネス週次AIサイクル
+
+on:
+  schedule:
+    # 毎週月曜 朝7:37(JST) = UTC 日曜22:37
+    - cron: '37 22 * * 0'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  ai_cycle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: AI週次サイクル実行
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          HARNESS_MONTHLY_LIMIT: '5.0'
+          HARNESS_PER_CYCLE_LIMIT: '1.0'
+        run: |
+          cd harness/scripts
+          python ai_cycle.py
+
+      - name: 変更コミット
+        run: |
+          git config --local user.email "harness-ai@github.com"
+          git config --local user.name "Harness AI Bot"
+          git add harness/state/
+          if git diff --staged --quiet; then
+            echo "状態変更なし"
+          else
+            git commit -m "🤖🧠 AI週次サイクル $(date +'%Y-%m-%d')"
+            git push
+          fi
