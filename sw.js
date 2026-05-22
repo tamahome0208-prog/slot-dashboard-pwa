@@ -1,5 +1,5 @@
 // スロット管理システム サービスワーカー
-const CACHE_NAME = 'slot-dashboard-v5-telemetry';
+const CACHE_NAME = 'slot-dashboard-v5-merge';
 const ASSETS = [
   './',
   './index.html',

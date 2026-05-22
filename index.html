@@ -3223,6 +3223,14 @@ button, a { -webkit-touch-callout: none; user-select: none; }
     <button class="ボタン削除" onclick="全削除()">【 全データを削除する 】</button>
   </div>
 
+  <div class="カード" style="border-left-color:var(--gold);background:linear-gradient(135deg, var(--bg2) 0%, rgba(255,214,0,0.06) 100%)">
+    <div class="カードタイトル" style="color:var(--gold)">▶ 🎯 AI推奨の的中率</div>
+    <p style="font-size:12px;color:var(--text2);margin-bottom:10px;line-height:1.7">
+      ホーム画面の「今日の狙い目」推奨機種について、実戦記録の機種名と照合し、<strong>差枚プラス＝的中</strong>として集計します。
+    </p>
+    <div id="ai-hit-rate-content"></div>
+  </div>
+
   <div class="カード">
     <div class="カードタイトル">▶ 📊 利用状況</div>
     <p style="font-size:12px;color:var(--muted);margin-bottom:10px">このアプリの使用状況（端末内のみ記録・外部送信なし）</p>
@@ -4193,6 +4201,7 @@ function renderSettings() {
   const ocrSt = document.getElementById('ocr状態');
   if (ocrSt) ocrSt.textContent = s.geminiKey ? '✅ APIキー設定済み（写真OCR利用可能）' : '※ APIキー未設定（写真OCRは利用不可）';
   テレメトリ描画();
+  if (typeof AI推奨的中率描画 === 'function') AI推奨的中率描画();
 }
 function テレメトリ描画() {
   const el = document.getElementById('テレメトリ表示');
@@ -5198,6 +5207,80 @@ function 今日の狙い目描画() {
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
       <button class="ボタン副" style="flex:1;min-width:120px" onclick="showPage('myhall', document.querySelector('nav button[onclick*=myhall]'))">🏆 マイホ詳細へ</button>
       <button class="ボタン副" style="flex:1;min-width:120px" onclick="showPage('tools', document.querySelector('nav button[onclick*=tools]'))">🚨 狙い目判定へ</button>
+    </div>
+  `;
+
+  // ── AI推奨ログを localStorage に記録（同日エントリは上書き） ──
+  try {
+    const todayISO = today.toISOString().slice(0,10);
+    const picks = 推奨機種.map((m, i) => ({ name: m.名, score: Math.max(60, 100 - i * 5) }));
+    const log = JSON.parse(localStorage.getItem('ai_picks_log') || '[]');
+    const idx = log.findIndex(e => e.date === todayISO);
+    const entry = { date: todayISO, picks, hit: null, recordedAt: new Date().toISOString() };
+    if (idx >= 0) log[idx] = entry; else log.push(entry);
+    // 直近180日分のみ保持
+    const cutoff = new Date(); cutoff.setDate(cutoff.getDate() - 180);
+    const filtered = log.filter(e => new Date(e.date) >= cutoff);
+    localStorage.setItem('ai_picks_log', JSON.stringify(filtered));
+  } catch (e) { console.warn('ai_picks_log保存失敗', e); }
+}
+
+// ════════════════════════════════════════
+// ── 🎯 AI推奨の的中集計（後追い判定） ──
+// ════════════════════════════════════════
+function AI推奨的中集計() {
+  let log = [];
+  try { log = JSON.parse(localStorage.getItem('ai_picks_log') || '[]'); } catch { log = []; }
+  const records = (typeof 記録取得 === 'function') ? 記録取得() : [];
+
+  log.forEach(entry => {
+    const dayRecs = records.filter(r => r.date === entry.date && r.machine);
+    if (dayRecs.length === 0) { entry.hit = null; return; }
+    let matched = false, win = false;
+    for (const r of dayRecs) {
+      const rm = (r.machine || '').replace(/\s/g, '');
+      for (const p of (entry.picks || [])) {
+        const pn = (p.name || '').replace(/\s/g, '');
+        if (!pn || !rm) continue;
+        const head = rm.slice(0,4), phead = pn.slice(0,4);
+        if (rm.includes(pn) || pn.includes(rm) ||
+            (head && pn.includes(head)) || (phead && rm.includes(phead))) {
+          matched = true;
+          if ((r.pnl || 0) > 0) { win = true; break; }
+        }
+      }
+      if (win) break;
+    }
+    entry.hit = matched ? win : null;
+  });
+
+  try { localStorage.setItem('ai_picks_log', JSON.stringify(log)); } catch {}
+
+  const judged = log.filter(e => e.hit !== null);
+  const hits = judged.filter(e => e.hit === true).length;
+  const rate = judged.length > 0 ? (hits / judged.length * 100) : null;
+  return { total: log.length, judged: judged.length, hits, rate, log };
+}
+
+function AI推奨的中率描画() {
+  const el = document.getElementById('ai-hit-rate-content');
+  if (!el) return;
+  const s = AI推奨的中集計();
+  if (s.judged === 0) {
+    el.innerHTML = `<div style="font-size:13px;color:var(--muted);padding:10px 0">📊 データ蓄積中…<br><span style="font-size:11px">推奨ログ: ${s.total}日分 / 判定可能: 0日（実戦記録の機種名が推奨機種と一致した日のみ集計対象）</span></div>`;
+    return;
+  }
+  const rateStr = s.rate.toFixed(1);
+  const color = s.rate >= 60 ? 'var(--green)' : (s.rate >= 40 ? 'var(--gold)' : 'var(--red)');
+  el.innerHTML = `
+    <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:8px">
+      <span style="font-family:'Orbitron',monospace;font-size:34px;font-weight:900;color:${color};text-shadow:0 0 8px ${color}">${rateStr}%</span>
+      <span style="font-size:12px;color:var(--text2)">的中率（${s.hits} / ${s.judged}日）</span>
+    </div>
+    <div style="font-size:11px;color:var(--muted);line-height:1.7">
+      🗂 推奨ログ蓄積: <strong>${s.total}</strong> 日分<br>
+      ✅ 判定済: <strong>${s.judged}</strong> 日（実戦記録あり）<br>
+      🎯 命中: <strong>${s.hits}</strong> 日（推奨機種で差枚プラス）
     </div>
   `;
 }
