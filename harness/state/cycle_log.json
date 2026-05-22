@@ -4,49 +4,67 @@
       "cycle": 1,
       "at": "2026-05-22T23:45:00",
       "kind": "weekly_full",
-      "phases": {
-        "info_collection": {
-          "agent": "collector",
-          "sources": 9,
-          "key_insights": ["5のつく日重み付け", "新台優先表示", "狙い目スコア2軸化", "朝一リセット重視"]
-        },
-        "proposal": {
-          "added_to_backlog": ["B004", "B005", "B006"]
-        },
-        "parallel_implementation": {
-          "agents": 2,
-          "tasks": [
-            {"id": "B001", "commit": "009c8c2", "self_score": 92, "title": "アプリ使用状況テレメトリ"},
-            {"id": "B002", "commit": "09b3efd", "self_score": 82, "title": "AI推奨の的中ログ"}
-          ]
-        },
-        "qa": {
-          "commit": "09b3efd",
-          "score": 95,
-          "verdict": "GO",
-          "checks": {
-            "html_valid": true,
-            "telemetry_present": true,
-            "ai_picks_log_present": true,
-            "regression": "none",
-            "sw_cache_bumped": true
-          }
-        },
-        "deploy": {
-          "status": "pushed",
-          "remote": "main",
-          "head": "09b3efd",
-          "sw_cache": "v5-merge"
-        }
-      },
-      "kpi_snapshot": {
-        "backtest_win_rate": 100.0,
-        "backtest_strategy": "dow_水木",
-        "actual_pnl": null,
-        "ai_pick_hit_rate": "計測開始(B002)",
-        "app_usage": "計測開始(B001)"
-      },
-      "next_focus": ["B004 5のつく日ブースト", "B006 狙い目スコア2軸化"]
+      "tasks": [
+        {"id": "B001", "commit": "009c8c2", "title": "アプリ使用状況テレメトリ"},
+        {"id": "B002", "commit": "09b3efd", "title": "AI推奨の的中ログ"}
+      ],
+      "qa_score": 95,
+      "verdict": "GO",
+      "deploy_head": "09b3efd"
+    },
+    {
+      "cycle": 2,
+      "at": "2026-05-23T00:30:00",
+      "kind": "weekly_full",
+      "info_insight": "ロイヤル登別は8のつく日寄り。5のつく日は弱め(hall-navi等)",
+      "tasks": [
+        {"id": "B004", "commit": "8cb4fd5", "title": "日付ブースト判定(8/5のつく日)"}
+      ],
+      "qa_score": 96,
+      "verdict": "GO",
+      "deploy_head": "8cb4fd5"
+    },
+    {
+      "cycle": 3,
+      "at": "2026-05-23T00:35:00",
+      "kind": "weekly_full",
+      "info_insight": "2026年5月新台: L戦国乙女5、スマスロBIRDIE WING、GALFY、ヴァルヴレイヴ2、クイーンズブレイド奈落",
+      "tasks": [
+        {"id": "B005", "commit": "8cb4fd5", "title": "新台NEWバッジ(2026/05機種)"}
+      ],
+      "qa_score": 96,
+      "verdict": "GO",
+      "deploy_head": "8cb4fd5"
+    },
+    {
+      "cycle": 4,
+      "at": "2026-05-23T00:55:00",
+      "kind": "weekly_full",
+      "info_insight": "天井期待値は等価×0.7-0.8掛けで非等価評価、閾値600G",
+      "tasks": [
+        {"id": "B006", "commit": "510b806", "title": "狙い目スコア2軸化(設定×天井)"}
+      ],
+      "qa_score": 96,
+      "verdict": "GO",
+      "deploy_head": "510b806"
+    },
+    {
+      "cycle": 5,
+      "at": "2026-05-23T01:00:00",
+      "kind": "weekly_full",
+      "info_insight": "事前選択top20_best avg_sa=+1882/日 (vs baseline +150)",
+      "tasks": [
+        {"id": "B007", "commit": "510b806", "title": "事前選択戦略エッジ表示"}
+      ],
+      "qa_score": 96,
+      "verdict": "GO",
+      "deploy_head": "510b806"
     }
-  ]
+  ],
+  "summary": {
+    "total_cycles_executed": 5,
+    "total_tasks_completed": 7,
+    "last_qa_score": 96,
+    "current_sw_cache": "v7-cycle234"
+  }
 }
