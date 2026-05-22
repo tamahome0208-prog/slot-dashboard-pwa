@@ -1513,6 +1513,32 @@ button, a { -webkit-touch-callout: none; user-select: none; }
 .streak-record-row { display:flex; gap:8px; flex-wrap:wrap; margin-top: 10px; }
 .streak-meta { color: var(--muted); font-size: 12px; margin-top: 4px; }
 .streak-done { color: var(--green); font-weight:700; margin-top: 6px; }
+
+/* === 衝動チェック CBT (Cycle#7) === */
+.urge-btn { background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff; border: 1px solid #ef4444; padding: 10px 16px; border-radius: 8px; font-weight: 700; cursor: pointer; box-shadow: 0 2px 8px rgba(239,68,68,0.3); width: 100%; margin-top: 10px; font-size: 14px; }
+.urge-btn:hover { filter: brightness(1.1); }
+.urge-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px; }
+.urge-modal-inner { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 24px; max-width: 480px; width: 100%; max-height: 90vh; overflow-y: auto; }
+.urge-timer-display { font-family:'Orbitron',monospace; font-size: 72px; font-weight: 900; color: var(--cyan); text-align: center; margin: 24px 0; text-shadow: 0 0 16px rgba(14,165,233,0.6); }
+.urge-step-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); display: inline-block; margin: 0 4px; }
+.urge-step-dot.active { background: var(--cyan); }
+.urge-step-nav { text-align: center; margin-bottom: 16px; }
+.urge-trigger-btn { display: block; width: 100%; padding: 14px; margin: 8px 0; background: var(--bg1); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 15px; font-weight: 600; cursor: pointer; text-align: left; transition: all 0.2s; }
+.urge-trigger-btn:hover, .urge-trigger-btn.selected { background: rgba(14,165,233,0.15); border-color: var(--cyan); }
+.urge-slider { width: 100%; margin: 16px 0; }
+.urge-slider-val { font-family:'Orbitron',monospace; font-size: 48px; font-weight: 900; color: #ef4444; text-align: center; }
+.urge-textarea { width: 100%; min-height: 70px; padding: 10px; background: var(--bg1); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-size: 14px; resize: vertical; }
+.urge-action-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+.urge-action-row button { flex: 1; min-width: 100px; padding: 10px; border-radius: 6px; font-weight: 700; cursor: pointer; border: 1px solid var(--border); }
+.urge-btn-primary { background: var(--cyan); color: #fff; border-color: var(--cyan) !important; }
+.urge-btn-danger { background: rgba(239,68,68,0.15); color: #ef4444; border-color: #ef4444 !important; }
+.urge-btn-success { background: rgba(16,185,129,0.15); color: var(--green); border-color: var(--green) !important; }
+.urge-btn-ghost { background: transparent; color: var(--muted); }
+.urge-info { background: rgba(14,165,233,0.1); border-left: 3px solid var(--cyan); padding: 10px 12px; margin: 12px 0; border-radius: 4px; font-size: 13px; line-height: 1.6; }
+.urge-stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 12px 0; }
+.urge-stat-cell { background: var(--bg1); padding: 10px; border-radius: 6px; text-align: center; border: 1px solid var(--border); }
+.urge-stat-cell .v { font-family:'Orbitron',monospace; font-size: 22px; font-weight: 800; color: var(--cyan); }
+.urge-stat-cell .l { font-size: 11px; color: var(--muted); margin-top: 2px; }
 </style>
 </head>
 <body>
@@ -1563,7 +1589,12 @@ button, a { -webkit-touch-callout: none; user-select: none; }
   <div class="カード streak-card" id="規律ストリークカード">
     <div class="カードタイトル" style="color:#f59e0b;text-shadow:0 0 6px rgba(245,158,11,0.4)">▶ 🔥 規律ストリーク</div>
     <div id="規律ストリーク内容"></div>
+    <!-- ⚡ 衝動チェック (Cycle#7) -->
+    <button class="urge-btn" onclick="衝動チェック開く()">⚡ 打ちたい...衝動チェック</button>
   </div>
+
+  <!-- ⚡ 衝動チェック モーダル (Cycle#7) -->
+  <div id="urgeModal" class="urge-modal" style="display:none"></div>
 
   <div class="目標エリア">
     <div class="角デコ 左上"></div><div class="角デコ 右上"></div>
@@ -3142,6 +3173,13 @@ button, a { -webkit-touch-callout: none; user-select: none; }
     </div>
     <button class="ボタン主" onclick="天井期待値計算()">💰 期待値を計算する</button>
     <div id="期待値結果" style="margin-top:14px"></div>
+  </div>
+
+  <!-- 🌊 衝動ログ (Cycle#7) -->
+  <div class="カード" id="衝動ログカード">
+    <div class="カードタイトル" style="color:var(--cyan)">▶ 🌊 衝動ログ (urge surfing)</div>
+    <div id="衝動ログ内容"></div>
+    <div class="グラフボックス" style="margin-top:10px"><canvas id="衝動ロググラフ"></canvas></div>
   </div>
 
 </div>
@@ -7993,6 +8031,7 @@ function 天井期待値計算() {
 function renderTools() {
   天井機種ドロップダウン初期化();
   狙い目セレクト初期化();
+  try { 衝動ログ描画(); } catch (e) { console.warn('衝動ログ描画失敗', e); }
 }
 
 // ── テーマ切替 ──
@@ -8354,6 +8393,277 @@ function 規律ストリーク編集() {
   s.history.splice(idx, 1);
   規律ストリーク保存(s);
   規律ストリーク描画();
+}
+
+// ── ⚡ 衝動チェック CBT urge surfing (Cycle#7) ──
+const 衝動ログKEY = 'urge_log';
+let 衝動タイマーID = null;
+let 衝動現在記録ID = null;
+let 衝動Step = 1;
+let 衝動入力 = { trigger:'', urge_before:5, thought:'' };
+
+function 衝動ログ取得() {
+  try { return JSON.parse(localStorage.getItem(衝動ログKEY) || '[]'); }
+  catch (e) { return []; }
+}
+function 衝動ログ保存All(arr) {
+  try { localStorage.setItem(衝動ログKEY, JSON.stringify(arr)); }
+  catch (e) { console.warn('衝動ログ保存失敗', e); }
+}
+function 衝動チェック保存(data) {
+  const arr = 衝動ログ取得();
+  const rec = Object.assign({ id: Date.now(), date: new Date().toISOString().slice(0,16), urge_after: null, action: '未決定' }, data);
+  arr.push(rec);
+  衝動ログ保存All(arr);
+  return rec.id;
+}
+function 衝動再評価(id, urge_after, action) {
+  const arr = 衝動ログ取得();
+  const i = arr.findIndex(r => r.id === id);
+  if (i < 0) return;
+  arr[i].urge_after = urge_after;
+  arr[i].action = action;
+  衝動ログ保存All(arr);
+}
+
+function 衝動チェック開く() {
+  衝動Step = 1;
+  衝動入力 = { trigger:'', urge_before:5, thought:'' };
+  衝動現在記録ID = null;
+  if (衝動タイマーID) { clearInterval(衝動タイマーID); 衝動タイマーID = null; }
+  const m = document.getElementById('urgeModal');
+  if (!m) return;
+  m.style.display = 'flex';
+  衝動モーダル描画();
+}
+function 衝動チェック閉じる() {
+  const m = document.getElementById('urgeModal');
+  if (m) { m.style.display = 'none'; m.innerHTML = ''; }
+  if (衝動タイマーID) { clearInterval(衝動タイマーID); 衝動タイマーID = null; }
+  try { 衝動ログ描画(); } catch {}
+}
+function 衝動ステップドット(active) {
+  let html = '<div class="urge-step-nav">';
+  for (let i=1;i<=4;i++) {
+    html += `<span class="urge-step-dot${i===active?' active':''}"></span>`;
+  }
+  html += '</div>';
+  return html;
+}
+function 衝動モーダル描画() {
+  const m = document.getElementById('urgeModal');
+  if (!m) return;
+  if (衝動Step === 1) {
+    const triggers = ['負け取り返し','暇','イベント日','誘い','その他'];
+    m.innerHTML = `<div class="urge-modal-inner">
+      ${衝動ステップドット(1)}
+      <h3 style="margin:0 0 12px;color:var(--cyan)">⚡ Step1: 何がきっかけ？</h3>
+      <div class="urge-info">トリガー(引き金)を意識するだけで衝動の自動操縦が止まります。</div>
+      ${triggers.map(t => `<button class="urge-trigger-btn${衝動入力.trigger===t?' selected':''}" onclick="衝動選トリガー('${t}')">${t}</button>`).join('')}
+      <div class="urge-action-row">
+        <button class="urge-btn-ghost" onclick="衝動チェック閉じる()">キャンセル</button>
+        <button class="urge-btn-primary" onclick="衝動次へ()" ${衝動入力.trigger?'':'disabled'}>次へ →</button>
+      </div>
+    </div>`;
+  } else if (衝動Step === 2) {
+    m.innerHTML = `<div class="urge-modal-inner">
+      ${衝動ステップドット(2)}
+      <h3 style="margin:0 0 12px;color:var(--cyan)">⚡ Step2: 今の衝動の強さ</h3>
+      <div class="urge-slider-val" id="urgeBeforeVal">${衝動入力.urge_before}</div>
+      <input type="range" min="0" max="10" value="${衝動入力.urge_before}" class="urge-slider" id="urgeBeforeSlider" oninput="衝動スライダー更新(this.value)">
+      <div style="display:flex;justify-content:space-between;color:var(--muted);font-size:12px"><span>0 なし</span><span>10 最大</span></div>
+      <div class="urge-action-row">
+        <button class="urge-btn-ghost" onclick="衝動戻る()">← 戻る</button>
+        <button class="urge-btn-primary" onclick="衝動次へ()">次へ →</button>
+      </div>
+    </div>`;
+  } else if (衝動Step === 3) {
+    m.innerHTML = `<div class="urge-modal-inner">
+      ${衝動ステップドット(3)}
+      <h3 style="margin:0 0 12px;color:var(--cyan)">⚡ Step3: 今、何を考えてる？</h3>
+      <div class="urge-info">言葉にすると思考と距離がとれます(認知的脱フュージョン)。</div>
+      <textarea class="urge-textarea" id="urgeThought" placeholder="例: 昨日負けたぶん取り返したい...">${衝動入力.thought||''}</textarea>
+      <div class="urge-action-row">
+        <button class="urge-btn-ghost" onclick="衝動戻る()">← 戻る</button>
+        <button class="urge-btn-primary" onclick="衝動次へ()">タイマー開始 →</button>
+      </div>
+      <div class="urge-action-row" style="margin-top:6px">
+        <button class="urge-btn-danger" onclick="衝動即決('打つ')">やっぱり打つ</button>
+        <button class="urge-btn-success" onclick="衝動即決('やめた')">やめた</button>
+      </div>
+    </div>`;
+  } else if (衝動Step === 4) {
+    // タイマー画面
+    m.innerHTML = `<div class="urge-modal-inner">
+      ${衝動ステップドット(4)}
+      <h3 style="margin:0 0 8px;color:var(--cyan)">🌊 15分 urge surfing</h3>
+      <div class="urge-info"><strong>衝動の波は15分でピークを越えます。</strong><br>波を観察するように見守ってください。乗り切れたら次は楽になります。</div>
+      <div class="urge-timer-display" id="urgeTimerDisplay">15:00</div>
+      <div style="text-align:center;color:var(--muted);font-size:13px">深呼吸: 4秒吸う → 7秒止める → 8秒吐く × 4セット</div>
+      <div class="urge-action-row">
+        <button class="urge-btn-ghost" onclick="衝動チェック閉じる()">中断して閉じる</button>
+        <button class="urge-btn-primary" onclick="衝動再評価画面()">再評価へ →</button>
+      </div>
+    </div>`;
+    衝動タイマー開始();
+  } else if (衝動Step === 5) {
+    // 再評価
+    m.innerHTML = `<div class="urge-modal-inner">
+      ${衝動ステップドット(4)}
+      <h3 style="margin:0 0 12px;color:var(--cyan)">🌊 再評価</h3>
+      <div style="color:var(--muted);font-size:13px;margin-bottom:6px">開始時の衝動: <strong style="color:#ef4444">${衝動入力.urge_before}</strong></div>
+      <div class="urge-slider-val" id="urgeAfterVal">5</div>
+      <input type="range" min="0" max="10" value="5" class="urge-slider" id="urgeAfterSlider" oninput="document.getElementById('urgeAfterVal').textContent=this.value">
+      <div style="display:flex;justify-content:space-between;color:var(--muted);font-size:12px"><span>0 なし</span><span>10 最大</span></div>
+      <div class="urge-action-row">
+        <button class="urge-btn-danger" onclick="衝動最終決定('打つ')">打つ</button>
+        <button class="urge-btn-success" onclick="衝動最終決定('やめた')">やめた</button>
+      </div>
+    </div>`;
+  }
+}
+function 衝動選トリガー(t) {
+  衝動入力.trigger = t;
+  衝動モーダル描画();
+}
+function 衝動スライダー更新(v) {
+  衝動入力.urge_before = parseInt(v,10);
+  const el = document.getElementById('urgeBeforeVal');
+  if (el) el.textContent = v;
+}
+function 衝動次へ() {
+  if (衝動Step === 1) {
+    if (!衝動入力.trigger) return;
+    衝動Step = 2;
+  } else if (衝動Step === 2) {
+    const s = document.getElementById('urgeBeforeSlider');
+    if (s) 衝動入力.urge_before = parseInt(s.value,10);
+    衝動Step = 3;
+  } else if (衝動Step === 3) {
+    const t = document.getElementById('urgeThought');
+    if (t) 衝動入力.thought = t.value.trim();
+    // 保存して タイマー画面へ
+    衝動現在記録ID = 衝動チェック保存({
+      trigger: 衝動入力.trigger,
+      urge_before: 衝動入力.urge_before,
+      thought: 衝動入力.thought
+    });
+    衝動Step = 4;
+  }
+  衝動モーダル描画();
+}
+function 衝動戻る() {
+  if (衝動Step === 3) {
+    const t = document.getElementById('urgeThought');
+    if (t) 衝動入力.thought = t.value;
+  }
+  if (衝動Step > 1) 衝動Step--;
+  衝動モーダル描画();
+}
+function 衝動即決(action) {
+  const t = document.getElementById('urgeThought');
+  if (t) 衝動入力.thought = t.value.trim();
+  const id = 衝動チェック保存({
+    trigger: 衝動入力.trigger,
+    urge_before: 衝動入力.urge_before,
+    thought: 衝動入力.thought
+  });
+  衝動再評価(id, 衝動入力.urge_before, action);
+  衝動チェック閉じる();
+  alert(action==='やめた' ? '✓ 素晴らしい判断！記録しました。' : '記録しました。次回もチェックしてみて。');
+}
+function 衝動タイマー開始() {
+  if (衝動タイマーID) clearInterval(衝動タイマーID);
+  let remain = 15 * 60; // 15分
+  const update = () => {
+    const el = document.getElementById('urgeTimerDisplay');
+    if (!el) { clearInterval(衝動タイマーID); 衝動タイマーID = null; return; }
+    const mm = String(Math.floor(remain/60)).padStart(2,'0');
+    const ss = String(remain%60).padStart(2,'0');
+    el.textContent = `${mm}:${ss}`;
+    if (remain <= 0) {
+      clearInterval(衝動タイマーID);
+      衝動タイマーID = null;
+      el.style.color = 'var(--green)';
+      el.textContent = '00:00 ✓';
+      try { if (navigator.vibrate) navigator.vibrate([200,100,200]); } catch {}
+    }
+    remain--;
+  };
+  update();
+  衝動タイマーID = setInterval(update, 1000);
+}
+function 衝動再評価画面() {
+  if (衝動タイマーID) { clearInterval(衝動タイマーID); 衝動タイマーID = null; }
+  衝動Step = 5;
+  衝動モーダル描画();
+}
+function 衝動最終決定(action) {
+  const s = document.getElementById('urgeAfterSlider');
+  const after = s ? parseInt(s.value,10) : 衝動入力.urge_before;
+  if (衝動現在記録ID) 衝動再評価(衝動現在記録ID, after, action);
+  衝動チェック閉じる();
+  const drop = 衝動入力.urge_before - after;
+  if (action === 'やめた') {
+    alert(`✓ 波を乗り切りました！衝動 ${衝動入力.urge_before}→${after} (${drop>=0?'-':''}${drop})\nこの経験は次の波を弱めます。`);
+  } else {
+    alert(`記録しました。衝動 ${衝動入力.urge_before}→${after}\n次回も気付いたらチェックしてみて。`);
+  }
+}
+
+function 衝動ログ統計() {
+  const arr = 衝動ログ取得();
+  const total = arr.length;
+  const beforeAvg = total ? (arr.reduce((s,r)=>s+(+r.urge_before||0),0)/total) : 0;
+  const evaluated = arr.filter(r => r.urge_after !== null && r.urge_after !== undefined);
+  const afterAvg = evaluated.length ? (evaluated.reduce((s,r)=>s+(+r.urge_after||0),0)/evaluated.length) : 0;
+  const quitCount = arr.filter(r => r.action === 'やめた').length;
+  const quitRate = total ? (quitCount/total*100) : 0;
+  return { total, beforeAvg, afterAvg, quitCount, quitRate };
+}
+let 衝動ログChart = null;
+function 衝動ログ描画() {
+  const el = document.getElementById('衝動ログ内容');
+  if (!el) return;
+  const st = 衝動ログ統計();
+  if (st.total === 0) {
+    el.innerHTML = '<p style="color:var(--muted);font-size:13px;line-height:1.7">まだ記録がありません。<br>ホーム画面の <strong style="color:#ef4444">⚡ 打ちたい...衝動チェック</strong> から開始できます。</p>';
+    return;
+  }
+  el.innerHTML = `
+    <div class="urge-stats-grid">
+      <div class="urge-stat-cell"><div class="v">${st.total}</div><div class="l">記録総数</div></div>
+      <div class="urge-stat-cell"><div class="v">${st.beforeAvg.toFixed(1)}</div><div class="l">平均 開始時</div></div>
+      <div class="urge-stat-cell"><div class="v">${st.afterAvg.toFixed(1)}</div><div class="l">平均 15分後</div></div>
+      <div class="urge-stat-cell"><div class="v">${st.quitRate.toFixed(0)}%</div><div class="l">撤退率(やめた)</div></div>
+    </div>
+    <div style="color:var(--muted);font-size:12px;margin-top:6px">衝動の減衰: <strong style="color:var(--green)">${(st.beforeAvg-st.afterAvg).toFixed(1)}</strong> ポイント(15分後)</div>
+  `;
+  // グラフ
+  try {
+    const c = document.getElementById('衝動ロググラフ');
+    if (!c || typeof Chart === 'undefined') return;
+    const arr = 衝動ログ取得().slice(-30);
+    const labels = arr.map(r => (r.date||'').slice(5,10));
+    const before = arr.map(r => r.urge_before);
+    const after = arr.map(r => r.urge_after === null ? null : r.urge_after);
+    if (衝動ログChart) { 衝動ログChart.destroy(); 衝動ログChart = null; }
+    衝動ログChart = new Chart(c.getContext('2d'), {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          { label: '開始時', data: before, borderColor: '#ef4444', backgroundColor:'rgba(239,68,68,0.15)', tension: 0.3, fill: false },
+          { label: '15分後', data: after, borderColor: '#10b981', backgroundColor:'rgba(16,185,129,0.15)', tension: 0.3, fill: false, spanGaps: true }
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        scales: { y: { min: 0, max: 10, ticks: { color: '#9ca3af' } }, x: { ticks: { color: '#9ca3af' } } },
+        plugins: { legend: { labels: { color: '#e5e7eb' } } }
+      }
+    });
+  } catch (e) { console.warn('衝動ログ描画失敗', e); }
 }
 
 // ── サービスワーカー登録 ──
