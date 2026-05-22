@@ -1,5 +1,5 @@
 // スロット管理システム サービスワーカー
-const CACHE_NAME = 'slot-dashboard-v3-strategy';
+const CACHE_NAME = 'slot-dashboard-v4-tetris';
 const ASSETS = [
   './',
   './index.html',
