@@ -2932,6 +2932,22 @@ button, a { -webkit-touch-callout: none; user-select: none; }
       ・「FREEZE！」「PREMIUM GOD GAME」演出<br>
       ・強振動 + 七色フラッシュ<br>
       <br>
+      <strong style="color:#ff8c00">⚡ ハーデスチャンス（CZ）</strong><br>
+      ・通常時のCZ。7G継続で50%でGG突入<br>
+      ・期待度50%（実機準拠）<br>
+      <br>
+      <strong style="color:#ffd700">🏛️ 天井1480G</strong><br>
+      ・通常時1480Gハマリで強制GG突入<br>
+      ・1/2の確率で80%ループ確定<br>
+      <br>
+      <strong style="color:#88f4ff">🎬 GG終了画面（設定示唆）</strong><br>
+      ・GG終了時にキャラ表示で設定示唆<br>
+      ・ハーデス/ゼウス/アテナ: 通常<br>
+      ・朝焼け: 通常<br>
+      ・夕焼け: 設定2以上<br>
+      ・全員集合: 高設定示唆<br>
+      ・6体集合: 設定6濃厚<br>
+      <br>
       <strong style="color:var(--pink)">⚡ AUTO モード</strong><br>
       ・自動高速プレイで長期傾向確認
     </div>
@@ -5528,10 +5544,15 @@ const G_REELS_DEF = [
 
 const SYMBOL_HEIGHT = 60;  // 各図柄のpx高さ
 
+// 実機準拠の設定別初当たり確率（設定6）
+const G_SETTING = 6;  // 高設定で遊べる
+const G_AT_RATE = G_SETTING === 6 ? 274.7 : 525.4;  // 1/X
+const G_CEILING = 1480;  // 天井1480G
+
 let gState = {
   credit: 300,
   diff: 0,
-  games: 0,
+  games: 0,           // 通常時G数（天井カウンター）
   totalGames: 0,
   ggCount: 0,
   godCount: 0,
@@ -5539,18 +5560,22 @@ let gState = {
   maxStreak: 0,
   maxGain: 0,
   inGG: false,
+  inCZ: false,        // ハーデスチャンス中
+  czRemain: 0,
   ggSets: 0,
   ggRemainSets: 0,
+  ggInSetG: 0,        // GG中の現セット消化数
   loopRate: 0,
   zZone: false,
-  reels: [0, 0, 0],     // 各リールの停止位置（図柄インデックス）
+  mode: 0,            // 0=通常 1=天国 2=超天国
+  reels: [0, 0, 0],
   spinning: [false, false, false],
-  reelSpeed: [0, 0, 0], // 0=停止, 1=回転中
+  reelSpeed: [0, 0, 0],
   reelTargets: [null, null, null],
   spinning_all: false,
   autoMode: false,
-  pendingResult: null,  // 当選した役
-  history: [],          // 各ゲームの結果
+  pendingResult: null,
+  history: [],
   startCredit: 300,
 };
 
@@ -5677,6 +5702,15 @@ function gScreenEffect(type) {
       <div style="font-size:14px;color:#fff;letter-spacing:5px;text-shadow:0 0 6px #ff8c00">PREMIUM</div>
       <div style="font-size:42px;color:#fff;font-weight:900;text-shadow:0 0 24px #ffd700,0 0 48px #ff0000,0 2px 4px #000;letter-spacing:6px;margin-top:4px;animation:icon-bounce 0.3s ease infinite;font-family:'Orbitron',monospace">Z-ZONE</div>
       <div style="font-size:11px;color:#ffd700;margin-top:6px;animation:pulse-glow-gold 0.5s infinite">純増7枚/G 確定継続</div>
+    `;
+  } else if (type === 'tenjo') {
+    bg.style.background = 'radial-gradient(circle at 50% 50%,#fff 0%,#ffd700 30%,#ff4500 70%,#000 100%)';
+    bg.style.animation = 'gradient-shift 0.4s linear infinite';
+    if (thunder) { thunder.style.opacity = '0.8'; thunder.style.animation = 'flicker 0.2s infinite'; }
+    c.innerHTML = `
+      <div style="font-size:13px;color:#fff;letter-spacing:4px;text-shadow:0 0 8px #ffd700">⚡ 1480G 天井到達 ⚡</div>
+      <div class="g-metal-text" style="font-size:48px;font-weight:900;letter-spacing:4px;margin-top:6px;animation:text-pop 0.6s cubic-bezier(0.34,1.56,0.64,1)">天井GG</div>
+      <div style="font-size:12px;color:#ffd700;margin-top:8px;text-shadow:0 0 8px #ffd700">高継続率1/2でループ</div>
     `;
   } else {
     bg.style.animation = '';
@@ -5905,7 +5939,8 @@ function gSpin() {
 
   gState.credit -= 3;
   gState.totalGames++;
-  gState.games++;
+  // 通常時のみ天井カウンタ加算（GG/CZ中は加算しない）
+  if (!gState.inGG && !gState.inCZ) gState.games++;
   gState.spinning_all = true;
   gState.pendingResult = gDecideResult();
   gScreenEffect('spin');
@@ -5922,28 +5957,40 @@ function gSpin() {
 
 function gDecideResult() {
   if (gState.inGG) {
-    return { type: 'gg-game', payout: 10, symbol: 'rep' }; // GG中
+    // GG中: 純増7枚/G、AT継続抽選はセット終了時
+    return { type: 'gg-game', payout: 10, symbol: 'rep' };
+  }
+
+  if (gState.inCZ) {
+    // ハーデスチャンス中（50%でGG）
+    return { type: 'cz-game', payout: 3, symbol: 'rep' };
+  }
+
+  // 天井到達チェック
+  if (gState.games >= G_CEILING) {
+    return { type: 'tenjo', payout: 0, symbol: 'god' };
   }
 
   const rand = Math.random();
-  // 0.34%: GOD揃い → フリーズ→PGG
-  if (rand < 0.0034) return { type: 'god', payout: 0, symbol: 'god', freeze: true };
-  // 0.5%: 赤7揃い → SGG（小フリーズ付き）
-  if (rand < 0.0084) return { type: 'red7', payout: 0, symbol: 'red7', freeze: true };
-  // 0.3%: 黄7揃い→GG直撃
-  if (rand < 0.0114) return { type: 'gg-direct', payout: 0, symbol: 'y7a' };
-  // 2%: 黄7揃い（払い出し）
-  if (rand < 0.0314) return { type: 'y7', payout: 50, symbol: 'y7a' };
-  // 8%: ガイア成立（チャンス目）
-  if (rand < 0.1114) return { type: 'gaia', payout: 0, symbol: 'gaia' };
-  // 10%: ベル
-  if (rand < 0.2114) return { type: 'bell', payout: 9, symbol: 'bell' };
-  // 30%: リプレイ（中段）
-  if (rand < 0.5114) return { type: 'rep-mid', payout: 3, symbol: 'rep' };
-  // 2%: 右下がりリプレイ（強チャンス）
-  if (rand < 0.5314) return { type: 'rep-down', payout: 3, symbol: 'rep' };
-  // 1.5%: 右上がりリプレイ（強チャンス）
-  if (rand < 0.5464) return { type: 'rep-up', payout: 3, symbol: 'rep' };
+  // 実機準拠: AT当選率 設定6で 1/274.7
+  const atProb = 1 / G_AT_RATE;
+  // GOD揃い: AT当選の約8%
+  if (rand < atProb * 0.08) return { type: 'god', payout: 0, symbol: 'god', freeze: true };
+  // 赤7揃い (SGG): AT当選の約12%
+  if (rand < atProb * 0.20) return { type: 'red7', payout: 0, symbol: 'red7', freeze: true };
+  // 黄7揃い (GG直撃): AT当選の約30%
+  if (rand < atProb * 0.50) return { type: 'gg-direct', payout: 0, symbol: 'y7a' };
+  // 残りのAT当選: ハーデスチャンス経由
+  if (rand < atProb) return { type: 'hades-trigger', payout: 0, symbol: 'gaia' };
+
+  // 通常役
+  if (rand < 0.02) return { type: 'y7', payout: 50, symbol: 'y7a' };
+  if (rand < 0.10) return { type: 'gaia', payout: 0, symbol: 'gaia' };
+  if (rand < 0.20) return { type: 'bell', payout: 9, symbol: 'bell' };
+  // リプレイ系（4号機凱旋準拠：リプ確率約1/7.3 = 13.7%）
+  if (rand < 0.34) return { type: 'rep-mid', payout: 3, symbol: 'rep' };
+  if (rand < 0.36) return { type: 'rep-down', payout: 3, symbol: 'rep' };
+  if (rand < 0.37) return { type: 'rep-up', payout: 3, symbol: 'rep' };
   return { type: 'hazure', payout: 0, symbol: null };
 }
 
@@ -6036,6 +6083,48 @@ async function gAfterStop() {
   gState.spinning_all = false;
   const r = gState.pendingResult;
 
+  if (r.type === 'tenjo') {
+    // 天井到達
+    gState.games = 0;
+    gScreenEffect('tenjo');
+    if (navigator.vibrate) navigator.vibrate([100, 50, 100, 50, 300]);
+    // 天井恩恵: 50% で 1% ループ / 50% で 80% ループ
+    gStartGG(1, Math.random() < 0.5 ? 'TENJO_HIGH' : 'TENJO_LOW');
+    if (gState.diff > gState.maxGain) gState.maxGain = gState.diff;
+    gUpdateUI();
+    return;
+  }
+
+  if (r.type === 'hades-trigger') {
+    // ハーデスチャンス突入
+    gState.inCZ = true;
+    gState.czRemain = 7;  // 7G継続
+    gScreenEffect('hades');
+    gUpdateUI();
+    return;
+  }
+
+  if (r.type === 'cz-game') {
+    // ハーデスチャンス中
+    gState.czRemain--;
+    gState.credit += 3;  // リプレイ
+    if (gState.czRemain <= 0) {
+      // CZ終了：50%でGG突入
+      gState.inCZ = false;
+      if (Math.random() < 0.5) {
+        gScreenEffect('gg');
+        if (navigator.vibrate) navigator.vibrate([80, 40, 80]);
+        gStartGG(1, 'CZ');
+      } else {
+        gScreenSet('READY', '神々の軌跡', 'CZ FAIL');
+        setTimeout(() => gScreenSet('READY', '神々の軌跡', 'READY TO SPIN'), 1500);
+      }
+    }
+    if (gState.diff > gState.maxGain) gState.maxGain = gState.diff;
+    gUpdateUI();
+    return;
+  }
+
   if (r.type === 'god') {
     gState.godCount++;
     gScreenEffect('god');
@@ -6084,7 +6173,9 @@ async function gAfterStop() {
 
 function gStartGG(sets, type) {
   gState.inGG = true;
+  gState.games = 0;  // 天井カウンタリセット
   gState.ggCount++;
+  gState.ggInSetG = 0;
   if (gState.streak === 0) gState.streak = 1;
   else gState.streak++;
   if (gState.streak > gState.maxStreak) gState.maxStreak = gState.streak;
@@ -6121,12 +6212,56 @@ function gEndGGSet() {
     gScreenEffect(gState.zZone ? 'zzone' : 'stock');
     setTimeout(() => { if (gState.inGG) gScreenEffect('gg'); }, 1500);
   } else {
+    // GG終了 → 終了画面表示
+    gShowEndScreen();
     gState.inGG = false;
     gState.loopRate = 0;
     gState.zZone = false;
     gState.streak = 0;
-    gScreenSet('READY', '神々の軌跡', 'READY TO SPIN');
   }
+}
+
+// 🎬 GG終了画面（実機の終了画面示唆を再現）
+function gShowEndScreen() {
+  const r = Math.random();
+  let chara, label, color;
+  // 終了画面振分（実機準拠）
+  // 通常: ハーデス, ゼウス, アテナ
+  // レア: 全員集合(設定示唆), ハデス・ゼウス・アテナ集合(設定2以上), 6体(設定6濃厚)
+  if (r < 0.005) {
+    chara = '👁️'; label = '6体集合 - 設定6濃厚！'; color = '#ff0000';
+  } else if (r < 0.02) {
+    chara = '⚡'; label = '全員集合 - 高設定示唆'; color = '#ffd700';
+  } else if (r < 0.06) {
+    chara = '🔱'; label = '夕焼け背景 - 設定2以上'; color = '#ff8c00';
+  } else if (r < 0.15) {
+    chara = '🌅'; label = '朝焼け - 通常'; color = '#ffe066';
+  } else if (r < 0.40) {
+    chara = '👹'; label = 'ハーデス - 通常'; color = '#aa66ff';
+  } else if (r < 0.70) {
+    chara = '⚔️'; label = 'ゼウス - 通常'; color = '#88f4ff';
+  } else {
+    chara = '🛡️'; label = 'アテナ - 通常'; color = '#ff8cc8';
+  }
+
+  const c = document.getElementById('g-screen-content');
+  const bg = document.getElementById('g-screen-bg');
+  const gods = document.getElementById('g-gods');
+  if (!c) return;
+  if (gods) gods.style.display = 'none';
+  if (bg) {
+    bg.style.background = `radial-gradient(circle at 50% 50%,${color}22,#000)`;
+    bg.style.animation = '';
+  }
+  c.innerHTML = `
+    <div style="font-size:11px;color:${color};letter-spacing:3px;text-shadow:0 0 6px ${color}">GG END</div>
+    <div style="font-size:64px;margin:4px 0;filter:drop-shadow(0 0 12px ${color})">${chara}</div>
+    <div style="font-size:13px;color:${color};text-shadow:0 0 8px ${color},0 2px 4px #000;font-weight:700;letter-spacing:2px">${label}</div>
+  `;
+  // 5秒後に通常画面に戻す
+  setTimeout(() => {
+    if (!gState.inGG && !gState.inCZ) gScreenSet('READY', '神々の軌跡', 'READY TO SPIN');
+  }, 4500);
 }
 
 function gFlashScreen(type) {
