@@ -1,12 +1,12 @@
 {
-  "updated": null,
+  "updated": "2026-05-22T23:30:00",
   "items": [
     {
       "id": "B001",
       "title": "アプリ使用状況テレメトリ実装",
       "rationale": "KPI #4 が計測不能なので最低限のlocalStorageベース計測を入れる",
       "priority": "high",
-      "status": "pending",
+      "status": "in_progress",
       "estimated_impact": "medium",
       "created_by": "instructor",
       "created_at": "2026-05-22"
@@ -16,7 +16,7 @@
       "title": "AI推奨の的中ログ機能",
       "rationale": "推奨履歴を記録しないと的中率が出せない",
       "priority": "high",
-      "status": "pending",
+      "status": "in_progress",
       "estimated_impact": "high",
       "created_by": "instructor",
       "created_at": "2026-05-22"
@@ -25,6 +25,37 @@
       "id": "B003",
       "title": "バックテストエンジン (scripts/backtest.py)",
       "rationale": "royal_history.jsonに対する戦略再現を自動化",
+      "priority": "medium",
+      "status": "completed",
+      "estimated_impact": "high",
+      "created_by": "instructor",
+      "created_at": "2026-05-22",
+      "completed_at": "2026-05-22"
+    },
+    {
+      "id": "B004",
+      "title": "5のつく日ブースト（旧イベ重み付け）",
+      "rationale": "情報収集: hall-navi で『5のつく日』が旧イベ扱い。日付末尾0/5を勝率推定に加重",
+      "priority": "high",
+      "status": "pending",
+      "estimated_impact": "medium",
+      "created_by": "instructor",
+      "created_at": "2026-05-22"
+    },
+    {
+      "id": "B005",
+      "title": "新台優先表示枠（NEWバッジ）",
+      "rationale": "情報収集: 2026年期待機種(まどマギ回天, ゴッドGENESIS, スマスロハナビ等)に新台フラグ追加",
+      "priority": "medium",
+      "status": "pending",
+      "estimated_impact": "medium",
+      "created_by": "instructor",
+      "created_at": "2026-05-22"
+    },
+    {
+      "id": "B006",
+      "title": "狙い目スコア2軸化（設定狙い × 天井狙い）",
+      "rationale": "情報収集: flick7のガイドで設定狙いと天井狙いの数値化が標準。スコアを2軸表示",
       "priority": "medium",
       "status": "pending",
       "estimated_impact": "high",

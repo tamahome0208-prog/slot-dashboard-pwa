@@ -1,9 +1,20 @@
 {
-  "updated": null,
+  "updated": "2026-05-22T23:30:00",
   "sources": {
-    "x_twitter": [],
+    "x_twitter": [
+      {"source":"https://twitter.com/p_curation","summary":"新台噂と稼働速報が中心","insight":"噂タグでアラート通知"},
+      {"source":"https://www.pachinko-curation.com/4820/","summary":"5/22更新の新台噂集約","insight":"日次クロールで鮮度確保"}
+    ],
     "youtube": [],
-    "min_repo": [],
-    "analysis_sites": []
+    "min_repo": [
+      {"source":"https://min-repo.com/pachinko/tag/ロイヤル登別店/","summary":"みんレポに日次差枚データ蓄積","insight":"5のつく日と末尾傾向を抽出可"},
+      {"source":"https://hall-navi.com/hole_view?k=5のつく日","summary":"5のつく日が旧イベ扱い","insight":"日付フィルタで重み付け強化"}
+    ],
+    "analysis_sites": [
+      {"source":"https://www.katsuwin.ai/blog/pachislot-2026-new-ranking/","summary":"スマスロハナビ等TOP5","insight":"新台優先表示枠を追加"},
+      {"source":"https://chonborista.com/shindai/4197/","summary":"まどマギ回天/ゴッドGENESIS期待","insight":"導入初週は高設定示唆強"},
+      {"source":"https://flick7.net/slot/ceiling_guide2026.php","summary":"設定狙い×天井狙い数値化","insight":"狙い目スコアを2軸で算出"},
+      {"source":"https://haienakun.com/kabaneri-kaimon/","summary":"カバネリ50G/100G/350G狙い","insight":"等価/非等価で閾値分岐"}
+    ]
   }
 }
