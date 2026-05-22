@@ -145,6 +145,25 @@ nav button.active {
 .page { display: none; position: relative; z-index: 1; padding: 16px; max-width: 960px; margin: 0 auto; }
 .page.active { display: block; animation: slide-in 0.2s ease; }
 
+/* ── サブタブ（pill） ── */
+.subnav {
+  display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px;
+  padding: 6px; background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.subnav button {
+  flex: 1; min-width: 80px; padding: 8px 12px;
+  background: transparent; border: 1px solid transparent; color: var(--text2);
+  font-size: 12px; font-weight: 600; cursor: pointer;
+  border-radius: 7px; transition: all 0.15s;
+  font-family: inherit;
+}
+.subnav button:hover { color: var(--text); background: var(--bg3); }
+.subnav button.active {
+  background: var(--bg3); color: var(--cyan);
+  border-color: var(--border);
+}
+
 /* ── KPI ── */
 .kpi-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin-bottom: 14px; }
 @media(min-width:600px) { .kpi-grid { grid-template-columns: repeat(4,1fr); } }
@@ -1472,15 +1491,11 @@ button, a { -webkit-touch-callout: none; user-select: none; }
 
 <nav>
   <button class="active" onclick="showPage('home',this)"><span class="nv-ic">📊</span><span class="nv-lb">収支</span></button>
-  <button onclick="showPage('myhall',this)" style="position:relative"><span class="nv-ic">🏆</span><span class="nv-lb" style="color:var(--gold)">マイホ</span></button>
-  <button onclick="showPage('record',this)"><span class="nv-ic">✏️</span><span class="nv-lb">入力</span></button>
-  <button onclick="showPage('history',this)"><span class="nv-ic">📋</span><span class="nv-lb">履歴</span></button>
-  <button onclick="showPage('area',this)"><span class="nv-ic">🗾</span><span class="nv-lb">エリア</span></button>
+  <button onclick="showPage('record',this)"><span class="nv-ic">✏️</span><span class="nv-lb">記録</span></button>
+  <button onclick="showPage('myhall',this)"><span class="nv-ic">🏢</span><span class="nv-lb">ホール</span></button>
   <button onclick="showPage('machine',this)"><span class="nv-ic">🎰</span><span class="nv-lb">機種</span></button>
-  <button onclick="showPage('research',this)"><span class="nv-ic">📈</span><span class="nv-lb" style="color:var(--green)">研究</span></button>
-  <button onclick="showPage('strategy',this)"><span class="nv-ic">📖</span><span class="nv-lb" style="color:var(--gold)">攻略</span></button>
-  <button onclick="showPage('game',this)"><span class="nv-ic">🎮</span><span class="nv-lb" style="color:var(--pink)">GAME</span></button>
   <button onclick="showPage('tools',this)"><span class="nv-ic">🛠️</span><span class="nv-lb">ツール</span></button>
+  <button onclick="showPage('game',this)"><span class="nv-ic">🎮</span><span class="nv-lb">GAME</span></button>
   <button onclick="showPage('settings',this)"><span class="nv-ic">⚙️</span><span class="nv-lb">設定</span></button>
 </nav>
 
@@ -3222,12 +3237,21 @@ const 設定取得 = () => { try { return JSON.parse(localStorage.getItem(SETTIN
 const 設定保存処理 = s => localStorage.setItem(SETTINGS_KEY, JSON.stringify(s));
 
 // ── ページ切替 ──
-function showPage(id, btn) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-  document.getElementById('page-' + id).classList.add('active');
-  if (btn) btn.classList.add('active');
+// 親タブ → サブタブ群
+const SUBTAB_MAP = {
+  record:  [{id:'record', label:'✏️ 入力'}, {id:'history', label:'📋 履歴'}],
+  myhall:  [{id:'myhall', label:'🏆 マイホ'}, {id:'area', label:'🗺️ エリア'}, {id:'research', label:'📈 研究'}],
+  machine: [{id:'machine', label:'🎰 機種DB'}, {id:'strategy', label:'📖 攻略'}],
+};
+// サブID → 親ID 逆引き
+const SUB_TO_PARENT = {};
+Object.keys(SUBTAB_MAP).forEach(p => SUBTAB_MAP[p].forEach(s => SUB_TO_PARENT[s.id] = p));
+
+let _currentSub = { record:'record', myhall:'myhall', machine:'machine' };
+
+function _renderForPage(id) {
   if (id === 'home') renderHome();
+  if (id === 'record') { /* 入力フォーム静的 */ }
   if (id === 'history') renderHistory();
   if (id === 'hall') renderHall();
   if (id === 'area') renderArea();
@@ -3238,6 +3262,62 @@ function showPage(id, btn) {
   if (id === 'tools') renderTools();
   if (id === 'myhall') renderMyHall();
   if (id === 'settings') renderSettings();
+}
+
+function showPage(id, btn) {
+  // サブIDが指定された場合は親へ
+  const parent = SUB_TO_PARENT[id] || id;
+  const sub = SUB_TO_PARENT[id] ? id : (_currentSub[id] || id);
+
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+
+  // 親タブが SUBTAB_MAP にあるなら、保存中のサブを表示
+  const showId = SUBTAB_MAP[parent] ? sub : id;
+  const targetEl = document.getElementById('page-' + showId);
+  if (targetEl) targetEl.classList.add('active');
+
+  // navボタンのハイライト：親に対応するボタンを光らせる
+  if (btn) {
+    btn.classList.add('active');
+  } else {
+    // プログラム遷移時は親IDで探す
+    document.querySelectorAll('nav button').forEach(b => {
+      const oc = b.getAttribute('onclick') || '';
+      if (oc.includes("'" + parent + "'")) b.classList.add('active');
+    });
+  }
+
+  if (SUBTAB_MAP[parent]) _currentSub[parent] = showId;
+  _renderForPage(showId);
+  _renderSubnav(parent, showId);
+}
+
+function showSub(parent, sub) {
+  _currentSub[parent] = sub;
+  showPage(sub);
+}
+
+function _renderSubnav(parent, activeSub) {
+  const subs = SUBTAB_MAP[parent];
+  if (!subs) return;
+  // 各サブページの先頭に subnav を挿入（未挿入なら）
+  subs.forEach(s => {
+    const pg = document.getElementById('page-' + s.id);
+    if (!pg) return;
+    let bar = pg.querySelector(':scope > .subnav');
+    if (!bar) {
+      bar = document.createElement('div');
+      bar.className = 'subnav';
+      bar.innerHTML = subs.map(x =>
+        `<button data-sub="${x.id}" onclick="showSub('${parent}','${x.id}')">${x.label}</button>`
+      ).join('');
+      pg.insertBefore(bar, pg.firstChild);
+    }
+    bar.querySelectorAll('button').forEach(b => {
+      b.classList.toggle('active', b.dataset.sub === activeSub);
+    });
+  });
 }
 
 // ── 通知 ──
