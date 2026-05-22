@@ -1498,6 +1498,21 @@ body.kakuhen-mode::before {
 /* タップハイライト除去 */
 * { -webkit-tap-highlight-color: transparent; }
 button, a { -webkit-touch-callout: none; user-select: none; }
+
+/* === 規律ストリーク (Cycle#6) === */
+.streak-card { background: linear-gradient(135deg, var(--bg2), rgba(245, 158, 11, 0.08)); border-left-color: #f59e0b; }
+.streak-flames { font-size: 32px; letter-spacing: 2px; line-height: 1; margin: 8px 0; word-break: break-all; }
+.streak-num { font-family:'Orbitron',monospace; font-size:42px; font-weight:900; color: #f59e0b; }
+.streak-boost-anim { animation: streakBoost 0.5s ease; }
+@keyframes streakBoost { 0% { transform: scale(1); } 50% { transform: scale(1.15); filter: drop-shadow(0 0 12px #f59e0b); } 100% { transform: scale(1); } }
+.streak-btn-ok { background: var(--green); color: #fff; border: none; padding: 8px 14px; border-radius: 6px; font-weight: 700; cursor: pointer; }
+.streak-btn-ng { background: transparent; color: var(--muted); border: 1px solid var(--border); padding: 8px 14px; border-radius: 6px; cursor: pointer; }
+.streak-btn-freeze { background: rgba(14,165,233,0.15); color: var(--cyan); border: 1px solid var(--cyan); padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight:700; }
+.streak-btn-freeze:disabled { opacity: 0.4; cursor: not-allowed; }
+.streak-freeze-badge { display:inline-block; padding: 2px 8px; background: rgba(14,165,233,0.15); color: var(--cyan); border-radius: 99px; font-size: 11px; }
+.streak-record-row { display:flex; gap:8px; flex-wrap:wrap; margin-top: 10px; }
+.streak-meta { color: var(--muted); font-size: 12px; margin-top: 4px; }
+.streak-done { color: var(--green); font-weight:700; margin-top: 6px; }
 </style>
 </head>
 <body>
@@ -1542,6 +1557,12 @@ button, a { -webkit-touch-callout: none; user-select: none; }
   <div class="カード" id="今日の狙い目カード" style="border-left-color:var(--gold);background:linear-gradient(135deg, var(--bg2) 0%, rgba(255,214,0,0.08) 100%)">
     <div class="カードタイトル" style="color:var(--gold);text-shadow:0 0 6px rgba(255,214,0,0.4)">▶ 🎯 今日の狙い目リスト</div>
     <div id="今日の狙い目内容"></div>
+  </div>
+
+  <!-- 🔥 規律ストリーク（Cycle#6） -->
+  <div class="カード streak-card" id="規律ストリークカード">
+    <div class="カードタイトル" style="color:#f59e0b;text-shadow:0 0 6px rgba(245,158,11,0.4)">▶ 🔥 規律ストリーク</div>
+    <div id="規律ストリーク内容"></div>
   </div>
 
   <div class="目標エリア">
@@ -3552,6 +3573,7 @@ function 戦略エッジ表示() {
 
 function renderHome() {
   今日の狙い目描画();
+  規律ストリーク描画();
   ブースト判定描画();
   戦略エッジ表示();
   const records = 記録取得();
@@ -8179,6 +8201,161 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('インストールボタン').style.display = 'none';
 });
 
+// ── 🔥 規律ストリーク (Cycle#6) ──
+const 規律ストリークKEY = 'discipline_streak';
+function 規律ストリーク取得() {
+  try {
+    const raw = localStorage.getItem(規律ストリークKEY);
+    if (raw) {
+      const obj = JSON.parse(raw);
+      if (typeof obj.current !== 'number') obj.current = 0;
+      if (typeof obj.longest !== 'number') obj.longest = 0;
+      if (typeof obj.last_compliant_date !== 'string') obj.last_compliant_date = '';
+      if (typeof obj.freeze_count !== 'number') obj.freeze_count = 0;
+      if (!Array.isArray(obj.history)) obj.history = [];
+      if (typeof obj.last_freeze_granted_month !== 'string') obj.last_freeze_granted_month = '';
+      return obj;
+    }
+  } catch (e) { console.warn('規律ストリーク取得失敗', e); }
+  return { current: 0, longest: 0, last_compliant_date: '', freeze_count: 1, history: [], last_freeze_granted_month: '' };
+}
+function 規律ストリーク保存(s) {
+  try { localStorage.setItem(規律ストリークKEY, JSON.stringify(s)); } catch (e) { console.warn('規律ストリーク保存失敗', e); }
+}
+function 規律ストリーク今日() {
+  const d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+function 規律ストリーク今月() {
+  const d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0');
+}
+function 規律ストリーク月初処理() {
+  const s = 規律ストリーク取得();
+  const m = 規律ストリーク今月();
+  if (s.last_freeze_granted_month !== m) {
+    s.freeze_count = Math.min((s.freeze_count || 0) + 1, 2);
+    s.last_freeze_granted_month = m;
+    規律ストリーク保存(s);
+  }
+}
+function 規律ストリーク連続判定(s, today) {
+  // 前回遵守日が「昨日」でなければ連続が途切れている
+  if (!s.last_compliant_date) return true;
+  const last = new Date(s.last_compliant_date + 'T00:00:00');
+  const cur = new Date(today + 'T00:00:00');
+  const diff = Math.round((cur - last) / 86400000);
+  return diff <= 1;
+}
+function 規律ストリーク記録(compliant, reason, useFreeze) {
+  const s = 規律ストリーク取得();
+  const today = 規律ストリーク今日();
+  // 既存記録の確認
+  const existing = s.history.findIndex(h => h.date === today);
+  if (compliant) {
+    const continuous = 規律ストリーク連続判定(s, today);
+    if (existing >= 0) {
+      // 当日上書き：既にカウント済みなら維持
+      s.history[existing] = { date: today, compliant: true, reason: reason || '', freeze_used: false };
+    } else {
+      if (continuous) s.current = (s.current || 0) + 1;
+      else s.current = 1;
+      s.last_compliant_date = today;
+      if (s.current > s.longest) s.longest = s.current;
+      s.history.push({ date: today, compliant: true, reason: reason || '', freeze_used: false });
+    }
+  } else {
+    let frozen = false;
+    if (useFreeze && (s.freeze_count || 0) > 0) {
+      s.freeze_count -= 1;
+      frozen = true;
+      // 連続維持。last_compliant_date は今日に進める（freezeで橋渡し）
+      s.last_compliant_date = today;
+    } else {
+      s.current = 0;
+    }
+    if (existing >= 0) {
+      s.history[existing] = { date: today, compliant: false, reason: reason || '', freeze_used: frozen };
+    } else {
+      s.history.push({ date: today, compliant: false, reason: reason || '', freeze_used: frozen });
+    }
+  }
+  // history を直近60件に制限
+  if (s.history.length > 60) s.history = s.history.slice(-60);
+  規律ストリーク保存(s);
+  return s;
+}
+function 規律ストリーク描画() {
+  const el = document.getElementById('規律ストリーク内容');
+  if (!el) return;
+  const s = 規律ストリーク取得();
+  const today = 規律ストリーク今日();
+  const todayRec = s.history.find(h => h.date === today);
+  const flames = '🔥'.repeat(Math.min(s.current || 0, 20)) || '・';
+  let actionHTML = '';
+  if (todayRec) {
+    const mark = todayRec.compliant ? '✓ 計画通り' : (todayRec.freeze_used ? '❄ Freeze使用' : '✗ 計画外');
+    actionHTML = `<div class="streak-done">今日は記録済み: ${mark}${todayRec.reason ? '（'+escapeHTML(todayRec.reason)+'）' : ''}</div>
+      <div class="streak-record-row">
+        <button class="streak-btn-ng" onclick="規律ストリーク編集()">編集</button>
+      </div>`;
+  } else {
+    const freezeDisabled = (s.freeze_count || 0) <= 0 ? 'disabled' : '';
+    actionHTML = `<div class="streak-record-row">
+      <button class="streak-btn-ok" onclick="規律ストリークOK押下()">今日 計画通りだった ✓</button>
+      <button class="streak-btn-ng" onclick="規律ストリークNG押下(false)">計画通りいかなかった ✗</button>
+      <button class="streak-btn-freeze" ${freezeDisabled} onclick="規律ストリークNG押下(true)">❄️ Freeze使う</button>
+    </div>`;
+  }
+  el.innerHTML = `
+    <div class="streak-flames" id="規律ストリーク炎">${flames}</div>
+    <div><span class="streak-num" id="規律ストリーク数値">${s.current||0}</span> <span style="color:var(--muted)">日連続 計画遵守</span></div>
+    <div class="streak-meta">最長記録: <b>${s.longest||0}</b> 日 ／ <span class="streak-freeze-badge">❄️ Streak Freeze: ${s.freeze_count||0}枚</span></div>
+    ${actionHTML}
+  `;
+}
+function escapeHTML(str) {
+  return String(str).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function 規律ストリークOK押下() {
+  const reason = prompt('遵守内容（任意・例: 計画通り撤退）', '');
+  if (reason === null) return; // キャンセル
+  規律ストリーク記録(true, reason || '', false);
+  規律ストリーク描画();
+  // ブースト演出
+  const numEl = document.getElementById('規律ストリーク数値');
+  const flameEl = document.getElementById('規律ストリーク炎');
+  if (numEl) { numEl.classList.add('streak-boost-anim'); setTimeout(() => numEl.classList.remove('streak-boost-anim'), 600); }
+  if (flameEl) { flameEl.classList.add('streak-boost-anim'); setTimeout(() => flameEl.classList.remove('streak-boost-anim'), 600); }
+}
+function 規律ストリークNG押下(forceFreeze) {
+  const s = 規律ストリーク取得();
+  const reason = prompt('原因メモ（任意）', '');
+  if (reason === null) return;
+  let useFreeze = !!forceFreeze;
+  if (!useFreeze && (s.freeze_count || 0) > 0) {
+    useFreeze = confirm(`Streak Freeze (残${s.freeze_count}枚) を使って連続記録を維持しますか？\nOK = Freeze使用 / キャンセル = ストリークをリセット`);
+  } else if (useFreeze && (s.freeze_count || 0) <= 0) {
+    alert('Streak Freeze の在庫がありません');
+    return;
+  } else if (!useFreeze) {
+    if (!confirm('連続記録をリセットします。よろしいですか？')) return;
+  }
+  規律ストリーク記録(false, reason || '', useFreeze);
+  規律ストリーク描画();
+}
+function 規律ストリーク編集() {
+  const s = 規律ストリーク取得();
+  const today = 規律ストリーク今日();
+  const idx = s.history.findIndex(h => h.date === today);
+  if (idx < 0) return;
+  // 当日のレコードを削除して再記録できるようにする（直前stateも巻き戻し）
+  if (!confirm('今日の記録を削除して再入力しますか？\n（current/longest はそのままです）')) return;
+  s.history.splice(idx, 1);
+  規律ストリーク保存(s);
+  規律ストリーク描画();
+}
+
 // ── サービスワーカー登録 ──
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
@@ -8190,6 +8367,7 @@ if ('serviceWorker' in navigator) {
 
 // ── 初期化 ──
 try { Telemetry.inc('session_count'); } catch {}
+try { 規律ストリーク月初処理(); } catch (e) { console.warn('規律ストリーク月初処理失敗', e); }
 データリスト更新();
 renderHome();
 自動取得チェック();

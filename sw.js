@@ -1,5 +1,5 @@
 // スロット管理システム サービスワーカー
-const CACHE_NAME = 'v7-cycle234';
+const CACHE_NAME = 'v8-discipline';
 const ASSETS = [
   './',
   './index.html',
