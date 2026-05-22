@@ -414,6 +414,14 @@ tbody td { padding: 13px 12px; white-space: nowrap; font-size: 14px; color: var(
 .推奨度バー.C { background: rgba(255,214,0,0.1); border: 1px solid var(--gold); color: var(--gold); }
 .推奨度バー.D { background: rgba(255,23,68,0.15); border: 1px solid var(--red); color: var(--red); }
 
+.badge-new { background: var(--pink); color: #fff; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 700; margin-left: 6px; letter-spacing: 0.5px; vertical-align: middle; box-shadow: 0 0 6px rgba(230,38,106,0.5); }
+.ブーストカード { padding: 10px 14px; margin-bottom: 12px; border-radius: 4px; display: flex; align-items: center; gap: 10px; }
+.ブーストカード.金 { background: linear-gradient(135deg, rgba(255,214,0,0.15) 0%, var(--bg2) 100%); border: 2px solid var(--gold); box-shadow: 0 0 12px rgba(255,214,0,0.4); }
+.ブーストカード.銀 { background: linear-gradient(135deg, rgba(192,192,192,0.12) 0%, var(--bg2) 100%); border: 2px solid #c0c0c0; box-shadow: 0 0 8px rgba(192,192,192,0.3); }
+.ブーストカード.通常 { background: var(--bg2); border: 1px solid var(--border); }
+.ブーストラベル { font-family: 'Orbitron', monospace; font-size: 14px; font-weight: 700; letter-spacing: 1px; }
+.ブースト倍率 { margin-left: auto; font-family: 'Orbitron', monospace; font-size: 18px; font-weight: 700; }
+
 .機種ジャンプ { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
 .ジャンプボタン { background: var(--bg3); border: 1px solid var(--border); color: var(--muted); padding: 6px 12px; border-radius: 2px; font-size: 11px; cursor: pointer; transition: all 0.2s; font-family: 'Share Tech Mono', monospace; }
 .ジャンプボタン:hover { border-color: var(--cyan); color: var(--cyan); box-shadow: var(--glow-c); }
@@ -1502,6 +1510,13 @@ button, a { -webkit-touch-callout: none; user-select: none; }
 <!-- ===== 収支ページ ===== -->
 <div id="page-home" class="page active">
   <div class="kpi-grid" id="KPIグリッド"></div>
+
+  <!-- 📅 日付ブースト判定バッジ -->
+  <div id="ブースト判定カード" class="ブーストカード 通常">
+    <span style="font-size:22px">📅</span>
+    <span class="ブーストラベル" id="ブーストラベル">通常</span>
+    <span class="ブースト倍率" id="ブースト倍率">×1.0</span>
+  </div>
 
   <!-- 🎯 今日の狙い目リスト（朝一表示） -->
   <div class="カード" id="今日の狙い目カード" style="border-left-color:var(--gold);background:linear-gradient(135deg, var(--bg2) 0%, rgba(255,214,0,0.08) 100%)">
@@ -3450,6 +3465,7 @@ let 月別グラフインスタンス = null;
 
 function renderHome() {
   今日の狙い目描画();
+  ブースト判定描画();
   const records = 記録取得();
   const s = 設定取得();
   const year = s.year || new Date().getFullYear();
@@ -4140,7 +4156,7 @@ function renderMachine() {
           <div class="機種カードヘッダー">
             <div>
               <span style="display:inline-block;font-size:10px;color:${ジャンル色[m.ジャンル]||'var(--muted)'};border:1px solid ${ジャンル色[m.ジャンル]||'var(--muted)'};padding:1px 6px;border-radius:2px;margin-right:8px;font-family:'Orbitron',monospace;letter-spacing:1px">${m.ジャンル}</span>
-              <span class="機種カード名">${m.名}</span>
+              <span class="機種カード名">${m.名}</span>${is新台(m.名) ? '<span class="badge-new">🆕NEW</span>' : ''}
             </div>
             <div class="機種スコア">
               <span class="推奨度バー ${m.推奨度}">${m.推奨度}</span>
@@ -5090,6 +5106,50 @@ function 抽選シミュレーター実行() {
       </div>
     </div>
   `;
+}
+
+// ════════════════════════════════════════
+// ── 📅 日付ブースト判定（B004） ──
+// ロイヤル登別: 8のつく日(強), 5のつく日(中)
+// ════════════════════════════════════════
+function 日付ブースト判定(date) {
+  const d = (date instanceof Date) ? date : new Date();
+  const day = d.getDate();
+  const ones = day % 10;
+  if (ones === 8) return { label: '8のつく日(強)', boost: 1.5 };
+  if (ones === 5) return { label: '5のつく日(中)', boost: 1.2 };
+  return { label: '通常', boost: 1.0 };
+}
+
+function ブースト判定描画() {
+  const card = document.getElementById('ブースト判定カード');
+  const labelEl = document.getElementById('ブーストラベル');
+  const rateEl = document.getElementById('ブースト倍率');
+  if (!card || !labelEl || !rateEl) return;
+  const r = 日付ブースト判定(new Date());
+  card.classList.remove('金', '銀', '通常');
+  if (r.boost === 1.5) card.classList.add('金');
+  else if (r.boost === 1.2) card.classList.add('銀');
+  else card.classList.add('通常');
+  labelEl.textContent = r.label;
+  rateEl.textContent = '×' + r.boost.toFixed(1);
+  labelEl.style.color = r.boost === 1.5 ? 'var(--gold)' : (r.boost === 1.2 ? '#c0c0c0' : 'var(--text)');
+}
+
+// ════════════════════════════════════════
+// ── 🆕 2026年5月新台リスト（B005） ──
+// ════════════════════════════════════════
+const NEW_MACHINES_2026_05 = [
+  'L戦国乙女5',
+  '業火を穿つ宿焔の双刃',
+  'スマスロBIRDIE WING',
+  'LBスロットGALFY',
+  'スマスロ革命機ヴァルヴレイヴ2',
+  'Pクイーンズブレイド奈落'
+];
+function is新台(機種名) {
+  if (!機種名) return false;
+  return NEW_MACHINES_2026_05.some(n => 機種名.includes(n) || n.includes(機種名));
 }
 
 // ════════════════════════════════════════
