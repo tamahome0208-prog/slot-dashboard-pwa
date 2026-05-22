@@ -1224,6 +1224,24 @@ input:focus, select:focus, textarea:focus {
   50% { filter: blur(3px) brightness(1.2); }
   100% { filter: blur(0); }
 }
+@keyframes cloud-flow1 {
+  0% { transform: translateX(-100px); }
+  100% { transform: translateX(500px); }
+}
+@keyframes cloud-flow2 {
+  0% { transform: translateX(500px); }
+  100% { transform: translateX(-100px); }
+}
+@keyframes gods-rise {
+  0% { transform: translateY(50px) scale(0.5); opacity: 0; filter: blur(8px); }
+  60% { transform: translateY(-5px) scale(1.05); opacity: 1; filter: blur(0); }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+@keyframes thunder-flash {
+  0%, 100% { opacity: 0; }
+  10%, 30%, 50% { opacity: 1; }
+  20%, 40% { opacity: 0; }
+}
 
 /* ✨ ナビバースト・タップリップル・確変バックドロップ */
 @keyframes nav-burst {
@@ -2483,13 +2501,90 @@ button, a { -webkit-touch-callout: none; user-select: none; }
       <div class="g-side-lamp" style="width:14px;height:14px;border-radius:50%;background:radial-gradient(circle,#ff4500,#660000);box-shadow:0 0 10px #ff4500;animation:lamp-pulse-1 1.5s ease infinite"></div>
     </div>
 
-    <!-- 🖥️ 液晶画面（演出表示） -->
-    <div id="g-screen" style="background:linear-gradient(135deg,#000033 0%,#000011 50%,#000033 100%);border:2px solid #ffd700;border-radius:8px;height:160px;margin:18px 6px 14px;position:relative;overflow:hidden;box-shadow:inset 0 0 30px #000,0 0 12px rgba(255,214,0,0.4)">
-      <div id="g-screen-bg" style="position:absolute;inset:0;opacity:0.5;background:radial-gradient(circle at 50% 50%,rgba(255,214,0,0.15),transparent 70%)"></div>
-      <div id="g-screen-content" style="position:relative;z-index:2;width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;color:#fff;text-align:center;font-family:'Orbitron',monospace">
-        <div style="font-size:11px;color:#ffd700;letter-spacing:4px;opacity:0.7">MILLION GOD</div>
-        <div style="font-size:18px;color:#ffd700;font-weight:900;text-shadow:0 0 10px #ffd700;letter-spacing:3px;margin-top:4px">神々の軌跡</div>
-        <div style="font-size:9px;color:#666;margin-top:8px">READY TO SPIN</div>
+    <!-- 🖥️ 液晶画面（神殿背景・神々・雷・演出アニメ） -->
+    <div id="g-screen" style="background:linear-gradient(180deg,#0a0033 0%,#001144 30%,#000022 70%,#001133 100%);border:2px solid #ffd700;border-radius:8px;height:200px;margin:18px 6px 14px;position:relative;overflow:hidden;box-shadow:inset 0 0 30px #000,0 0 12px rgba(255,214,0,0.4)">
+
+      <!-- 雲レイヤー（流れる） -->
+      <div id="g-clouds" style="position:absolute;inset:0;opacity:0.4;pointer-events:none">
+        <svg width="100%" height="100%" viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <radialGradient id="cloudG"><stop offset="0%" stop-color="rgba(180,180,255,0.6)"/><stop offset="100%" stop-color="rgba(60,60,120,0)"/></radialGradient>
+          </defs>
+          <ellipse cx="50" cy="30" rx="40" ry="12" fill="url(#cloudG)" class="g-cloud" style="animation:cloud-flow1 20s linear infinite"/>
+          <ellipse cx="200" cy="50" rx="60" ry="16" fill="url(#cloudG)" class="g-cloud" style="animation:cloud-flow2 25s linear infinite"/>
+          <ellipse cx="320" cy="35" rx="50" ry="14" fill="url(#cloudG)" class="g-cloud" style="animation:cloud-flow1 30s linear infinite reverse"/>
+        </svg>
+      </div>
+
+      <!-- 神殿の柱シルエット（背景） -->
+      <div id="g-temple" style="position:absolute;inset:0;opacity:0.35;pointer-events:none">
+        <svg width="100%" height="100%" viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="pillarG" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#ffd700" stop-opacity="0.4"/>
+              <stop offset="100%" stop-color="#000" stop-opacity="0.2"/>
+            </linearGradient>
+          </defs>
+          <rect x="20" y="40" width="14" height="160" fill="url(#pillarG)"/>
+          <rect x="40" y="40" width="14" height="160" fill="url(#pillarG)"/>
+          <rect x="346" y="40" width="14" height="160" fill="url(#pillarG)"/>
+          <rect x="366" y="40" width="14" height="160" fill="url(#pillarG)"/>
+          <!-- 上部装飾 -->
+          <polygon points="10,40 60,40 50,30 20,30" fill="rgba(255,214,0,0.3)"/>
+          <polygon points="340,40 390,40 380,30 350,30" fill="rgba(255,214,0,0.3)"/>
+          <!-- 床 -->
+          <rect x="0" y="195" width="400" height="5" fill="rgba(255,214,0,0.2)"/>
+        </svg>
+      </div>
+
+      <!-- 神々の像レイヤー（GOD揃い時のみ表示） -->
+      <div id="g-gods" style="position:absolute;inset:0;display:none;align-items:center;justify-content:center;z-index:3;pointer-events:none">
+        <svg width="100%" height="100%" viewBox="0 0 400 200">
+          <defs>
+            <radialGradient id="aura"><stop offset="0%" stop-color="rgba(255,255,255,1)"/><stop offset="40%" stop-color="rgba(255,214,0,0.8)"/><stop offset="100%" stop-color="rgba(255,140,0,0)"/></radialGradient>
+          </defs>
+          <!-- 神のシルエット 3体 -->
+          <g transform="translate(80,100)">
+            <circle cx="0" cy="0" r="50" fill="url(#aura)"/>
+            <circle cx="0" cy="-15" r="8" fill="#ffd700"/>
+            <path d="M-12,-10 L-15,20 L-5,20 L-5,40 L5,40 L5,20 L15,20 L12,-10 Z" fill="#ffd700"/>
+          </g>
+          <g transform="translate(200,90)">
+            <circle cx="0" cy="0" r="65" fill="url(#aura)"/>
+            <circle cx="0" cy="-20" r="12" fill="#ffe066"/>
+            <path d="M-16,-12 L-20,25 L-8,25 L-8,50 L8,50 L8,25 L20,25 L16,-12 Z" fill="#ffe066"/>
+          </g>
+          <g transform="translate(320,100)">
+            <circle cx="0" cy="0" r="50" fill="url(#aura)"/>
+            <circle cx="0" cy="-15" r="8" fill="#ffd700"/>
+            <path d="M-12,-10 L-15,20 L-5,20 L-5,40 L5,40 L5,20 L15,20 L12,-10 Z" fill="#ffd700"/>
+          </g>
+        </svg>
+      </div>
+
+      <!-- 雷レイヤー -->
+      <div id="g-thunder" style="position:absolute;inset:0;opacity:0;pointer-events:none;z-index:4">
+        <svg width="100%" height="100%" viewBox="0 0 400 200">
+          <defs>
+            <filter id="thunderGlow">
+              <feGaussianBlur stdDeviation="2"/>
+              <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <path d="M100 0 L80 80 L120 90 L60 200" stroke="#fff" stroke-width="3" fill="none" filter="url(#thunderGlow)"/>
+          <path d="M300 0 L280 80 L320 90 L260 200" stroke="#fff" stroke-width="3" fill="none" filter="url(#thunderGlow)"/>
+          <path d="M200 0 L180 100 L220 120 L150 200" stroke="#ffd700" stroke-width="4" fill="none" filter="url(#thunderGlow)"/>
+        </svg>
+      </div>
+
+      <!-- 背景フラッシュ -->
+      <div id="g-screen-bg" style="position:absolute;inset:0;opacity:0.4;background:radial-gradient(circle at 50% 50%,rgba(255,214,0,0.15),transparent 70%);z-index:2;pointer-events:none"></div>
+
+      <!-- 中央テキストエリア -->
+      <div id="g-screen-content" style="position:relative;z-index:5;width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;color:#fff;text-align:center;font-family:'Orbitron',monospace;text-shadow:0 2px 4px rgba(0,0,0,0.8)">
+        <div style="font-size:11px;color:#ffd700;letter-spacing:4px;opacity:0.9">MILLION GOD</div>
+        <div style="font-size:22px;color:#ffd700;font-weight:900;text-shadow:0 0 10px #ffd700,0 2px 4px #000;letter-spacing:3px;margin-top:4px">神々の軌跡</div>
+        <div style="font-size:10px;color:#88f4ff;margin-top:10px;letter-spacing:3px;animation:flicker 2s infinite">READY TO SPIN</div>
       </div>
     </div>
 
@@ -5277,45 +5372,95 @@ function gScreenSet(title, big, sub) {
   `;
 }
 
-// 液晶エフェクト演出
+// 液晶エフェクト演出（神殿・神々・雷フル装備）
 function gScreenEffect(type) {
   const bg = document.getElementById('g-screen-bg');
   const c = document.getElementById('g-screen-content');
+  const gods = document.getElementById('g-gods');
+  const thunder = document.getElementById('g-thunder');
+  const screen = document.getElementById('g-screen');
   if (!bg || !c) return;
 
+  // リセット
+  if (gods) gods.style.display = 'none';
+  if (thunder) thunder.style.opacity = '0';
+  if (screen) screen.style.animation = '';
+
   if (type === 'gg') {
-    bg.style.background = 'radial-gradient(circle at 50% 50%,rgba(255,214,0,0.4),transparent 70%)';
-    bg.style.animation = 'gradient-shift 1s linear infinite';
+    bg.style.background = 'radial-gradient(circle at 50% 50%,rgba(255,214,0,0.5),rgba(255,140,0,0.3),transparent 70%)';
+    bg.style.animation = 'gradient-shift 0.8s linear infinite';
+    if (thunder) thunder.style.opacity = '0.6';
+    if (thunder) thunder.style.animation = 'flicker 0.3s infinite';
     c.innerHTML = `
-      <div style="font-size:14px;color:#fff;letter-spacing:3px;animation:pulse-glow-gold 0.6s ease infinite">⚡ GOD GAME ⚡</div>
-      <div style="font-size:28px;color:#ffd700;font-weight:900;text-shadow:0 0 15px #ffd700,0 0 30px #ff8c00;letter-spacing:4px;margin-top:6px;animation:icon-bounce 0.6s ease infinite">CHANCE</div>
-      <div style="font-size:11px;color:#fff;margin-top:8px">純増 +7枚/G</div>
+      <div style="font-size:14px;color:#fff;letter-spacing:3px;text-shadow:0 0 8px #ffd700;animation:pulse-glow-gold 0.5s ease infinite">⚡ GOD GAME ⚡</div>
+      <div style="font-size:32px;color:#ffd700;font-weight:900;text-shadow:0 0 18px #ffd700,0 0 36px #ff8c00,0 2px 4px #000;letter-spacing:4px;margin-top:6px;animation:icon-bounce 0.5s ease infinite">CHANCE!!</div>
+      <div style="font-size:11px;color:#fff;margin-top:10px;text-shadow:0 0 6px #ff8c00">純増 +7枚/G</div>
     `;
   } else if (type === 'god') {
-    bg.style.background = 'radial-gradient(circle at 50% 50%,#fff 0%,#ffd700 30%,#ff0000 70%,#000 100%)';
-    bg.style.animation = 'gradient-shift 0.3s linear infinite';
+    bg.style.background = 'radial-gradient(circle at 50% 50%,#fff 0%,#ffd700 30%,#ff0000 60%,#000 100%)';
+    bg.style.animation = 'gradient-shift 0.25s linear infinite';
+    if (gods) {
+      gods.style.display = 'flex';
+      gods.style.animation = 'gods-rise 0.8s ease-out';
+    }
+    if (thunder) {
+      thunder.style.opacity = '1';
+      thunder.style.animation = 'flicker 0.15s infinite';
+    }
+    if (screen) screen.style.animation = 'screen-shake 0.4s infinite';
     c.innerHTML = `
-      <div style="font-size:48px;font-weight:900;color:#fff;text-shadow:0 0 20px #ffd700,0 0 40px #ff0000;letter-spacing:6px;animation:icon-bounce 0.3s ease infinite">GOD!!</div>
-      <div style="font-size:14px;color:#ffd700;margin-top:8px;animation:pulse-glow-gold 0.4s ease infinite">PREMIUM GOD GAME</div>
+      <div style="font-size:64px;font-weight:900;color:#fff;text-shadow:0 0 24px #ffd700,0 0 48px #ff0000,0 0 80px #ff4500;letter-spacing:8px;animation:icon-bounce 0.25s ease infinite;font-family:'Orbitron',monospace">GOD!!</div>
+      <div style="font-size:16px;color:#ffd700;margin-top:8px;text-shadow:0 0 12px #ffd700;letter-spacing:4px;animation:pulse-glow-gold 0.3s ease infinite">PREMIUM GOD GAME</div>
     `;
   } else if (type === 'sgg') {
-    bg.style.background = 'radial-gradient(circle at 50% 50%,rgba(255,0,0,0.5),rgba(255,140,0,0.3),#000)';
+    bg.style.background = 'radial-gradient(circle at 50% 50%,rgba(255,0,0,0.6),rgba(255,140,0,0.4),#000)';
+    bg.style.animation = 'gradient-shift 0.5s linear infinite';
+    if (thunder) {
+      thunder.style.opacity = '0.8';
+      thunder.style.animation = 'flicker 0.2s infinite';
+    }
     c.innerHTML = `
-      <div style="font-size:32px;font-weight:900;color:#ff4d6d;text-shadow:0 0 15px #ff4d6d;letter-spacing:4px">SGG!!</div>
-      <div style="font-size:14px;color:#ffd700;margin-top:8px">SUPER GOD GAME</div>
+      <div style="font-size:48px;font-weight:900;color:#ff4d6d;text-shadow:0 0 24px #ff4d6d,0 0 48px #ff0000;letter-spacing:6px;animation:icon-bounce 0.3s ease infinite">SGG!!</div>
+      <div style="font-size:14px;color:#ffd700;margin-top:8px;text-shadow:0 0 10px #ffd700">SUPER GOD GAME</div>
+    `;
+  } else if (type === 'hades') {
+    bg.style.background = 'radial-gradient(circle at 50% 50%,rgba(138,43,226,0.6),rgba(255,140,0,0.3),#000)';
+    bg.style.animation = 'gradient-shift 1s linear infinite';
+    if (thunder) thunder.style.opacity = '0.4';
+    c.innerHTML = `
+      <div style="font-size:14px;color:#fff;letter-spacing:3px;text-shadow:0 0 8px #8a2be2">⚡ HADES CHANCE</div>
+      <div style="font-size:32px;color:#ff8c00;font-weight:900;text-shadow:0 0 18px #ff4500,0 0 36px #8a2be2;letter-spacing:3px;margin-top:6px;animation:pulse-glow-gold 0.6s infinite">ハーデス</div>
+      <div style="font-size:11px;color:#ff8c00;margin-top:10px">GG突入！</div>
     `;
   } else if (type === 'win') {
-    bg.style.background = 'radial-gradient(circle at 50% 50%,rgba(95,255,95,0.3),transparent 70%)';
+    bg.style.background = 'radial-gradient(circle at 50% 50%,rgba(95,255,95,0.4),transparent 70%)';
     c.innerHTML = `
-      <div style="font-size:32px;color:#5fff5f;font-weight:900;text-shadow:0 0 15px #5fff5f;letter-spacing:3px">WIN</div>
+      <div style="font-size:38px;color:#5fff5f;font-weight:900;text-shadow:0 0 18px #5fff5f,0 2px 4px #000;letter-spacing:3px;animation:icon-bounce 0.5s ease infinite">WIN</div>
       <div style="font-size:11px;color:#fff;margin-top:6px">役成立</div>
     `;
   } else if (type === 'spin') {
-    bg.style.background = 'radial-gradient(circle at 50% 50%,rgba(0,229,255,0.2),transparent 70%)';
+    bg.style.background = 'radial-gradient(circle at 50% 50%,rgba(0,229,255,0.25),transparent 70%)';
     bg.style.animation = 'gradient-shift 0.5s linear infinite';
     c.innerHTML = `
-      <div style="font-size:11px;color:#40e8ff;letter-spacing:4px">SPINNING</div>
-      <div style="font-size:24px;color:#40e8ff;font-weight:900;text-shadow:0 0 10px #40e8ff;letter-spacing:3px;margin-top:4px;animation:flicker 0.8s infinite">回転中...</div>
+      <div style="font-size:12px;color:#40e8ff;letter-spacing:4px;text-shadow:0 0 6px #40e8ff">SPINNING</div>
+      <div style="font-size:26px;color:#40e8ff;font-weight:900;text-shadow:0 0 12px #40e8ff,0 2px 4px #000;letter-spacing:3px;margin-top:4px;animation:flicker 0.8s infinite">PUSH STOP</div>
+    `;
+  } else if (type === 'stock') {
+    bg.style.background = 'radial-gradient(circle at 50% 50%,rgba(255,214,0,0.6),transparent 70%)';
+    if (thunder) thunder.style.opacity = '0.3';
+    c.innerHTML = `
+      <div style="font-size:14px;color:#fff;text-shadow:0 0 6px #ffd700;letter-spacing:3px">STOCK GET!</div>
+      <div style="font-size:36px;color:#ffd700;font-weight:900;text-shadow:0 0 18px #ffd700,0 2px 4px #000;letter-spacing:3px;margin-top:6px;animation:icon-bounce 0.4s ease infinite">+1</div>
+      <div style="font-size:11px;color:#fff;margin-top:8px">継続濃厚！</div>
+    `;
+  } else if (type === 'zzone') {
+    bg.style.background = 'conic-gradient(from 0deg,#ffd700,#ff8c00,#ff0000,#ffd700,#ff8c00,#ffd700)';
+    bg.style.animation = 'conic-spin 1s linear infinite';
+    if (thunder) thunder.style.opacity = '0.8';
+    c.innerHTML = `
+      <div style="font-size:14px;color:#fff;letter-spacing:5px;text-shadow:0 0 6px #ff8c00">PREMIUM</div>
+      <div style="font-size:42px;color:#fff;font-weight:900;text-shadow:0 0 24px #ffd700,0 0 48px #ff0000,0 2px 4px #000;letter-spacing:6px;margin-top:4px;animation:icon-bounce 0.3s ease infinite;font-family:'Orbitron',monospace">Z-ZONE</div>
+      <div style="font-size:11px;color:#ffd700;margin-top:6px;animation:pulse-glow-gold 0.5s infinite">純増7枚/G 確定継続</div>
     `;
   } else {
     bg.style.animation = '';
@@ -5663,11 +5808,15 @@ function gEndGGSet() {
     gState.ggRemainSets += 1;
     gState.streak++;
     if (gState.streak > gState.maxStreak) gState.maxStreak = gState.streak;
+    // STOCK演出
+    gScreenEffect(gState.zZone ? 'zzone' : 'stock');
+    setTimeout(() => { if (gState.inGG) gScreenEffect('gg'); }, 1500);
   } else {
     gState.inGG = false;
     gState.loopRate = 0;
     gState.zZone = false;
     gState.streak = 0;
+    gScreenSet('READY', '神々の軌跡', 'READY TO SPIN');
   }
 }
 
