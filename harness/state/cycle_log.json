@@ -59,12 +59,50 @@
       "qa_score": 96,
       "verdict": "GO",
       "deploy_head": "510b806"
+    },
+    {
+      "cycle": 6,
+      "at": "2026-05-23T07:00:00",
+      "kind": "discipline_design",
+      "theme": "規律強化設計(行動科学根拠)",
+      "info_insight": "予測誤差(RPE)の正利用、Duolingo loss aversion+Streak Freeze",
+      "tasks": [
+        {"id": "C6-streak", "commit": "5ddf06f", "title": "規律ストリーク+Streak Freeze"}
+      ],
+      "qa_score": 95,
+      "verdict": "GO",
+      "deploy_head": "5ddf06f"
+    },
+    {
+      "cycle": 7,
+      "at": "2026-05-23T07:30:00",
+      "kind": "discipline_design",
+      "info_insight": "CBT urge surfing 15分タイマー、思考記録(Psychology Tools)",
+      "tasks": [
+        {"id": "C7-urge", "commit": "3f5a011", "title": "衝動チェックCBT(3step+15分タイマー)"}
+      ],
+      "qa_score": 95,
+      "verdict": "GO",
+      "deploy_head": "3f5a011"
+    },
+    {
+      "cycle": 8,
+      "at": "2026-05-23T08:00:00",
+      "kind": "discipline_design",
+      "info_insight": "Kahneman損失嫌悪2倍効果、撤退バッジで正RPE発火",
+      "tasks": [
+        {"id": "C8-loss-rank", "commit": "316d2b5", "title": "損失嫌悪カード+規律度ランク+撤退バッジ"}
+      ],
+      "qa_score": 95,
+      "verdict": "GO",
+      "deploy_head": "316d2b5"
     }
   ],
   "summary": {
-    "total_cycles_executed": 5,
-    "total_tasks_completed": 7,
-    "last_qa_score": 96,
-    "current_sw_cache": "v7-cycle234"
+    "total_cycles_executed": 8,
+    "total_tasks_completed": 10,
+    "last_qa_score": 95,
+    "current_sw_cache": "v10-discipline-rank",
+    "design_philosophy": "依存設計を拒否し、行動科学を規律強化に正利用(commitment device, prediction error positive use, CBT)"
   }
 }
