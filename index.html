@@ -3222,6 +3222,12 @@ button, a { -webkit-touch-callout: none; user-select: none; }
     <p style="font-size:12px;color:var(--muted);margin-bottom:12px">全ての実戦記録を削除します。この操作は取り消せません。</p>
     <button class="ボタン削除" onclick="全削除()">【 全データを削除する 】</button>
   </div>
+
+  <div class="カード">
+    <div class="カードタイトル">▶ 📊 利用状況</div>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:10px">このアプリの使用状況（端末内のみ記録・外部送信なし）</p>
+    <div id="テレメトリ表示" style="font-size:13px;line-height:1.9;color:var(--text2)"></div>
+  </div>
 </div>
 
 <div id="通知"></div>
@@ -3235,6 +3241,45 @@ const 記録取得 = () => { try { return JSON.parse(localStorage.getItem(STORAG
 const 記録保存処理 = r => localStorage.setItem(STORAGE_KEY, JSON.stringify(r));
 const 設定取得 = () => { try { return JSON.parse(localStorage.getItem(SETTINGS_KEY)||'{}'); } catch { return {}; } };
 const 設定保存処理 = s => localStorage.setItem(SETTINGS_KEY, JSON.stringify(s));
+
+// ── Telemetry（端末内のみ・外部送信なし）──
+const Telemetry = (function(){
+  const KEY = 'telemetry';
+  const DEFAULT = () => ({
+    session_count: 0,
+    record_save_count: 0,
+    tab_view: { home:0, record:0, myhall:0, machine:0, tools:0, game:0, settings:0 },
+    first_seen: new Date().toISOString(),
+    last_seen: new Date().toISOString()
+  });
+  function get() {
+    try {
+      const raw = localStorage.getItem(KEY);
+      if (!raw) return DEFAULT();
+      const d = JSON.parse(raw);
+      const def = DEFAULT();
+      return Object.assign(def, d, { tab_view: Object.assign(def.tab_view, d.tab_view||{}) });
+    } catch { return DEFAULT(); }
+  }
+  function save(d) {
+    d.last_seen = new Date().toISOString();
+    try { localStorage.setItem(KEY, JSON.stringify(d)); } catch {}
+  }
+  function inc(path) {
+    const d = get();
+    if (path === 'session_count' || path === 'record_save_count') {
+      d[path] = (d[path]||0) + 1;
+    } else if (path.indexOf('tab_view.') === 0) {
+      const k = path.slice(9);
+      d.tab_view = d.tab_view || {};
+      d.tab_view[k] = (d.tab_view[k]||0) + 1;
+    }
+    save(d);
+    return d;
+  }
+  return { get, save, inc };
+})();
+try { window.Telemetry = Telemetry; } catch {}
 
 // ── ページ切替 ──
 // 親タブ → サブタブ群
@@ -3267,6 +3312,7 @@ function _renderForPage(id) {
 function showPage(id, btn) {
   // サブIDが指定された場合は親へ
   const parent = SUB_TO_PARENT[id] || id;
+  try { Telemetry.inc('tab_view.' + parent); } catch {}
   const sub = SUB_TO_PARENT[id] ? id : (_currentSub[id] || id);
 
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -3359,6 +3405,7 @@ function 記録保存() {
   const records = 記録取得();
   records.push({ id: Date.now(), date, hall, machine, invest, ret, games, setting, event: event_, note, pnl: ret - invest });
   記録保存処理(records);
+  try { Telemetry.inc('record_save_count'); } catch {}
   データリスト更新();
 
   ['f-invest','f-return','f-games','f-note','f-machine'].forEach(id => document.getElementById(id).value='');
@@ -4145,6 +4192,28 @@ function renderSettings() {
   最終更新時刻表示();
   const ocrSt = document.getElementById('ocr状態');
   if (ocrSt) ocrSt.textContent = s.geminiKey ? '✅ APIキー設定済み（写真OCR利用可能）' : '※ APIキー未設定（写真OCRは利用不可）';
+  テレメトリ描画();
+}
+function テレメトリ描画() {
+  const el = document.getElementById('テレメトリ表示');
+  if (!el) return;
+  try {
+    const t = Telemetry.get();
+    const tv = t.tab_view || {};
+    const fmt = d => { try { return new Date(d).toLocaleString('ja-JP'); } catch { return d; } };
+    el.innerHTML =
+      '🚀 起動回数: <strong>' + (t.session_count||0) + '</strong> 回<br>' +
+      '💾 記録保存数: <strong>' + (t.record_save_count||0) + '</strong> 回<br>' +
+      '📑 タブ表示数:<br>' +
+      '<span style="margin-left:14px;display:inline-block">' +
+        '🏠 収支 ' + (tv.home||0) + ' / ✏️ 記録 ' + (tv.record||0) + ' / 🏆 マイホ ' + (tv.myhall||0) + '<br>' +
+        '🎰 機種 ' + (tv.machine||0) + ' / 🛠️ ツール ' + (tv.tools||0) + ' / 🎮 GAME ' + (tv.game||0) + ' / ⚙️ 設定 ' + (tv.settings||0) +
+      '</span><br>' +
+      '🕒 初回: <span style="color:var(--muted)">' + fmt(t.first_seen) + '</span><br>' +
+      '🕒 最終: <span style="color:var(--muted)">' + fmt(t.last_seen) + '</span>';
+  } catch (e) {
+    el.textContent = '（テレメトリ読込エラー）';
+  }
 }
 function 設定保存() {
   const 現在 = 設定取得();
@@ -7883,6 +7952,7 @@ if ('serviceWorker' in navigator) {
 }
 
 // ── 初期化 ──
+try { Telemetry.inc('session_count'); } catch {}
 データリスト更新();
 renderHome();
 自動取得チェック();
