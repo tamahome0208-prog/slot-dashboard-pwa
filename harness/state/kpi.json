@@ -1,0 +1,35 @@
+{
+  "updated": "2026-05-22T23:15:12.371014",
+  "cycle": 0,
+  "metrics": {
+    "actual_pnl": {
+      "value": null,
+      "unit": "yen",
+      "source": "localStorage.records"
+    },
+    "ai_pick_hit_rate": {
+      "value": null,
+      "unit": "%",
+      "source": "今日の狙い目 vs royal_history"
+    },
+    "backtest_win_rate": {
+      "value": 100.0,
+      "unit": "%",
+      "source": "dow_水木",
+      "avg_sa": 3686,
+      "days": 55
+    },
+    "app_usage": {
+      "value": null,
+      "unit": "events",
+      "source": "telemetry (planned)"
+    }
+  },
+  "history": [
+    {
+      "at": "2026-05-22T23:15:12.371027",
+      "best_strategy": "dow_水木",
+      "win_rate": 100.0
+    }
+  ]
+}

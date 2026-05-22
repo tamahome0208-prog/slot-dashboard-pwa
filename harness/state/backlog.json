@@ -1,0 +1,35 @@
+{
+  "updated": null,
+  "items": [
+    {
+      "id": "B001",
+      "title": "アプリ使用状況テレメトリ実装",
+      "rationale": "KPI #4 が計測不能なので最低限のlocalStorageベース計測を入れる",
+      "priority": "high",
+      "status": "pending",
+      "estimated_impact": "medium",
+      "created_by": "instructor",
+      "created_at": "2026-05-22"
+    },
+    {
+      "id": "B002",
+      "title": "AI推奨の的中ログ機能",
+      "rationale": "推奨履歴を記録しないと的中率が出せない",
+      "priority": "high",
+      "status": "pending",
+      "estimated_impact": "high",
+      "created_by": "instructor",
+      "created_at": "2026-05-22"
+    },
+    {
+      "id": "B003",
+      "title": "バックテストエンジン (scripts/backtest.py)",
+      "rationale": "royal_history.jsonに対する戦略再現を自動化",
+      "priority": "medium",
+      "status": "pending",
+      "estimated_impact": "high",
+      "created_by": "instructor",
+      "created_at": "2026-05-22"
+    }
+  ]
+}
