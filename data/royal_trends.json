@@ -1,0 +1,323 @@
+{
+  "updated": "2026-05-22T19:32:20.322379+09:00",
+  "sample": 189,
+  "top": [
+    {
+      "name": "パチスロ わたしの幸せな結婚",
+      "avg_sa": 1535,
+      "avg_p": 108.0,
+      "days": 4,
+      "win_rate": 50
+    },
+    {
+      "name": "Lぱちスロにゃんこ大戦争ＢＩＧＢＡＮＧ",
+      "avg_sa": 788,
+      "avg_p": 110.8,
+      "days": 7,
+      "win_rate": 57
+    },
+    {
+      "name": "L ULTRAMAN",
+      "avg_sa": 710,
+      "avg_p": 108.2,
+      "days": 12,
+      "win_rate": 67
+    },
+    {
+      "name": "パチスロ 転生したら剣でした",
+      "avg_sa": 619,
+      "avg_p": 100.1,
+      "days": 26,
+      "win_rate": 35
+    },
+    {
+      "name": "スマスロ鉄拳6",
+      "avg_sa": 584,
+      "avg_p": 104.8,
+      "days": 23,
+      "win_rate": 61
+    },
+    {
+      "name": "Lパチスロ ケンガンアシュラ",
+      "avg_sa": 528,
+      "avg_p": 105.5,
+      "days": 14,
+      "win_rate": 50
+    },
+    {
+      "name": "A-SLOT+異世界かるてっとBT",
+      "avg_sa": 519,
+      "avg_p": 102.1,
+      "days": 8,
+      "win_rate": 38
+    },
+    {
+      "name": "L ００９　ＲＥ：ＣＹＢＯＲＧ",
+      "avg_sa": 513,
+      "avg_p": 110.2,
+      "days": 4,
+      "win_rate": 50
+    },
+    {
+      "name": "L無職転生～異世界行ったら本気だす～",
+      "avg_sa": 506,
+      "avg_p": 100.0,
+      "days": 7,
+      "win_rate": 43
+    },
+    {
+      "name": "L虚構推理",
+      "avg_sa": 476,
+      "avg_p": 100.2,
+      "days": 8,
+      "win_rate": 38
+    },
+    {
+      "name": "スマスロ スーパーブラックジャック",
+      "avg_sa": 460,
+      "avg_p": 97.9,
+      "days": 20,
+      "win_rate": 45
+    },
+    {
+      "name": "パチスロ麻雀物語４",
+      "avg_sa": 447,
+      "avg_p": 104.6,
+      "days": 21,
+      "win_rate": 57
+    },
+    {
+      "name": "スマスロとある科学の超電磁砲2",
+      "avg_sa": 403,
+      "avg_p": 102.0,
+      "days": 16,
+      "win_rate": 62
+    },
+    {
+      "name": "L咲-Saki-頂上決戦",
+      "avg_sa": 372,
+      "avg_p": 96.1,
+      "days": 22,
+      "win_rate": 41
+    },
+    {
+      "name": "スマスロ サンダーV",
+      "avg_sa": 319,
+      "avg_p": 99.6,
+      "days": 15,
+      "win_rate": 60
+    },
+    {
+      "name": "スマスロ北斗の拳 転生の章2",
+      "avg_sa": 316,
+      "avg_p": 101.6,
+      "days": 25,
+      "win_rate": 60
+    },
+    {
+      "name": "Lスマスロ劇場版まどか前後編f-フォルテ-",
+      "avg_sa": 309,
+      "avg_p": 95.8,
+      "days": 15,
+      "win_rate": 53
+    },
+    {
+      "name": "スマスロ 甲鉄城のカバネリ 海門決戦",
+      "avg_sa": 303,
+      "avg_p": 101.2,
+      "days": 15,
+      "win_rate": 80
+    },
+    {
+      "name": "スマスロモンキーターンV",
+      "avg_sa": 292,
+      "avg_p": 101.0,
+      "days": 180,
+      "win_rate": 55
+    },
+    {
+      "name": "スマスロ ハナビ",
+      "avg_sa": 250,
+      "avg_p": 101.3,
+      "days": 17,
+      "win_rate": 65
+    },
+    {
+      "name": "Lスマスロ　キン肉マン～７人の悪魔超人編～",
+      "avg_sa": 248,
+      "avg_p": 94.5,
+      "days": 94,
+      "win_rate": 45
+    },
+    {
+      "name": "Lパチスロからくりサーカス",
+      "avg_sa": 243,
+      "avg_p": 100.3,
+      "days": 164,
+      "win_rate": 50
+    },
+    {
+      "name": "スマスロ コードギアス 反逆のルルーシュ 復活のルルーシュ",
+      "avg_sa": 235,
+      "avg_p": 93.5,
+      "days": 28,
+      "win_rate": 50
+    },
+    {
+      "name": "Sky Love",
+      "avg_sa": 233,
+      "avg_p": 99.3,
+      "days": 18,
+      "win_rate": 50
+    },
+    {
+      "name": "スマスロ シャーマンキング",
+      "avg_sa": 225,
+      "avg_p": 95.6,
+      "days": 39,
+      "win_rate": 38
+    },
+    {
+      "name": "パチスロ炎炎ノ消防隊",
+      "avg_sa": 220,
+      "avg_p": 101.1,
+      "days": 51,
+      "win_rate": 61
+    },
+    {
+      "name": "押忍！番長ＺＥＲＯ",
+      "avg_sa": 217,
+      "avg_p": 100.7,
+      "days": 51,
+      "win_rate": 57
+    },
+    {
+      "name": "スマスロ痛いのは嫌なので防御力に極振りしたいと思います。",
+      "avg_sa": 215,
+      "avg_p": 105.4,
+      "days": 70,
+      "win_rate": 56
+    },
+    {
+      "name": "クレアの秘宝伝～はじまりの扉と太陽の石～ボーナストリガーver.",
+      "avg_sa": 213,
+      "avg_p": 99.0,
+      "days": 39,
+      "win_rate": 51
+    },
+    {
+      "name": "スマスロ 東京リベンジャーズ",
+      "avg_sa": 209,
+      "avg_p": 101.6,
+      "days": 32,
+      "win_rate": 50
+    }
+  ],
+  "bottom": [
+    {
+      "name": "バーニングエクスプレス",
+      "avg_sa": -1000,
+      "avg_p": 94.9,
+      "days": 10,
+      "win_rate": 20
+    },
+    {
+      "name": "アニマルスロット ドッチ",
+      "avg_sa": -962,
+      "avg_p": 90.7,
+      "days": 3,
+      "win_rate": 33
+    },
+    {
+      "name": "真打 吉宗",
+      "avg_sa": -924,
+      "avg_p": 94.9,
+      "days": 8,
+      "win_rate": 25
+    },
+    {
+      "name": "スマスロネオプラネット",
+      "avg_sa": -849,
+      "avg_p": 92.5,
+      "days": 17,
+      "win_rate": 24
+    },
+    {
+      "name": "Lアクダマドライブ",
+      "avg_sa": -773,
+      "avg_p": 91.6,
+      "days": 8,
+      "win_rate": 38
+    },
+    {
+      "name": "Lうしおととら 白面決戦",
+      "avg_sa": -658,
+      "avg_p": 89.1,
+      "days": 5,
+      "win_rate": 20
+    },
+    {
+      "name": "バーサスリヴァイズ",
+      "avg_sa": -556,
+      "avg_p": 91.4,
+      "days": 7,
+      "win_rate": 14
+    },
+    {
+      "name": "Lダーリン・イン・ザ・フランキス",
+      "avg_sa": -501,
+      "avg_p": 92.1,
+      "days": 22,
+      "win_rate": 23
+    },
+    {
+      "name": "スマスロ化物語",
+      "avg_sa": -497,
+      "avg_p": 95.9,
+      "days": 30,
+      "win_rate": 33
+    },
+    {
+      "name": "Lパチスロ閃乱カグラ2 SHINOVI MASTER",
+      "avg_sa": -458,
+      "avg_p": 84.1,
+      "days": 10,
+      "win_rate": 10
+    },
+    {
+      "name": "L絶対衝激～PLATONIC HEART～",
+      "avg_sa": -447,
+      "avg_p": 79.4,
+      "days": 7,
+      "win_rate": 14
+    },
+    {
+      "name": "Lにゃんこ大戦争 超神速",
+      "avg_sa": -420,
+      "avg_p": 94.8,
+      "days": 29,
+      "win_rate": 34
+    },
+    {
+      "name": "L新・必殺仕置人 回胴 CRASH SPEC",
+      "avg_sa": -411,
+      "avg_p": 90.5,
+      "days": 17,
+      "win_rate": 29
+    },
+    {
+      "name": "スマスロ ドルアーガの塔",
+      "avg_sa": -395,
+      "avg_p": 89.2,
+      "days": 17,
+      "win_rate": 12
+    },
+    {
+      "name": "Lパチスロ 機動戦士ガンダムSEED",
+      "avg_sa": -392,
+      "avg_p": 95.8,
+      "days": 27,
+      "win_rate": 33
+    }
+  ]
+}
