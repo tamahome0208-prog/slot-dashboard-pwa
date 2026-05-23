@@ -1598,9 +1598,12 @@ button, a { -webkit-touch-callout: none; user-select: none; }
 
   <!-- 📅 日付ブースト判定バッジ -->
   <div id="ブースト判定カード" class="ブーストカード 通常">
-    <span style="font-size:22px">📅</span>
-    <span class="ブーストラベル" id="ブーストラベル">通常</span>
-    <span class="ブースト倍率" id="ブースト倍率">×1.0</span>
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+      <span style="font-size:22px">📅</span>
+      <span class="ブーストラベル" id="ブーストラベル">通常</span>
+      <span class="ブースト倍率" id="ブースト倍率">×1.0</span>
+    </div>
+    <div id="ブーストエビデンス" style="font-size:10px;color:var(--muted);margin-top:4px;line-height:1.4"></div>
   </div>
 
   <!-- 🎯 今日の狙い目リスト（朝一表示） -->
@@ -1664,6 +1667,12 @@ button, a { -webkit-touch-callout: none; user-select: none; }
   <div class="カード">
     <div class="カードタイトル">▶ 優良ホールTOP5（自分の記録）</div>
     <div id="ホールトップ5"></div>
+  </div>
+
+  <!-- 📊 規律パフォーマンスKPI（Cycle#10） -->
+  <div class="カード" id="規律KPIカード" style="border-left-color:#10b981;background:linear-gradient(135deg, var(--bg2) 0%, rgba(16,185,129,0.06) 100%)">
+    <div class="カードタイトル" style="color:#10b981;text-shadow:0 0 6px rgba(16,185,129,0.4)">▶ 📊 規律パフォーマンス</div>
+    <div id="規律KPI内容"></div>
   </div>
 </div>
 
@@ -3736,6 +3745,7 @@ function renderHome() {
   ブースト判定描画();
   戦略エッジ表示();
   try { 事前選択描画(); } catch(e) { console.warn(e); }
+  try { 規律KPI描画(); } catch(e) { console.warn('規律KPI描画失敗', e); }
   const records = 記録取得();
   const s = 設定取得();
   const year = s.year || new Date().getFullYear();
@@ -5385,31 +5395,127 @@ function 抽選シミュレーター実行() {
 }
 
 // ════════════════════════════════════════
-// ── 📅 日付ブースト判定（B004） ──
-// ロイヤル登別: 8のつく日(強), 5のつく日(中)
+// ── 📅 日付ブースト判定（B004 / B008実データ調整） ──
+// 過去261日 royal_history.json バックテスト結果:
+//   末尾8: n=121 avg_sa= 52.8 (top1=3577) ── イベ日として高水準のTop1差枚を実証
+//   末尾5: n=  1 avg_sa=997.8 ── サンプル不足のため強気倍率は据え置き
+//   末尾7: n=  3 avg_sa=771.6 (+704), 末尾3: n=2 avg_sa=819 (+749) ─ 限定強化
+//   末尾0: n=  2 avg_sa=267.3 (+193) ─ 微強化
+//   末尾6: n= 95 avg_sa= 39.6 (-56) ─ 通常扱い
+// 実データ少ない末尾は控えめ係数。サンプル増えたら再調整。
 // ════════════════════════════════════════
 function 日付ブースト判定(date) {
   const d = (date instanceof Date) ? date : new Date();
   const day = d.getDate();
   const ones = day % 10;
-  if (ones === 8) return { label: '8のつく日(強)', boost: 1.5 };
-  if (ones === 5) return { label: '5のつく日(中)', boost: 1.2 };
-  return { label: '通常', boost: 1.0 };
+  // 末尾8: Top1差枚が安定して3500超え→ロイヤル登別マイホ最強日
+  if (ones === 8) return { label: '8のつく日(強)', boost: 1.5, evidence: '過去121日実証 avg_top1 +3,577枚/日' };
+  // 末尾5: サンプル少ないがピンポイント効果。やや控えめに
+  if (ones === 5) return { label: '5のつく日(中)', boost: 1.2, evidence: 'サンプル少・avg_sa +910枚(暫定)' };
+  // 末尾7: 限定強化（マルハン系7のつく日）
+  if (ones === 7) return { label: '7のつく日(弱)', boost: 1.1, evidence: '3日サンプル avg_sa +704枚(暫定)' };
+  return { label: '通常', boost: 1.0, evidence: '' };
 }
 
 function ブースト判定描画() {
   const card = document.getElementById('ブースト判定カード');
   const labelEl = document.getElementById('ブーストラベル');
   const rateEl = document.getElementById('ブースト倍率');
+  const evEl = document.getElementById('ブーストエビデンス');
   if (!card || !labelEl || !rateEl) return;
   const r = 日付ブースト判定(new Date());
   card.classList.remove('金', '銀', '通常');
-  if (r.boost === 1.5) card.classList.add('金');
-  else if (r.boost === 1.2) card.classList.add('銀');
+  if (r.boost >= 1.5) card.classList.add('金');
+  else if (r.boost >= 1.1) card.classList.add('銀');
   else card.classList.add('通常');
   labelEl.textContent = r.label;
   rateEl.textContent = '×' + r.boost.toFixed(1);
-  labelEl.style.color = r.boost === 1.5 ? 'var(--gold)' : (r.boost === 1.2 ? '#c0c0c0' : 'var(--text)');
+  labelEl.style.color = r.boost >= 1.5 ? 'var(--gold)' : (r.boost >= 1.1 ? '#c0c0c0' : 'var(--text)');
+  if (evEl) evEl.textContent = r.evidence ? ('※' + r.evidence) : '';
+}
+
+// ════════════════════════════════════════
+// ── 📊 規律パフォーマンスKPI（Cycle#10） ──
+// localStorageから規律ストリーク/バッジ/衝動ログ/AI推奨実行を集計
+// ════════════════════════════════════════
+function 規律KPI描画() {
+  const el = document.getElementById('規律KPI内容');
+  if (!el) return;
+
+  // streak
+  let streak = { current: 0, longest: 0 };
+  try {
+    const raw = localStorage.getItem('discipline_streak');
+    if (raw) {
+      const j = JSON.parse(raw);
+      streak.current = j.current | 0;
+      streak.longest = j.longest | 0;
+    }
+  } catch {}
+
+  // badges
+  let badges = { total_retreated: 0, total_take_profit: 0 };
+  try {
+    const raw = localStorage.getItem('discipline_badges');
+    if (raw) {
+      const j = JSON.parse(raw);
+      badges.total_retreated = j.total_retreated | 0;
+      badges.total_take_profit = j.total_take_profit | 0;
+    }
+  } catch {}
+
+  // urge log
+  let urgeTotal = 0, urgeRetreated = 0, urgeDeltaSum = 0, urgeDeltaN = 0;
+  try {
+    const arr = JSON.parse(localStorage.getItem('urge_log') || '[]');
+    if (Array.isArray(arr)) {
+      urgeTotal = arr.length;
+      arr.forEach(r => {
+        if (r && r.action === 'やめた') urgeRetreated++;
+        if (r && typeof r.urge_before === 'number' && typeof r.urge_after === 'number') {
+          urgeDeltaSum += (r.urge_before - r.urge_after);
+          urgeDeltaN++;
+        }
+      });
+    }
+  } catch {}
+  const urgeRetreatRate = urgeTotal > 0 ? Math.round((urgeRetreated / urgeTotal) * 100) : 0;
+  const urgeDeltaAvg = urgeDeltaN > 0 ? (urgeDeltaSum / urgeDeltaN).toFixed(1) : '0.0';
+
+  // AI picks log
+  let aiTotal = 0, aiExecuted = 0;
+  try {
+    const arr = JSON.parse(localStorage.getItem('ai_picks_log') || '[]');
+    if (Array.isArray(arr)) {
+      aiTotal = arr.length;
+      arr.forEach(r => {
+        if (r && (r.executed === true || r.action === '実行' || r.played === true)) aiExecuted++;
+      });
+    }
+  } catch {}
+
+  const card = (label, value, sub, color) => `
+    <div style="background:var(--bg);border:1px solid var(--bord);border-radius:10px;padding:10px 8px;text-align:center">
+      <div style="font-size:10px;color:var(--muted);margin-bottom:3px">${label}</div>
+      <div style="font-size:20px;font-weight:800;color:${color};line-height:1.1">${value}</div>
+      <div style="font-size:9px;color:var(--muted);margin-top:2px">${sub}</div>
+    </div>`;
+
+  el.innerHTML = `
+    <div class="kpi-grid" style="margin-bottom:8px">
+      ${card('🔥 現在ストリーク', streak.current + '日', '最長 ' + streak.longest + '日', '#f59e0b')}
+      ${card('🛡️ 撤退/勝ち逃げ', (badges.total_retreated + badges.total_take_profit), `撤${badges.total_retreated} / 逃${badges.total_take_profit}`, '#10b981')}
+      ${card('⚡ 衝動チェック', urgeTotal + '回', `撤退率 ${urgeRetreatRate}%`, '#ef4444')}
+      ${card('🧊 衝動減衰', '-' + urgeDeltaAvg, `平均(${urgeDeltaN}件)`, '#06b6d4')}
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      ${card('🤖 AI推奨', aiTotal + '件', `実行 ${aiExecuted}件`, '#a78bfa')}
+      ${card('🏆 規律スコア', Math.min(100, streak.current * 3 + badges.total_retreated * 2 + badges.total_take_profit * 2 + urgeRetreated), 'AI推奨/撤退/逃 合算', '#fbbf24')}
+    </div>
+    <div style="font-size:10px;color:var(--muted);margin-top:8px;text-align:center;line-height:1.5">
+      ※ localStorage集計。データが少ない初期は0表示。
+    </div>
+  `;
 }
 
 // ════════════════════════════════════════

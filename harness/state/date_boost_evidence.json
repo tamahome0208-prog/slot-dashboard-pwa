@@ -1,0 +1,181 @@
+{
+  "generated_from": "data/royal_history.json",
+  "total_days": 261,
+  "buckets": {
+    "last8": {
+      "n_days": 121,
+      "avg_top1_sa": 3576.9,
+      "avg_sa": 52.8,
+      "win_rate_top1": 1,
+      "win_rate_avg": 0.57
+    },
+    "all": {
+      "n_days": 261,
+      "avg_top1_sa": 3798.8,
+      "avg_sa": 75.4,
+      "win_rate_top1": 1,
+      "win_rate_avg": 0.567
+    },
+    "d8": {
+      "n_days": 121,
+      "avg_top1_sa": 3576.9,
+      "avg_sa": 52.8,
+      "win_rate_top1": 1,
+      "win_rate_avg": 0.57
+    },
+    "other": {
+      "n_days": 139,
+      "avg_top1_sa": 3974.2,
+      "avg_sa": 88.5,
+      "win_rate_top1": 1,
+      "win_rate_avg": 0.561
+    },
+    "d2": {
+      "n_days": 31,
+      "avg_top1_sa": 4319.3,
+      "avg_sa": 126.2,
+      "win_rate_top1": 1,
+      "win_rate_avg": 0.71
+    },
+    "d7": {
+      "n_days": 3,
+      "avg_top1_sa": 5168.3,
+      "avg_sa": 771.6,
+      "win_rate_top1": 1,
+      "win_rate_avg": 0.667
+    },
+    "d6": {
+      "n_days": 95,
+      "avg_top1_sa": 3847.1,
+      "avg_sa": 39.6,
+      "win_rate_top1": 1,
+      "win_rate_avg": 0.495
+    },
+    "d3": {
+      "n_days": 2,
+      "avg_top1_sa": 7417,
+      "avg_sa": 819.1,
+      "win_rate_top1": 1,
+      "win_rate_avg": 1
+    },
+    "last5": {
+      "n_days": 1,
+      "avg_top1_sa": 6260,
+      "avg_sa": 997.8,
+      "win_rate_top1": 1,
+      "win_rate_avg": 1
+    },
+    "d5": {
+      "n_days": 1,
+      "avg_top1_sa": 6260,
+      "avg_sa": 997.8,
+      "win_rate_top1": 1,
+      "win_rate_avg": 1
+    },
+    "d0": {
+      "n_days": 2,
+      "avg_top1_sa": 3663,
+      "avg_sa": 267.3,
+      "win_rate_top1": 1,
+      "win_rate_avg": 1
+    },
+    "d9": {
+      "n_days": 4,
+      "avg_top1_sa": 1814.8,
+      "avg_sa": -42.7,
+      "win_rate_top1": 1,
+      "win_rate_avg": 0.25
+    },
+    "d1": {
+      "n_days": 2,
+      "avg_top1_sa": 4062.5,
+      "avg_sa": 155.1,
+      "win_rate_top1": 1,
+      "win_rate_avg": 1
+    }
+  },
+  "diff_vs_other": {
+    "last8": {
+      "avg_sa_diff_vs_other": -35.7,
+      "top1_sa_diff_vs_other": -397.3
+    },
+    "last5": {
+      "avg_sa_diff_vs_other": 909.3,
+      "top1_sa_diff_vs_other": 2285.8
+    }
+  },
+  "per_last_digit": {
+    "d0": {
+      "n_days": 2,
+      "avg_top1_sa": 3663,
+      "avg_sa": 267.3,
+      "win_rate_top1": 1,
+      "win_rate_avg": 1,
+      "avg_sa_diff_vs_others": 193.4
+    },
+    "d1": {
+      "n_days": 2,
+      "avg_top1_sa": 4062.5,
+      "avg_sa": 155.1,
+      "win_rate_top1": 1,
+      "win_rate_avg": 1,
+      "avg_sa_diff_vs_others": 80.3
+    },
+    "d2": {
+      "n_days": 31,
+      "avg_top1_sa": 4319.3,
+      "avg_sa": 126.2,
+      "win_rate_top1": 1,
+      "win_rate_avg": 0.71,
+      "avg_sa_diff_vs_others": 57.6
+    },
+    "d3": {
+      "n_days": 2,
+      "avg_top1_sa": 7417,
+      "avg_sa": 819.1,
+      "win_rate_top1": 1,
+      "win_rate_avg": 1,
+      "avg_sa_diff_vs_others": 749.4
+    },
+    "d5": {
+      "n_days": 1,
+      "avg_top1_sa": 6260,
+      "avg_sa": 997.8,
+      "win_rate_top1": 1,
+      "win_rate_avg": 1,
+      "avg_sa_diff_vs_others": 925.9
+    },
+    "d6": {
+      "n_days": 95,
+      "avg_top1_sa": 3847.1,
+      "avg_sa": 39.6,
+      "win_rate_top1": 1,
+      "win_rate_avg": 0.495,
+      "avg_sa_diff_vs_others": -56.3
+    },
+    "d7": {
+      "n_days": 3,
+      "avg_top1_sa": 5168.3,
+      "avg_sa": 771.6,
+      "win_rate_top1": 1,
+      "win_rate_avg": 0.667,
+      "avg_sa_diff_vs_others": 704.3
+    },
+    "d8": {
+      "n_days": 121,
+      "avg_top1_sa": 3576.9,
+      "avg_sa": 52.8,
+      "win_rate_top1": 1,
+      "win_rate_avg": 0.57,
+      "avg_sa_diff_vs_others": -42.2
+    },
+    "d9": {
+      "n_days": 4,
+      "avg_top1_sa": 1814.8,
+      "avg_sa": -42.7,
+      "win_rate_top1": 1,
+      "win_rate_avg": 0.25,
+      "avg_sa_diff_vs_others": -120.0
+    }
+  }
+}

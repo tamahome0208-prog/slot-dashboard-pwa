@@ -1,5 +1,5 @@
 // スロット管理システム サービスワーカー
-const CACHE_NAME = 'v11-preselect';
+const CACHE_NAME = 'v12-evidence';
 const ASSETS = [
   './',
   './index.html',
