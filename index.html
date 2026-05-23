@@ -1634,6 +1634,34 @@ button, a { -webkit-touch-callout: none; user-select: none; }
 .calc-body { display: none; margin-top: 10px; padding: 12px; background: var(--bg3); border-left: 3px solid var(--cyan); border-radius: 6px; font-size: 12px; line-height: 1.7; color: var(--text2); }
 .calc-body.open { display: block; }
 .calc-body strong { color: var(--text); }
+
+/* ===== Cycle#13 鉄板3台 ===== */
+#鉄板3台エリア { margin-bottom: 24px; padding: 16px; background: linear-gradient(135deg, var(--bg2), rgba(245,158,11,0.05)); border-radius: 16px; border: 1px solid rgba(245,158,11,0.3); }
+.tetsuban-header { text-align: center; margin-bottom: 14px; }
+.tetsuban-title { font-family: 'Orbitron', monospace; font-size: 22px; font-weight: 900; color: #f59e0b; letter-spacing: 1px; }
+.tetsuban-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
+.tetsuban-card { padding: 16px; border-radius: 14px; margin-bottom: 12px; position: relative; overflow: hidden; }
+.tetsuban-card-1 { background: linear-gradient(135deg, rgba(255,215,0,0.20), rgba(245,158,11,0.10), var(--bg2)); border: 2px solid #FFD700; box-shadow: 0 4px 20px rgba(255,215,0,0.3); }
+.tetsuban-card-2 { background: linear-gradient(135deg, rgba(192,192,192,0.15), var(--bg2)); border: 2px solid #C0C0C0; }
+.tetsuban-card-3 { background: linear-gradient(135deg, rgba(205,127,50,0.15), var(--bg2)); border: 2px solid #CD7F32; }
+.tetsuban-top { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.tetsuban-medal { font-size: 44px; line-height: 1; }
+.tetsuban-card-1 .tetsuban-medal { font-size: 56px; filter: drop-shadow(0 0 12px rgba(255,215,0,0.6)); }
+.tetsuban-info { flex: 1; }
+.tetsuban-rank { font-size: 11px; color: var(--muted); letter-spacing: 2px; }
+.tetsuban-name { font-family: 'Orbitron', monospace; font-size: 18px; font-weight: 900; color: var(--text); margin: 2px 0; line-height: 1.2; }
+.tetsuban-card-1 .tetsuban-name { font-size: 22px; color: #FFD700; }
+.tetsuban-score-badge { font-family: 'Orbitron', monospace; font-size: 28px; font-weight: 900; padding: 6px 14px; border-radius: 10px; min-width: 80px; text-align: center; }
+.tetsuban-card-1 .tetsuban-score-badge { background: linear-gradient(135deg, #FFD700, #FFA500); color: #000; box-shadow: 0 0 16px rgba(255,215,0,0.5); font-size: 32px; }
+.tetsuban-card-2 .tetsuban-score-badge { background: #C0C0C0; color: #000; }
+.tetsuban-card-3 .tetsuban-score-badge { background: #CD7F32; color: #fff; }
+.tetsuban-reasons { list-style: none; padding: 0; margin: 10px 0 8px; }
+.tetsuban-reasons li { padding: 6px 10px; background: rgba(0,0,0,0.2); border-left: 3px solid #f59e0b; margin: 4px 0; border-radius: 4px; font-size: 12px; color: var(--text2); }
+.tetsuban-card-1 .tetsuban-reasons li { border-left-color: #FFD700; background: rgba(255,215,0,0.06); }
+.tetsuban-breakdown { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 10px; }
+.tetsuban-chip { padding: 3px 8px; background: var(--bg3); border-radius: 99px; font-size: 10px; color: var(--text2); font-family: 'Share Tech Mono', monospace; }
+.tetsuban-chip strong { color: var(--cyan); margin-right: 3px; }
+.tetsuban-empty { padding: 20px; text-align: center; color: var(--muted); font-size: 13px; }
 </style>
 </head>
 <body>
@@ -1705,6 +1733,27 @@ button, a { -webkit-touch-callout: none; user-select: none; }
     </div>
 
     <div class="acc-hint">↓ 詳細データはこの下から開けます</div>
+  </div>
+
+  <!-- ===== Cycle#13 鉄板3台 ===== -->
+  <div id="鉄板3台エリア">
+    <div class="tetsuban-header">
+      <div class="tetsuban-title">🔥 今日打つべき鉄板3台</div>
+      <div class="tetsuban-sub">直近5日+長期データ+日付ブースト合成スコア(100点満点)</div>
+    </div>
+    <div id="鉄板3台リスト"></div>
+    <button class="calc-toggle" onclick="calcToggle('calc-tetsuban')">ⓘ どう計算してる？</button>
+    <div class="calc-body" id="calc-tetsuban">
+      <strong>計算方法</strong>: 6つの指標を100点満点で合成<br>
+      <strong>A. 長期実績(0-30点)</strong>: 過去全期間の平均差枚<br>
+      <strong>B. 直近5日勝率(0-25点)</strong>: 過去5日で差枚プラスだった日の割合<br>
+      <strong>C. 直近5日累積(0-20点)</strong>: 過去5日の合計差枚<br>
+      <strong>D. 日付ブースト(0-10点)</strong>: 8/5のつく日加点<br>
+      <strong>E. TOP10常連度(0-10点)</strong>: 過去30日でTOP10入りした日数<br>
+      <strong>F. 長期勝率ボーナス(0-5点)</strong>: 過去全期間の勝率<br>
+      <strong>データソース</strong>: data/royal_history.json (毎朝7時自動更新)<br>
+      <strong>注意</strong>: 過去データの統計分析であり未来を保証するものではありません。
+    </div>
   </div>
 
   <!-- ===== 詳細アコーディオン群 ===== -->
@@ -3960,8 +4009,107 @@ function ヒーロー描画() {
   } catch(e) { console.warn('ヒーロー描画失敗', e); }
 }
 
+async function 今日の鉄板3台生成() {
+  try {
+    const [histR, trR] = await Promise.all([
+      fetch('data/royal_history.json',{cache:'no-store'}),
+      fetch('data/royal_trends.json',{cache:'no-store'})
+    ]);
+    const hist = await histR.json();
+    const trends = await trR.json();
+    hist.sort((a,b)=>(b.id||'').localeCompare(a.id||''));
+    const recent5 = hist.slice(0, 5);
+    const recent30 = hist.slice(0, 30);
+    const today = new Date();
+    const boost = (typeof 日付ブースト判定 === 'function') ? 日付ブースト判定(today) : {boost:1.0,label:'通常'};
+    const pool = new Map();
+    (trends.top || []).slice(0,40).forEach(t => {
+      pool.set(t.name, { avg_sa_long: t.avg_sa||0, win_rate_long: t.win_rate||0, days_long: t.days||0 });
+    });
+    const scored = [];
+    pool.forEach((stats, name) => {
+      const sA = Math.min(30, Math.max(0, stats.avg_sa_long / 30));
+      let win5 = 0, app5 = 0, sumSa5 = 0;
+      recent5.forEach(d => {
+        const ms = (d.machines||[]).filter(m => m.name === name && m.sa != null);
+        ms.forEach(m => { app5++; sumSa5 += m.sa; if (m.sa > 0) win5++; });
+      });
+      const sB = app5 ? Math.round((win5/app5) * 25) : 0;
+      const sC = Math.min(20, Math.max(0, sumSa5 / 500));
+      const sD = Math.round((boost.boost - 1.0) * 20);
+      let topAppear = 0;
+      recent30.forEach(d => {
+        const sorted = (d.machines||[]).filter(m=>m.sa!=null).sort((a,b)=>b.sa-a.sa).slice(0,10);
+        if (sorted.some(m => m.name === name)) topAppear++;
+      });
+      const sE = Math.min(10, topAppear);
+      const sF = Math.min(5, stats.win_rate_long / 20);
+      const total = Math.round(sA + sB + sC + sD + sE + sF);
+      scored.push({
+        name, total,
+        breakdown: { A:Math.round(sA), B:sB, C:Math.round(sC), D:sD, E:sE, F:Math.round(sF) },
+        avg_sa_long: stats.avg_sa_long, win_rate_long: stats.win_rate_long,
+        win5, app5, sumSa5, topAppear, boost_label: boost.label, boost_value: boost.boost
+      });
+    });
+    scored.sort((a,b)=>b.total - a.total);
+    return scored.slice(0, 3);
+  } catch(e) {
+    console.warn('鉄板3台生成失敗', e);
+    return [];
+  }
+}
+
+async function 鉄板3台描画() {
+  const cont = document.getElementById('鉄板3台リスト');
+  if (!cont) return;
+  cont.innerHTML = '<div class="tetsuban-empty">分析中...</div>';
+  const top3 = await 今日の鉄板3台生成();
+  if (!top3.length) {
+    cont.innerHTML = '<div class="tetsuban-empty">データ取得失敗。再読込してください。</div>';
+    return;
+  }
+  const safe = s => String(s).replace(/[<>&"]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]));
+  cont.innerHTML = top3.map((m, i) => {
+    const rank = i+1;
+    const medal = ['🥇','🥈','🥉'][i];
+    const reasons = [];
+    if (m.avg_sa_long >= 800) reasons.push(`長期平均 <strong>+${Math.round(m.avg_sa_long).toLocaleString()}枚/日</strong>（長期実績◎）`);
+    else if (m.avg_sa_long >= 300) reasons.push(`長期平均 +${Math.round(m.avg_sa_long).toLocaleString()}枚/日`);
+    if (m.app5 > 0) {
+      const winPct = Math.round(m.win5/m.app5*100);
+      reasons.push(`直近5日勝率 <strong>${winPct}%</strong>（${m.win5}/${m.app5}日）`);
+      reasons.push(`直近5日合計 <strong>${m.sumSa5>=0?'+':''}${m.sumSa5.toLocaleString()}枚</strong>`);
+    }
+    if (m.boost_value > 1.0) reasons.push(`<strong>${safe(m.boost_label)}</strong>ブースト +${Math.round((m.boost_value-1)*100)}%`);
+    if (m.topAppear >= 5) reasons.push(`直近30日で<strong>${m.topAppear}日</strong>TOP10入り（常連）`);
+    if (m.win_rate_long >= 60) reasons.push(`長期勝率 <strong>${Math.round(m.win_rate_long)}%</strong>`);
+    const b = m.breakdown;
+    return `<div class="tetsuban-card tetsuban-card-${rank}">
+      <div class="tetsuban-top">
+        <div class="tetsuban-medal">${medal}</div>
+        <div class="tetsuban-info">
+          <div class="tetsuban-rank">${rank}位 / 鉄板度</div>
+          <div class="tetsuban-name">${safe(m.name).slice(0,40)}</div>
+        </div>
+        <div class="tetsuban-score-badge">${m.total}</div>
+      </div>
+      <ul class="tetsuban-reasons">${reasons.map(r=>`<li>${r}</li>`).join('')}</ul>
+      <div class="tetsuban-breakdown">
+        <span class="tetsuban-chip"><strong>A長期</strong>${b.A}</span>
+        <span class="tetsuban-chip"><strong>B直近勝率</strong>${b.B}</span>
+        <span class="tetsuban-chip"><strong>C直近差枚</strong>${b.C}</span>
+        <span class="tetsuban-chip"><strong>Dブースト</strong>${b.D}</span>
+        <span class="tetsuban-chip"><strong>ETOP常連</strong>${b.E}</span>
+        <span class="tetsuban-chip"><strong>F長期勝率</strong>${b.F}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
 function renderHome() {
   try { ヒーロー描画(); } catch(e) { console.warn(e); }
+  try { 鉄板3台描画(); } catch(e) { console.warn(e); }
   今日の狙い目描画();
   ブースト判定描画();
   戦略エッジ表示();
