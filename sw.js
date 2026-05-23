@@ -1,5 +1,5 @@
 // スロット管理システム サービスワーカー
-const CACHE_NAME = 'v15-tetsuban';
+const CACHE_NAME = 'v16-freshness';
 const ASSETS = [
   './',
   './index.html',

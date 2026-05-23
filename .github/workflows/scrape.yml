@@ -32,7 +32,7 @@ jobs:
 
       - name: ロイヤル登別 履歴追記
         run: python scripts/royal_daily.py
-        continue-on-error: true
+        continue-on-error: false
 
       - name: 変更をコミット
         run: |
@@ -42,6 +42,7 @@ jobs:
           if git diff --staged --quiet; then
             echo "変更なし"
           else
-            git commit -m "🤖 台データ自動更新 $(date +'%Y-%m-%d')"
+            LATEST=$(python -c "import json; h=json.load(open('data/royal_history.json',encoding='utf-8')); h.sort(key=lambda x:int(x.get('id','0') or 0),reverse=True); print(f\"{len(h)}日, 最新{h[0].get('date_str','?')}\")" 2>/dev/null || echo "")
+            git commit -m "🤖 台データ自動更新 $(date +'%Y-%m-%d') ($LATEST)"
             git push
           fi

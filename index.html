@@ -1564,6 +1564,12 @@ button, a { -webkit-touch-callout: none; user-select: none; }
 @keyframes toastIn { from { opacity: 0; transform: translate(-50%, -20px); } to { opacity: 1; transform: translate(-50%, 0); } }
 .badge-toast.milestone { background: linear-gradient(135deg, #f59e0b, #ef4444); color: #fff; font-size: 16px; padding: 16px 28px; }
 
+/* ===== Cycle#14 データ鮮度バッジ ===== */
+.data-fresh-badge { display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:99px; font-size:11px; font-weight:700; margin-bottom:8px; cursor:pointer; }
+.data-fresh-ok { background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid #10b981; }
+.data-fresh-warn { background: rgba(245,158,11,0.15); color: #f59e0b; border: 1px solid #f59e0b; }
+.data-fresh-bad { background: rgba(239,68,68,0.15); color: #ef4444; border: 1px solid #ef4444; }
+
 /* ===== Cycle#11 HERO UX ===== */
 #hero-signal-area { margin-bottom: 20px; }
 .signal-banner {
@@ -1693,6 +1699,7 @@ button, a { -webkit-touch-callout: none; user-select: none; }
 
   <!-- ===== Cycle#11 HERO: 3秒で分かる ===== -->
   <div id="hero-signal-area">
+    <div id="data-fresh-slot"></div>
     <div class="signal-banner signal-caution" id="signal-banner">
       <div class="signal-icon" id="signal-icon">🟡</div>
       <div class="signal-text">
@@ -3817,7 +3824,7 @@ function 事前選択候補生成(history, training_days, top_n) {
   training_days = training_days || 60;
   top_n = top_n || 20;
   if (!Array.isArray(history) || history.length === 0) return [];
-  const sorted = history.slice().sort((a,b) => String(a.id||'').localeCompare(String(b.id||'')));
+  const sorted = history.slice().sort((a,b) => (parseInt(a.id)||0) - (parseInt(b.id)||0));
   const training = sorted.slice(-training_days);
   const stats = {};
   for (const d of training) {
@@ -3884,7 +3891,7 @@ async function 設定6アラート描画() {
     const r = await fetch('data/royal_history.json', {cache:'no-store'});
     const hist = await r.json();
     if (!Array.isArray(hist) || hist.length === 0) return;
-    hist.sort((a,b) => String(b.id||'').localeCompare(String(a.id||'')));
+    hist.sort((a,b) => (parseInt(b.id)||0) - (parseInt(a.id)||0));
     const recent = hist.slice(0, 5);
     const machine_appearances = {};
     recent.forEach(day => {
@@ -4017,7 +4024,7 @@ async function 今日の鉄板3台生成() {
     ]);
     const hist = await histR.json();
     const trends = await trR.json();
-    hist.sort((a,b)=>(b.id||'').localeCompare(a.id||''));
+    hist.sort((a,b) => (parseInt(b.id)||0) - (parseInt(a.id)||0));
     const recent5 = hist.slice(0, 5);
     const recent30 = hist.slice(0, 30);
     const today = new Date();
@@ -4107,7 +4114,48 @@ async function 鉄板3台描画() {
   }).join('');
 }
 
+// ── Cycle#14: データ鮮度バッジ ──
+async function データ鮮度取得() {
+  try {
+    const hist = await fetch('data/royal_history.json', {cache:'no-store'}).then(r=>r.json());
+    if (!Array.isArray(hist) || hist.length===0) return null;
+    hist.sort((a,b) => (parseInt(b.id)||0) - (parseInt(a.id)||0));
+    const latest = hist[0];
+    const dateStr = latest.date_str || '';
+    // date_str は "5/23" 形式想定。今年として日付化
+    let days_ago = null;
+    const m = String(dateStr).match(/^(\d{1,2})\/(\d{1,2})$/);
+    if (m) {
+      const now = new Date();
+      let y = now.getFullYear();
+      const dt = new Date(y, parseInt(m[1])-1, parseInt(m[2]));
+      if (dt > now) dt.setFullYear(y-1);
+      days_ago = Math.floor((now - dt) / 86400000);
+    }
+    return { latest_date: dateStr, days_ago: days_ago, total_days: hist.length };
+  } catch(e) { console.warn('データ鮮度取得失敗', e); return null; }
+}
+
+async function データ鮮度表示() {
+  const slot = document.getElementById('data-fresh-slot');
+  if (!slot) return;
+  const info = await データ鮮度取得();
+  if (!info) { slot.innerHTML = ''; return; }
+  const d = info.days_ago;
+  let cls = 'data-fresh-ok', icon = '✅', label = '最新';
+  if (d === null) { cls = 'data-fresh-warn'; icon = '⚠'; label = '不明'; }
+  else if (d >= 4) { cls = 'data-fresh-bad'; icon = '🚨'; label = '要更新'; }
+  else if (d >= 2) { cls = 'data-fresh-warn'; icon = '⚠'; label = 'やや古い'; }
+  const ago = (d===null) ? '' : `（${d}日前）`;
+  slot.innerHTML = `<div class="data-fresh-badge ${cls}" onclick="データ鮮度詳細(${info.total_days}, '${info.latest_date}', ${d})">${icon} ${label} データ更新: ${info.latest_date}${ago}</div>`;
+}
+
+function データ鮮度詳細(total, latest, days) {
+  alert(`データ鮮度情報\n\n最新データ: ${latest}\n経過日数: ${days===null?'不明':days+'日前'}\n累計収集日数: ${total}日\n\nデータソース: data/royal_history.json\n（GitHub Actions が毎朝7時に自動収集）`);
+}
+
 function renderHome() {
+  try { データ鮮度表示(); } catch(e) { console.warn(e); }
   try { ヒーロー描画(); } catch(e) { console.warn(e); }
   try { 鉄板3台描画(); } catch(e) { console.warn(e); }
   今日の狙い目描画();
@@ -5914,7 +5962,7 @@ async function 今日の狙い目スコア生成() {
   try { trends = await fetch('data/royal_trends.json', {cache:'no-store'}).then(r=>r.json()); } catch {}
   try { history = await fetch('data/royal_history.json', {cache:'no-store'}).then(r=>r.json()); } catch {}
   if (!Array.isArray(history)) history = [];
-  history.sort((a,b) => String(b.id||'').localeCompare(String(a.id||'')));
+  history.sort((a,b) => (parseInt(b.id)||0) - (parseInt(a.id)||0));
   const recent5 = history.slice(0, 5);
   // 直近5日 機種別 出現/勝率
   const recentStats = {};
