@@ -1,5 +1,5 @@
 // スロット管理システム サービスワーカー
-const CACHE_NAME = 'v12-evidence';
+const CACHE_NAME = 'v13-ux-rebuild';
 const ASSETS = [
   './',
   './index.html',

@@ -1563,6 +1563,70 @@ button, a { -webkit-touch-callout: none; user-select: none; }
 .badge-toast { position: fixed; top: 80px; left: 50%; transform: translateX(-50%); background: #f59e0b; color: #000; padding: 12px 24px; border-radius: 8px; font-weight: 900; z-index: 9999; box-shadow: 0 4px 16px rgba(245,158,11,0.5); animation: toastIn 0.3s ease; }
 @keyframes toastIn { from { opacity: 0; transform: translate(-50%, -20px); } to { opacity: 1; transform: translate(-50%, 0); } }
 .badge-toast.milestone { background: linear-gradient(135deg, #f59e0b, #ef4444); color: #fff; font-size: 16px; padding: 16px 28px; }
+
+/* ===== Cycle#11 HERO UX ===== */
+#hero-signal-area { margin-bottom: 20px; }
+.signal-banner {
+  display: flex; align-items: center; gap: 16px;
+  padding: 24px 20px; border-radius: 16px;
+  margin-bottom: 16px; border: 2px solid;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+.signal-go { background: linear-gradient(135deg, rgba(16,185,129,0.18), var(--bg2)); border-color: #10b981; }
+.signal-caution { background: linear-gradient(135deg, rgba(245,158,11,0.18), var(--bg2)); border-color: #f59e0b; }
+.signal-stop { background: linear-gradient(135deg, rgba(239,68,68,0.18), var(--bg2)); border-color: #ef4444; }
+.signal-icon { font-size: 56px; line-height: 1; }
+.signal-text { flex: 1; min-width: 0; }
+.signal-label { font-size: 11px; color: var(--muted); letter-spacing: 2px; }
+.signal-verdict { font-family: 'Orbitron', monospace; font-size: 22px; font-weight: 900; color: var(--text); margin: 4px 0; }
+.signal-go .signal-verdict { color: #10b981; }
+.signal-caution .signal-verdict { color: #f59e0b; }
+.signal-stop .signal-verdict { color: #ef4444; }
+.signal-reason { font-size: 13px; color: var(--text2); line-height: 1.5; }
+
+.kpi-trio { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; }
+.kpi-trio-cell {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 12px; padding: 14px 8px; text-align: center;
+}
+.kpi-trio-icon { font-size: 24px; margin-bottom: 4px; line-height: 1; }
+.kpi-trio-num { font-family: 'Orbitron', monospace; font-size: 18px; font-weight: 900; color: var(--cyan); line-height: 1.2; }
+.kpi-trio-label { font-size: 10px; color: var(--muted); letter-spacing: 1px; margin-top: 2px; }
+
+.hero-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
+.hero-btn {
+  padding: 18px 8px; border: 1px solid var(--border);
+  background: var(--bg2); border-radius: 14px; cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  color: var(--text); font-family: inherit;
+  transition: all 0.15s;
+}
+.hero-btn:hover { transform: translateY(-2px); border-color: var(--cyan); }
+.hero-btn-icon { font-size: 28px; line-height: 1; }
+.hero-btn-label { font-size: 12px; font-weight: 700; }
+.hero-btn-primary { background: linear-gradient(135deg, #ec4899, #d946ef); border-color: #ec4899; color: #fff; }
+.hero-btn-warn { background: linear-gradient(135deg, rgba(239,68,68,0.2), var(--bg2)); border-color: #ef4444; }
+.hero-btn-info { background: linear-gradient(135deg, rgba(14,165,233,0.2), var(--bg2)); border-color: var(--cyan); }
+
+.acc-hint { font-size: 11px; color: var(--muted); text-align: center; padding: 8px; letter-spacing: 1px; }
+.acc-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 10px; margin-bottom: 10px; overflow: hidden;
+}
+.acc-card[open] { border-color: var(--cyan); }
+.acc-card > summary {
+  padding: 14px 16px; cursor: pointer; font-weight: 700;
+  display: flex; align-items: center; gap: 8px;
+  list-style: none; user-select: none;
+  color: var(--text);
+}
+.acc-card > summary::-webkit-details-marker { display: none; }
+.acc-card > summary::after {
+  content: '▶'; margin-left: auto; transition: transform 0.2s;
+  color: var(--muted); font-size: 10px;
+}
+.acc-card[open] > summary::after { transform: rotate(90deg); }
+.acc-body { padding: 0 12px 12px; }
 </style>
 </head>
 <body>
@@ -1591,54 +1655,128 @@ button, a { -webkit-touch-callout: none; user-select: none; }
 
 <!-- ===== 収支ページ ===== -->
 <div id="page-home" class="page active">
-  <div class="kpi-grid" id="KPIグリッド"></div>
 
-  <!-- 📊 事前選択戦略エッジ (B007) -->
-  <div class="戦略エッジカード" id="戦略エッジカード"></div>
-
-  <!-- 📅 日付ブースト判定バッジ -->
-  <div id="ブースト判定カード" class="ブーストカード 通常">
-    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-      <span style="font-size:22px">📅</span>
-      <span class="ブーストラベル" id="ブーストラベル">通常</span>
-      <span class="ブースト倍率" id="ブースト倍率">×1.0</span>
+  <!-- ===== Cycle#11 HERO: 3秒で分かる ===== -->
+  <div id="hero-signal-area">
+    <div class="signal-banner signal-caution" id="signal-banner">
+      <div class="signal-icon" id="signal-icon">🟡</div>
+      <div class="signal-text">
+        <div class="signal-label">// TODAY'S VERDICT</div>
+        <div class="signal-verdict" id="signal-verdict">読み込み中…</div>
+        <div class="signal-reason" id="signal-reason">判定中…</div>
+      </div>
     </div>
-    <div id="ブーストエビデンス" style="font-size:10px;color:var(--muted);margin-top:4px;line-height:1.4"></div>
-  </div>
 
-  <!-- 🎯 今日の狙い目リスト（朝一表示） -->
-  <div class="カード" id="今日の狙い目カード" style="border-left-color:var(--gold);background:linear-gradient(135deg, var(--bg2) 0%, rgba(255,214,0,0.08) 100%)">
-    <div class="カードタイトル" style="color:var(--gold);text-shadow:0 0 6px rgba(255,214,0,0.4)">▶ 🎯 今日の狙い目リスト</div>
-    <div id="今日の狙い目内容"></div>
-  </div>
-
-  <!-- 💰 損失嫌悪可視化（Cycle#8） -->
-  <div class="カード loss-aversion-card" id="損失嫌悪カード">
-    <div class="カードタイトル" style="color:#ef4444;text-shadow:0 0 6px rgba(239,68,68,0.4)">▶ 💰 今日打たなければ</div>
-    <div id="損失嫌悪内容"></div>
-  </div>
-
-  <!-- 🏅 規律度ランク（Cycle#8） -->
-  <div class="カード rank-card" id="規律度ランクカード">
-    <div class="カードタイトル" style="color:#f59e0b;text-shadow:0 0 6px rgba(245,158,11,0.4)">▶ 🏅 規律度ランク</div>
-    <div id="規律度ランク内容"></div>
-  </div>
-
-  <!-- 🔥 規律ストリーク（Cycle#6） -->
-  <div class="カード streak-card" id="規律ストリークカード">
-    <div class="カードタイトル" style="color:#f59e0b;text-shadow:0 0 6px rgba(245,158,11,0.4)">▶ 🔥 規律ストリーク</div>
-    <div id="規律ストリーク内容"></div>
-    <!-- ⚡ 衝動チェック (Cycle#7) -->
-    <button class="urge-btn" onclick="衝動チェック開く()">⚡ 打ちたい...衝動チェック</button>
-  </div>
-
-  <!-- 🎯 事前選択候補 (Cycle#9 / B010) -->
-  <div class="カード preselect-card" id="事前選択カード">
-    <div class="カードタイトル" style="color:var(--green);text-shadow:0 0 6px rgba(16,185,129,0.4)">▶ 🎯 今日の事前選択候補 (Top20)</div>
-    <div id="事前選択内容">
-      <div style="color:var(--muted);font-size:12px">読み込み中…</div>
+    <div class="kpi-trio">
+      <div class="kpi-trio-cell">
+        <div class="kpi-trio-icon">🔥</div>
+        <div class="kpi-trio-num" id="kpi-streak">--</div>
+        <div class="kpi-trio-label">連続日数</div>
+      </div>
+      <div class="kpi-trio-cell">
+        <div class="kpi-trio-icon">💰</div>
+        <div class="kpi-trio-num" id="kpi-monthpnl">--</div>
+        <div class="kpi-trio-label">今月収支</div>
+      </div>
+      <div class="kpi-trio-cell">
+        <div class="kpi-trio-icon">🏅</div>
+        <div class="kpi-trio-num" id="kpi-rank">--</div>
+        <div class="kpi-trio-label">規律ランク</div>
+      </div>
     </div>
+
+    <div class="hero-actions">
+      <button class="hero-btn hero-btn-primary" onclick="showPage('record')">
+        <div class="hero-btn-icon">✏️</div><div class="hero-btn-label">記録する</div>
+      </button>
+      <button class="hero-btn hero-btn-warn" onclick="衝動チェック開く()">
+        <div class="hero-btn-icon">⚡</div><div class="hero-btn-label">衝動チェック</div>
+      </button>
+      <button class="hero-btn hero-btn-info" onclick="(function(){var a=document.getElementById('acc-preselect');if(a){a.open=true;a.scrollIntoView({behavior:'smooth'});}})()">
+        <div class="hero-btn-icon">🎯</div><div class="hero-btn-label">今日の狙い目</div>
+      </button>
+    </div>
+
+    <div class="acc-hint">↓ 詳細データはこの下から開けます</div>
   </div>
+
+  <!-- ===== 詳細アコーディオン群 ===== -->
+
+  <details class="acc-card" id="acc-kpi">
+    <summary>📊 年間KPIサマリー</summary>
+    <div class="acc-body">
+      <div class="kpi-grid" id="KPIグリッド"></div>
+    </div>
+  </details>
+
+  <details class="acc-card" id="acc-edge">
+    <summary>📊 事前選択戦略エッジ</summary>
+    <div class="acc-body">
+      <div class="戦略エッジカード" id="戦略エッジカード"></div>
+    </div>
+  </details>
+
+  <details class="acc-card" id="acc-boost">
+    <summary>📅 日付ブースト判定</summary>
+    <div class="acc-body">
+      <div id="ブースト判定カード" class="ブーストカード 通常">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <span style="font-size:22px">📅</span>
+          <span class="ブーストラベル" id="ブーストラベル">通常</span>
+          <span class="ブースト倍率" id="ブースト倍率">×1.0</span>
+        </div>
+        <div id="ブーストエビデンス" style="font-size:10px;color:var(--muted);margin-top:4px;line-height:1.4"></div>
+      </div>
+    </div>
+  </details>
+
+  <details class="acc-card" id="acc-target" open>
+    <summary>🎯 今日の狙い目リスト</summary>
+    <div class="acc-body">
+      <div class="カード" id="今日の狙い目カード" style="border-left-color:var(--gold);background:linear-gradient(135deg, var(--bg2) 0%, rgba(255,214,0,0.08) 100%)">
+        <div id="今日の狙い目内容"></div>
+      </div>
+    </div>
+  </details>
+
+  <details class="acc-card" id="acc-loss">
+    <summary>💰 今日打たなければ（損失嫌悪）</summary>
+    <div class="acc-body">
+      <div class="カード loss-aversion-card" id="損失嫌悪カード">
+        <div id="損失嫌悪内容"></div>
+      </div>
+    </div>
+  </details>
+
+  <details class="acc-card" id="acc-rank">
+    <summary>🏅 規律度ランク</summary>
+    <div class="acc-body">
+      <div class="カード rank-card" id="規律度ランクカード">
+        <div id="規律度ランク内容"></div>
+      </div>
+    </div>
+  </details>
+
+  <details class="acc-card" id="acc-streak">
+    <summary>🔥 規律ストリーク</summary>
+    <div class="acc-body">
+      <div class="カード streak-card" id="規律ストリークカード">
+        <div id="規律ストリーク内容"></div>
+        <button class="urge-btn" onclick="衝動チェック開く()">⚡ 打ちたい...衝動チェック</button>
+      </div>
+    </div>
+  </details>
+
+  <details class="acc-card" id="acc-preselect">
+    <summary>🎯 今日の事前選択候補 (Top20)</summary>
+    <div class="acc-body">
+      <div class="カード preselect-card" id="事前選択カード">
+        <div id="事前選択内容">
+          <div style="color:var(--muted);font-size:12px">読み込み中…</div>
+        </div>
+      </div>
+    </div>
+  </details>
 
   <!-- ⚡ 衝動チェック モーダル (Cycle#7) -->
   <div id="urgeModal" class="urge-modal" style="display:none"></div>
@@ -3737,7 +3875,48 @@ function 事前選択描画() {
     });
 }
 
+// ── Cycle#11 ヒーロー判定 ──
+function 今日の判断() {
+  try {
+    const ds = 規律ストリーク取得();
+    const boost = 日付ブースト判定(new Date());
+    const records = 記録取得();
+    const today = new Date().toISOString().slice(0,10);
+    const todayRec = records.find(r => r.date === today);
+    if (todayRec) return { signal: 'STOP', icon: '🔴', verdict: 'STOP — 今日は終了', reason: 'すでに本日の記録あり。明日に切替' };
+    if (ds.current === 0 && boost.boost < 1.2) return { signal: 'CAUTION', icon: '🟡', verdict: 'CAUTION — 慎重に', reason: '規律ストリーク無し。打つなら少額・短時間で' };
+    if (boost.boost >= 1.2 && ds.current >= 3) return { signal: 'GO', icon: '🟢', verdict: 'GO — 打ちに行く日', reason: (boost.label||'ブースト日') + ' × ' + ds.current + '日連続遵守' };
+    if (boost.boost >= 1.2) return { signal: 'GO', icon: '🟢', verdict: 'GO — 期待値あり', reason: boost.label || 'ブースト日' };
+    return { signal: 'CAUTION', icon: '🟡', verdict: 'CAUTION — 通常日', reason: 'イベント要素なし。打つなら計画通り' };
+  } catch(e) {
+    console.warn('今日の判断失敗', e);
+    return { signal: 'CAUTION', icon: '🟡', verdict: 'CAUTION', reason: '判定エラー' };
+  }
+}
+function ヒーロー描画() {
+  try {
+    const j = 今日の判断();
+    const banner = document.getElementById('signal-banner');
+    if (!banner) return;
+    banner.className = 'signal-banner signal-' + j.signal.toLowerCase();
+    const iconEl = document.getElementById('signal-icon'); if (iconEl) iconEl.textContent = j.icon;
+    const vEl = document.getElementById('signal-verdict'); if (vEl) vEl.textContent = j.verdict;
+    const rEl = document.getElementById('signal-reason'); if (rEl) rEl.textContent = j.reason;
+    const ds = 規律ストリーク取得();
+    const stEl = document.getElementById('kpi-streak'); if (stEl) stEl.textContent = (ds.current||0) + '日';
+    const records = 記録取得();
+    const ym = new Date().toISOString().slice(0,7);
+    const monthPnl = records.filter(r => (r.date||'').startsWith(ym)).reduce((s,r)=>s+(r.pnl||0),0);
+    const mEl = document.getElementById('kpi-monthpnl');
+    if (mEl) { mEl.textContent = (monthPnl>=0?'+':'') + monthPnl.toLocaleString() + '円';
+      mEl.style.color = monthPnl>=0 ? '#10b981' : '#ef4444'; }
+    const bd = 規律バッジ取得();
+    const rkEl = document.getElementById('kpi-rank'); if (rkEl) rkEl.textContent = (bd && bd.rank) ? bd.rank : '新人';
+  } catch(e) { console.warn('ヒーロー描画失敗', e); }
+}
+
 function renderHome() {
+  try { ヒーロー描画(); } catch(e) { console.warn(e); }
   今日の狙い目描画();
   try { 損失嫌悪カード描画(); } catch(e) { console.warn(e); }
   try { 規律バッジカード描画(); } catch(e) { console.warn(e); }
