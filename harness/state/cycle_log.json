@@ -111,6 +111,19 @@
       "deploy_head": "fae6087"
     },
     {
+      "cycle": 11,
+      "at": "2026-05-24T10:00:00",
+      "kind": "ux_redesign",
+      "theme": "ホーム画面UX刷新(猿でも分かる)",
+      "info_insight": "Glanceability/Progressive Disclosure/Traffic Light UI 3パターン採用",
+      "tasks": [
+        {"id": "C11-ux", "commit": "c668623", "title": "信号機+3指標+3ボタン+アコーディオン8枚"}
+      ],
+      "qa_score": 98,
+      "verdict": "GO",
+      "deploy_head": "c668623"
+    },
+    {
       "cycle": 10,
       "at": "2026-05-24T08:00:00",
       "kind": "data_validation",
@@ -125,10 +138,10 @@
     }
   ],
   "summary": {
-    "total_cycles_executed": 10,
-    "total_tasks_completed": 12,
-    "last_qa_score": 92,
-    "current_sw_cache": "v12-evidence",
+    "total_cycles_executed": 11,
+    "total_tasks_completed": 13,
+    "last_qa_score": 98,
+    "current_sw_cache": "v13-ux-rebuild",
     "design_philosophy": "依存設計を拒否し、行動科学を規律強化に正利用(commitment device, prediction error positive use, CBT)",
     "data_honesty_note": "Cycle#10で日付ブースト効果が実データで小さいことが判明。実装は維持しつつ過大な期待表現を避ける"
   }
