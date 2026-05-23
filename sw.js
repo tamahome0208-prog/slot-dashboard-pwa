@@ -1,5 +1,5 @@
 // スロット管理システム サービスワーカー
-const CACHE_NAME = 'v10-discipline-rank';
+const CACHE_NAME = 'v11-preselect';
 const ASSETS = [
   './',
   './index.html',

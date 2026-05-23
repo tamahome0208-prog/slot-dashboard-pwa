@@ -1514,6 +1514,13 @@ button, a { -webkit-touch-callout: none; user-select: none; }
 .streak-meta { color: var(--muted); font-size: 12px; margin-top: 4px; }
 .streak-done { color: var(--green); font-weight:700; margin-top: 6px; }
 
+/* === 事前選択候補 (Cycle#9 / B010) === */
+.preselect-card { background: linear-gradient(135deg, var(--bg2), rgba(16, 185, 129, 0.08)); border-left-color: var(--green); }
+.preselect-chip { display: inline-block; padding: 4px 10px; margin: 3px; background: var(--bg3); border: 1px solid var(--border); border-radius: 99px; font-size: 12px; color: var(--text); }
+.preselect-chip.top5 { background: rgba(245,158,11,0.15); border-color: #f59e0b; color: #f59e0b; font-weight: 700; }
+.preselect-note { font-size: 11px; color: var(--muted); margin-top: 10px; }
+.preselect-list { display: flex; flex-wrap: wrap; gap: 2px; margin-top: 8px; }
+
 /* === 衝動チェック CBT (Cycle#7) === */
 .urge-btn { background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff; border: 1px solid #ef4444; padding: 10px 16px; border-radius: 8px; font-weight: 700; cursor: pointer; box-shadow: 0 2px 8px rgba(239,68,68,0.3); width: 100%; margin-top: 10px; font-size: 14px; }
 .urge-btn:hover { filter: brightness(1.1); }
@@ -1620,6 +1627,14 @@ button, a { -webkit-touch-callout: none; user-select: none; }
     <div id="規律ストリーク内容"></div>
     <!-- ⚡ 衝動チェック (Cycle#7) -->
     <button class="urge-btn" onclick="衝動チェック開く()">⚡ 打ちたい...衝動チェック</button>
+  </div>
+
+  <!-- 🎯 事前選択候補 (Cycle#9 / B010) -->
+  <div class="カード preselect-card" id="事前選択カード">
+    <div class="カードタイトル" style="color:var(--green);text-shadow:0 0 6px rgba(16,185,129,0.4)">▶ 🎯 今日の事前選択候補 (Top20)</div>
+    <div id="事前選択内容">
+      <div style="color:var(--muted);font-size:12px">読み込み中…</div>
+    </div>
   </div>
 
   <!-- ⚡ 衝動チェック モーダル (Cycle#7) -->
@@ -3656,6 +3671,63 @@ function 戦略エッジ表示() {
   `;
 }
 
+// ── B010: 事前選択候補生成 / 描画 (Cycle#9) ──
+function 事前選択候補生成(history, training_days, top_n) {
+  training_days = training_days || 60;
+  top_n = top_n || 20;
+  if (!Array.isArray(history) || history.length === 0) return [];
+  const sorted = history.slice().sort((a,b) => String(a.id||'').localeCompare(String(b.id||'')));
+  const training = sorted.slice(-training_days);
+  const stats = {};
+  for (const d of training) {
+    const seen = new Set();
+    const machines = (d && d.machines) || [];
+    for (const m of machines) {
+      const n = (m && m.name) || '';
+      if (!n || seen.has(n)) continue;
+      seen.add(n);
+      const sa = (m.sa == null) ? 0 : Number(m.sa) || 0;
+      if (!stats[n]) stats[n] = { sum: 0, days: 0 };
+      stats[n].sum += sa;
+      stats[n].days += 1;
+    }
+  }
+  const ranked = [];
+  for (const n in stats) {
+    if (stats[n].days < 3) continue;
+    ranked.push({ name: n, avg: stats[n].sum / stats[n].days, days: stats[n].days });
+  }
+  ranked.sort((a,b) => b.avg - a.avg);
+  return ranked.slice(0, top_n).map(r => r.name);
+}
+
+function 事前選択描画() {
+  const el = document.getElementById('事前選択内容');
+  if (!el) return;
+  fetch('data/royal_history.json', { cache: 'no-cache' })
+    .then(r => { if (!r.ok) throw new Error('http ' + r.status); return r.json(); })
+    .then(hist => {
+      const names = 事前選択候補生成(hist, 60, 20);
+      if (!names.length) {
+        el.innerHTML = '<div style="color:var(--muted);font-size:12px">学習データ不足。</div>';
+        return;
+      }
+      const chips = names.map((n, i) => {
+        const cls = i < 5 ? 'preselect-chip top5' : 'preselect-chip';
+        const safe = String(n).replace(/[<>&"']/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&#39;'}[c]));
+        return '<span class="' + cls + '" title="rank ' + (i+1) + '">' + (i<5?'★ ':'') + safe + '</span>';
+      }).join('');
+      el.innerHTML =
+        '<div style="font-size:12px;color:var(--text2);line-height:1.6">過去60日のデータで avg_sa が高い機種。来店時の候補リストに。</div>' +
+        '<div class="preselect-list">' + chips + '</div>' +
+        '<div class="preselect-note">※ 過去189日バックテストで +1,882枚/日のエッジ確認</div>';
+    })
+    .catch(err => {
+      console.warn('事前選択描画 fetch失敗:', err);
+      el.innerHTML = '<div style="color:var(--muted);font-size:12px">データ取得失敗。次回再試行。</div>';
+    });
+}
+
 function renderHome() {
   今日の狙い目描画();
   try { 損失嫌悪カード描画(); } catch(e) { console.warn(e); }
@@ -3663,6 +3735,7 @@ function renderHome() {
   規律ストリーク描画();
   ブースト判定描画();
   戦略エッジ表示();
+  try { 事前選択描画(); } catch(e) { console.warn(e); }
   const records = 記録取得();
   const s = 設定取得();
   const year = s.year || new Date().getFullYear();
