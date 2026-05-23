@@ -111,6 +111,24 @@
       "deploy_head": "fae6087"
     },
     {
+      "cycle": 12,
+      "at": "2026-05-24T11:30:00",
+      "kind": "ceo_feedback",
+      "theme": "設定6アラート動的化+不要削除+狙い目強化+計算根拠説明",
+      "ceo_directive": "設定6アラートのデータ更新疑惑/規律系3カード削除/狙い目強化/計算根拠説明",
+      "tasks": [
+        {"id": "C12-A", "title": "設定6アラート完全動的化(royal_history連動)", "commit": "559ccf3"},
+        {"id": "C12-B", "title": "損失嫌悪/規律ランク/規律ストリーク削除+ヒーロー3指標刷新", "commit": "559ccf3"},
+        {"id": "C12-C", "title": "今日の狙い目スコア生成(100点満点Top5リッチ)", "commit": "559ccf3"},
+        {"id": "C12-D", "title": "計算根拠説明トグル(事前選択/戦略エッジ)", "commit": "559ccf3"}
+      ],
+      "investigation_finding": "設定6アラートはL2141-2208/L2474-2487で完全ハードコード(5/19固定)。JSONパイプライン未連動が真因",
+      "qa_score": 82,
+      "verdict": "GO",
+      "deploy_head": "559ccf3",
+      "qa_note": "削除指示の関数・CSS定義は残置(実DOM非表示で動作影響なし)"
+    },
+    {
       "cycle": 11,
       "at": "2026-05-24T10:00:00",
       "kind": "ux_redesign",
@@ -138,10 +156,10 @@
     }
   ],
   "summary": {
-    "total_cycles_executed": 11,
-    "total_tasks_completed": 13,
-    "last_qa_score": 98,
-    "current_sw_cache": "v13-ux-rebuild",
+    "total_cycles_executed": 12,
+    "total_tasks_completed": 17,
+    "last_qa_score": 82,
+    "current_sw_cache": "v14-feedback",
     "design_philosophy": "依存設計を拒否し、行動科学を規律強化に正利用(commitment device, prediction error positive use, CBT)",
     "data_honesty_note": "Cycle#10で日付ブースト効果が実データで小さいことが判明。実装は維持しつつ過大な期待表現を避ける"
   }
