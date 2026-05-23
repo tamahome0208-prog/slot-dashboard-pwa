@@ -30,13 +30,37 @@
     },
     {
       "id": "B010",
-      "title": "事前選択戦略のロジック移植",
+      "title": "事前選択戦略のロジック移植 (完了 cycle#9)",
+      "status_resolved": "completed",
+      "commit": "fae6087",
+      "completed_at": "2026-05-23",
       "rationale": "バックテスト結果ではなく、実際の選定ロジック(過去N日Top-Nリスト)を PWA に移植。当日推奨候補を実データから動的生成",
       "priority": "high",
       "status": "pending",
       "estimated_impact": "high",
       "created_by": "instructor",
       "created_at": "2026-05-23"
+    },
+    {
+      "id": "B011",
+      "title": "日付ブースト係数の再キャリブレーション (要サンプル蓄積)",
+      "rationale": "Cycle#10で末尾8の優位性が実データで+7枚しか無いと判明。サンプル300日以上でboost値を再算出",
+      "priority": "low",
+      "status": "pending",
+      "estimated_impact": "low",
+      "created_by": "instructor",
+      "created_at": "2026-05-24",
+      "blocked_by": "data_accumulation (need 300+ days)"
+    },
+    {
+      "id": "B012",
+      "title": "事前選択戦略の forward test 開始",
+      "rationale": "Top20候補表示をしたので、ユーザーが実際にそれを打って勝てたかの追跡開始。記録時に「事前選択候補に入っていたか」フラグ自動付与",
+      "priority": "high",
+      "status": "pending",
+      "estimated_impact": "high",
+      "created_by": "instructor",
+      "created_at": "2026-05-24"
     }
   ]
 }
