@@ -111,6 +111,23 @@
       "deploy_head": "fae6087"
     },
     {
+      "cycle": 14,
+      "at": "2026-05-24T13:30:00",
+      "kind": "data_pipeline_fix",
+      "theme": "データ鮮度問題の修正",
+      "ceo_directive": "いろいろデータが古い気がする 今日のねらい目は",
+      "investigation_finding": "GHA成功だが直近数日min-repo側に新規投稿無く実は5/18止まりだった。手動取得で291日(5/23)まで反映",
+      "tasks": [
+        {"id": "C14-data", "title": "手動データ取得 261→291日(5/23)", "commit": "fe459d5"},
+        {"id": "C14-A", "title": "データ鮮度バッジ(緑/黄/赤)", "commit": "9e5a123"},
+        {"id": "C14-B", "title": "idソート文字列→数値(5箇所)", "commit": "9e5a123"},
+        {"id": "C14-C", "title": "scrape.yml continue-on-error修正+動的commit msg", "commit": "9e5a123"}
+      ],
+      "qa_score": 98,
+      "verdict": "GO",
+      "deploy_head": "9e5a123"
+    },
+    {
       "cycle": 13,
       "at": "2026-05-24T12:30:00",
       "kind": "ceo_feedback",
@@ -169,10 +186,10 @@
     }
   ],
   "summary": {
-    "total_cycles_executed": 13,
-    "total_tasks_completed": 18,
+    "total_cycles_executed": 14,
+    "total_tasks_completed": 22,
     "last_qa_score": 98,
-    "current_sw_cache": "v15-tetsuban",
+    "current_sw_cache": "v16-freshness",
     "design_philosophy": "依存設計を拒否し、行動科学を規律強化に正利用(commitment device, prediction error positive use, CBT)",
     "data_honesty_note": "Cycle#10で日付ブースト効果が実データで小さいことが判明。実装は維持しつつ過大な期待表現を避ける"
   }
