@@ -1627,6 +1627,13 @@ button, a { -webkit-touch-callout: none; user-select: none; }
 }
 .acc-card[open] > summary::after { transform: rotate(90deg); }
 .acc-body { padding: 0 12px 12px; }
+
+/* === Cycle#12 計算根拠トグル === */
+.calc-toggle { background: rgba(14,165,233,0.1); color: var(--cyan); border: 1px solid rgba(14,165,233,0.3); padding: 4px 10px; border-radius: 6px; font-size: 11px; cursor: pointer; margin-top: 8px; }
+.calc-toggle:hover { background: rgba(14,165,233,0.2); }
+.calc-body { display: none; margin-top: 10px; padding: 12px; background: var(--bg3); border-left: 3px solid var(--cyan); border-radius: 6px; font-size: 12px; line-height: 1.7; color: var(--text2); }
+.calc-body.open { display: block; }
+.calc-body strong { color: var(--text); }
 </style>
 </head>
 <body>
@@ -1669,9 +1676,9 @@ button, a { -webkit-touch-callout: none; user-select: none; }
 
     <div class="kpi-trio">
       <div class="kpi-trio-cell">
-        <div class="kpi-trio-icon">🔥</div>
-        <div class="kpi-trio-num" id="kpi-streak">--</div>
-        <div class="kpi-trio-label">連続日数</div>
+        <div class="kpi-trio-icon">🎯</div>
+        <div class="kpi-trio-num" id="kpi-candidates">--</div>
+        <div class="kpi-trio-label">今日の候補数</div>
       </div>
       <div class="kpi-trio-cell">
         <div class="kpi-trio-icon">💰</div>
@@ -1679,9 +1686,9 @@ button, a { -webkit-touch-callout: none; user-select: none; }
         <div class="kpi-trio-label">今月収支</div>
       </div>
       <div class="kpi-trio-cell">
-        <div class="kpi-trio-icon">🏅</div>
-        <div class="kpi-trio-num" id="kpi-rank">--</div>
-        <div class="kpi-trio-label">規律ランク</div>
+        <div class="kpi-trio-icon">📅</div>
+        <div class="kpi-trio-num" id="kpi-boost" style="font-size:14px">--</div>
+        <div class="kpi-trio-label">ブースト</div>
       </div>
     </div>
 
@@ -1735,34 +1742,6 @@ button, a { -webkit-touch-callout: none; user-select: none; }
     <div class="acc-body">
       <div class="カード" id="今日の狙い目カード" style="border-left-color:var(--gold);background:linear-gradient(135deg, var(--bg2) 0%, rgba(255,214,0,0.08) 100%)">
         <div id="今日の狙い目内容"></div>
-      </div>
-    </div>
-  </details>
-
-  <details class="acc-card" id="acc-loss">
-    <summary>💰 今日打たなければ（損失嫌悪）</summary>
-    <div class="acc-body">
-      <div class="カード loss-aversion-card" id="損失嫌悪カード">
-        <div id="損失嫌悪内容"></div>
-      </div>
-    </div>
-  </details>
-
-  <details class="acc-card" id="acc-rank">
-    <summary>🏅 規律度ランク</summary>
-    <div class="acc-body">
-      <div class="カード rank-card" id="規律度ランクカード">
-        <div id="規律度ランク内容"></div>
-      </div>
-    </div>
-  </details>
-
-  <details class="acc-card" id="acc-streak">
-    <summary>🔥 規律ストリーク</summary>
-    <div class="acc-body">
-      <div class="カード streak-card" id="規律ストリークカード">
-        <div id="規律ストリーク内容"></div>
-        <button class="urge-btn" onclick="衝動チェック開く()">⚡ 打ちたい...衝動チェック</button>
       </div>
     </div>
   </details>
@@ -2127,28 +2106,19 @@ button, a { -webkit-touch-callout: none; user-select: none; }
   <!-- 🌟 ロイヤル登別 詳細分析（DMM出玉ランキング連動） -->
   <div class="カード" style="border-left-color: var(--gold);background: linear-gradient(135deg, var(--bg2) 0%, rgba(255,214,0,0.04) 100%)">
     <div class="カードタイトル" style="color:var(--gold);text-shadow:0 0 8px rgba(255,214,0,0.4)">
-      🌟 ロイヤル登別 詳細分析（5/19火・DMM最新）
+      🌟 ロイヤル登別 詳細分析（<span id="top10日付">--</span>・DMM最新）
     </div>
 
     <div style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:14px;margin-bottom:14px">
       <div style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:10px">
         <strong style="color:var(--cyan)">📡 出典：</strong> DMMぱちタウン 出玉ランキング<br>
-        <strong style="color:var(--cyan)">📅 最終更新：</strong> 5月19日（火）<br>
+        <strong style="color:var(--cyan)">📅 最終更新：</strong> <span id="top10日付_2">--</span><br>
         <strong style="color:var(--cyan)">🏢 規模：</strong> 800台（パチ520+スロ280）　住所：登別市栄町1-15-1
       </div>
     </div>
 
-    <!-- 🚨 設定6固定濃厚台アラート -->
-    <div style="background:rgba(255,77,109,0.08);border:2px solid var(--red);border-radius:6px;padding:14px;margin-bottom:14px;box-shadow:0 0 12px rgba(255,77,109,0.2)">
-      <div style="font-size:14px;font-weight:900;color:var(--red);text-shadow:var(--glow-r);margin-bottom:8px">
-        🚨 緊急アラート：設定6固定濃厚台を発見
-      </div>
-      <div style="font-size:13px;line-height:1.8;color:var(--text)">
-        <strong style="color:var(--gold)">L ミリオンゴッド‐神々の軌跡‐ 台番号 578</strong> が<br>
-        <strong style="color:var(--red);font-size:16px">3日連続でランクイン</strong>（11,558枚 → 10,519枚 → 10,045枚）<br>
-        <small style="color:var(--muted)">同台が複数回TOP10入りは異常な挙動。設定6固定運用の可能性大</small>
-      </div>
-    </div>
+    <!-- 🚨 設定6固定濃厚台アラート（royal_history.json から動的生成） -->
+    <div id="設定6アラート_home"></div>
 
     <!-- 💎 シマぐるみで熱い機種 -->
     <div style="background:var(--bg3);border:1px solid var(--green);border-radius:4px;padding:14px;margin-bottom:14px">
@@ -2165,30 +2135,19 @@ button, a { -webkit-touch-callout: none; user-select: none; }
       </div>
     </div>
 
-    <!-- 🏆 スロット出玉TOP10 -->
+    <!-- 🏆 スロット出玉TOP10（royal_history.json から動的生成） -->
     <div style="margin-bottom:14px">
       <div style="font-size:13px;font-weight:700;color:var(--cyan);text-shadow:var(--glow-c);margin-bottom:10px">
-        🏆 スロット出玉TOP10（5/19）
+        🏆 スロット出玉TOP10（<span id="top10日付">--</span>）
       </div>
       <div class="テーブル枠">
         <table style="font-size:12px">
-          <thead><tr><th>順位</th><th>機種名</th><th>台番号</th><th>差枚</th></tr></thead>
-          <tbody>
-            <tr><td>🥇</td><td>L ミリオンゴッド‐神々の軌跡‐</td><td style="color:var(--gold);font-weight:700">572</td><td class="プラス" style="font-family:'Orbitron',monospace">+14,201</td></tr>
-            <tr><td>🥈</td><td>L 甲鉄城のカバネリ</td><td>705</td><td class="プラス" style="font-family:'Orbitron',monospace">+13,853</td></tr>
-            <tr><td>🥉</td><td>L モンキーターン</td><td>660</td><td class="プラス" style="font-family:'Orbitron',monospace">+13,430</td></tr>
-            <tr><td>4</td><td>L 北斗の拳 転生の章2</td><td>549</td><td class="プラス" style="font-family:'Orbitron',monospace">+12,894</td></tr>
-            <tr><td>5</td><td>L 炎炎ノ消防隊2</td><td>631</td><td class="プラス" style="font-family:'Orbitron',monospace">+12,652</td></tr>
-            <tr><td>6</td><td>L ミリオンゴッド</td><td style="color:var(--gold);font-weight:700">579</td><td class="プラス" style="font-family:'Orbitron',monospace">+11,681</td></tr>
-            <tr style="background:rgba(255,214,0,0.08)"><td>7</td><td>L ミリオンゴッド ⚡</td><td style="color:var(--gold);font-weight:700">578</td><td class="プラス" style="font-family:'Orbitron',monospace">+11,558</td></tr>
-            <tr style="background:rgba(255,214,0,0.08)"><td>8</td><td>L ミリオンゴッド ⚡</td><td style="color:var(--gold);font-weight:700">578</td><td class="プラス" style="font-family:'Orbitron',monospace">+10,519</td></tr>
-            <tr style="background:rgba(255,214,0,0.08)"><td>9</td><td>L ミリオンゴッド ⚡</td><td style="color:var(--gold);font-weight:700">578</td><td class="プラス" style="font-family:'Orbitron',monospace">+10,045</td></tr>
-            <tr><td>10</td><td>L 沖ドキ!DUO アンコール</td><td>732</td><td class="プラス" style="font-family:'Orbitron',monospace">+9,839</td></tr>
-          </tbody>
+          <thead><tr><th>順位</th><th>機種名</th><th>差枚</th></tr></thead>
+          <tbody id="top10テーブル"></tbody>
         </table>
       </div>
       <div style="font-size:11px;color:var(--muted);margin-top:8px;line-height:1.6">
-        ⚡ = 同一台が複数回ランクイン（設定固定の可能性大）
+        ※ 直近スクレイピング結果。差枚降順上位10機種。
       </div>
     </div>
 
@@ -2471,19 +2430,10 @@ button, a { -webkit-touch-callout: none; user-select: none; }
     </div>
   </div>
 
-  <!-- 🚨 注目台アラート -->
+  <!-- 🚨 注目台アラート（royal_history.json から動的生成） -->
   <div class="カード" style="border-left-color:var(--red);background:linear-gradient(135deg, var(--bg2) 0%, rgba(255,77,109,0.06) 100%)">
     <div class="カードタイトル" style="color:var(--red);text-shadow:var(--glow-r)">▶ 🚨 設定6固定濃厚 緊急アラート</div>
-    <div style="background:rgba(255,77,109,0.1);border:2px solid var(--red);border-radius:6px;padding:14px;box-shadow:0 0 12px rgba(255,77,109,0.2)">
-      <div style="font-size:13px;color:var(--muted);margin-bottom:6px">⚡ 同一台が3日連続TOP10</div>
-      <div style="font-family:'Orbitron',monospace;font-size:20px;font-weight:900;color:var(--gold);margin-bottom:8px">
-        L ミリオンゴッド 台番号 578
-      </div>
-      <div style="font-size:13px;line-height:1.8;color:var(--text)">
-        過去3日: <strong class="プラス">+11,558</strong> → <strong class="プラス">+10,519</strong> → <strong class="プラス">+10,045</strong> 枚<br>
-        <strong style="color:var(--red);font-size:15px">👉 朝一抽選で最優先で確保！</strong>
-      </div>
-    </div>
+    <div id="設定6アラート_myhall"></div>
   </div>
 
   <!-- 💎 注目シマ -->
@@ -2526,26 +2476,15 @@ button, a { -webkit-touch-callout: none; user-select: none; }
 
   <!-- 🏆 出玉ランキングTOP10 -->
   <div class="カード">
-    <div class="カードタイトル">▶ 🏆 出玉ランキングTOP10（5/19 火）</div>
-    <div style="font-size:11px;color:var(--muted);margin-bottom:10px">出典: DMMぱちタウン公式</div>
+    <div class="カードタイトル">▶ 🏆 出玉ランキングTOP10（<span id="top10日付">--</span>）</div>
+    <div style="font-size:11px;color:var(--muted);margin-bottom:10px">出典: DMMぱちタウン公式（royal_history.json 自動更新）</div>
     <div class="テーブル枠">
       <table style="font-size:12px">
-        <thead><tr><th>順位</th><th>機種名</th><th>台番号</th><th>差枚</th></tr></thead>
-        <tbody>
-          <tr><td>🥇</td><td>L ミリオンゴッド</td><td style="color:var(--gold);font-weight:700">572</td><td class="プラス" style="font-family:'Orbitron',monospace">+14,201</td></tr>
-          <tr><td>🥈</td><td>L 甲鉄城のカバネリ</td><td>705</td><td class="プラス" style="font-family:'Orbitron',monospace">+13,853</td></tr>
-          <tr><td>🥉</td><td>L モンキーターン</td><td>660</td><td class="プラス" style="font-family:'Orbitron',monospace">+13,430</td></tr>
-          <tr><td>4</td><td>L 北斗の拳 転生の章2</td><td>549</td><td class="プラス" style="font-family:'Orbitron',monospace">+12,894</td></tr>
-          <tr><td>5</td><td>L 炎炎ノ消防隊2</td><td>631</td><td class="プラス" style="font-family:'Orbitron',monospace">+12,652</td></tr>
-          <tr><td>6</td><td>L ミリオンゴッド</td><td style="color:var(--gold);font-weight:700">579</td><td class="プラス" style="font-family:'Orbitron',monospace">+11,681</td></tr>
-          <tr style="background:rgba(255,214,0,0.08)"><td>7</td><td>L ミリオンゴッド ⚡</td><td style="color:var(--gold);font-weight:700">578</td><td class="プラス" style="font-family:'Orbitron',monospace">+11,558</td></tr>
-          <tr style="background:rgba(255,214,0,0.08)"><td>8</td><td>L ミリオンゴッド ⚡</td><td style="color:var(--gold);font-weight:700">578</td><td class="プラス" style="font-family:'Orbitron',monospace">+10,519</td></tr>
-          <tr style="background:rgba(255,214,0,0.08)"><td>9</td><td>L ミリオンゴッド ⚡</td><td style="color:var(--gold);font-weight:700">578</td><td class="プラス" style="font-family:'Orbitron',monospace">+10,045</td></tr>
-          <tr><td>10</td><td>L 沖ドキ!DUO アンコール</td><td>732</td><td class="プラス" style="font-family:'Orbitron',monospace">+9,839</td></tr>
-        </tbody>
+        <thead><tr><th>順位</th><th>機種名</th><th>差枚</th></tr></thead>
+        <tbody id="top10テーブル"></tbody>
       </table>
     </div>
-    <div style="font-size:11px;color:var(--muted);margin-top:8px">⚡ = 設定6固定濃厚台</div>
+    <div style="font-size:11px;color:var(--muted);margin-top:8px">直近スクレイピング結果から自動生成</div>
   </div>
 
   <!-- 📊 全機種実績テーブル -->
@@ -3724,7 +3663,6 @@ function 記録保存() {
   document.getElementById('preview').textContent='---';
   document.getElementById('preview').className='プレビュー値';
   通知表示('実戦記録を保存しました ✓');
-  try { 損失嫌悪カード描画(); 規律バッジカード描画(); } catch {}
 }
 
 function データリスト更新() {
@@ -3815,6 +3753,13 @@ function 戦略エッジ表示() {
       </div>
     </div>
     <div class="注釈">※ royal_history 実データから算出 (pre_select_top20_best)</div>
+    <button class="calc-toggle" onclick="calcToggle('calc-edge-body')">ⓘ どう計算してる？</button>
+    <div class="calc-body" id="calc-edge-body">
+      <strong>計算方法：</strong> 過去189日のロイヤル登別データを使って、「Top20候補から当日最良の1台を選んだ場合」の差枚をシミュレーション（バックテスト）。<br><br>
+      <strong>+${kpi.strategy_avg.toLocaleString()}枚/日</strong> = この戦略を毎日続けた場合の平均的な勝ち分（理論値）<br>
+      <strong>+${kpi.diff.toLocaleString()}枚/日</strong> = ランダムに台を選んだ場合との差（純粋なエッジ）<br><br>
+      <strong>注意：</strong> バックテストは過去データの再現で、未来を保証しません。市場環境変化や台の差替えで効果は変動します。
+    </div>
   `;
 }
 
@@ -3867,12 +3812,98 @@ function 事前選択描画() {
       el.innerHTML =
         '<div style="font-size:12px;color:var(--text2);line-height:1.6">過去60日のデータで avg_sa が高い機種。来店時の候補リストに。</div>' +
         '<div class="preselect-list">' + chips + '</div>' +
-        '<div class="preselect-note">※ 過去189日バックテストで +1,882枚/日のエッジ確認</div>';
+        '<div class="preselect-note">※ 過去189日バックテストで +1,882枚/日のエッジ確認</div>' +
+        '<button class="calc-toggle" onclick="calcToggle(\'calc-preselect-body\')">ⓘ どう計算してる？</button>' +
+        '<div class="calc-body" id="calc-preselect-body">' +
+        '<strong>計算方法：</strong> 過去60日のロイヤル登別実データから、機種別の平均差枚を計算。差枚が高い順にTop20機種を抽出しています。<br><br>' +
+        '<strong>データソース：</strong> data/royal_history.json（毎日朝7時に自動更新）<br><br>' +
+        '<strong>意味：</strong> この機種は「過去2ヶ月、ロイヤル登別で安定して稼げていた台」です。来店時の候補リストとして使ってください。' +
+        '</div>';
     })
     .catch(err => {
       console.warn('事前選択描画 fetch失敗:', err);
       el.innerHTML = '<div style="color:var(--muted);font-size:12px">データ取得失敗。次回再試行。</div>';
     });
+}
+
+// ── Cycle#12: 設定6固定濃厚アラート（royal_history.json 動的描画） ──
+function escapeHtml(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+async function 設定6アラート描画() {
+  try {
+    const r = await fetch('data/royal_history.json', {cache:'no-store'});
+    const hist = await r.json();
+    if (!Array.isArray(hist) || hist.length === 0) return;
+    hist.sort((a,b) => String(b.id||'').localeCompare(String(a.id||'')));
+    const recent = hist.slice(0, 5);
+    const machine_appearances = {};
+    recent.forEach(day => {
+      const sorted = (day.machines||[]).filter(m=>m.sa!=null).sort((a,b)=>b.sa-a.sa);
+      const seen = new Set();
+      sorted.slice(0, 10).forEach(m => {
+        if (seen.has(m.name)) return;
+        seen.add(m.name);
+        if (!machine_appearances[m.name]) machine_appearances[m.name] = { days: [], sas: [] };
+        machine_appearances[m.name].days.push(day.date_str || day.id);
+        machine_appearances[m.name].sas.push(m.sa);
+      });
+    });
+    const suspects = Object.entries(machine_appearances)
+      .filter(([n, d]) => d.days.length >= 3)
+      .map(([n, d]) => ({
+        name: n,
+        days: d.days.length,
+        sas: d.sas,
+        total_sa: d.sas.reduce((s,v)=>s+v, 0),
+        recent_dates: d.days.slice(0, 3).join(' / ')
+      }))
+      .sort((a,b) => b.total_sa - a.total_sa)
+      .slice(0, 5);
+
+    const latest = recent[0];
+    const dateLabel = latest ? ((latest.date_str || '') + (latest.dow ? '(' + latest.dow + ')' : '')) : '--';
+    document.querySelectorAll('#top10日付, #top10日付_2').forEach(el => { el.textContent = dateLabel || '--'; });
+
+    document.querySelectorAll('#top10テーブル').forEach(tbody => {
+      if (latest) {
+        const sorted = (latest.machines||[]).filter(m=>m.sa!=null).sort((a,b)=>b.sa-a.sa).slice(0,10);
+        tbody.innerHTML = sorted.map((m, i) => `
+          <tr>
+            <td style="color:${i<3?'#f59e0b':'var(--text2)'};font-weight:${i<3?900:600}">${i+1}位</td>
+            <td>${escapeHtml(m.name).slice(0,30)}</td>
+            <td style="text-align:right;color:${m.sa>0?'#10b981':'#ef4444'};font-weight:700;font-family:'Orbitron',monospace">${m.sa>0?'+':''}${Number(m.sa).toLocaleString()}</td>
+          </tr>`).join('');
+      }
+    });
+
+    const alertHtml = suspects.length === 0
+      ? `<div style="padding:16px;color:var(--muted);text-align:center;font-size:12px">直近5日で3日以上TOP10入りした機種はありません</div>`
+      : `<div style="padding:14px">
+          <div style="font-size:13px;color:var(--text2);margin-bottom:10px">📊 直近5日のデータ分析（${escapeHtml(dateLabel)}時点）</div>
+          ${suspects.map(s => `
+            <div style="background:linear-gradient(135deg,rgba(245,158,11,0.15),var(--bg2));border-left:4px solid #f59e0b;padding:12px;border-radius:8px;margin-bottom:8px">
+              <div style="font-weight:900;font-size:15px;color:#f59e0b">${escapeHtml(s.name).slice(0,30)}</div>
+              <div style="font-size:12px;color:var(--text2);margin-top:4px">
+                直近5日で <strong>${s.days}日</strong> TOP10入賞 / 合計差枚 <strong style="color:#10b981">+${s.total_sa.toLocaleString()}</strong>
+              </div>
+              <div style="font-size:11px;color:var(--muted);margin-top:2px">最新3日: ${escapeHtml(s.recent_dates)}</div>
+              <div style="font-size:11px;color:var(--gold);margin-top:6px">${s.days >= 4 ? '🔥 設定6固定濃厚' : s.days === 3 ? '⚠️ 連続入賞中' : ''}</div>
+            </div>`).join('')}
+         </div>`;
+    document.querySelectorAll('#設定6アラート_home, #設定6アラート_myhall').forEach(el => { el.innerHTML = alertHtml; });
+  } catch(e) {
+    console.warn('設定6アラート描画失敗', e);
+    document.querySelectorAll('#設定6アラート_home, #設定6アラート_myhall').forEach(el => {
+      el.innerHTML = '<div style="padding:12px;color:var(--muted);font-size:12px">データ取得失敗。次回再試行。</div>';
+    });
+  }
+}
+
+// ── Cycle#12: 計算根拠の展開トグル ──
+function calcToggle(id) {
+  const el = document.getElementById(id);
+  if (el) el.classList.toggle('open');
 }
 
 // ── Cycle#11 ヒーロー判定 ──
@@ -3902,28 +3933,40 @@ function ヒーロー描画() {
     const iconEl = document.getElementById('signal-icon'); if (iconEl) iconEl.textContent = j.icon;
     const vEl = document.getElementById('signal-verdict'); if (vEl) vEl.textContent = j.verdict;
     const rEl = document.getElementById('signal-reason'); if (rEl) rEl.textContent = j.reason;
-    const ds = 規律ストリーク取得();
-    const stEl = document.getElementById('kpi-streak'); if (stEl) stEl.textContent = (ds.current||0) + '日';
     const records = 記録取得();
     const ym = new Date().toISOString().slice(0,7);
     const monthPnl = records.filter(r => (r.date||'').startsWith(ym)).reduce((s,r)=>s+(r.pnl||0),0);
     const mEl = document.getElementById('kpi-monthpnl');
     if (mEl) { mEl.textContent = (monthPnl>=0?'+':'') + monthPnl.toLocaleString() + '円';
       mEl.style.color = monthPnl>=0 ? '#10b981' : '#ef4444'; }
-    const bd = 規律バッジ取得();
-    const rkEl = document.getElementById('kpi-rank'); if (rkEl) rkEl.textContent = (bd && bd.rank) ? bd.rank : '新人';
+    // 📅 ブースト
+    const boost = 日付ブースト判定(new Date());
+    const bEl = document.getElementById('kpi-boost');
+    if (bEl) {
+      bEl.textContent = boost.label || '通常';
+      bEl.style.color = boost.boost >= 1.5 ? '#f59e0b' : (boost.boost >= 1.1 ? '#c0c0c0' : 'var(--text)');
+    }
+    // 🎯 今日の候補数（非同期で fetch、placeholder で先表示）
+    const cEl = document.getElementById('kpi-candidates');
+    if (cEl) {
+      cEl.textContent = '...';
+      fetch('data/royal_history.json', {cache:'no-store'}).then(r=>r.json()).then(hist=>{
+        const names = 事前選択候補生成(hist, 60, 20);
+        // 日付ブースト ≥1.1 なら全候補が「狙う価値あり」、通常日は Top10 のみ
+        const n = boost.boost >= 1.1 ? names.length : Math.min(names.length, 10);
+        cEl.textContent = n + '機種';
+      }).catch(()=>{ cEl.textContent = '--'; });
+    }
   } catch(e) { console.warn('ヒーロー描画失敗', e); }
 }
 
 function renderHome() {
   try { ヒーロー描画(); } catch(e) { console.warn(e); }
   今日の狙い目描画();
-  try { 損失嫌悪カード描画(); } catch(e) { console.warn(e); }
-  try { 規律バッジカード描画(); } catch(e) { console.warn(e); }
-  規律ストリーク描画();
   ブースト判定描画();
   戦略エッジ表示();
   try { 事前選択描画(); } catch(e) { console.warn(e); }
+  try { 設定6アラート描画(); } catch(e) { console.warn('設定6アラート描画失敗', e); }
   try { 規律KPI描画(); } catch(e) { console.warn('規律KPI描画失敗', e); }
   const records = 記録取得();
   const s = 設定取得();
@@ -5390,6 +5433,7 @@ function ロイヤル傾向描画() {
 }
 
 function renderMyHall() {
+  try { 設定6アラート描画(); } catch(e) { console.warn('設定6アラート描画失敗', e); }
   ロイヤル傾向描画();
   const tbody = document.getElementById('マイホ機種テーブル');
   if (!tbody) return;
@@ -5716,6 +5760,53 @@ function is新台(機種名) {
 // ════════════════════════════════════════
 // ── 🎯 今日の狙い目リスト（起動時自動表示） ──
 // ════════════════════════════════════════
+// Cycle#12: 総合スコア算出（実データ + 日付ブースト + 事前選択 + 直近実績）
+async function 今日の狙い目スコア生成() {
+  let trends = { top: [] }, history = [];
+  try { trends = await fetch('data/royal_trends.json', {cache:'no-store'}).then(r=>r.json()); } catch {}
+  try { history = await fetch('data/royal_history.json', {cache:'no-store'}).then(r=>r.json()); } catch {}
+  if (!Array.isArray(history)) history = [];
+  history.sort((a,b) => String(b.id||'').localeCompare(String(a.id||'')));
+  const recent5 = history.slice(0, 5);
+  // 直近5日 機種別 出現/勝率
+  const recentStats = {};
+  recent5.forEach(d => {
+    (d.machines || []).forEach(m => {
+      if (!m.name) return;
+      if (!recentStats[m.name]) recentStats[m.name] = { wins: 0, days: 0, sa_sum: 0 };
+      recentStats[m.name].days++;
+      recentStats[m.name].sa_sum += (Number(m.sa)||0);
+      if ((Number(m.sa)||0) > 0) recentStats[m.name].wins++;
+    });
+  });
+  const boost = 日付ブースト判定(new Date());
+  const preselect = new Set(事前選択候補生成(history, 60, 20));
+
+  const topArr = (trends && Array.isArray(trends.top)) ? trends.top : [];
+  const candidates = topArr.slice(0, 30).map(t => {
+    // 過去傾向 0-40 (avg_sa 1500=40点 線形)
+    const trendScore = Math.max(0, Math.min(40, (t.avg_sa || 0) / 1500 * 40));
+    // 直近5日勝率 0-30
+    const rs = recentStats[t.name] || { wins: 0, days: 0 };
+    const winRate = rs.days > 0 ? rs.wins / rs.days : 0;
+    const recentScore = Math.round(winRate * 30);
+    // 日付ブースト 0-15
+    const boostScore = boost.boost >= 1.5 ? 15 : (boost.boost >= 1.2 ? 10 : (boost.boost >= 1.1 ? 6 : 0));
+    // 事前選択Top入り 0-15
+    const preScore = preselect.has(t.name) ? 15 : 0;
+    const total = Math.round(trendScore + recentScore + boostScore + preScore);
+    return {
+      name: t.name,
+      total, trendScore: Math.round(trendScore), recentScore, boostScore, preScore,
+      avg_sa: t.avg_sa || 0, win_rate: t.win_rate || 0,
+      recent_days: rs.days, recent_wins: rs.wins,
+      in_preselect: preselect.has(t.name),
+      boost_label: boost.label
+    };
+  }).sort((a,b) => b.total - a.total);
+  return { candidates: candidates.slice(0, 5), boost };
+}
+
 function 今日の狙い目描画() {
   const el = document.getElementById('今日の狙い目内容');
   if (!el) return;
@@ -5762,14 +5853,8 @@ function 今日の狙い目描画() {
     return null;
   })();
 
-  // 今日のおすすめ機種（S級＋マイホ実績ベース）
-  const 推奨機種 = [
-    { 名: 'スマスロ ミリオンゴッド 台578', 理由: '3日連続TOP10で設定6固定濃厚', 優先: '⭐⭐⭐' },
-    { 名: 'スマスロ北斗の拳 転生の章2 (549)', 理由: '前日+12,894枚・狙い目350G〜', 優先: '⭐⭐⭐' },
-    { 名: 'スマスロ甲鉄城のカバネリ (705)', 理由: '前日+13,853枚・狙い目600G〜', 優先: '⭐⭐' },
-    { 名: 'スマスロ バイオハザードRE:3', 理由: '4台中3台勝ち・出率126%', 優先: '⭐⭐' },
-    { 名: 'マイジャグラーV', 理由: '8のつく日は前日REG確率1/250以下を狙う', 優先: '⭐' },
-  ];
+  // Cycle#12: 総合スコアTOP5は非同期で fetch して後埋め
+  const 推奨機種 = []; // placeholder（旧 AI推奨ログ互換用）
 
   el.innerHTML = `
     <!-- 今日の状況 -->
@@ -5811,18 +5896,10 @@ function 今日の狙い目描画() {
     </div>
     ` : ''}
 
-    <!-- 今日の推奨機種 -->
+    <!-- 今日の推奨機種（非同期で更新） -->
     <div>
-      <div style="font-size:12px;font-weight:700;color:var(--cyan);margin-bottom:8px;letter-spacing:1px">🎰 推奨機種TOP5（ロイヤル登別ベース）</div>
-      ${推奨機種.map(m => `
-        <div style="background:var(--bg3);padding:10px 12px;margin-bottom:6px;border-radius:3px;display:flex;justify-content:space-between;align-items:center">
-          <div style="flex:1">
-            <strong style="font-size:13px">${m.名}</strong>
-            <div style="font-size:11px;color:var(--text2);margin-top:2px">${m.理由}</div>
-          </div>
-          <div style="font-size:14px;color:var(--gold)">${m.優先}</div>
-        </div>
-      `).join('')}
+      <div style="font-size:12px;font-weight:700;color:var(--cyan);margin-bottom:8px;letter-spacing:1px">🎰 推奨機種TOP5（総合スコア・実データ算出）</div>
+      <div id="今日の狙い目TOP5"><div style="color:var(--muted);font-size:12px;padding:8px">スコア計算中…</div></div>
     </div>
 
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
@@ -5830,6 +5907,54 @@ function 今日の狙い目描画() {
       <button class="ボタン副" style="flex:1;min-width:120px" onclick="showPage('tools', document.querySelector('nav button[onclick*=tools]'))">🚨 狙い目判定へ</button>
     </div>
   `;
+
+  // Cycle#12: 総合スコアTop5を非同期で描画
+  今日の狙い目スコア生成().then(({candidates}) => {
+    const target = document.getElementById('今日の狙い目TOP5');
+    if (!target) return;
+    if (!candidates.length) {
+      target.innerHTML = '<div style="color:var(--muted);font-size:12px;padding:8px">データ不足</div>';
+      return;
+    }
+    target.innerHTML = candidates.map((c, i) => {
+      const rank = ['🥇','🥈','🥉','4位','5位'][i] || (i+1)+'位';
+      const reasons = [];
+      if (c.avg_sa >= 500) reasons.push(`過去傾向 平均+${c.avg_sa.toLocaleString()}枚/日`);
+      else if (c.avg_sa > 0) reasons.push(`過去傾向 +${c.avg_sa}枚/日（中程度）`);
+      if (c.recent_days > 0) reasons.push(`直近5日: ${c.recent_wins}勝/${c.recent_days}日 (勝率${Math.round(c.recent_wins/c.recent_days*100)}%)`);
+      if (c.in_preselect) reasons.push('事前選択Top20入り');
+      if (c.boostScore > 0) reasons.push(`${c.boost_label} ブースト適用`);
+      const reasonHtml = reasons.slice(0,3).map(r => '<div style="font-size:11px;color:var(--text2);margin-top:2px">▸ '+escapeHtml(r)+'</div>').join('');
+      const scoreColor = c.total >= 70 ? '#10b981' : (c.total >= 50 ? '#f59e0b' : 'var(--muted)');
+      const evMsg = c.avg_sa > 0
+        ? `期待値根拠: ロイヤル登別 ${c.recent_days||'-'}日サンプル / 平均+${c.avg_sa}枚`
+        : `期待値根拠: サンプル少・参考程度`;
+      return `
+        <div style="background:linear-gradient(135deg,var(--bg3),rgba(255,214,0,0.05));border-left:4px solid ${scoreColor};padding:12px;margin-bottom:8px;border-radius:6px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+            <div style="display:flex;align-items:center;gap:8px">
+              <span style="font-size:16px;font-weight:900;color:${scoreColor}">${rank}</span>
+              <strong style="font-size:14px">${escapeHtml(c.name).slice(0,32)}</strong>
+            </div>
+            <div style="font-family:'Orbitron',monospace;font-size:18px;font-weight:900;color:${scoreColor}">${c.total}<span style="font-size:10px;color:var(--muted)">/100</span></div>
+          </div>
+          ${reasonHtml}
+          <div style="font-size:10px;color:var(--muted);margin-top:6px;padding-top:6px;border-top:1px dashed var(--border)">${escapeHtml(evMsg)}</div>
+        </div>`;
+    }).join('');
+    // AIピックログ
+    try {
+      const todayISO = today.toISOString().slice(0,10);
+      const picks = candidates.map(c => ({ name: c.name, score: c.total }));
+      const log = JSON.parse(localStorage.getItem('ai_picks_log') || '[]');
+      const idx = log.findIndex(e => e.date === todayISO);
+      const entry = { date: todayISO, picks, hit: null, recordedAt: new Date().toISOString() };
+      if (idx >= 0) log[idx] = entry; else log.push(entry);
+      const cutoff = new Date(); cutoff.setDate(cutoff.getDate() - 180);
+      const filtered = log.filter(e => new Date(e.date) >= cutoff);
+      localStorage.setItem('ai_picks_log', JSON.stringify(filtered));
+    } catch (e) { console.warn('ai_picks_log保存失敗(C#12)', e); }
+  }).catch(e => console.warn('今日の狙い目スコア生成失敗', e));
 
   // ── AI推奨ログを localStorage に記録（同日エントリは上書き） ──
   try {

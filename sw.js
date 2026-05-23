@@ -1,5 +1,5 @@
 // スロット管理システム サービスワーカー
-const CACHE_NAME = 'v13-ux-rebuild';
+const CACHE_NAME = 'v14-feedback';
 const ASSETS = [
   './',
   './index.html',
