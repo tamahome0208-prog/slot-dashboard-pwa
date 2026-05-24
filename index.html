@@ -6,7 +6,7 @@
 <title>スロット管理システム</title>
 
 <!-- PWA メタタグ -->
-<meta name="theme-color" content="#0a0a14">
+<meta name="theme-color" content="#0a0a0f">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="スロット管理">
@@ -18,27 +18,36 @@
 <link rel="icon" type="image/svg+xml" href="icon-192.svg">
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..900&family=JetBrains+Mono:wght@400..800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root, :root[data-theme="dark"] {
-  --bg:     #0b0d12;
-  --bg2:    #14171f;
-  --bg3:    #1c2029;
-  --pink:   #ec4899;
-  --cyan:   #0ea5e9;
-  --green:  #10b981;
-  --red:    #ef4444;
-  --gold:   #f59e0b;
-  --text:   #f3f4f6;
-  --text2:  #d1d5db;
-  --muted:  #6b7280;
-  --border: #1f2937;
-  --glow-p: 0 0 0 1px rgba(236,72,153,0.4);
-  --glow-c: 0 0 0 1px rgba(14,165,233,0.4);
-  --glow-g: 0 0 0 1px rgba(16,185,129,0.4);
-  --glow-r: 0 0 0 1px rgba(239,68,68,0.4);
+  --bg:        #0a0a0f;
+  --bg2:       #15151c;
+  --bg3:       #1f1f28;
+  --pink:      #ff4d6d;
+  --cyan:      #7c5cff;
+  --green:     #22d3a3;
+  --red:       #ff4d6d;
+  --gold:      #ffb547;
+  --text:      #f4f4f5;
+  --text2:     #c4c4cc;
+  --muted:     #6b6b78;
+  --border:    rgba(255,255,255,0.08);
+  --glow-p: 0 0 0 1px rgba(255,77,109,0.4);
+  --glow-c: 0 0 8px rgba(124,92,255,0.6);
+  --glow-g: 0 0 0 1px rgba(34,211,163,0.4);
+  --glow-r: 0 0 0 1px rgba(255,77,109,0.4);
+  --aurora-1:  #7c5cff;
+  --aurora-2:  #00e6a8;
+  --aurora-3:  #ff4d6d;
+  --glass-bg:  rgba(255,255,255,0.04);
+  --glass-border: rgba(255,255,255,0.08);
+  --font-display: 'Inter', 'Orbitron', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Share Tech Mono', monospace;
 }
 
 :root[data-theme="light"] {
@@ -1761,9 +1770,260 @@ button, a { -webkit-touch-callout: none; user-select: none; }
   border: none; border-radius: 8px; font-weight: 900;
   cursor: pointer; font-family: inherit;
 }
+
+
+/* ==== Cycle#18 Neo-Casino Aurora override ==== */
+body {
+  font-family: 'Inter', -apple-system, system-ui, 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Noto Sans JP', sans-serif !important;
+  font-feature-settings: "tnum","ss01";
+  letter-spacing: -0.01em;
+  background: var(--bg) !important;
+  color: var(--text);
+}
+body::before {
+  content: '' !important;
+  position: fixed !important;
+  inset: auto !important;
+  pointer-events: none;
+  z-index: 0 !important;
+  width: 600px; height: 600px;
+  top: -220px; left: -220px;
+  background: var(--aurora-1) !important;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.28;
+  animation: auroraFloat 18s ease-in-out infinite;
+}
+body::after {
+  content: '' !important;
+  position: fixed !important;
+  inset: auto !important;
+  pointer-events: none;
+  z-index: 0 !important;
+  width: 600px; height: 600px;
+  bottom: -220px; right: -220px;
+  background: var(--aurora-2) !important;
+  background-image: none !important;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.22;
+  animation: auroraFloat 18s ease-in-out infinite;
+  animation-delay: -9s;
+}
+@keyframes auroraFloat {
+  0%, 100% { transform: translate(0,0) scale(1); }
+  50% { transform: translate(80px, 60px) scale(1.15); }
+}
+:root[data-theme="light"] body::before,
+:root[data-theme="light"] body::after { display: none !important; }
+
+.カード {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid var(--glass-border) !important;
+  border-radius: 14px !important;
+  position: relative;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.カード:hover { border-color: rgba(124,92,255,0.3) !important; }
+.カードタイトル {
+  font-family: var(--font-display) !important;
+  font-weight: 800; font-size: 15px;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.signal-banner {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-width: 1px !important;
+  position: relative; overflow: hidden;
+}
+.signal-banner::before {
+  content: ''; position: absolute; inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0.18;
+}
+.signal-go::before { background: radial-gradient(circle at 20% 50%, #22d3a3, transparent 55%); }
+.signal-caution::before { background: radial-gradient(circle at 20% 50%, #ffb547, transparent 55%); }
+.signal-stop::before { background: radial-gradient(circle at 20% 50%, #ff4d6d, transparent 55%); }
+.signal-icon {
+  filter: drop-shadow(0 0 8px currentColor) drop-shadow(0 0 16px currentColor);
+}
+.signal-go .signal-icon { color: #22d3a3; }
+.signal-caution .signal-icon { color: #ffb547; }
+.signal-stop .signal-icon { color: #ff4d6d; }
+.signal-verdict {
+  font-family: var(--font-display) !important;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+.tetsuban-card {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  position: relative;
+}
+.tetsuban-card-1 {
+  border: 2px solid #ffb547 !important;
+  box-shadow: 4px 4px 0 #ffb547, 0 0 60px rgba(255,181,71,0.15) !important;
+  background: linear-gradient(135deg, rgba(255,181,71,0.08), var(--glass-bg)) !important;
+}
+.tetsuban-card-2 {
+  border: 2px solid rgba(255,255,255,0.4) !important;
+  box-shadow: 4px 4px 0 rgba(255,255,255,0.3) !important;
+}
+.tetsuban-card-3 {
+  border: 2px solid #cd7f32 !important;
+  box-shadow: 3px 3px 0 #cd7f32 !important;
+}
+.tetsuban-name {
+  font-family: var(--font-display) !important;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+.tetsuban-score-badge {
+  font-family: var(--font-mono) !important;
+  font-feature-settings: "tnum";
+}
+
+nav {
+  position: fixed !important;
+  bottom: 0; left: 0; right: 0;
+  background: rgba(15,15,28,0.7) !important;
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border-top: 1px solid var(--glass-border) !important;
+  box-shadow: none !important;
+  z-index: 100;
+  padding: 6px 8px env(safe-area-inset-bottom, 6px) !important;
+}
+nav button {
+  background: transparent !important;
+  border: none !important;
+  color: var(--muted) !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 10px; font-weight: 600;
+  padding: 8px 4px;
+  border-radius: 10px;
+  transition: all 0.2s;
+}
+nav button .nv-ic { transition: transform 0.2s; }
+nav button:hover .nv-ic { transform: scale(1.1); }
+nav button.active {
+  color: var(--cyan) !important;
+  background: rgba(124,92,255,0.12) !important;
+  border: none !important;
+  border-top: none !important;
+}
+nav button.active .nv-ic {
+  filter: drop-shadow(0 0 8px rgba(124,92,255,0.6));
+}
+
+.acc-card {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border) !important;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.acc-card[open] {
+  border-color: var(--cyan) !important;
+  box-shadow: 0 0 0 1px var(--cyan), 0 0 30px rgba(124,92,255,0.15);
+}
+.acc-card > summary {
+  font-family: var(--font-display) !important;
+  font-weight: 700;
+}
+
+.kpi-trio-cell {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border) !important;
+}
+.kpi-trio-num {
+  font-family: var(--font-mono) !important;
+  font-feature-settings: "tnum","ss01";
+  font-weight: 700;
+}
+
+.hero-btn {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border) !important;
+  transition: all 0.2s;
+}
+.hero-btn:hover {
+  border-color: var(--cyan) !important;
+  box-shadow: 0 0 20px rgba(124,92,255,0.2);
+}
+.hero-btn-primary {
+  background: linear-gradient(135deg, var(--aurora-1), var(--aurora-3)) !important;
+  border-color: transparent !important;
+  color: #fff !important;
+  box-shadow: 0 4px 20px rgba(124,92,255,0.3);
+}
+
+.ボタン主 {
+  background: linear-gradient(135deg, var(--aurora-1), var(--aurora-3)) !important;
+  border: 1px solid transparent !important;
+  color: #fff !important;
+  font-weight: 700;
+  box-shadow: 0 4px 16px rgba(124,92,255,0.3);
+}
+.ボタン主:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(124,92,255,0.4);
+}
+.ボタン副 {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border) !important;
+  color: var(--text) !important;
+}
+
+.streak-num, .annual-rate, .annual-stat-val, .live-sa-num {
+  font-family: var(--font-mono) !important;
+  font-feature-settings: "tnum","ss01";
+}
+
+#annual-progress-fill {
+  stroke: url(#auroraGradient);
+  filter: drop-shadow(0 0 8px rgba(124,92,255,0.4));
+}
+
+* { -webkit-tap-highlight-color: transparent; }
+body { padding-bottom: 80px; }
+.page { padding-bottom: 80px; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(124,92,255,0.3); border-radius: 99px; }
+
+header {
+  background: linear-gradient(135deg, rgba(10,10,15,0.85) 0%, rgba(21,21,28,0.85) 100%) !important;
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border-bottom: 1px solid var(--glass-border) !important;
+  box-shadow: none !important;
+}
+header h1 {
+  font-family: var(--font-display) !important;
+  letter-spacing: -0.01em !important;
+  color: var(--text) !important;
+  text-shadow: none !important;
+}
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="auroraGradient" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7c5cff"/><stop offset="1" stop-color="#22d3a3"/></linearGradient></defs></svg>
+
 
 <!-- 🌟 Canvas粒子背景 -->
 <canvas id="particleCanvas" style="position:fixed;inset:0;pointer-events:none;z-index:1;mix-blend-mode:screen"></canvas>
