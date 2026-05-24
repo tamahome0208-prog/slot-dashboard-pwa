@@ -1599,6 +1599,33 @@ button, a { -webkit-touch-callout: none; user-select: none; }
 .kpi-trio-num { font-family: 'Orbitron', monospace; font-size: 18px; font-weight: 900; color: var(--cyan); line-height: 1.2; }
 .kpi-trio-label { font-size: 10px; color: var(--muted); letter-spacing: 1px; margin-top: 2px; }
 
+/* Cycle#15: 年間100万円トラッカー */
+.annual-card { background: linear-gradient(135deg, var(--bg2), rgba(16,185,129,0.05)); border: 1px solid rgba(16,185,129,0.3); border-radius: 16px; padding: 20px; margin-bottom: 20px; }
+.annual-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.annual-title { font-family: 'Orbitron', monospace; font-size: 18px; font-weight: 900; color: #10b981; }
+.annual-edit { font-size: 11px; color: var(--muted); cursor: pointer; padding: 4px 8px; border-radius: 6px; background: var(--bg3); }
+.annual-edit:hover { background: var(--cyan); color: #fff; }
+.annual-progress-wrapper { position: relative; width: 160px; height: 160px; margin: 0 auto 16px; }
+.annual-progress { width: 100%; height: 100%; }
+.annual-progress-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.annual-rate { font-family: 'Orbitron', monospace; font-size: 36px; font-weight: 900; color: var(--text); }
+.annual-rate-label { font-size: 11px; color: var(--muted); letter-spacing: 2px; }
+.annual-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 12px; }
+.annual-stat { padding: 10px; background: var(--bg3); border-radius: 8px; text-align: center; }
+.annual-stat-label { font-size: 10px; color: var(--muted); letter-spacing: 1px; }
+.annual-stat-val { font-family: 'Orbitron', monospace; font-size: 16px; font-weight: 700; color: var(--text); margin-top: 4px; }
+.annual-pace { padding: 10px; border-radius: 8px; text-align: center; font-size: 13px; font-weight: 700; margin-bottom: 10px; }
+.pace-good { background: rgba(16,185,129,0.15); color: #10b981; }
+.pace-warn { background: rgba(239,68,68,0.15); color: #ef4444; }
+.annual-needed { padding: 10px; background: var(--bg3); border-radius: 8px; text-align: center; font-size: 12px; color: var(--text2); margin-bottom: 12px; }
+.annual-needed strong { color: var(--cyan); font-size: 14px; }
+.annual-monthly { display: flex; gap: 4px; height: 80px; align-items: flex-end; }
+.annual-month-bar { flex: 1; display: flex; flex-direction: column; align-items: center; height: 100%; }
+.annual-month-fill { width: 100%; min-height: 1px; max-height: 60px; border-radius: 4px 4px 0 0; }
+.annual-month-fill.pos { background: linear-gradient(0deg, #10b981, rgba(16,185,129,0.3)); }
+.annual-month-fill.neg { background: linear-gradient(0deg, #ef4444, rgba(239,68,68,0.3)); }
+.annual-month-label { font-size: 9px; color: var(--muted); margin-top: 2px; }
+
 .hero-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
 .hero-btn {
   padding: 18px 8px; border: 1px solid var(--border);
@@ -1724,6 +1751,35 @@ button, a { -webkit-touch-callout: none; user-select: none; }
         <div class="kpi-trio-icon">📅</div>
         <div class="kpi-trio-num" id="kpi-boost" style="font-size:14px">--</div>
         <div class="kpi-trio-label">ブースト</div>
+      </div>
+    </div>
+
+    <!-- Cycle#15: 年間100万円トラッカー -->
+    <div id="年間トラッカーエリア" class="annual-card">
+      <div class="annual-header">
+        <div class="annual-title">📈 年間100万円トラッカー</div>
+        <div class="annual-edit" onclick="年間目標編集()">⚙️ 編集</div>
+      </div>
+      <div class="annual-body">
+        <div class="annual-progress-wrapper">
+          <svg class="annual-progress" viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="50" fill="none" stroke="var(--bg3)" stroke-width="10"/>
+            <circle id="annual-progress-fill" cx="60" cy="60" r="50" fill="none" stroke="#10b981" stroke-width="10" stroke-dasharray="314" stroke-dashoffset="314" transform="rotate(-90 60 60)" style="transition:stroke-dashoffset 1s"/>
+          </svg>
+          <div class="annual-progress-center">
+            <div class="annual-rate" id="annual-rate">--%</div>
+            <div class="annual-rate-label">達成</div>
+          </div>
+        </div>
+        <div class="annual-stats">
+          <div class="annual-stat"><div class="annual-stat-label">現在</div><div class="annual-stat-val" id="annual-actual">--</div></div>
+          <div class="annual-stat"><div class="annual-stat-label">目標</div><div class="annual-stat-val" id="annual-target">¥1,000,000</div></div>
+          <div class="annual-stat"><div class="annual-stat-label">残必要</div><div class="annual-stat-val" id="annual-remaining">--</div></div>
+          <div class="annual-stat"><div class="annual-stat-label">残日数</div><div class="annual-stat-val" id="annual-days">--</div></div>
+        </div>
+        <div class="annual-pace" id="annual-pace"></div>
+        <div class="annual-needed">1日あたり <strong id="annual-need-yen">--</strong> 必要 (<span id="annual-need-sa">--</span>枚/日)</div>
+        <div class="annual-monthly" id="annual-monthly"></div>
       </div>
     </div>
 
@@ -4154,10 +4210,123 @@ function データ鮮度詳細(total, latest, days) {
   alert(`データ鮮度情報\n\n最新データ: ${latest}\n経過日数: ${days===null?'不明':days+'日前'}\n累計収集日数: ${total}日\n\nデータソース: data/royal_history.json\n（GitHub Actions が毎朝7時に自動収集）`);
 }
 
+/* ===== Cycle#15: 年間100万円トラッカー ===== */
+function 年間目標取得() {
+  const defaults = { target_yen: 1000000, start_date: new Date().getFullYear()+'-01-01', rate_yen_per_piece: 20, bonus_dates: ['07-10','12-10'], payday: 20 };
+  try {
+    const raw = localStorage.getItem('annual_target');
+    if (!raw) return defaults;
+    return Object.assign({}, defaults, JSON.parse(raw));
+  } catch(e) { return defaults; }
+}
+function 年間目標保存(obj) {
+  try { localStorage.setItem('annual_target', JSON.stringify(obj)); } catch(e) { console.warn(e); }
+}
+function 年間進捗計算() {
+  const conf = 年間目標取得();
+  let records = [];
+  try { records = (typeof 記録取得 === 'function') ? 記録取得() : JSON.parse(localStorage.getItem('records')||'[]'); } catch(e) { records = []; }
+  const year = new Date().getFullYear();
+  const yearStart = new Date(year, 0, 1);
+  const yearEnd = new Date(year, 11, 31);
+  const today = new Date();
+  const yearRecs = records.filter(r => (r.date||'').startsWith(String(year)));
+  // records は pnl(円) を保持
+  const actualYen = yearRecs.reduce((s, r) => s + (parseInt(r.pnl || 0) || 0), 0);
+  const rate = conf.rate_yen_per_piece || 20;
+  const daysElapsed = Math.max(1, Math.floor((today - yearStart) / 86400000) + 1);
+  const daysTotal = Math.floor((yearEnd - yearStart) / 86400000) + 1;
+  const daysRemaining = Math.max(0, daysTotal - daysElapsed);
+  const remaining = conf.target_yen - actualYen;
+  const neededPerDay = daysRemaining > 0 ? Math.round(remaining / daysRemaining) : 0;
+  const neededSaPerDay = Math.round(neededPerDay / rate);
+  const monthly = Array(12).fill(0);
+  yearRecs.forEach(r => {
+    const parts = (r.date||'').split('-');
+    const m = parseInt(parts[1]) - 1;
+    if (m >= 0 && m < 12) monthly[m] += (parseInt(r.pnl || 0) || 0);
+  });
+  const pace = daysElapsed > 0 ? (actualYen / daysElapsed) * daysTotal : 0;
+  const onTrack = pace >= conf.target_yen;
+  return {
+    target_yen: conf.target_yen,
+    actual_yen: actualYen,
+    achievement_rate: conf.target_yen > 0 ? Math.round((actualYen / conf.target_yen) * 100) : 0,
+    days_elapsed: daysElapsed,
+    days_remaining: daysRemaining,
+    remaining_yen: remaining,
+    needed_per_day_yen: Math.max(0, neededPerDay),
+    needed_sa_per_day: Math.max(0, neededSaPerDay),
+    monthly,
+    projected_year_end: Math.round(pace),
+    on_track: onTrack,
+  };
+}
+function 年間トラッカー描画() {
+  try {
+    const p = 年間進捗計算();
+    const fill = document.getElementById('annual-progress-fill');
+    if (fill) {
+      const circumference = 2 * Math.PI * 50;
+      const ratio = Math.max(0, Math.min(1, p.achievement_rate / 100));
+      const offset = circumference * (1 - ratio);
+      fill.setAttribute('stroke-dashoffset', offset);
+      fill.setAttribute('stroke', p.on_track ? '#10b981' : (p.achievement_rate >= 70 ? '#f59e0b' : '#ef4444'));
+    }
+    const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+    setText('annual-rate', p.achievement_rate + '%');
+    setText('annual-actual', (p.actual_yen >= 0 ? '+' : '') + p.actual_yen.toLocaleString() + '円');
+    setText('annual-target', '¥' + p.target_yen.toLocaleString());
+    setText('annual-remaining', p.remaining_yen.toLocaleString() + '円');
+    setText('annual-days', p.days_remaining + '日');
+    setText('annual-need-yen', '¥' + p.needed_per_day_yen.toLocaleString());
+    setText('annual-need-sa', p.needed_sa_per_day.toLocaleString());
+    const pace = document.getElementById('annual-pace');
+    if (pace) {
+      if (p.on_track) {
+        pace.textContent = '✅ 順調 / 年末予測 ' + p.projected_year_end.toLocaleString() + '円';
+        pace.className = 'annual-pace pace-good';
+      } else {
+        pace.textContent = '⚠️ ペース遅れ / 年末予測 ' + p.projected_year_end.toLocaleString() + '円';
+        pace.className = 'annual-pace pace-warn';
+      }
+    }
+    const monthly = document.getElementById('annual-monthly');
+    if (monthly) {
+      const max = Math.max(...p.monthly.map(Math.abs), 1);
+      monthly.innerHTML = p.monthly.map((v, i) => {
+        const pct = Math.abs(v) / max * 100;
+        const cls = v >= 0 ? 'pos' : 'neg';
+        return `<div class="annual-month-bar" title="${i+1}月: ${v.toLocaleString()}円"><div class="annual-month-fill ${cls}" style="height:${pct}%"></div><div class="annual-month-label">${i+1}</div></div>`;
+      }).join('');
+    }
+  } catch(e) { console.warn('年間トラッカー描画失敗', e); }
+}
+function 年間目標編集() {
+  const conf = 年間目標取得();
+  const t = prompt('年間目標金額（円）\n例: 1000000', conf.target_yen);
+  if (t === null) return;
+  const target = parseInt(t);
+  if (isNaN(target) || target <= 0) { alert('正しい金額を入力してください'); return; }
+  const r = prompt('1枚あたりレート（円）\n等価=20 / 5.6枚交換=17.86 / 任意', conf.rate_yen_per_piece);
+  if (r === null) return;
+  const rate = parseFloat(r);
+  if (isNaN(rate) || rate <= 0) { alert('正しいレートを入力してください'); return; }
+  const pd = prompt('給料日（1-31）', conf.payday);
+  if (pd === null) return;
+  const payday = parseInt(pd) || conf.payday;
+  const bd = prompt('ボーナス日（MM-DD カンマ区切り）\n例: 07-10,12-10', (conf.bonus_dates||[]).join(','));
+  if (bd === null) return;
+  const bonus_dates = bd.split(',').map(s => s.trim()).filter(Boolean);
+  年間目標保存({ target_yen: target, start_date: conf.start_date, rate_yen_per_piece: rate, bonus_dates, payday });
+  年間トラッカー描画();
+}
+
 function renderHome() {
   try { データ鮮度表示(); } catch(e) { console.warn(e); }
   try { ヒーロー描画(); } catch(e) { console.warn(e); }
   try { 鉄板3台描画(); } catch(e) { console.warn(e); }
+  try { 年間トラッカー描画(); } catch(e) { console.warn('年間トラッカー描画失敗', e); }
   今日の狙い目描画();
   ブースト判定描画();
   戦略エッジ表示();
