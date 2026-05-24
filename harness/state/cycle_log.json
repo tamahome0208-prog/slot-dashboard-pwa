@@ -5,8 +5,16 @@
       "at": "2026-05-22T23:45:00",
       "kind": "weekly_full",
       "tasks": [
-        {"id": "B001", "commit": "009c8c2", "title": "アプリ使用状況テレメトリ"},
-        {"id": "B002", "commit": "09b3efd", "title": "AI推奨の的中ログ"}
+        {
+          "id": "B001",
+          "commit": "009c8c2",
+          "title": "アプリ使用状況テレメトリ"
+        },
+        {
+          "id": "B002",
+          "commit": "09b3efd",
+          "title": "AI推奨の的中ログ"
+        }
       ],
       "qa_score": 95,
       "verdict": "GO",
@@ -18,7 +26,11 @@
       "kind": "weekly_full",
       "info_insight": "ロイヤル登別は8のつく日寄り。5のつく日は弱め(hall-navi等)",
       "tasks": [
-        {"id": "B004", "commit": "8cb4fd5", "title": "日付ブースト判定(8/5のつく日)"}
+        {
+          "id": "B004",
+          "commit": "8cb4fd5",
+          "title": "日付ブースト判定(8/5のつく日)"
+        }
       ],
       "qa_score": 96,
       "verdict": "GO",
@@ -30,7 +42,11 @@
       "kind": "weekly_full",
       "info_insight": "2026年5月新台: L戦国乙女5、スマスロBIRDIE WING、GALFY、ヴァルヴレイヴ2、クイーンズブレイド奈落",
       "tasks": [
-        {"id": "B005", "commit": "8cb4fd5", "title": "新台NEWバッジ(2026/05機種)"}
+        {
+          "id": "B005",
+          "commit": "8cb4fd5",
+          "title": "新台NEWバッジ(2026/05機種)"
+        }
       ],
       "qa_score": 96,
       "verdict": "GO",
@@ -42,7 +58,11 @@
       "kind": "weekly_full",
       "info_insight": "天井期待値は等価×0.7-0.8掛けで非等価評価、閾値600G",
       "tasks": [
-        {"id": "B006", "commit": "510b806", "title": "狙い目スコア2軸化(設定×天井)"}
+        {
+          "id": "B006",
+          "commit": "510b806",
+          "title": "狙い目スコア2軸化(設定×天井)"
+        }
       ],
       "qa_score": 96,
       "verdict": "GO",
@@ -54,7 +74,11 @@
       "kind": "weekly_full",
       "info_insight": "事前選択top20_best avg_sa=+1882/日 (vs baseline +150)",
       "tasks": [
-        {"id": "B007", "commit": "510b806", "title": "事前選択戦略エッジ表示"}
+        {
+          "id": "B007",
+          "commit": "510b806",
+          "title": "事前選択戦略エッジ表示"
+        }
       ],
       "qa_score": 96,
       "verdict": "GO",
@@ -67,7 +91,11 @@
       "theme": "規律強化設計(行動科学根拠)",
       "info_insight": "予測誤差(RPE)の正利用、Duolingo loss aversion+Streak Freeze",
       "tasks": [
-        {"id": "C6-streak", "commit": "5ddf06f", "title": "規律ストリーク+Streak Freeze"}
+        {
+          "id": "C6-streak",
+          "commit": "5ddf06f",
+          "title": "規律ストリーク+Streak Freeze"
+        }
       ],
       "qa_score": 95,
       "verdict": "GO",
@@ -79,7 +107,11 @@
       "kind": "discipline_design",
       "info_insight": "CBT urge surfing 15分タイマー、思考記録(Psychology Tools)",
       "tasks": [
-        {"id": "C7-urge", "commit": "3f5a011", "title": "衝動チェックCBT(3step+15分タイマー)"}
+        {
+          "id": "C7-urge",
+          "commit": "3f5a011",
+          "title": "衝動チェックCBT(3step+15分タイマー)"
+        }
       ],
       "qa_score": 95,
       "verdict": "GO",
@@ -91,20 +123,27 @@
       "kind": "discipline_design",
       "info_insight": "Kahneman損失嫌悪2倍効果、撤退バッジで正RPE発火",
       "tasks": [
-        {"id": "C8-loss-rank", "commit": "316d2b5", "title": "損失嫌悪カード+規律度ランク+撤退バッジ"}
+        {
+          "id": "C8-loss-rank",
+          "commit": "316d2b5",
+          "title": "損失嫌悪カード+規律度ランク+撤退バッジ"
+        }
       ],
       "qa_score": 95,
       "verdict": "GO",
       "deploy_head": "316d2b5"
-    }
-    ,
+    },
     {
       "cycle": 9,
       "at": "2026-05-23T20:00:00",
       "kind": "data_driven_strategy",
       "theme": "事前選択戦略のPWA移植",
       "tasks": [
-        {"id": "B010", "commit": "fae6087", "title": "Top20候補をホーム動的表示(過去60日学習)"}
+        {
+          "id": "B010",
+          "commit": "fae6087",
+          "title": "Top20候補をホーム動的表示(過去60日学習)"
+        }
       ],
       "qa_score": 92,
       "verdict": "GO",
@@ -118,10 +157,26 @@
       "ceo_directive": "いろいろデータが古い気がする 今日のねらい目は",
       "investigation_finding": "GHA成功だが直近数日min-repo側に新規投稿無く実は5/18止まりだった。手動取得で291日(5/23)まで反映",
       "tasks": [
-        {"id": "C14-data", "title": "手動データ取得 261→291日(5/23)", "commit": "fe459d5"},
-        {"id": "C14-A", "title": "データ鮮度バッジ(緑/黄/赤)", "commit": "9e5a123"},
-        {"id": "C14-B", "title": "idソート文字列→数値(5箇所)", "commit": "9e5a123"},
-        {"id": "C14-C", "title": "scrape.yml continue-on-error修正+動的commit msg", "commit": "9e5a123"}
+        {
+          "id": "C14-data",
+          "title": "手動データ取得 261→291日(5/23)",
+          "commit": "fe459d5"
+        },
+        {
+          "id": "C14-A",
+          "title": "データ鮮度バッジ(緑/黄/赤)",
+          "commit": "9e5a123"
+        },
+        {
+          "id": "C14-B",
+          "title": "idソート文字列→数値(5箇所)",
+          "commit": "9e5a123"
+        },
+        {
+          "id": "C14-C",
+          "title": "scrape.yml continue-on-error修正+動的commit msg",
+          "commit": "9e5a123"
+        }
       ],
       "qa_score": 98,
       "verdict": "GO",
@@ -134,7 +189,11 @@
       "theme": "鉄板3台ピックアップ超強化",
       "ceo_directive": "当日打つべき機種を3台に絞ってめちゃ強くピックアップ",
       "tasks": [
-        {"id": "C13", "title": "鉄板3台金銀銅(6指標100点満点+推奨理由自動生成)", "commit": "e7fef93"}
+        {
+          "id": "C13",
+          "title": "鉄板3台金銀銅(6指標100点満点+推奨理由自動生成)",
+          "commit": "e7fef93"
+        }
       ],
       "qa_score": 98,
       "verdict": "GO",
@@ -147,10 +206,26 @@
       "theme": "設定6アラート動的化+不要削除+狙い目強化+計算根拠説明",
       "ceo_directive": "設定6アラートのデータ更新疑惑/規律系3カード削除/狙い目強化/計算根拠説明",
       "tasks": [
-        {"id": "C12-A", "title": "設定6アラート完全動的化(royal_history連動)", "commit": "559ccf3"},
-        {"id": "C12-B", "title": "損失嫌悪/規律ランク/規律ストリーク削除+ヒーロー3指標刷新", "commit": "559ccf3"},
-        {"id": "C12-C", "title": "今日の狙い目スコア生成(100点満点Top5リッチ)", "commit": "559ccf3"},
-        {"id": "C12-D", "title": "計算根拠説明トグル(事前選択/戦略エッジ)", "commit": "559ccf3"}
+        {
+          "id": "C12-A",
+          "title": "設定6アラート完全動的化(royal_history連動)",
+          "commit": "559ccf3"
+        },
+        {
+          "id": "C12-B",
+          "title": "損失嫌悪/規律ランク/規律ストリーク削除+ヒーロー3指標刷新",
+          "commit": "559ccf3"
+        },
+        {
+          "id": "C12-C",
+          "title": "今日の狙い目スコア生成(100点満点Top5リッチ)",
+          "commit": "559ccf3"
+        },
+        {
+          "id": "C12-D",
+          "title": "計算根拠説明トグル(事前選択/戦略エッジ)",
+          "commit": "559ccf3"
+        }
       ],
       "investigation_finding": "設定6アラートはL2141-2208/L2474-2487で完全ハードコード(5/19固定)。JSONパイプライン未連動が真因",
       "qa_score": 82,
@@ -165,7 +240,11 @@
       "theme": "ホーム画面UX刷新(猿でも分かる)",
       "info_insight": "Glanceability/Progressive Disclosure/Traffic Light UI 3パターン採用",
       "tasks": [
-        {"id": "C11-ux", "commit": "c668623", "title": "信号機+3指標+3ボタン+アコーディオン8枚"}
+        {
+          "id": "C11-ux",
+          "commit": "c668623",
+          "title": "信号機+3指標+3ボタン+アコーディオン8枚"
+        }
       ],
       "qa_score": 98,
       "verdict": "GO",
@@ -177,12 +256,30 @@
       "kind": "data_validation",
       "theme": "日付ブースト実証+規律KPI可視化",
       "tasks": [
-        {"id": "B008", "commit": "7514da1", "title": "8/5のつく日 実データバックテスト+規律KPIダッシュボード"}
+        {
+          "id": "B008",
+          "commit": "7514da1",
+          "title": "8/5のつく日 実データバックテスト+規律KPIダッシュボード"
+        }
       ],
       "qa_score": 92,
       "verdict": "GO",
       "deploy_head": "7514da1",
       "evidence_finding": "189日中、末尾8(n=94)のavg_saは+17.8/日でother(+10.7)とほぼ同じ。boost1.5は実データでは過大評価の可能性。サンプル蓄積後の再キャリブレ要"
+    },
+    {
+      "at": "2026-05-24T08:04:15.967667",
+      "kind": "daily",
+      "kpi_snapshot": {
+        "value": 91.1,
+        "unit": "%",
+        "source": "pre_select_top20_best",
+        "avg_sa": 1796,
+        "days": 259,
+        "baseline_win_rate": 49.8,
+        "baseline_avg_sa": 174,
+        "edge_avg_sa": 1622
+      }
     }
   ],
   "summary": {
