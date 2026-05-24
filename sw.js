@@ -1,5 +1,5 @@
 // スロット管理システム サービスワーカー
-const CACHE_NAME = 'v17-annual';
+const CACHE_NAME = 'v18-live';
 const ASSETS = [
   './',
   './index.html',

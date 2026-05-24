@@ -1695,6 +1695,104 @@ button, a { -webkit-touch-callout: none; user-select: none; }
 .tetsuban-chip { padding: 3px 8px; background: var(--bg3); border-radius: 99px; font-size: 10px; color: var(--text2); font-family: 'Share Tech Mono', monospace; }
 .tetsuban-chip strong { color: var(--cyan); margin-right: 3px; }
 .tetsuban-empty { padding: 20px; text-align: center; color: var(--muted); font-size: 13px; }
+
+/* ===== Cycle#16 来店中リアルタイムモード ===== */
+.live-start-btn {
+  width: 100%; padding: 14px;
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: #fff; border: none; border-radius: 12px;
+  font-weight: 900; font-size: 16px; cursor: pointer;
+  box-shadow: 0 4px 12px rgba(239,68,68,0.3);
+}
+.live-start-btn:hover { transform: translateY(-2px); }
+.live-card {
+  background: linear-gradient(135deg, rgba(239,68,68,0.10), var(--bg2));
+  border: 2px solid #ef4444; border-radius: 16px; padding: 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 24px rgba(239,68,68,0.3);
+}
+.live-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.live-badge {
+  background: #ef4444; color: #fff; padding: 4px 10px;
+  border-radius: 99px; font-size: 11px; font-weight: 900;
+  animation: livePulse 1.2s infinite;
+}
+@keyframes livePulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+.live-info { flex: 1; min-width: 0; }
+.live-hall { font-size: 13px; color: var(--text2); }
+.live-machine { font-size: 15px; font-weight: 900; color: var(--text); margin-top: 2px; }
+.live-time {
+  font-family: 'Orbitron', monospace; font-size: 18px; font-weight: 900;
+  color: var(--cyan); padding: 4px 10px;
+  background: var(--bg3); border-radius: 8px;
+}
+.live-sa-display {
+  text-align: center; padding: 20px;
+  background: var(--bg3); border-radius: 12px; margin-bottom: 14px;
+}
+.live-sa-label { font-size: 11px; color: var(--muted); letter-spacing: 2px; }
+.live-sa-num {
+  font-family: 'Orbitron', monospace; font-size: 56px; font-weight: 900;
+  margin: 6px 0; line-height: 1;
+}
+.live-sa-yen { font-family: 'Orbitron', monospace; font-size: 16px; font-weight: 700; }
+.live-lines { margin-bottom: 14px; }
+.live-line-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.live-line-label { width: 60px; font-size: 11px; color: var(--muted); font-weight: 700; }
+.live-line-bar { flex: 1; height: 12px; background: var(--bg3); border-radius: 99px; overflow: hidden; }
+.live-line-fill { height: 100%; transition: width 0.3s; border-radius: 99px; }
+.live-line-fill.stop { background: linear-gradient(90deg, #f59e0b, #ef4444); }
+.live-line-fill.take { background: linear-gradient(90deg, #10b981, #34d399); }
+.live-line-val { width: 60px; font-family: 'Orbitron', monospace; font-size: 13px; font-weight: 700; text-align: right; }
+.live-actions { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 12px; }
+.live-btn {
+  padding: 12px 4px; background: var(--bg3);
+  border: 1px solid var(--border); color: var(--text);
+  border-radius: 8px; font-weight: 700; cursor: pointer;
+  font-size: 12px; font-family: inherit;
+}
+.live-btn:hover { background: var(--cyan); color: #fff; }
+.live-invest-row {
+  display: flex; align-items: center; gap: 6px;
+  padding: 10px; background: var(--bg3); border-radius: 8px;
+  font-size: 12px; margin-bottom: 12px; flex-wrap: wrap;
+}
+.live-invest-row strong { color: var(--cyan); font-size: 14px; }
+.live-invest-btn {
+  margin-left: auto; padding: 4px 10px;
+  background: var(--cyan); color: #fff; border: none;
+  border-radius: 6px; cursor: pointer; font-weight: 700;
+}
+.live-invest-btn:not(:first-of-type) { margin-left: 4px; }
+.live-end-btn {
+  width: 100%; padding: 12px;
+  background: linear-gradient(135deg, #f59e0b, #ef4444);
+  color: #fff; border: none; border-radius: 10px;
+  font-weight: 900; cursor: pointer;
+}
+.live-alert-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+  z-index: 10000; display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+}
+.live-alert-inner {
+  background: var(--bg2); border: 3px solid; border-radius: 16px;
+  padding: 24px; max-width: 360px; width: 100%; text-align: center;
+}
+.alert-stop .live-alert-inner { border-color: #ef4444; box-shadow: 0 0 40px rgba(239,68,68,0.6); }
+.alert-take .live-alert-inner { border-color: #10b981; box-shadow: 0 0 40px rgba(16,185,129,0.6); }
+.live-alert-title {
+  font-family: 'Orbitron', monospace; font-size: 24px; font-weight: 900;
+  margin-bottom: 12px;
+}
+.alert-stop .live-alert-title { color: #ef4444; }
+.alert-take .live-alert-title { color: #10b981; }
+.live-alert-body { color: var(--text2); margin-bottom: 16px; line-height: 1.6; }
+.live-alert-close {
+  padding: 10px 24px; background: var(--cyan); color: #fff;
+  border: none; border-radius: 8px; font-weight: 900;
+  cursor: pointer; font-family: inherit;
+}
 </style>
 </head>
 <body>
@@ -1723,6 +1821,54 @@ button, a { -webkit-touch-callout: none; user-select: none; }
 
 <!-- ===== 収支ページ ===== -->
 <div id="page-home" class="page active">
+
+  <!-- ===== Cycle#16 来店中リアルタイムモード ===== -->
+  <div id="来店ボタンエリア" style="margin-bottom: 12px">
+    <button id="来店モード開始ボタン" class="live-start-btn" onclick="来店モード開始ダイアログ()">
+      🎰 来店モードを開始する
+    </button>
+  </div>
+  <div id="来店モードエリア" class="live-card" style="display:none">
+    <div class="live-header">
+      <div class="live-badge">🔴 LIVE</div>
+      <div class="live-info">
+        <div class="live-hall" id="live-hall">--</div>
+        <div class="live-machine" id="live-machine">--</div>
+      </div>
+      <div class="live-time" id="live-time">0:00</div>
+    </div>
+    <div class="live-sa-display">
+      <div class="live-sa-label">CURRENT DIFFERENCE</div>
+      <div class="live-sa-num" id="live-sa">+0</div>
+      <div class="live-sa-yen" id="live-sa-yen">+0円</div>
+    </div>
+    <div class="live-lines">
+      <div class="live-line-row">
+        <div class="live-line-label">損切り</div>
+        <div class="live-line-bar"><div class="live-line-fill stop" id="live-stop-fill" style="width:0%"></div></div>
+        <div class="live-line-val" id="live-stop-val">--</div>
+      </div>
+      <div class="live-line-row">
+        <div class="live-line-label">勝ち逃げ</div>
+        <div class="live-line-bar"><div class="live-line-fill take" id="live-take-fill" style="width:0%"></div></div>
+        <div class="live-line-val" id="live-take-val">--</div>
+      </div>
+    </div>
+    <div class="live-actions">
+      <button class="live-btn" onclick="来店差枚調整(-1000)">-1000</button>
+      <button class="live-btn" onclick="来店差枚調整(-100)">-100</button>
+      <button class="live-btn" onclick="来店差枚編集()">✎ 編集</button>
+      <button class="live-btn" onclick="来店差枚調整(100)">+100</button>
+      <button class="live-btn" onclick="来店差枚調整(1000)">+1000</button>
+    </div>
+    <div class="live-invest-row">
+      投資累計: <strong id="live-invest">¥0</strong>
+      <button class="live-invest-btn" onclick="来店投資追加(1000)">+1k</button>
+      <button class="live-invest-btn" onclick="来店投資追加(5000)">+5k</button>
+      <button class="live-invest-btn" onclick="来店投資追加(10000)">+10k</button>
+    </div>
+    <button class="live-end-btn" onclick="来店モード終了()">🏁 終了 & 記録へ転記</button>
+  </div>
 
   <!-- ===== Cycle#11 HERO: 3秒で分かる ===== -->
   <div id="hero-signal-area">
@@ -4322,11 +4468,190 @@ function 年間目標編集() {
   年間トラッカー描画();
 }
 
+// ===== Cycle#16 来店中リアルタイムモード =====
+function 来店セッション取得() {
+  try { const raw = localStorage.getItem('live_session'); return raw ? JSON.parse(raw) : null; } catch(e) { return null; }
+}
+function 来店セッション保存(s) {
+  try { localStorage.setItem('live_session', JSON.stringify(s)); } catch(e) { console.warn(e); }
+}
+function 来店セッション削除() {
+  try { localStorage.removeItem('live_session'); } catch(e) {}
+}
+
+function 来店モード開始ダイアログ() {
+  const hall = prompt('店舗名は？', 'ロイヤル登別店');
+  if (!hall) return;
+  const machine = prompt('機種名は？', '');
+  if (!machine) return;
+  const unit = prompt('台番号は？(任意)', '') || '';
+  const stopLoss = parseInt(prompt('損切り差枚 (負の値, 例:-3000)', '-3000'));
+  const takeProfit = parseInt(prompt('勝ち逃げ差枚 (例:5000)', '5000'));
+  const session = {
+    active: true,
+    start_time: new Date().toISOString(),
+    hall, machine, unit,
+    investment_yen: 0,
+    current_sa: 0,
+    game_count: 0,
+    stop_loss_sa: isNaN(stopLoss) ? -3000 : stopLoss,
+    take_profit_sa: isNaN(takeProfit) ? 5000 : takeProfit,
+    history: [],
+    alerts_fired: { stop_loss: false, take_profit: false }
+  };
+  来店セッション保存(session);
+  来店モード描画();
+  来店タイマー開始();
+  if (typeof 通知表示 === 'function') 通知表示('来店モード開始: ' + hall);
+}
+
+function 来店差枚調整(delta) {
+  const s = 来店セッション取得();
+  if (!s) return;
+  s.current_sa += delta;
+  s.history.push({ at: new Date().toISOString(), sa_delta: delta });
+  来店セッション保存(s);
+  来店モード描画();
+  来店アラートチェック(s);
+}
+
+function 来店投資追加(yen) {
+  const s = 来店セッション取得();
+  if (!s) return;
+  s.investment_yen += yen;
+  s.history.push({ at: new Date().toISOString(), investment_delta: yen });
+  来店セッション保存(s);
+  来店モード描画();
+}
+
+function 来店差枚編集() {
+  const s = 来店セッション取得();
+  if (!s) return;
+  const v = parseInt(prompt('現在の差枚を直接入力', s.current_sa));
+  if (isNaN(v)) return;
+  s.current_sa = v;
+  来店セッション保存(s);
+  来店モード描画();
+  来店アラートチェック(s);
+}
+
+function 来店アラートチェック(s) {
+  if (!s.alerts_fired.stop_loss && s.current_sa <= s.stop_loss_sa) {
+    s.alerts_fired.stop_loss = true;
+    来店セッション保存(s);
+    来店警告表示('🚨 損切りライン到達！', '差枚 ' + s.current_sa + ' / ライン ' + s.stop_loss_sa + '。撤退を強く推奨。', 'stop');
+    if (navigator.vibrate) navigator.vibrate([200, 100, 200, 100, 200]);
+  }
+  if (!s.alerts_fired.take_profit && s.current_sa >= s.take_profit_sa) {
+    s.alerts_fired.take_profit = true;
+    来店セッション保存(s);
+    来店警告表示('🎉 勝ち逃げライン到達！', '差枚 ' + s.current_sa + ' / 目標 ' + s.take_profit_sa + '。利益確定推奨。', 'take');
+    if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+  }
+}
+
+function 来店警告表示(title, body, type) {
+  const ov = document.createElement('div');
+  ov.className = 'live-alert-overlay ' + (type === 'stop' ? 'alert-stop' : 'alert-take');
+  ov.innerHTML = '<div class="live-alert-inner"><div class="live-alert-title">' + title + '</div><div class="live-alert-body">' + body + '</div><button class="live-alert-close" onclick="this.closest(\'.live-alert-overlay\').remove()">確認</button></div>';
+  document.body.appendChild(ov);
+}
+
+let _live_timer_handle = null;
+function 来店タイマー開始() {
+  if (_live_timer_handle) clearInterval(_live_timer_handle);
+  来店時刻更新();
+  _live_timer_handle = setInterval(() => {
+    const s = 来店セッション取得();
+    if (!s || !s.active) { clearInterval(_live_timer_handle); _live_timer_handle = null; return; }
+    来店時刻更新();
+  }, 30000);
+}
+function 来店時刻更新() {
+  const s = 来店セッション取得();
+  if (!s) return;
+  const elapsed = Math.floor((Date.now() - new Date(s.start_time).getTime()) / 60000);
+  const h = Math.floor(elapsed / 60), m = elapsed % 60;
+  const el = document.getElementById('live-time');
+  if (el) el.textContent = h + ':' + m.toString().padStart(2,'0');
+}
+
+function 来店モード描画() {
+  const s = 来店セッション取得();
+  const startBtn = document.getElementById('来店ボタンエリア');
+  const liveArea = document.getElementById('来店モードエリア');
+  if (!s || !s.active) {
+    if (startBtn) startBtn.style.display = '';
+    if (liveArea) liveArea.style.display = 'none';
+    return;
+  }
+  if (startBtn) startBtn.style.display = 'none';
+  if (liveArea) liveArea.style.display = '';
+
+  const conf = (typeof 年間目標取得 === 'function') ? 年間目標取得() : { rate_yen_per_piece: 20 };
+  const rate = conf.rate_yen_per_piece || 20;
+  document.getElementById('live-hall').textContent = s.hall;
+  document.getElementById('live-machine').textContent = s.machine + (s.unit ? ' #' + s.unit : '');
+  const sa = s.current_sa;
+  const saEl = document.getElementById('live-sa');
+  saEl.textContent = (sa >= 0 ? '+' : '') + sa.toLocaleString();
+  saEl.style.color = sa >= 0 ? '#10b981' : '#ef4444';
+  const yen = sa * rate - s.investment_yen;
+  const yenEl = document.getElementById('live-sa-yen');
+  yenEl.textContent = (yen >= 0 ? '+' : '') + yen.toLocaleString() + '円 (投資差し引き)';
+  yenEl.style.color = yen >= 0 ? '#10b981' : '#ef4444';
+
+  const stopPct = s.stop_loss_sa < 0 ? Math.max(0, Math.min(100, (sa / s.stop_loss_sa) * 100)) : 0;
+  document.getElementById('live-stop-fill').style.width = stopPct + '%';
+  document.getElementById('live-stop-val').textContent = s.stop_loss_sa.toLocaleString();
+
+  const takePct = s.take_profit_sa > 0 ? Math.max(0, Math.min(100, (sa / s.take_profit_sa) * 100)) : 0;
+  document.getElementById('live-take-fill').style.width = takePct + '%';
+  document.getElementById('live-take-val').textContent = '+' + s.take_profit_sa.toLocaleString();
+
+  document.getElementById('live-invest').textContent = '¥' + s.investment_yen.toLocaleString();
+  来店時刻更新();
+}
+
+function 来店モード終了() {
+  const s = 来店セッション取得();
+  if (!s) return;
+  const stayMin = Math.floor((Date.now() - new Date(s.start_time).getTime()) / 60000);
+  if (!confirm('終了して記録に転記しますか？\n差枚: ' + s.current_sa + '\n投資: ¥' + s.investment_yen + '\n滞在: ' + stayMin + '分')) return;
+  try {
+    const records = JSON.parse(localStorage.getItem('records') || '[]');
+    const today = new Date().toISOString().slice(0, 10);
+    const conf = (typeof 年間目標取得 === 'function') ? 年間目標取得() : { rate_yen_per_piece: 20 };
+    const rate = conf.rate_yen_per_piece || 20;
+    const pnl = s.current_sa * rate - s.investment_yen;
+    records.push({
+      date: today,
+      hall: s.hall,
+      機種: s.machine,
+      台番号: s.unit,
+      差枚: s.current_sa,
+      投資: s.investment_yen,
+      pnl: pnl,
+      開始: s.start_time,
+      終了: new Date().toISOString(),
+      撤退理由: s.alerts_fired.stop_loss ? '損切り' : (s.alerts_fired.take_profit ? '勝ち逃げ' : '通常終了'),
+      source: 'live_session'
+    });
+    localStorage.setItem('records', JSON.stringify(records));
+  } catch(e) { console.warn('記録転記失敗', e); }
+  来店セッション削除();
+  if (_live_timer_handle) { clearInterval(_live_timer_handle); _live_timer_handle = null; }
+  来店モード描画();
+  if (typeof 通知表示 === 'function') 通知表示('記録に転記しました');
+  if (typeof renderHome === 'function') renderHome();
+}
+
 function renderHome() {
   try { データ鮮度表示(); } catch(e) { console.warn(e); }
   try { ヒーロー描画(); } catch(e) { console.warn(e); }
   try { 鉄板3台描画(); } catch(e) { console.warn(e); }
   try { 年間トラッカー描画(); } catch(e) { console.warn('年間トラッカー描画失敗', e); }
+  try { 来店モード描画(); if (来店セッション取得()) 来店タイマー開始(); } catch(e) { console.warn('来店モード描画失敗', e); }
   今日の狙い目描画();
   ブースト判定描画();
   戦略エッジ表示();
