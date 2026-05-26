@@ -1,5 +1,5 @@
 // スロット管理システム サービスワーカー
-const CACHE_NAME = 'v24-pnl-charts';
+const CACHE_NAME = 'v25-cleanup-boost';
 const ASSETS = [
   './',
   './index.html',

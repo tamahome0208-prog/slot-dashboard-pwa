@@ -1119,100 +1119,6 @@ input:focus, select:focus, textarea:focus {
   letter-spacing: -0.5px;
 }
 
-/* ✨ ゲーム用アニメーション */
-@keyframes freeze-pulse {
-  from { transform: scale(1); filter: brightness(1); }
-  to { transform: scale(1.08); filter: brightness(1.4); }
-}
-@keyframes lamp-pulse-1 {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(0.85); }
-}
-@keyframes lamp-pulse-2 {
-  0%, 100% { opacity: 0.4; transform: scale(0.85); }
-  50% { opacity: 1; transform: scale(1); }
-}
-@keyframes screen-shake {
-  0%, 100% { transform: translate(0, 0); }
-  10% { transform: translate(-3px, -2px) rotate(-0.3deg); }
-  20% { transform: translate(4px, 2px) rotate(0.3deg); }
-  30% { transform: translate(-3px, 3px) rotate(0deg); }
-  40% { transform: translate(3px, -3px) rotate(0.3deg); }
-  50% { transform: translate(-2px, 2px) rotate(-0.3deg); }
-  60% { transform: translate(3px, 2px) rotate(0deg); }
-  70% { transform: translate(-3px, -1px) rotate(0.3deg); }
-  80% { transform: translate(2px, 3px) rotate(0deg); }
-  90% { transform: translate(-2px, -2px) rotate(-0.3deg); }
-}
-@keyframes reel-spin-blur {
-  0% { filter: blur(0); }
-  50% { filter: blur(3px) brightness(1.2); }
-  100% { filter: blur(0); }
-}
-@keyframes cloud-flow1 {
-  0% { transform: translateX(-100px); }
-  100% { transform: translateX(500px); }
-}
-@keyframes cloud-flow2 {
-  0% { transform: translateX(500px); }
-  100% { transform: translateX(-100px); }
-}
-@keyframes gods-rise {
-  0% { transform: translateY(50px) scale(0.5); opacity: 0; filter: blur(8px); }
-  60% { transform: translateY(-5px) scale(1.05); opacity: 1; filter: blur(0); }
-  100% { transform: translateY(0) scale(1); opacity: 1; }
-}
-@keyframes thunder-flash {
-  0%, 100% { opacity: 0; }
-  10%, 30%, 50% { opacity: 1; }
-  20%, 40% { opacity: 0; }
-}
-@keyframes star-twinkle {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
-}
-.g-star-twinkle circle {
-  animation: star-twinkle 2s ease infinite;
-}
-.g-star-twinkle circle:nth-child(2n) { animation-delay: 0.5s; }
-.g-star-twinkle circle:nth-child(3n) { animation-delay: 1.2s; }
-.g-star-twinkle circle:nth-child(5n) { animation-delay: 0.8s; }
-
-@keyframes god-float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-4px); }
-}
-.g-god-left { animation: god-float 3s ease infinite; transform-origin: center; }
-.g-god-center { animation: god-float 3.5s ease infinite 0.5s; transform-origin: center; }
-.g-god-right { animation: god-float 3.2s ease infinite 1s; transform-origin: center; }
-
-/* 金属質感の大型テキスト */
-.g-metal-text {
-  background: linear-gradient(180deg,
-    #fff5d0 0%,
-    #ffd700 30%,
-    #ff8c00 50%,
-    #ffd700 70%,
-    #fff5d0 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 10px #ffd700) drop-shadow(0 0 20px #ff4500) drop-shadow(0 2px 4px #000);
-}
-@keyframes text-pop {
-  0% { transform: scale(0); opacity: 0; filter: blur(8px); }
-  60% { transform: scale(1.3); opacity: 1; filter: blur(0); }
-  100% { transform: scale(1); opacity: 1; }
-}
-@keyframes thunder-strike {
-  0% { opacity: 0; }
-  5% { opacity: 1; }
-  10% { opacity: 0.3; }
-  15% { opacity: 1; }
-  20% { opacity: 0; }
-  100% { opacity: 0; }
-}
-
 /* ✨ ナビバースト・タップリップル・確変バックドロップ */
 @keyframes nav-burst {
   0% { transform: scale(0.3); opacity: 1; }
@@ -1549,24 +1455,6 @@ button, a { -webkit-touch-callout: none; user-select: none; }
 
 /* ===== Cycle#11 HERO UX ===== */
 #hero-signal-area { margin-bottom: 20px; }
-.signal-banner {
-  display: flex; align-items: center; gap: 16px;
-  padding: 24px 20px; border-radius: 16px;
-  margin-bottom: 16px; border: 2px solid;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
-}
-.signal-go { background: linear-gradient(135deg, rgba(16,185,129,0.18), var(--bg2)); border-color: #10b981; }
-.signal-caution { background: linear-gradient(135deg, rgba(245,158,11,0.18), var(--bg2)); border-color: #f59e0b; }
-.signal-stop { background: linear-gradient(135deg, rgba(239,68,68,0.18), var(--bg2)); border-color: #ef4444; }
-.signal-icon { font-size: 56px; line-height: 1; }
-.signal-text { flex: 1; min-width: 0; }
-.signal-label { font-size: 11px; color: var(--muted); letter-spacing: 2px; }
-.signal-verdict { font-family: 'Orbitron', monospace; font-size: 22px; font-weight: 900; color: var(--text); margin: 4px 0; }
-.signal-go .signal-verdict { color: #10b981; }
-.signal-caution .signal-verdict { color: #f59e0b; }
-.signal-stop .signal-verdict { color: #ef4444; }
-.signal-reason { font-size: 13px; color: var(--text2); line-height: 1.5; }
-
 .kpi-trio { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; }
 .kpi-trio-cell {
   background: var(--bg2); border: 1px solid var(--border);
@@ -1833,41 +1721,6 @@ body::after {
   color: var(--text);
   letter-spacing: -0.01em;
 }
-
-.signal-banner {
-  background: var(--glass-bg) !important;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-width: 1px !important;
-  position: relative; overflow: hidden;
-}
-.signal-banner::before {
-  content: ''; position: absolute; inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  opacity: 0.18;
-}
-.signal-go::before { background: radial-gradient(circle at 20% 50%, #22d3a3, transparent 55%); }
-.signal-caution::before { background: radial-gradient(circle at 20% 50%, #ffb547, transparent 55%); }
-.signal-stop::before { background: radial-gradient(circle at 20% 50%, #ff4d6d, transparent 55%); }
-.signal-icon {
-  filter: drop-shadow(0 0 8px currentColor) drop-shadow(0 0 16px currentColor);
-}
-.signal-go .signal-icon { color: #22d3a3; }
-.signal-caution .signal-icon { color: #ffb547; }
-.signal-stop .signal-icon { color: #ff4d6d; }
-.signal-verdict {
-  font-family: var(--font-display) !important;
-  font-weight: 900;
-  letter-spacing: -0.02em;
-}
-
-/* Cycle#19: signal-banner-compact */
-.signal-banner-compact { padding: 10px 14px; gap: 10px; }
-.signal-banner-compact .signal-icon { font-size: 28px; }
-.signal-banner-compact .signal-label { display: none; }
-.signal-banner-compact .signal-verdict { font-size: 14px; }
-.signal-banner-compact .signal-reason { font-size: 11px; }
 
 /* Cycle#19: 機種スペック1行 */
 .spec-line { font-family: var(--font-mono); font-size: 11px; color: var(--text2); padding: 4px 8px; background: rgba(255,255,255,0.03); border-radius: 6px; margin-top: 6px; display: inline-block; }
@@ -2137,6 +1990,26 @@ header h1 {
 .pnl-sum-row strong.neg { color: #ff4d6d; }
 .annual-sparkline-wrap { margin-top: 12px; padding: 8px; background: var(--bg3); border-radius: 8px; }
 .annual-sparkline-label { font-size: 10px; color: var(--muted); letter-spacing: 1px; margin-bottom: 4px; }
+
+/* Cycle#23: 鉄板3台 拡張情報 */
+.tetsuban-extras { margin-top: 10px; padding: 8px; background: rgba(255,255,255,0.03); border-radius: 6px; font-size: 11px; color: var(--text2); }
+.extra-line { padding: 2px 0; }
+.extra-line strong { color: var(--cyan); font-family: var(--font-mono); }
+
+/* Cycle#23: 年間トラッカー 詳細 */
+.annual-detail { margin-top: 10px; padding: 10px; background: var(--bg3); border-radius: 8px; }
+.annual-detail-row { display: flex; justify-content: space-between; font-size: 12px; margin: 4px 0; }
+.annual-detail-row strong { font-family: var(--font-mono); font-weight: 700; }
+#annual-difficulty.easy { color: #22d3a3; }
+#annual-difficulty.normal { color: #ffb547; }
+#annual-difficulty.hard { color: #ff4d6d; }
+
+/* Cycle#23: 来店LIVE EV */
+.live-ev-area { padding: 10px 12px; background: var(--bg3); border-radius: 8px; margin: 12px 0; font-size: 12px; }
+.ev-row { padding: 3px 0; color: var(--text2); }
+.ev-row strong { color: var(--cyan); font-family: var(--font-mono); margin-left: 6px; }
+.live-cooloff { margin-top: 8px; padding: 8px; background: rgba(245,158,71,0.15); color: #ffb547; border-radius: 6px; font-weight: 700; text-align: center; }
+.live-warning { margin-top: 8px; padding: 8px; background: rgba(255,77,109,0.15); color: #ff4d6d; border-radius: 6px; font-weight: 700; text-align: center; }
 </style>
 </head>
 <body>
@@ -2161,7 +2034,6 @@ header h1 {
   <button onclick="showPage('myhall',this)"><span class="nv-ic">🏢</span><span class="nv-lb">ホール</span></button>
   <button onclick="showPage('machine',this)"><span class="nv-ic">🎰</span><span class="nv-lb">機種</span></button>
   <button onclick="showPage('tools',this)"><span class="nv-ic">🛠️</span><span class="nv-lb">ツール</span></button>
-  <button onclick="showPage('game',this)"><span class="nv-ic">🎮</span><span class="nv-lb">GAME</span></button>
   <button onclick="showPage('settings',this)"><span class="nv-ic">⚙️</span><span class="nv-lb">設定</span></button>
 </nav>
 
@@ -2199,6 +2071,12 @@ header h1 {
         <div class="live-line-bar"><div class="live-line-fill take" id="live-take-fill" style="width:0%"></div></div>
         <div class="live-line-val" id="live-take-val">--</div>
       </div>
+    </div>
+    <div class="live-ev-area">
+      <div class="ev-row">📈 1G実差枚: <strong id="live-real-per-g">--</strong></div>
+      <div class="ev-row">🎯 機種DB期待値: <strong id="live-machine-ev">--</strong></div>
+      <div id="live-cooloff" class="live-cooloff" style="display:none">⏸️ クーリングオフ推奨</div>
+      <div id="live-fastinvest" class="live-warning" style="display:none">🚨 投資ペース注意</div>
     </div>
     <div class="live-actions">
       <button class="live-btn" onclick="来店差枚調整(-1000)">-1000</button>
@@ -2249,14 +2127,6 @@ header h1 {
   <!-- ===== Cycle#11 HERO: 3秒で分かる ===== -->
   <div id="hero-signal-area">
     <div id="data-fresh-slot"></div>
-    <div class="signal-banner signal-banner-compact signal-caution" id="signal-banner">
-      <div class="signal-icon" id="signal-icon">🟡</div>
-      <div class="signal-text">
-        <div class="signal-label">// TODAY'S VERDICT</div>
-        <div class="signal-verdict" id="signal-verdict">読み込み中…</div>
-        <div class="signal-reason" id="signal-reason">判定中…</div>
-      </div>
-    </div>
 
     <div class="kpi-trio">
       <div class="kpi-trio-cell">
@@ -2305,6 +2175,11 @@ header h1 {
         <div class="annual-sparkline-wrap">
           <div class="annual-sparkline-label">直近30日推移</div>
           <canvas id="annual-sparkline" style="max-height:50px"></canvas>
+        </div>
+        <div class="annual-detail">
+          <div class="annual-detail-row"><span>今週あと</span><strong id="annual-week-need">--</strong></div>
+          <div class="annual-detail-row"><span>込み状態</span><strong id="annual-difficulty">--</strong></div>
+          <div class="annual-detail-row"><span>直近30日トレンド</span><strong id="annual-trend">--</strong></div>
         </div>
       </div>
     </div>
@@ -2805,9 +2680,6 @@ header h1 {
       </div>
     </div>
 
-    <!-- 🚨 設定6固定濃厚台アラート（royal_history.json から動的生成） -->
-    <div id="設定6アラート_home"></div>
-
     <!-- 💎 シマぐるみで熱い機種 -->
     <div style="background:var(--bg3);border:1px solid var(--green);border-radius:4px;padding:14px;margin-bottom:14px">
       <div style="font-size:13px;font-weight:700;color:var(--green);text-shadow:var(--glow-g);margin-bottom:10px">
@@ -3118,12 +2990,6 @@ header h1 {
     </div>
   </div>
 
-  <!-- 🚨 注目台アラート（royal_history.json から動的生成） -->
-  <div class="カード" style="border-left-color:var(--red);background:linear-gradient(135deg, var(--bg2) 0%, rgba(255,77,109,0.06) 100%)">
-    <div class="カードタイトル" style="color:var(--red);text-shadow:var(--glow-r)">▶ 🚨 設定6固定濃厚 緊急アラート</div>
-    <div id="設定6アラート_myhall"></div>
-  </div>
-
   <!-- 💎 注目シマ -->
   <div class="カード" style="border-left-color:var(--green)">
     <div class="カードタイトル" style="color:var(--green);text-shadow:var(--glow-g)">▶ 💎 シマぐるみで熱い機種</div>
@@ -3325,436 +3191,6 @@ header h1 {
 
 </div>
 
-<!-- ===== 🎮 GAME ページ（ミリオンゴッドシミュレータ） ===== -->
-<div id="page-game" class="page">
-  <div class="カード" style="border-left-color:var(--gold);background:linear-gradient(135deg, #0a0a14 0%, rgba(255,214,0,0.08) 100%);text-align:center">
-    <div style="font-family:'Orbitron',monospace;font-size:24px;font-weight:900;background:linear-gradient(135deg,#ffd700,#ff8c00,#ffd700);background-size:200% 200%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:gradient-shift 3s ease infinite;letter-spacing:3px">
-      MILLION GOD
-    </div>
-    <div style="font-family:'Orbitron',monospace;font-size:14px;font-weight:700;color:var(--cyan);text-shadow:var(--glow-c);letter-spacing:5px;margin-top:4px">
-      〜 神々の軌跡 〜
-    </div>
-    <div style="font-size:11px;color:var(--muted);margin-top:8px">スマスロ MILLION GOD - SIMULATOR</div>
-  </div>
-
-  <!-- スロット筐体（リアル化版） -->
-  <div class="カード" style="background:linear-gradient(180deg, #1a1a14 0%, #0a0a08 50%, #1a1a14 100%);border:3px solid #ffd700;box-shadow:0 0 60px rgba(255,214,0,0.4), inset 0 0 30px rgba(0,0,0,0.7);padding:14px;position:relative;overflow:hidden">
-
-    <!-- 上部サイドランプ -->
-    <div style="position:absolute;top:6px;left:0;right:0;display:flex;justify-content:space-between;padding:0 12px;pointer-events:none">
-      <div class="g-side-lamp" style="width:14px;height:14px;border-radius:50%;background:radial-gradient(circle,#ff4500,#660000);box-shadow:0 0 10px #ff4500;animation:lamp-pulse-1 1.5s ease infinite"></div>
-      <div class="g-side-lamp" style="width:14px;height:14px;border-radius:50%;background:radial-gradient(circle,#ffd700,#664400);box-shadow:0 0 10px #ffd700;animation:lamp-pulse-2 1.5s ease infinite"></div>
-      <div class="g-side-lamp" style="width:14px;height:14px;border-radius:50%;background:radial-gradient(circle,#ff4500,#660000);box-shadow:0 0 10px #ff4500;animation:lamp-pulse-1 1.5s ease infinite"></div>
-    </div>
-
-    <!-- 🖥️ 液晶画面（フォトリアル神殿・本物の雷・3D奥行き） -->
-    <div id="g-screen" style="background:radial-gradient(ellipse at 50% 30%,#1a0844 0%,#080020 40%,#000010 100%);border:2px solid #ffd700;border-radius:8px;height:220px;margin:18px 6px 14px;position:relative;overflow:hidden;box-shadow:inset 0 0 40px #000,0 0 16px rgba(255,214,0,0.5);perspective:600px;perspective-origin:50% 70%">
-
-      <!-- 🌌 星空背景 -->
-      <div id="g-stars" style="position:absolute;inset:0;pointer-events:none;z-index:1">
-        <svg width="100%" height="100%" viewBox="0 0 400 220" preserveAspectRatio="xMidYMid slice">
-          <g class="g-star-twinkle">
-            <circle cx="40" cy="20" r="0.8" fill="#fff" opacity="0.8"/>
-            <circle cx="80" cy="40" r="1.2" fill="#fff" opacity="0.9"/>
-            <circle cx="130" cy="15" r="0.6" fill="#fff" opacity="0.7"/>
-            <circle cx="180" cy="30" r="1" fill="#ffd700" opacity="0.8"/>
-            <circle cx="220" cy="50" r="0.8" fill="#fff" opacity="0.9"/>
-            <circle cx="270" cy="20" r="1.4" fill="#fff" opacity="1"/>
-            <circle cx="320" cy="35" r="0.7" fill="#fff" opacity="0.8"/>
-            <circle cx="370" cy="55" r="1" fill="#ffd700" opacity="0.7"/>
-            <circle cx="60" cy="70" r="0.5" fill="#fff" opacity="0.6"/>
-            <circle cx="160" cy="65" r="0.9" fill="#fff" opacity="0.85"/>
-            <circle cx="240" cy="75" r="1.1" fill="#fff" opacity="0.9"/>
-            <circle cx="350" cy="80" r="0.8" fill="#fff" opacity="0.75"/>
-          </g>
-        </svg>
-      </div>
-
-      <!-- ☁️ 雲レイヤー（複数層） -->
-      <div id="g-clouds" style="position:absolute;inset:0;opacity:0.5;pointer-events:none;z-index:2">
-        <svg width="100%" height="100%" viewBox="0 0 400 220" preserveAspectRatio="xMidYMid slice">
-          <defs>
-            <radialGradient id="cloudG"><stop offset="0%" stop-color="rgba(220,200,255,0.8)"/><stop offset="60%" stop-color="rgba(120,100,200,0.3)"/><stop offset="100%" stop-color="rgba(40,20,80,0)"/></radialGradient>
-            <radialGradient id="cloudG2"><stop offset="0%" stop-color="rgba(255,180,200,0.5)"/><stop offset="100%" stop-color="rgba(80,20,60,0)"/></radialGradient>
-          </defs>
-          <ellipse cx="50" cy="40" rx="45" ry="14" fill="url(#cloudG)" style="animation:cloud-flow1 28s linear infinite"/>
-          <ellipse cx="200" cy="60" rx="65" ry="18" fill="url(#cloudG2)" style="animation:cloud-flow2 35s linear infinite"/>
-          <ellipse cx="320" cy="45" rx="55" ry="16" fill="url(#cloudG)" style="animation:cloud-flow1 40s linear infinite reverse"/>
-          <ellipse cx="100" cy="180" rx="80" ry="10" fill="url(#cloudG2)" opacity="0.6" style="animation:cloud-flow2 50s linear infinite"/>
-          <ellipse cx="280" cy="175" rx="90" ry="12" fill="url(#cloudG)" opacity="0.5" style="animation:cloud-flow1 45s linear infinite reverse"/>
-        </svg>
-      </div>
-
-      <!-- 🏛️ 3D奥行き神殿 -->
-      <div id="g-temple" style="position:absolute;inset:0;opacity:0.5;pointer-events:none;z-index:3">
-        <svg width="100%" height="100%" viewBox="0 0 400 220" preserveAspectRatio="xMidYMid slice">
-          <defs>
-            <linearGradient id="pillarMain" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="#332200"/>
-              <stop offset="30%" stop-color="#ffd700"/>
-              <stop offset="50%" stop-color="#fff5d0"/>
-              <stop offset="70%" stop-color="#ffd700"/>
-              <stop offset="100%" stop-color="#332200"/>
-            </linearGradient>
-            <linearGradient id="pillarDeep" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="rgba(255,214,0,0.7)"/>
-              <stop offset="100%" stop-color="rgba(80,40,0,0.4)"/>
-            </linearGradient>
-            <linearGradient id="floor1" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="rgba(255,214,0,0.4)"/>
-              <stop offset="100%" stop-color="rgba(80,40,0,0.2)"/>
-            </linearGradient>
-            <linearGradient id="ceiling" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="rgba(255,214,0,0.4)"/>
-              <stop offset="100%" stop-color="rgba(255,214,0,0.1)"/>
-            </linearGradient>
-          </defs>
-          <!-- 床（パース） -->
-          <polygon points="0,220 400,220 340,180 60,180" fill="url(#floor1)"/>
-          <polygon points="60,180 340,180 280,160 120,160" fill="rgba(255,214,0,0.15)"/>
-          <!-- 床ライン -->
-          <line x1="0" y1="200" x2="400" y2="200" stroke="rgba(255,214,0,0.4)" stroke-width="0.5"/>
-          <line x1="40" y1="220" x2="60" y2="180" stroke="rgba(255,214,0,0.3)" stroke-width="0.5"/>
-          <line x1="360" y1="220" x2="340" y2="180" stroke="rgba(255,214,0,0.3)" stroke-width="0.5"/>
-          <!-- 奥の柱4本（小さい） -->
-          <g opacity="0.6">
-            <rect x="80" y="100" width="6" height="80" fill="url(#pillarDeep)"/>
-            <ellipse cx="83" cy="100" rx="6" ry="2" fill="rgba(255,214,0,0.5)"/>
-            <rect x="120" y="100" width="6" height="80" fill="url(#pillarDeep)"/>
-            <ellipse cx="123" cy="100" rx="6" ry="2" fill="rgba(255,214,0,0.5)"/>
-            <rect x="274" y="100" width="6" height="80" fill="url(#pillarDeep)"/>
-            <ellipse cx="277" cy="100" rx="6" ry="2" fill="rgba(255,214,0,0.5)"/>
-            <rect x="314" y="100" width="6" height="80" fill="url(#pillarDeep)"/>
-            <ellipse cx="317" cy="100" rx="6" ry="2" fill="rgba(255,214,0,0.5)"/>
-          </g>
-          <!-- 手前の柱4本（大きい） -->
-          <g>
-            <rect x="14" y="50" width="20" height="170" fill="url(#pillarMain)"/>
-            <ellipse cx="24" cy="50" rx="12" ry="4" fill="#ffd700"/>
-            <rect x="6" y="46" width="36" height="4" fill="#ffd700"/>
-            <rect x="38" y="50" width="20" height="170" fill="url(#pillarMain)"/>
-            <ellipse cx="48" cy="50" rx="12" ry="4" fill="#ffd700"/>
-            <rect x="30" y="46" width="36" height="4" fill="#ffd700"/>
-            <rect x="342" y="50" width="20" height="170" fill="url(#pillarMain)"/>
-            <ellipse cx="352" cy="50" rx="12" ry="4" fill="#ffd700"/>
-            <rect x="334" y="46" width="36" height="4" fill="#ffd700"/>
-            <rect x="366" y="50" width="20" height="170" fill="url(#pillarMain)"/>
-            <ellipse cx="376" cy="50" rx="12" ry="4" fill="#ffd700"/>
-            <rect x="358" y="46" width="36" height="4" fill="#ffd700"/>
-          </g>
-          <!-- 上部装飾(神殿の屋根) -->
-          <polygon points="0,46 70,46 60,30 10,30" fill="url(#ceiling)"/>
-          <polygon points="330,46 400,46 390,30 340,30" fill="url(#ceiling)"/>
-        </svg>
-      </div>
-
-      <!-- 🔆 放射光（GOD時に活性） -->
-      <div id="g-rays-screen" style="position:absolute;inset:0;opacity:0;pointer-events:none;z-index:4;background:conic-gradient(from 0deg,transparent 0deg,rgba(255,214,0,0.3) 3deg,transparent 6deg,transparent 18deg,rgba(255,140,0,0.2) 21deg,transparent 24deg,transparent 36deg,rgba(255,214,0,0.3) 39deg,transparent 42deg,transparent 54deg,rgba(255,140,0,0.2) 57deg,transparent 60deg);transition:opacity 0.3s"></div>
-
-      <!-- 👼 神々の像（フォトリアル） -->
-      <div id="g-gods" style="position:absolute;inset:0;display:none;align-items:center;justify-content:center;z-index:5;pointer-events:none">
-        <svg width="100%" height="100%" viewBox="0 0 400 220" preserveAspectRatio="xMidYMid meet">
-          <defs>
-            <radialGradient id="aura" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="rgba(255,255,255,1)"/>
-              <stop offset="20%" stop-color="rgba(255,250,200,0.95)"/>
-              <stop offset="45%" stop-color="rgba(255,214,0,0.7)"/>
-              <stop offset="75%" stop-color="rgba(255,140,0,0.3)"/>
-              <stop offset="100%" stop-color="rgba(255,80,0,0)"/>
-            </radialGradient>
-            <linearGradient id="god-body" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#fff5d0"/>
-              <stop offset="40%" stop-color="#ffd700"/>
-              <stop offset="100%" stop-color="#664400"/>
-            </linearGradient>
-            <radialGradient id="god-head" cx="35%" cy="30%">
-              <stop offset="0%" stop-color="#fff"/>
-              <stop offset="50%" stop-color="#ffe066"/>
-              <stop offset="100%" stop-color="#ff8c00"/>
-            </radialGradient>
-            <filter id="bodyGlow"><feGaussianBlur stdDeviation="1.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-          </defs>
-
-          <!-- 左の神 -->
-          <g class="g-god g-god-left">
-            <circle cx="80" cy="110" r="60" fill="url(#aura)" opacity="0.9"/>
-            <g filter="url(#bodyGlow)">
-              <!-- 後光リング -->
-              <circle cx="80" cy="85" r="22" fill="none" stroke="#ffd700" stroke-width="0.8" opacity="0.7"/>
-              <!-- 頭 -->
-              <circle cx="80" cy="85" r="10" fill="url(#god-head)"/>
-              <!-- 翼 -->
-              <path d="M60,95 Q40,95 30,110 Q40,105 60,110 Z" fill="#ffd700" opacity="0.6"/>
-              <path d="M100,95 Q120,95 130,110 Q120,105 100,110 Z" fill="#ffd700" opacity="0.6"/>
-              <!-- 体 -->
-              <path d="M70,96 L65,140 L75,140 L75,160 L85,160 L85,140 L95,140 L90,96 Z" fill="url(#god-body)"/>
-              <!-- 腕 -->
-              <path d="M68,100 L58,125 L62,128 L72,108 Z" fill="url(#god-body)"/>
-              <path d="M92,100 L102,125 L98,128 L88,108 Z" fill="url(#god-body)"/>
-            </g>
-          </g>
-
-          <!-- 中央の神（最大） -->
-          <g class="g-god g-god-center">
-            <circle cx="200" cy="100" r="80" fill="url(#aura)"/>
-            <g filter="url(#bodyGlow)">
-              <!-- 後光リング -->
-              <circle cx="200" cy="70" r="32" fill="none" stroke="#ffd700" stroke-width="1.2" opacity="0.8"/>
-              <circle cx="200" cy="70" r="40" fill="none" stroke="#ffd700" stroke-width="0.6" opacity="0.5"/>
-              <!-- 頭 -->
-              <circle cx="200" cy="70" r="14" fill="url(#god-head)"/>
-              <!-- 翼 -->
-              <path d="M178,85 Q145,80 130,105 Q155,95 178,105 Z" fill="#ffd700" opacity="0.75"/>
-              <path d="M222,85 Q255,80 270,105 Q245,95 222,105 Z" fill="#ffd700" opacity="0.75"/>
-              <!-- 体 -->
-              <path d="M185,86 L178,160 L192,160 L192,185 L208,185 L208,160 L222,160 L215,86 Z" fill="url(#god-body)"/>
-              <!-- 腕（外に広げる） -->
-              <path d="M183,92 L160,130 L166,134 L189,100 Z" fill="url(#god-body)"/>
-              <path d="M217,92 L240,130 L234,134 L211,100 Z" fill="url(#god-body)"/>
-              <!-- 雷を持つ -->
-              <path d="M162,128 L156,140 L163,140 L155,160" stroke="#fff" stroke-width="1.5" fill="none"/>
-              <path d="M242,128 L248,140 L241,140 L249,160" stroke="#fff" stroke-width="1.5" fill="none"/>
-            </g>
-          </g>
-
-          <!-- 右の神 -->
-          <g class="g-god g-god-right">
-            <circle cx="320" cy="110" r="60" fill="url(#aura)" opacity="0.9"/>
-            <g filter="url(#bodyGlow)">
-              <circle cx="320" cy="85" r="22" fill="none" stroke="#ffd700" stroke-width="0.8" opacity="0.7"/>
-              <circle cx="320" cy="85" r="10" fill="url(#god-head)"/>
-              <path d="M300,95 Q280,95 270,110 Q280,105 300,110 Z" fill="#ffd700" opacity="0.6"/>
-              <path d="M340,95 Q360,95 370,110 Q360,105 340,110 Z" fill="#ffd700" opacity="0.6"/>
-              <path d="M310,96 L305,140 L315,140 L315,160 L325,160 L325,140 L335,140 L330,96 Z" fill="url(#god-body)"/>
-              <path d="M308,100 L298,125 L302,128 L312,108 Z" fill="url(#god-body)"/>
-              <path d="M332,100 L342,125 L338,128 L328,108 Z" fill="url(#god-body)"/>
-            </g>
-          </g>
-        </svg>
-      </div>
-
-      <!-- ⚡ 雷レイヤー（本物の枝分かれ） -->
-      <div id="g-thunder" style="position:absolute;inset:0;opacity:0;pointer-events:none;z-index:6">
-        <svg width="100%" height="100%" viewBox="0 0 400 220" preserveAspectRatio="xMidYMid slice">
-          <defs>
-            <filter id="thunderGlow" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="3" result="b1"/>
-              <feGaussianBlur stdDeviation="6" result="b2"/>
-              <feMerge>
-                <feMergeNode in="b2"/>
-                <feMergeNode in="b1"/>
-                <feMergeNode in="SourceGraphic"/>
-              </feMerge>
-            </filter>
-            <linearGradient id="boltG" x1="50%" y1="0%" x2="50%" y2="100%">
-              <stop offset="0%" stop-color="#fff"/>
-              <stop offset="40%" stop-color="#fff5d0"/>
-              <stop offset="100%" stop-color="#ffd700"/>
-            </linearGradient>
-          </defs>
-          <!-- メイン雷（ジグザグ+枝分かれ） -->
-          <g filter="url(#thunderGlow)">
-            <polyline points="200,0 190,30 215,40 195,70 220,85 200,120 230,140 195,180 210,220" stroke="url(#boltG)" stroke-width="4" fill="none"/>
-            <polyline points="195,70 175,80 185,100" stroke="url(#boltG)" stroke-width="2" fill="none"/>
-            <polyline points="230,140 250,155 245,175" stroke="url(#boltG)" stroke-width="2" fill="none"/>
-            <polyline points="220,85 245,95 235,115" stroke="url(#boltG)" stroke-width="2" fill="none"/>
-          </g>
-          <!-- サブ雷左 -->
-          <g filter="url(#thunderGlow)">
-            <polyline points="80,0 70,40 90,50 75,80 95,100 80,140 90,180 75,220" stroke="#fff" stroke-width="2.5" fill="none" opacity="0.85"/>
-            <polyline points="75,80 60,90 70,110" stroke="#fff" stroke-width="1.5" fill="none" opacity="0.85"/>
-            <polyline points="80,140 60,150 70,175" stroke="#fff" stroke-width="1.5" fill="none" opacity="0.85"/>
-          </g>
-          <!-- サブ雷右 -->
-          <g filter="url(#thunderGlow)">
-            <polyline points="320,0 330,40 310,50 325,80 305,100 320,140 310,180 325,220" stroke="#fff" stroke-width="2.5" fill="none" opacity="0.85"/>
-            <polyline points="325,80 340,90 330,110" stroke="#fff" stroke-width="1.5" fill="none" opacity="0.85"/>
-            <polyline points="320,140 340,150 330,175" stroke="#fff" stroke-width="1.5" fill="none" opacity="0.85"/>
-          </g>
-        </svg>
-      </div>
-
-      <!-- 🌑 背景フラッシュ -->
-      <div id="g-screen-bg" style="position:absolute;inset:0;opacity:0.4;background:radial-gradient(circle at 50% 50%,rgba(255,214,0,0.15),transparent 70%);z-index:7;pointer-events:none"></div>
-
-      <!-- 🔢 偶奇示唆ナンバー（リール回転毎に表示） -->
-      <div id="g-suji" style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);z-index:9;display:flex;gap:14px;padding:6px 14px;background:rgba(0,0,0,0.6);border-radius:6px;border:1px solid rgba(255,214,0,0.3);backdrop-filter:blur(4px);pointer-events:none">
-        <div class="g-suji-cell" data-i="0" style="font-family:'Orbitron',monospace;font-size:28px;font-weight:900;color:#666;text-shadow:0 0 6px currentColor;width:30px;text-align:center;transition:all 0.3s">-</div>
-        <div class="g-suji-cell" data-i="1" style="font-family:'Orbitron',monospace;font-size:28px;font-weight:900;color:#666;text-shadow:0 0 6px currentColor;width:30px;text-align:center;transition:all 0.3s">-</div>
-        <div class="g-suji-cell" data-i="2" style="font-family:'Orbitron',monospace;font-size:28px;font-weight:900;color:#666;text-shadow:0 0 6px currentColor;width:30px;text-align:center;transition:all 0.3s">-</div>
-      </div>
-
-      <!-- 🎯 示唆ラベル -->
-      <div id="g-suji-label" style="position:absolute;bottom:60px;left:50%;transform:translateX(-50%);z-index:9;font-family:'Orbitron',monospace;font-size:12px;font-weight:900;letter-spacing:3px;opacity:0;transition:opacity 0.4s;pointer-events:none;text-shadow:0 0 8px currentColor,0 2px 4px #000"></div>
-
-      <!-- 中央テキストエリア（最前面） -->
-      <div id="g-screen-content" style="position:relative;z-index:8;width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;color:#fff;text-align:center;font-family:'Orbitron',monospace;text-shadow:0 2px 4px rgba(0,0,0,0.8);pointer-events:none">
-        <div style="font-size:11px;color:#ffd700;letter-spacing:4px;opacity:0.9;text-shadow:0 0 6px #ffd700,0 2px 4px #000">MILLION GOD</div>
-        <div style="font-size:24px;color:#ffd700;font-weight:900;text-shadow:0 0 12px #ffd700,0 0 24px #ff8c00,0 2px 4px #000;letter-spacing:3px;margin-top:4px">神々の軌跡</div>
-        <div style="font-size:10px;color:#88f4ff;margin-top:10px;letter-spacing:3px;animation:flicker 2s infinite;text-shadow:0 0 6px #88f4ff">READY TO SPIN</div>
-      </div>
-    </div>
-
-    <!-- カウンター表示 -->
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px">
-      <div style="background:#000;border:1px solid var(--cyan);padding:5px;text-align:center;border-radius:3px">
-        <div style="font-size:8px;color:var(--muted);letter-spacing:1px">CREDIT</div>
-        <div id="g-credit" style="font-family:'Orbitron',monospace;font-size:16px;color:var(--cyan);text-shadow:var(--glow-c);font-weight:900">300</div>
-      </div>
-      <div style="background:#000;border:1px solid var(--green);padding:5px;text-align:center;border-radius:3px">
-        <div style="font-size:8px;color:var(--muted);letter-spacing:1px">DIFF</div>
-        <div id="g-diff" style="font-family:'Orbitron',monospace;font-size:16px;color:var(--green);text-shadow:0 0 8px var(--green);font-weight:900">+0</div>
-      </div>
-      <div style="background:#000;border:1px solid var(--pink);padding:5px;text-align:center;border-radius:3px">
-        <div style="font-size:8px;color:var(--muted);letter-spacing:1px">GAME</div>
-        <div id="g-games" style="font-family:'Orbitron',monospace;font-size:16px;color:var(--pink);text-shadow:0 0 8px var(--pink);font-weight:900">0</div>
-      </div>
-    </div>
-
-    <!-- GG状態表示 -->
-    <div id="g-state" style="text-align:center;margin-bottom:10px;min-height:32px"></div>
-
-    <!-- 🎰 3Dリール -->
-    <div id="g-reels-container" style="perspective:600px;perspective-origin:50% 50%;background:linear-gradient(180deg,#000,#0a0a0a,#000);border:3px solid #ffd700;border-radius:6px;box-shadow:inset 0 0 30px rgba(0,0,0,0.9),0 0 24px rgba(255,214,0,0.4);position:relative;overflow:hidden;padding:8px;margin:0 4px">
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;height:180px;transform-style:preserve-3d">
-        <div class="g-reel" data-r="0" onclick="gStopReel(0)" style="background:#000;border:1px solid #553;overflow:hidden;position:relative;border-radius:2px;transform:rotateY(8deg);cursor:pointer">
-          <div class="g-reel-inner" style="position:absolute;width:100%;transition:transform 0s linear"></div>
-          <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.6) 0%,transparent 30%,transparent 70%,rgba(0,0,0,0.6) 100%);pointer-events:none;z-index:3"></div>
-          <div class="g-reel-glow" style="position:absolute;inset:0;border:2px solid transparent;border-radius:2px;pointer-events:none;z-index:4;transition:all 0.3s"></div>
-        </div>
-        <div class="g-reel" data-r="1" onclick="gStopReel(1)" style="background:#000;border:1px solid #553;overflow:hidden;position:relative;border-radius:2px;cursor:pointer">
-          <div class="g-reel-inner" style="position:absolute;width:100%;transition:transform 0s linear"></div>
-          <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.6) 0%,transparent 30%,transparent 70%,rgba(0,0,0,0.6) 100%);pointer-events:none;z-index:3"></div>
-          <div class="g-reel-glow" style="position:absolute;inset:0;border:2px solid transparent;border-radius:2px;pointer-events:none;z-index:4;transition:all 0.3s"></div>
-        </div>
-        <div class="g-reel" data-r="2" onclick="gStopReel(2)" style="background:#000;border:1px solid #553;overflow:hidden;position:relative;border-radius:2px;transform:rotateY(-8deg);cursor:pointer">
-          <div class="g-reel-inner" style="position:absolute;width:100%;transition:transform 0s linear"></div>
-          <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.6) 0%,transparent 30%,transparent 70%,rgba(0,0,0,0.6) 100%);pointer-events:none;z-index:3"></div>
-          <div class="g-reel-glow" style="position:absolute;inset:0;border:2px solid transparent;border-radius:2px;pointer-events:none;z-index:4;transition:all 0.3s"></div>
-        </div>
-      </div>
-      <!-- 中段ライン -->
-      <div style="position:absolute;top:50%;left:8px;right:8px;height:2px;background:linear-gradient(90deg,transparent,#ffd700 30%,#ff8c00 50%,#ffd700 70%,transparent);box-shadow:0 0 12px #ffd700,0 0 24px rgba(255,140,0,0.5);transform:translateY(-1px);pointer-events:none;z-index:10"></div>
-      <!-- 上段ライン（細） -->
-      <div style="position:absolute;top:calc(8px + 30px);left:8px;right:8px;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent);pointer-events:none;z-index:10"></div>
-      <!-- 下段ライン（細） -->
-      <div style="position:absolute;bottom:calc(8px + 30px);left:8px;right:8px;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent);pointer-events:none;z-index:10"></div>
-      <!-- 斜めライン -->
-      <svg style="position:absolute;inset:8px;width:calc(100% - 16px);height:calc(100% - 16px);pointer-events:none;z-index:9;opacity:0.15" viewBox="0 0 100 100" preserveAspectRatio="none">
-        <line x1="0" y1="10" x2="100" y2="90" stroke="#ffd700" stroke-width="0.3" stroke-dasharray="2,2"/>
-        <line x1="0" y1="90" x2="100" y2="10" stroke="#ffd700" stroke-width="0.3" stroke-dasharray="2,2"/>
-      </svg>
-    </div>
-
-    <!-- 操作ボタン -->
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:14px">
-      <button class="ボタン副" id="g-stop-0" disabled onclick="gStopReel(0)" style="padding:16px 0;font-weight:900;font-size:14px;letter-spacing:2px">STOP</button>
-      <button class="ボタン副" id="g-stop-1" disabled onclick="gStopReel(1)" style="padding:16px 0;font-weight:900;font-size:14px;letter-spacing:2px">STOP</button>
-      <button class="ボタン副" id="g-stop-2" disabled onclick="gStopReel(2)" style="padding:16px 0;font-weight:900;font-size:14px;letter-spacing:2px">STOP</button>
-    </div>
-    <button class="ボタン主" id="g-spin" onclick="gSpin()" style="margin-top:8px;font-size:18px;letter-spacing:4px;padding:20px;background:linear-gradient(135deg,#ff8c00,#ffd700,#ff8c00);background-size:200% 200%;animation:gradient-shift 2s linear infinite;color:#000;border:2px solid #fff;text-shadow:0 0 4px #fff">▶ SPIN（ベット3）</button>
-
-    <!-- リセット・自動 -->
-    <div style="display:flex;gap:6px;margin-top:8px">
-      <button class="ボタン副" style="flex:1;font-size:11px" onclick="gAutoToggle()" id="g-auto-btn">⚡ AUTO OFF</button>
-      <button class="ボタン副" style="flex:1;font-size:11px" onclick="gReset()">🔄 リセット</button>
-    </div>
-  </div>
-
-  <!-- フリーズオーバーレイ（稲妻SVG・大型ロゴ・閃光） -->
-  <div id="g-freeze-overlay" style="position:fixed;inset:0;z-index:99998;pointer-events:none;opacity:0;transition:opacity 0.3s;background:radial-gradient(circle at center,rgba(255,255,255,0.9) 0%,rgba(255,214,0,0.5) 30%,rgba(255,140,0,0.3) 60%,rgba(0,0,0,0.9) 100%);display:flex;align-items:center;justify-content:center;flex-direction:column;overflow:hidden">
-    <!-- 稲妻SVG（背景） -->
-    <svg id="g-lightning" viewBox="0 0 400 400" style="position:absolute;width:100%;height:100%;opacity:0;pointer-events:none">
-      <defs>
-        <filter id="lightGlow">
-          <feGaussianBlur stdDeviation="3" result="blur"/>
-          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-        </filter>
-      </defs>
-      <path d="M200 0 L180 120 L220 130 L160 240 L210 250 L150 400" stroke="#fff" stroke-width="3" fill="none" filter="url(#lightGlow)"/>
-      <path d="M50 50 L120 180 L80 200 L160 380" stroke="#ffd700" stroke-width="2" fill="none" filter="url(#lightGlow)" opacity="0.7"/>
-      <path d="M350 30 L300 150 L340 170 L260 360" stroke="#ffd700" stroke-width="2" fill="none" filter="url(#lightGlow)" opacity="0.7"/>
-    </svg>
-    <!-- 光線 conic gradient -->
-    <div id="g-rays" style="position:absolute;width:200%;height:200%;background:conic-gradient(from 0deg,transparent 0deg,rgba(255,214,0,0.4) 5deg,transparent 10deg,transparent 20deg,rgba(255,140,0,0.3) 25deg,transparent 30deg,transparent 60deg,rgba(255,214,0,0.4) 65deg,transparent 70deg);opacity:0;animation:conic-spin 4s linear infinite"></div>
-    <!-- 大型ロゴ -->
-    <div style="position:relative;z-index:5">
-      <div id="g-freeze-text" style="font-family:'Orbitron',monospace;font-size:80px;font-weight:900;color:#fff;text-shadow:0 0 30px #ffd700,0 0 60px #ff0000,0 0 100px #ff4500;letter-spacing:8px;animation:freeze-pulse 0.4s ease infinite alternate"></div>
-      <div id="g-freeze-sub" style="font-family:'Orbitron',monospace;font-size:24px;color:#ffd700;text-shadow:0 0 12px #ffd700,0 0 24px #ff8c00;letter-spacing:5px;margin-top:24px;text-align:center"></div>
-    </div>
-  </div>
-
-  <!-- 統計 -->
-  <div class="カード">
-    <div class="カードタイトル">▶ 📊 プレイ統計</div>
-    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px">
-      <div class="エリア統計項目"><div class="エリア統計ラベル">総ゲーム数</div><div class="エリア統計値 青" id="g-total-games">0</div></div>
-      <div class="エリア統計項目"><div class="エリア統計ラベル">GG当選回数</div><div class="エリア統計値" style="color:var(--gold)" id="g-gg-count">0</div></div>
-      <div class="エリア統計項目"><div class="エリア統計ラベル">GOD揃い回数</div><div class="エリア統計値" style="color:var(--red)" id="g-god-count">0</div></div>
-      <div class="エリア統計項目"><div class="エリア統計ラベル">最大連チャン</div><div class="エリア統計値 プラス" id="g-max-streak">0</div></div>
-      <div class="エリア統計項目"><div class="エリア統計ラベル">最大獲得枚数</div><div class="エリア統計値 プラス" id="g-max-gain">0</div></div>
-      <div class="エリア統計項目"><div class="エリア統計ラベル">機械割</div><div class="エリア統計値" id="g-rate">-</div></div>
-    </div>
-  </div>
-
-  <!-- 説明 -->
-  <div class="カード">
-    <div class="カードタイトル">▶ ❓ 遊び方（実機準拠）</div>
-    <div style="font-size:12px;line-height:1.8;color:var(--text2)">
-      <strong style="color:var(--cyan)">図柄（チェリー・スイカは無し！）</strong><br>
-      ・⭐ <strong>GOD</strong>: 最強プレミア / 神の像<br>
-      ・🔴 <strong>赤7</strong>: SGG突入役<br>
-      ・🟡 <strong>黄7</strong>: 払い出し+示唆<br>
-      ・🟠 <strong>黄7B</strong>: バリエーション<br>
-      ・💠 <strong>GAIA</strong>: チャンス目<br>
-      ・🔔 <strong>ベル</strong>: 払い出し<br>
-      ・🔁 <strong>リプレイ</strong>: 再ベット<br>
-      <br>
-      <strong style="color:var(--gold)">リプレイ揃いの種類（実機準拠）</strong><br>
-      ・<strong>中段リプレイ</strong>: 通常<br>
-      ・<strong>右下がりリプレイ</strong>: 強チャンス<br>
-      ・<strong>右上がりリプレイ</strong>: 強チャンス<br>
-      <br>
-      <strong style="color:#40e8ff">🔢 偶奇示唆（液晶下部・一撃法則準拠）</strong><br>
-      ・回転毎に3桁の数字がルーレット風に出現<br>
-      ・<span style="color:#40e8ff">全て偶数（2/4/6/8）</span> → 偶数設定示唆<br>
-      ・<span style="color:#ff8cc8">全て奇数（1/3/5/7）</span> → 奇数設定示唆<br>
-      ・<span style="color:#ffd700">ゾロ目</span> → 強示唆（偶奇問わず）<br>
-      ・<strong style="color:#ffd700">2-4-6・6-6-6 等の特殊パターン</strong> → 高設定示唆<br>
-      ・混在 → 示唆なし<br>
-      <br>
-      <strong style="color:var(--green)">GG（GOD GAME・純増7枚/G）</strong><br>
-      ・1セット平均350枚<br>
-      ・ループ抽選: 1%/25%/50%/80% 各16.7%<br>
-      ・GOD揃いで <strong>フリーズ発生→4セット+強ループ+Z-ZONE</strong><br>
-      <br>
-      <strong style="color:var(--red)">🔥 GODフリーズ演出</strong><br>
-      ・GOD揃い時にリール停止+画面真っ白フラッシュ<br>
-      ・「FREEZE！」「PREMIUM GOD GAME」演出<br>
-      ・強振動 + 七色フラッシュ<br>
-      <br>
-      <strong style="color:#ff8c00">⚡ ハーデスチャンス（CZ）</strong><br>
-      ・通常時のCZ。7G継続で50%でGG突入<br>
-      ・期待度50%（実機準拠）<br>
-      <br>
-      <strong style="color:#ffd700">🏛️ 天井1480G</strong><br>
-      ・通常時1480Gハマリで強制GG突入<br>
-      ・1/2の確率で80%ループ確定<br>
-      <br>
-      <strong style="color:#88f4ff">🎬 GG終了画面（設定示唆）</strong><br>
-      ・GG終了時にキャラ表示で設定示唆<br>
-      ・ハーデス/ゼウス/アテナ: 通常<br>
-      ・朝焼け: 通常<br>
-      ・夕焼け: 設定2以上<br>
-      ・全員集合: 高設定示唆<br>
-      ・6体集合: 設定6濃厚<br>
-      <br>
-      <strong style="color:var(--pink)">⚡ AUTO モード</strong><br>
-      ・自動高速プレイで長期傾向確認
-    </div>
-  </div>
-</div>
-
 <!-- ===== ツールページ ===== -->
 <div id="page-tools" class="page">
 
@@ -3853,118 +3289,6 @@ header h1 {
     </p>
     <button class="ボタン主" onclick="近くのホール取得()">📡 現在地を取得して並び替える</button>
     <div id="近くのホールリスト" style="margin-top:14px"></div>
-  </div>
-
-  <!-- 🎯 設定推測ツール -->
-  <div class="カード">
-    <div class="カードタイトル">▶ 🎯 設定推測ツール（ジャグラー系）</div>
-    <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:12px">
-      実戦中に小役・ボーナス回数を入力すると、<strong style="color:var(--cyan)">ベイズ推論</strong>で設定1〜6の確率を表示します。<br>
-      <small>※マイジャグラーV・アイムジャグラーEX等の設定差を元に計算</small>
-    </p>
-    <div class="フォームグリッド">
-      <div class="フォームグループ">
-        <label>機種</label>
-        <select id="ja-machine">
-          <option value="mai">マイジャグラーV</option>
-          <option value="aim">SアイムジャグラーEX</option>
-          <option value="funky">ファンキージャグラー2KT</option>
-          <option value="happy">ハッピージャグラーVIII</option>
-          <option value="neo">ネオアイムジャグラーEX</option>
-        </select>
-      </div>
-      <div class="フォームグループ">
-        <label>総ゲーム数 G</label>
-        <input type="number" id="ja-games" placeholder="例: 5000" inputmode="numeric">
-      </div>
-      <div class="フォームグループ">
-        <label>BB回数</label>
-        <input type="number" id="ja-bb" placeholder="例: 15" inputmode="numeric">
-      </div>
-      <div class="フォームグループ">
-        <label>RB回数</label>
-        <input type="number" id="ja-rb" placeholder="例: 18" inputmode="numeric">
-      </div>
-      <div class="フォームグループ">
-        <label>ぶどう回数（任意）</label>
-        <input type="number" id="ja-budo" placeholder="例: 860" inputmode="numeric">
-      </div>
-    </div>
-    <button class="ボタン主" onclick="設定推測実行()">🔍 設定を推測する</button>
-    <div id="設定推測結果" style="margin-top:14px"></div>
-  </div>
-
-  <!-- 🎫 朝一抽選シミュレーター（権利の使い方） -->
-  <div class="カード" style="border-left-color:var(--pink);background:linear-gradient(135deg, var(--bg2) 0%, rgba(255,94,159,0.06) 100%)">
-    <div class="カードタイトル" style="color:var(--pink);text-shadow:0 0 6px rgba(255,94,159,0.4)">▶ 🎫 朝一抽選シミュレーター</div>
-    <div style="font-size:12px;color:var(--text2);margin-bottom:12px;line-height:1.7">
-      抽選番号と並び人数を入れると、<strong style="color:var(--cyan)">何の機種・台番号を取るべきか</strong>を提示。<br>
-      競合読みつつ期待値最大の選択肢を計算。
-    </div>
-    <div class="フォームグリッド" style="margin-bottom:12px">
-      <div class="フォームグループ">
-        <label>あなたの抽選番号</label>
-        <input type="number" id="lo-rank" placeholder="例: 15" min="1" inputmode="numeric">
-      </div>
-      <div class="フォームグループ">
-        <label>並び人数（総数）</label>
-        <input type="number" id="lo-total" placeholder="例: 80" min="1" inputmode="numeric">
-      </div>
-      <div class="フォームグループ">
-        <label>ホール選択</label>
-        <select id="lo-hall">
-          <option value="royal">ロイヤル登別店</option>
-          <option value="vega">ベガスベガス苫小牧店</option>
-          <option value="maruh_t">マルハン苫小牧駅前店</option>
-          <option value="victoria">ビクトリア室蘭店</option>
-        </select>
-      </div>
-      <div class="フォームグループ">
-        <label>イベ日かどうか</label>
-        <select id="lo-event">
-          <option value="event">イベント日</option>
-          <option value="normal">通常日</option>
-        </select>
-      </div>
-    </div>
-    <button class="ボタン主" onclick="抽選シミュレーター実行()">🎫 取れる台を計算</button>
-    <div id="lo-result" style="margin-top:14px"></div>
-  </div>
-
-  <!-- 🤖 ベイズAI設定看破（リアルタイム信頼度） -->
-  <div class="カード" style="border-left-color:var(--green);background:linear-gradient(135deg, var(--bg2) 0%, rgba(95,255,95,0.06) 100%)">
-    <div class="カードタイトル" style="color:var(--green);text-shadow:0 0 6px rgba(95,255,95,0.4)">▶ 🤖 ベイズAI設定看破（最高精度）</div>
-    <div style="font-size:12px;color:var(--text2);margin-bottom:12px;line-height:1.7">
-      ベイズ統計で各設定の<strong style="color:var(--cyan)">事後確率</strong>を算出。<br>
-      G数を進めるほど精度UP。「あと○Gで○○以上確定」予測も。
-    </div>
-    <div class="フォームグリッド" style="margin-bottom:12px">
-      <div class="フォームグループ">
-        <label>機種選択</label>
-        <select id="ba-machine">
-          <option value="my">マイジャグラーV</option>
-          <option value="funky">ファンキージャグラー2KT</option>
-          <option value="happy">ハッピージャグラーVIII</option>
-          <option value="neo">ネオアイムジャグラーEX</option>
-          <option value="ultra">ウルトラミラクルジャグラー</option>
-          <option value="mister">ミスタージャグラー</option>
-        </select>
-      </div>
-      <div class="フォームグループ">
-        <label>総G数</label>
-        <input type="number" id="ba-games" placeholder="例: 3000" inputmode="numeric">
-      </div>
-      <div class="フォームグループ">
-        <label>BB回数</label>
-        <input type="number" id="ba-bb" placeholder="例: 12" inputmode="numeric">
-      </div>
-      <div class="フォームグループ">
-        <label>RB回数</label>
-        <input type="number" id="ba-rb" placeholder="例: 14" inputmode="numeric">
-      </div>
-    </div>
-    <button class="ボタン主" onclick="ベイズ推測実行()">🤖 ベイズ推測実行</button>
-    <div id="ba-result" style="margin-top:14px"></div>
   </div>
 
   <!-- ⏰ 天井期待値計算機 -->
@@ -4266,7 +3590,6 @@ function _renderForPage(id) {
   if (id === 'machine') renderMachine();
   if (id === 'research') 研究タブ描画();
   if (id === 'strategy') 攻略リスト描画();
-  if (id === 'game') gInit();
   if (id === 'tools') renderTools();
   if (id === 'myhall') renderMyHall();
   if (id === 'settings') renderSettings();
@@ -4550,75 +3873,6 @@ function 事前選択描画() {
 function escapeHtml(s) {
   return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
-async function 設定6アラート描画() {
-  try {
-    const r = await fetch('data/royal_history.json', {cache:'no-store'});
-    const hist = await r.json();
-    if (!Array.isArray(hist) || hist.length === 0) return;
-    hist.sort((a,b) => (parseInt(b.id)||0) - (parseInt(a.id)||0));
-    const recent = hist.slice(0, 5);
-    const machine_appearances = {};
-    recent.forEach(day => {
-      const sorted = (day.machines||[]).filter(m=>m.sa!=null).sort((a,b)=>b.sa-a.sa);
-      const seen = new Set();
-      sorted.slice(0, 10).forEach(m => {
-        if (seen.has(m.name)) return;
-        seen.add(m.name);
-        if (!machine_appearances[m.name]) machine_appearances[m.name] = { days: [], sas: [] };
-        machine_appearances[m.name].days.push(day.date_str || day.id);
-        machine_appearances[m.name].sas.push(m.sa);
-      });
-    });
-    const suspects = Object.entries(machine_appearances)
-      .filter(([n, d]) => d.days.length >= 3)
-      .map(([n, d]) => ({
-        name: n,
-        days: d.days.length,
-        sas: d.sas,
-        total_sa: d.sas.reduce((s,v)=>s+v, 0),
-        recent_dates: d.days.slice(0, 3).join(' / ')
-      }))
-      .sort((a,b) => b.total_sa - a.total_sa)
-      .slice(0, 5);
-
-    const latest = recent[0];
-    const dateLabel = latest ? ((latest.date_str || '') + (latest.dow ? '(' + latest.dow + ')' : '')) : '--';
-    document.querySelectorAll('#top10日付, #top10日付_2').forEach(el => { el.textContent = dateLabel || '--'; });
-
-    document.querySelectorAll('#top10テーブル').forEach(tbody => {
-      if (latest) {
-        const sorted = (latest.machines||[]).filter(m=>m.sa!=null).sort((a,b)=>b.sa-a.sa).slice(0,10);
-        tbody.innerHTML = sorted.map((m, i) => `
-          <tr>
-            <td style="color:${i<3?'#f59e0b':'var(--text2)'};font-weight:${i<3?900:600}">${i+1}位</td>
-            <td>${escapeHtml(m.name).slice(0,30)}</td>
-            <td style="text-align:right;color:${m.sa>0?'#10b981':'#ef4444'};font-weight:700;font-family:'Orbitron',monospace">${m.sa>0?'+':''}${Number(m.sa).toLocaleString()}</td>
-          </tr>`).join('');
-      }
-    });
-
-    const alertHtml = suspects.length === 0
-      ? `<div style="padding:16px;color:var(--muted);text-align:center;font-size:12px">直近5日で3日以上TOP10入りした機種はありません</div>`
-      : `<div style="padding:14px">
-          <div style="font-size:13px;color:var(--text2);margin-bottom:10px">📊 直近5日のデータ分析（${escapeHtml(dateLabel)}時点）</div>
-          ${suspects.map(s => `
-            <div style="background:linear-gradient(135deg,rgba(245,158,11,0.15),var(--bg2));border-left:4px solid #f59e0b;padding:12px;border-radius:8px;margin-bottom:8px">
-              <div style="font-weight:900;font-size:15px;color:#f59e0b">${escapeHtml(s.name).slice(0,30)}</div>
-              <div style="font-size:12px;color:var(--text2);margin-top:4px">
-                直近5日で <strong>${s.days}日</strong> TOP10入賞 / 合計差枚 <strong style="color:#10b981">+${s.total_sa.toLocaleString()}</strong>
-              </div>
-              <div style="font-size:11px;color:var(--muted);margin-top:2px">最新3日: ${escapeHtml(s.recent_dates)}</div>
-              <div style="font-size:11px;color:var(--gold);margin-top:6px">${s.days >= 4 ? '🔥 設定6固定濃厚' : s.days === 3 ? '⚠️ 連続入賞中' : ''}</div>
-            </div>`).join('')}
-         </div>`;
-    document.querySelectorAll('#設定6アラート_home, #設定6アラート_myhall').forEach(el => { el.innerHTML = alertHtml; });
-  } catch(e) {
-    console.warn('設定6アラート描画失敗', e);
-    document.querySelectorAll('#設定6アラート_home, #設定6アラート_myhall').forEach(el => {
-      el.innerHTML = '<div style="padding:12px;color:var(--muted);font-size:12px">データ取得失敗。次回再試行。</div>';
-    });
-  }
-}
 
 // ── Cycle#12: 計算根拠の展開トグル ──
 function calcToggle(id) {
@@ -4627,32 +3881,8 @@ function calcToggle(id) {
 }
 
 // ── Cycle#11 ヒーロー判定 ──
-function 今日の判断() {
-  try {
-    const ds = { current: 0 };
-    const boost = 日付ブースト判定(new Date());
-    const records = 記録取得();
-    const today = new Date().toISOString().slice(0,10);
-    const todayRec = records.find(r => r.date === today);
-    if (todayRec) return { signal: 'STOP', icon: '🔴', verdict: 'STOP — 今日は終了', reason: 'すでに本日の記録あり。明日に切替' };
-    if (ds.current === 0 && boost.boost < 1.2) return { signal: 'CAUTION', icon: '🟡', verdict: 'CAUTION — 慎重に', reason: '規律ストリーク無し。打つなら少額・短時間で' };
-    if (boost.boost >= 1.2 && ds.current >= 3) return { signal: 'GO', icon: '🟢', verdict: 'GO — 打ちに行く日', reason: (boost.label||'ブースト日') + ' × ' + ds.current + '日連続遵守' };
-    if (boost.boost >= 1.2) return { signal: 'GO', icon: '🟢', verdict: 'GO — 期待値あり', reason: boost.label || 'ブースト日' };
-    return { signal: 'CAUTION', icon: '🟡', verdict: 'CAUTION — 通常日', reason: 'イベント要素なし。打つなら計画通り' };
-  } catch(e) {
-    console.warn('今日の判断失敗', e);
-    return { signal: 'CAUTION', icon: '🟡', verdict: 'CAUTION', reason: '判定エラー' };
-  }
-}
 function ヒーロー描画() {
   try {
-    const j = 今日の判断();
-    const banner = document.getElementById('signal-banner');
-    if (!banner) return;
-    banner.className = 'signal-banner signal-banner-compact signal-' + j.signal.toLowerCase();
-    const iconEl = document.getElementById('signal-icon'); if (iconEl) iconEl.textContent = j.icon;
-    const vEl = document.getElementById('signal-verdict'); if (vEl) vEl.textContent = j.verdict;
-    const rEl = document.getElementById('signal-reason'); if (rEl) rEl.textContent = j.reason;
     const records = 記録取得();
     const ym = new Date().toISOString().slice(0,7);
     const monthPnl = records.filter(r => (r.date||'').startsWith(ym)).reduce((s,r)=>s+(r.pnl||0),0);
@@ -4682,19 +3912,19 @@ function ヒーロー描画() {
 
 // ===== Cycle#19: 機種スペックDB =====
 const MACHINE_SPEC_DB = {
-  "スマスロ北斗の拳 転生の章2": { kikai_warii:{1:97.6,2:98.5,4:100.5,5:103.8,6:110.3}, tenjo_g:1480, ev_threshold_g:600, type:"AT" },
-  "L東京喰種": { kikai_warii:{1:97.8,2:99.0,4:101.5,5:104.2,6:110.0}, tenjo_g:1000, ev_threshold_g:500, type:"AT" },
+  "スマスロ北斗の拳 転生の章2": { kikai_warii:{1:97.6,2:98.5,4:100.5,5:103.8,6:110.3}, tenjo_g:1480, ev_threshold_g:600, type:"AT", reset_advantage:"B" },
+  "L東京喰種": { kikai_warii:{1:97.8,2:99.0,4:101.5,5:104.2,6:110.0}, tenjo_g:1000, ev_threshold_g:500, type:"AT", reset_advantage:"B" },
   "スマスロ甲鉄城のカバネリ 海門決戦": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:109.8}, tenjo_g:999, ev_threshold_g:350, type:"AT" },
   "スマスロとある科学の超電磁砲2": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:899, ev_threshold_g:400, type:"AT" },
   "スマスロ鉄拳6": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:1199, ev_threshold_g:500, type:"AT" },
-  "L咲-Saki-頂上決戦": { kikai_warii:{1:97.5,2:98.5,4:100.8,5:103.5,6:110.0}, tenjo_g:1300, ev_threshold_g:600, type:"AT" },
+  "L咲-Saki-頂上決戦": { kikai_warii:{1:97.5,2:98.5,4:100.8,5:103.5,6:110.0}, tenjo_g:1300, ev_threshold_g:600, type:"AT", reset_advantage:"C" },
   "L虚構推理": { kikai_warii:{1:97.5,2:98.5,4:101.0,5:103.5,6:110.0}, tenjo_g:1280, ev_threshold_g:550, type:"AT" },
-  "スマスロ サンダーV": { kikai_warii:{1:96.5,2:98.5,4:100.5,5:103.5,6:111.5}, tenjo_g:0, ev_threshold_g:0, type:"A" },
-  "スマスロ ハナビ": { kikai_warii:{1:97.0,2:98.5,4:101.0,5:103.5,6:110.0}, tenjo_g:0, ev_threshold_g:0, type:"A" },
-  "A-SLOT+ ディスクアップ ULTRAREMIX": { kikai_warii:{1:98.0,2:99.5,4:101.5,5:103.0,6:107.0}, tenjo_g:0, ev_threshold_g:0, type:"A" },
+  "スマスロ サンダーV": { kikai_warii:{1:96.5,2:98.5,4:100.5,5:103.5,6:111.5}, tenjo_g:0, ev_threshold_g:0, type:"A", reset_advantage:"A" },
+  "スマスロ ハナビ": { kikai_warii:{1:97.0,2:98.5,4:101.0,5:103.5,6:110.0}, tenjo_g:0, ev_threshold_g:0, type:"A", reset_advantage:"A" },
+  "A-SLOT+ ディスクアップ ULTRAREMIX": { kikai_warii:{1:98.0,2:99.5,4:101.5,5:103.0,6:107.0}, tenjo_g:0, ev_threshold_g:0, type:"A", reset_advantage:"A" },
   "スマスロ新鬼武者3": { kikai_warii:{1:97.8,2:99.0,4:101.0,5:103.5,6:109.5}, tenjo_g:1500, ev_threshold_g:700, type:"AT" },
   "L ULTRAMAN": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.8,6:110.0}, tenjo_g:1100, ev_threshold_g:500, type:"AT" },
-  "スマスロ北斗の拳": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:1280, ev_threshold_g:550, type:"AT" },
+  "スマスロ北斗の拳": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:1280, ev_threshold_g:550, type:"AT", reset_advantage:"B" },
   "スマスロ デビルメイクライ5 スタイリッシュトライブ": { kikai_warii:{1:97.5,2:99.0,4:101.0,5:103.8,6:110.0}, tenjo_g:1100, ev_threshold_g:500, type:"AT" },
   "スマスロ 緑ドン VIVA!情熱南米編 REVIVAL": { kikai_warii:{1:97.5,2:98.5,4:100.5,5:103.0,6:108.5}, tenjo_g:1200, ev_threshold_g:600, type:"AT" },
   "スマスロ 戦国乙女": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:1380, ev_threshold_g:600, type:"AT" },
@@ -4707,7 +3937,7 @@ const MACHINE_SPEC_DB = {
   "A-SLOT+異世界かるてっとBT": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:0, ev_threshold_g:0, type:"A" },
   "L無職転生～異世界行ったら本気だす～": { kikai_warii:{1:97.8,2:99.2,4:101.5,5:103.8,6:110.5}, tenjo_g:1280, ev_threshold_g:550, type:"AT" },
   "パチスロ わたしの幸せな結婚": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:1180, ev_threshold_g:500, type:"AT" },
-  "パチスロ 転生したら剣でした": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:1480, ev_threshold_g:700, type:"AT" },
+  "パチスロ 転生したら剣でした": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:1480, ev_threshold_g:700, type:"AT", reset_advantage:"B" },
   "スマスロ スーパーブラックジャック": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:1200, ev_threshold_g:500, type:"AT" },
   "スマスロネオプラネット": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:1300, ev_threshold_g:600, type:"AT" },
   "L戦国乙女４ 戦乱に閃く炯眼の軍師": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:1300, ev_threshold_g:600, type:"AT" },
@@ -4828,6 +4058,24 @@ async function 今日の鉄板3台生成() {
   }
 }
 
+// Cycle#23: 鉄板3台 拡張情報
+function 鉄板3台拡張情報(name, history) {
+  const spec = (typeof 機種スペック取得 === 'function') ? 機種スペック取得(name) : null;
+  const recent10 = (history||[]).slice(0, 10);
+  let wins = 0, app = 0, sa10 = 0;
+  recent10.forEach(d => {
+    const ms = (d.machines||[]).filter(m => m.name === name && m.sa != null);
+    ms.forEach(m => { app++; sa10 += m.sa; if (m.sa > 0) wins++; });
+  });
+  const winRate10 = app > 0 ? Math.round(wins/app*100) : null;
+  const boost = (typeof 日付ブースト判定 === 'function') ? 日付ブースト判定(new Date()) : {boost:1.0};
+  const showScore = (winRate10 || 50) * boost.boost;
+  let action = '通常狙い';
+  if (spec && spec.reset_advantage === 'A') action = '⏰ 朝1番乗り推奨';
+  else if (spec && spec.tenjo_g > 0) action = `🎯 ${spec.tenjo_g}G台があれば狙い`;
+  return { reset_advantage: spec && spec.reset_advantage || 'C', winRate10, sa10, app, showScore: Math.round(showScore), action };
+}
+
 async function 鉄板3台描画() {
   const cont = document.getElementById('鉄板3台リスト');
   if (!cont) return;
@@ -4837,6 +4085,11 @@ async function 鉄板3台描画() {
     cont.innerHTML = '<div class="tetsuban-empty">データ取得失敗。再読込してください。</div>';
     return;
   }
+  let history = [];
+  try {
+    history = await fetch('data/royal_history.json', {cache:'no-store'}).then(r=>r.json());
+    if (Array.isArray(history)) history.sort((a,b) => (parseInt(b.id)||0) - (parseInt(a.id)||0));
+  } catch(e) { history = []; }
   const safe = s => String(s).replace(/[<>&"]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]));
   cont.innerHTML = top3.map((m, i) => {
     const rank = i+1;
@@ -4855,6 +4108,12 @@ async function 鉄板3台描画() {
     const b = m.breakdown;
     const spec = 機種スペック取得(m.name);
     const specLine = spec ? `<div class="spec-line">⚙ 設定6: ${spec.kikai_warii[6]}% ${spec.tenjo_g>0 ? '/ 天井: '+spec.tenjo_g+'G' : '/ '+spec.type+'タイプ'}</div>` : '';
+    const ext = 鉄板3台拡張情報(m.name, history);
+    const extrasHtml = `<div class="tetsuban-extras">
+        <div class="extra-line">⏰ 朝一推奨度: <strong>${ext.reset_advantage}</strong></div>
+        <div class="extra-line">📊 近10日勝率: <strong>${ext.winRate10!=null?ext.winRate10+'%':'--'}</strong> (${ext.app}回出現)</div>
+        <div class="extra-line">🎯 推奨: ${ext.action}</div>
+      </div>`;
     return `<div class="tetsuban-card tetsuban-card-${rank}">
       <div class="tetsuban-top">
         <div class="tetsuban-medal">${medal}</div>
@@ -4865,6 +4124,7 @@ async function 鉄板3台描画() {
         <div class="tetsuban-score-badge">${m.total}</div>
       </div>
       ${specLine}
+      ${extrasHtml}
       <ul class="tetsuban-reasons">${reasons.map(r=>`<li>${r}</li>`).join('')}</ul>
       <div class="tetsuban-breakdown">
         <span class="tetsuban-chip"><strong>A長期</strong>${b.A}</span>
@@ -4970,6 +4230,32 @@ function 年間進捗計算() {
     on_track: onTrack,
   };
 }
+// Cycle#23: 年間進捗詳細
+function 年間進捗詳細() {
+  const base = 年間進捗計算();
+  const remaining = base.remaining_yen;
+  const weeklyNeeded = Math.ceil(Math.max(0, remaining) / Math.max(1, base.days_remaining/7) / 10000);
+  let difficulty = '楽勝';
+  if (base.needed_per_day_yen > 10000) difficulty = '困難';
+  else if (base.needed_per_day_yen > 5000) difficulty = '厳しい';
+  else if (base.needed_per_day_yen > 2000) difficulty = '普通';
+  else if (base.needed_per_day_yen > 500) difficulty = '楽勝';
+  else difficulty = '安全圏';
+  if (remaining < 0) difficulty = '達成済';
+  let records = [];
+  try { records = JSON.parse(localStorage.getItem('records')||'[]'); } catch(e){}
+  const now = Date.now();
+  const last30 = records.filter(r => new Date(r.date).getTime() >= now - 30*86400000);
+  const prev30 = records.filter(r => {
+    const t = new Date(r.date).getTime();
+    return t < now - 30*86400000 && t >= now - 60*86400000;
+  });
+  const sumLast = last30.reduce((s,r) => s + (parseInt(r.差枚)||0), 0);
+  const sumPrev = prev30.reduce((s,r) => s + (parseInt(r.差枚)||0), 0);
+  const trend = sumLast > sumPrev * 1.1 ? '↑改善中' : sumLast < sumPrev * 0.9 ? '↓悪化' : '→横ばい';
+  return Object.assign({}, base, { weeklyNeeded, difficulty, trend });
+}
+
 function 年間トラッカー描画() {
   try {
     const p = 年間進捗計算();
@@ -5010,6 +4296,20 @@ function 年間トラッカー描画() {
     }
   } catch(e) { console.warn('年間トラッカー描画失敗', e); }
   try { 年間スパークライン描画(); } catch(e) { console.warn('年間スパークライン描画失敗', e); }
+  try {
+    const d = 年間進捗詳細();
+    const setT = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+    setT('annual-week-need', d.weeklyNeeded > 0 ? d.weeklyNeeded + '万円' : '達成圏');
+    const diff = document.getElementById('annual-difficulty');
+    if (diff) {
+      diff.textContent = d.difficulty;
+      diff.classList.remove('easy','normal','hard');
+      if (d.difficulty === '安全圏' || d.difficulty === '楽勝' || d.difficulty === '達成済') diff.classList.add('easy');
+      else if (d.difficulty === '普通') diff.classList.add('normal');
+      else diff.classList.add('hard');
+    }
+    setT('annual-trend', d.trend);
+  } catch(e) { console.warn('年間進捗詳細失敗', e); }
 }
 function 年間目標編集() {
   const conf = 年間目標取得();
@@ -5149,6 +4449,26 @@ function 来店時刻更新() {
   if (el) el.textContent = h + ':' + m.toString().padStart(2,'0');
 }
 
+// Cycle#23: 来店EV計算
+function 来店EV計算(session) {
+  const spec = (typeof 機種スペック取得 === 'function') ? 機種スペック取得(session.machine) : null;
+  const elapsedMin = (Date.now() - new Date(session.start_time).getTime()) / 60000;
+  const estimatedG = session.game_count || Math.round(elapsedMin * 9);
+  const realPerG = estimatedG > 0 ? session.current_sa / estimatedG : 0;
+  const machineEV = spec ? ((spec.kikai_warii[4] - 100) / 100) * 3 : 0;
+  const isOverTenjo = spec && spec.tenjo_g > 0 && estimatedG >= spec.tenjo_g + 200;
+  const isLongLoss = elapsedMin >= 30 && session.current_sa <= -1000;
+  const isFastInvest = (session.investment_yen / Math.max(elapsedMin, 1)) > 666;
+  return {
+    estimatedG,
+    realPerG: Math.round(realPerG * 100) / 100,
+    machineEV: Math.round(machineEV * 100) / 100,
+    cooloff: isOverTenjo || isLongLoss,
+    fastInvest: isFastInvest,
+    cooloffReason: isOverTenjo ? '天井超ハマり台' : isLongLoss ? '30分継続マイナス' : null
+  };
+}
+
 function 来店モード描画() {
   const s = 来店セッション取得();
   const startBtn = document.getElementById('来店ボタンエリア');
@@ -5184,6 +4504,13 @@ function 来店モード描画() {
 
   document.getElementById('live-invest').textContent = '¥' + s.investment_yen.toLocaleString();
   来店時刻更新();
+  try {
+    const ev = 来店EV計算(s);
+    const rg = document.getElementById('live-real-per-g'); if (rg) rg.textContent = (ev.realPerG>=0?'+':'') + ev.realPerG + '枚';
+    const me = document.getElementById('live-machine-ev'); if (me) me.textContent = (ev.machineEV>=0?'+':'') + ev.machineEV + '枚';
+    const co = document.getElementById('live-cooloff'); if (co) { co.style.display = ev.cooloff ? '' : 'none'; if (ev.cooloff) co.textContent = '⏸️ クーリングオフ推奨: ' + (ev.cooloffReason || ''); }
+    const fi = document.getElementById('live-fastinvest'); if (fi) fi.style.display = ev.fastInvest ? '' : 'none';
+  } catch(e) { console.warn('来店EV計算失敗', e); }
 }
 
 function 来店モード終了() {
@@ -5231,7 +4558,6 @@ function renderHome() {
   ブースト判定描画();
   戦略エッジ表示();
   try { 事前選択描画(); } catch(e) { console.warn(e); }
-  try { 設定6アラート描画(); } catch(e) { console.warn('設定6アラート描画失敗', e); }
   try { 規律KPI描画(); } catch(e) { console.warn('規律KPI描画失敗', e); }
   const records = 記録取得();
   const s = 設定取得();
@@ -6902,7 +6228,6 @@ function ロイヤル傾向描画() {
 }
 
 function renderMyHall() {
-  try { 設定6アラート描画(); } catch(e) { console.warn('設定6アラート描画失敗', e); }
   ロイヤル傾向描画();
   const tbody = document.getElementById('マイホ機種テーブル');
   if (!tbody) return;
@@ -6919,172 +6244,6 @@ function renderMyHall() {
   攻略リスト描画();
 }
 
-// ════════════════════════════════════════
-// ── 🎫 朝一抽選シミュレーター ──
-// ════════════════════════════════════════
-// ホール別 人気台優先順位（前日実績ベース）
-const 抽選台DB = {
-  royal: {
-    名: 'ロイヤル登別店',
-    台: [
-      { 名: 'ミリオンゴッド 578(設定6固定濃厚)', 人気度: 100, 期待値: 18000, 設置: 1 },
-      { 名: 'ミリオンゴッド 572', 人気度: 95, 期待値: 14000, 設置: 1 },
-      { 名: 'ミリオンゴッド 579', 人気度: 90, 期待値: 12000, 設置: 1 },
-      { 名: '甲鉄城のカバネリ 705', 人気度: 85, 期待値: 13500, 設置: 1 },
-      { 名: 'モンキーターンV 660', 人気度: 80, 期待値: 13000, 設置: 1 },
-      { 名: '北斗の拳 転生の章2 549', 人気度: 78, 期待値: 12500, 設置: 1 },
-      { 名: '炎炎ノ消防隊2 631', 人気度: 72, 期待値: 12000, 設置: 1 },
-      { 名: 'ミリオンゴッド その他シマ', 人気度: 70, 期待値: 9000, 設置: 7 },
-      { 名: '甲鉄城のカバネリ その他', 人気度: 65, 期待値: 8000, 設置: 9 },
-      { 名: '沖ドキ!DUO アンコール', 人気度: 60, 期待値: 7000, 設置: 15 },
-      { 名: '北斗の拳 転生の章2 その他', 人気度: 58, 期待値: 7500, 設置: 19 },
-      { 名: 'バイオハザードRE:3', 人気度: 55, 期待値: 8500, 設置: 4 },
-      { 名: 'ガンダムユニコーン', 人気度: 52, 期待値: 7000, 設置: 4 },
-      { 名: 'モンキーターンV その他', 人気度: 50, 期待値: 6500, 設置: 9 },
-      { 名: '沖ドキ！BLACK', 人気度: 48, 期待値: 5000, 設置: 20 },
-      { 名: 'ジャグラー系（マイ・ファンキー2KT）', 人気度: 40, 期待値: 4000, 設置: 30 },
-      { 名: 'ジャグラー系（ネオ・ハッピーVIII）', 人気度: 30, 期待値: 3000, 設置: 30 },
-    ],
-  },
-  vega: {
-    名: 'ベガスベガス苫小牧店',
-    台: [
-      { 名: 'スマスロ ビッグドリーム', 人気度: 95, 期待値: 14000, 設置: 3 },
-      { 名: '甲鉄城のカバネリ 海門決戦', 人気度: 90, 期待値: 12000, 設置: 14 },
-      { 名: 'Lアズールレーン', 人気度: 80, 期待値: 11000, 設置: 3 },
-      { 名: '炎炎ノ消防隊2', 人気度: 70, 期待値: 8000, 設置: 8 },
-      { 名: 'ファンキージャグラー2KT', 人気度: 60, 期待値: 6000, 設置: 6 },
-      { 名: '北斗の拳 転生の章2', 人気度: 55, 期待値: 7000, 設置: 20 },
-      { 名: 'マイジャグラーV', 人気度: 50, 期待値: 4500, 設置: 75 },
-      { 名: 'ネオアイムジャグラーEX', 人気度: 45, 期待値: 4000, 設置: 22 },
-    ],
-  },
-  maruh_t: {
-    名: 'マルハン苫小牧駅前店',
-    台: [
-      { 名: '主力AT機（北斗・カバネリ等）', 人気度: 90, 期待値: 10000, 設置: 30 },
-      { 名: 'ミリオンゴッド系', 人気度: 80, 期待値: 9000, 設置: 8 },
-      { 名: '沖ドキ系', 人気度: 70, 期待値: 7000, 設置: 25 },
-      { 名: 'ジャグラー系', 人気度: 50, 期待値: 5000, 設置: 60 },
-    ],
-  },
-  victoria: {
-    名: 'ビクトリア室蘭店',
-    台: [
-      { 名: 'L東京喰種', 人気度: 90, 期待値: 11000, 設置: 8 },
-      { 名: 'Lパチスロからくりサーカス', 人気度: 75, 期待値: 9000, 設置: 4 },
-      { 名: '主力AT機', 人気度: 70, 期待値: 8000, 設置: 30 },
-      { 名: 'ジャグラー系', 人気度: 50, 期待値: 4500, 設置: 28 },
-    ],
-  },
-};
-
-function 抽選シミュレーター実行() {
-  const rank = parseInt(document.getElementById('lo-rank').value) || 0;
-  const total = parseInt(document.getElementById('lo-total').value) || 0;
-  const ks = document.getElementById('lo-hall').value;
-  const isEvent = document.getElementById('lo-event').value === 'event';
-  const data = 抽選台DB[ks];
-  const el = document.getElementById('lo-result');
-
-  if (rank < 1 || total < 1 || rank > total) {
-    el.innerHTML = '<div style="color:var(--red);font-size:13px">⚠️ 抽選番号と並び人数を正しく入力してください</div>';
-    return;
-  }
-
-  // 人気度順にソート
-  const sorted = data.台.slice().sort((a, b) => b.人気度 - a.人気度);
-
-  // 各台が自分の順位までに取られる確率（人気度高い順に取られていく想定）
-  // 累積設置数で「○番までに枯れる」を計算
-  let cumSetting = 0;
-  const 取れる候補 = [];
-  const 取れない候補 = [];
-
-  for (const 台 of sorted) {
-    cumSetting += 台.設置;
-    if (cumSetting >= rank) {
-      // 自分の番号で取れる
-      const 余裕 = cumSetting - rank;
-      取れる候補.push({ ...台, 余裕, 累計枯れ位置: cumSetting });
-      if (取れる候補.length >= 5) break;
-    } else {
-      // 既に取られている
-      取れない候補.push({ ...台, 累計枯れ位置: cumSetting });
-    }
-  }
-
-  // 期待値最大の候補
-  const ベスト = 取れる候補[0] || null;
-  const 期待損益 = ベスト ? ベスト.期待値 * (isEvent ? 1.0 : 0.6) : 0;
-
-  // 並び価値判定
-  const 並び順位率 = Math.round((rank / total) * 100);
-  let 並び価値, 並び色;
-  if (並び順位率 <= 10) { 並び価値 = '🟢 超上位（最高権利）'; 並び色 = 'var(--green)'; }
-  else if (並び順位率 <= 25) { 並び価値 = '🟢 上位（優良権利）'; 並び色 = 'var(--green)'; }
-  else if (並び順位率 <= 50) { 並び価値 = '🟡 中位（選択肢限定）'; 並び色 = 'var(--gold)'; }
-  else if (並び順位率 <= 75) { 並び価値 = '🟠 下位（残り物狙い）'; 並び色 = 'var(--gold)'; }
-  else { 並び価値 = '🔴 低位（撤退も検討）'; 並び色 = 'var(--red)'; }
-
-  el.innerHTML = `
-    <div style="background:var(--bg3);border:2px solid ${並び色};border-radius:6px;padding:16px">
-      <!-- 並び評価 -->
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
-        <div style="font-size:24px">🎫</div>
-        <div style="flex:1">
-          <div style="font-family:'Orbitron',monospace;font-size:16px;font-weight:900;color:${並び色}">${並び価値}</div>
-          <div style="font-size:11px;color:var(--text2);margin-top:2px">${data.名} / ${rank}番 / 総数${total}人（上位${並び順位率}%）${isEvent ? ' / イベ日' : ' / 通常日'}</div>
-        </div>
-      </div>
-
-      ${ベスト ? `
-      <!-- ベスト推奨 -->
-      <div style="background:linear-gradient(135deg, rgba(95,255,95,0.1) 0%, rgba(255,214,0,0.1) 100%);border:1px solid var(--green);border-radius:6px;padding:14px;margin-bottom:14px">
-        <div style="font-size:11px;color:var(--green);font-weight:700;margin-bottom:6px">👑 最優先で取るべき</div>
-        <div style="font-family:'Orbitron',monospace;font-size:16px;font-weight:900;color:var(--text);margin-bottom:6px">${ベスト.名}</div>
-        <div style="font-size:12px;color:var(--text2);line-height:1.7">
-          期待損益: <strong class="プラス" style="font-family:'Orbitron',monospace">+${期待損益.toLocaleString()}円</strong><br>
-          ${ベスト.余裕 > 0 ? `<span style="color:var(--green)">取れる余裕: あと${ベスト.余裕}人後でも残る可能性</span>` : `<span style="color:var(--gold)">ギリギリ（${ベスト.累計枯れ位置}番までに枯れる想定）</span>`}
-        </div>
-      </div>
-      ` : ''}
-
-      <!-- 取れる候補TOP5 -->
-      ${取れる候補.length > 0 ? `
-      <div style="margin-bottom:14px">
-        <div style="font-size:12px;font-weight:700;color:var(--cyan);margin-bottom:8px">✅ あなたの番号で取れる候補</div>
-        ${取れる候補.map((t, i) => `
-          <div style="background:var(--bg);padding:10px 12px;margin-bottom:6px;border-radius:3px;border-left:2px solid ${i===0?'var(--gold)':'var(--cyan)'}">
-            <div style="display:flex;justify-content:space-between;align-items:center">
-              <div>
-                <span style="font-size:10px;color:var(--muted);margin-right:6px">#${i+1}</span>
-                <strong style="font-size:13px">${t.名}</strong>
-              </div>
-              <div class="プラス" style="font-family:'Orbitron',monospace;font-size:13px">+${(t.期待値*(isEvent?1:0.6)).toLocaleString()}</div>
-            </div>
-            <div style="font-size:10px;color:var(--text2);margin-top:3px">${t.設置}台設置 / 想定枯れ位置: ${t.累計枯れ位置}番目</div>
-          </div>
-        `).join('')}
-      </div>
-      ` : '<div style="color:var(--red);font-size:13px;margin-bottom:14px">⚠️ 主要機種は全て取られている可能性大。撤退検討。</div>'}
-
-      <!-- 取れない候補（参考） -->
-      ${取れない候補.length > 0 ? `
-      <div style="margin-bottom:14px">
-        <div style="font-size:11px;font-weight:700;color:var(--red);margin-bottom:6px">❌ 取れない候補（先客が確保）</div>
-        <div style="font-size:11px;color:var(--text2);line-height:1.7">
-          ${取れない候補.slice(0, 5).map(t => `<span style="display:inline-block;background:var(--bg);padding:2px 8px;margin:2px;border-radius:2px;color:var(--muted)">${t.名}</span>`).join('')}
-        </div>
-      </div>
-      ` : ''}
-
-      <div style="font-size:10px;color:var(--muted);line-height:1.6">
-        🎫 人気度・設置台数・前日実績から算出。実際の並び傾向は店舗により変動。撤退判断の目安に。
-      </div>
-    </div>
-  `;
-}
 
 // ════════════════════════════════════════
 // ── 📅 日付ブースト判定（B004 / B008実データ調整） ──
@@ -7646,959 +6805,6 @@ function AI収支分析実行() {
   `;
 }
 
-// ════════════════════════════════════════
-// ── 🤖 ベイズAI設定看破 ──
-// ════════════════════════════════════════
-// 機種別 設定別ボーナス確率（分母）
-const ベイズ機種DB = {
-  my: { 名: 'マイジャグラーV',
-    BB: [273.1, 270.8, 264.3, 258.0, 252.0, 240.9],
-    RB: [546.1, 481.9, 426.0, 364.1, 312.4, 273.1] },
-  funky: { 名: 'ファンキージャグラー2KT',
-    BB: [273.1, 270.8, 264.3, 258.0, 252.0, 240.9],
-    RB: [546.1, 481.9, 431.2, 364.1, 312.4, 273.1] },
-  happy: { 名: 'ハッピージャグラーVIII',
-    BB: [273.1, 270.8, 264.3, 257.0, 248.2, 240.9],
-    RB: [728.2, 595.8, 481.9, 397.2, 327.7, 277.7] },
-  neo: { 名: 'ネオアイムジャグラーEX',
-    BB: [273.1, 270.8, 269.7, 269.7, 257.0, 252.0],
-    RB: [457.7, 442.8, 386.0, 350.6, 304.4, 268.6] },
-  ultra: { 名: 'ウルトラミラクルジャグラー',
-    BB: [292.6, 282.5, 273.1, 257.0, 248.2, 240.9],
-    RB: [496.5, 442.8, 384.0, 327.7, 282.5, 254.0] },
-  mister: { 名: 'ミスタージャグラー',
-    BB: [277.7, 270.8, 264.3, 252.1, 240.9, 230.5],
-    RB: [546.1, 470.0, 410.0, 348.6, 297.9, 252.1] },
-};
-
-// ベイズ事後確率計算
-function ベイズ推測実行() {
-  const ks = document.getElementById('ba-machine').value;
-  const G = parseInt(document.getElementById('ba-games').value) || 0;
-  const BB = parseInt(document.getElementById('ba-bb').value) || 0;
-  const RB = parseInt(document.getElementById('ba-rb').value) || 0;
-  const data = ベイズ機種DB[ks];
-  const el = document.getElementById('ba-result');
-
-  if (G < 100) { el.innerHTML = '<div style="color:var(--red)">⚠️ 総G数を100以上で入力してください</div>'; return; }
-
-  // 各設定の対数尤度計算（ポアソン近似）
-  // ln P(BB回数=k | λ=G/分母) = -λ + k*ln(λ) - ln(k!)
-  const 対数尤度 = [];
-  for (let s = 0; s < 6; s++) {
-    const λBB = G / data.BB[s];
-    const λRB = G / data.RB[s];
-    let logL = 0;
-    // ポアソン: -λ + k*ln(λ) for both BB & RB
-    logL += -λBB + (BB > 0 ? BB * Math.log(λBB) : 0);
-    logL += -λRB + (RB > 0 ? RB * Math.log(λRB) : 0);
-    対数尤度.push(logL);
-  }
-
-  // 事後確率（事前一様）
-  const 最大対数 = Math.max(...対数尤度);
-  const 正規化 = 対数尤度.map(l => Math.exp(l - 最大対数));
-  const 合計 = 正規化.reduce((a, b) => a + b, 0);
-  const 事後 = 正規化.map(v => v / 合計);
-
-  // 偶奇推定
-  const 偶数 = 事後[1] + 事後[3] + 事後[5];
-  const 奇数 = 事後[0] + 事後[2] + 事後[4];
-
-  // 最有力設定
-  const 最大idx = 事後.indexOf(Math.max(...事後));
-  const 最有力設定 = 最大idx + 1;
-  const 最有力確率 = Math.round(事後[最大idx] * 100);
-
-  // 高設定確率（4,5,6合算）
-  const 高設定確率 = Math.round((事後[3] + 事後[4] + 事後[5]) * 100);
-
-  // 合算現在値
-  const 合算分母 = G / (BB + RB);
-  const 合算理論値 = data.BB.map((b, i) => 1 / (1/b + 1/data.RB[i]));
-
-  // バーグラフ
-  const バーHTML = 事後.map((p, i) => {
-    const パーセント = Math.round(p * 100);
-    const 色 = i + 1 >= 4 ? 'var(--green)' : i + 1 >= 3 ? 'var(--gold)' : 'var(--red)';
-    return `<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
-      <div style="width:48px;font-size:12px;color:var(--text2)">設定${i+1}</div>
-      <div style="flex:1;background:var(--bg);border-radius:3px;height:18px;overflow:hidden;position:relative">
-        <div style="width:${パーセント}%;background:${色};height:100%;transition:width 0.6s ease;box-shadow:0 0 6px ${色}80"></div>
-        <div style="position:absolute;left:6px;top:0;font-size:11px;font-family:'Orbitron',monospace;line-height:18px;color:#fff;text-shadow:0 0 3px #000">${パーセント}%</div>
-      </div>
-      <div style="width:50px;font-size:10px;color:var(--muted);text-align:right">${合算理論値[i].toFixed(1)}</div>
-    </div>`;
-  }).join('');
-
-  // 判定メッセージ
-  let 判定, 色, アイコン;
-  if (最有力設定 >= 5 && 最有力確率 >= 50) { 判定 = '高設定濃厚'; 色 = 'var(--green)'; アイコン = '🟢'; }
-  else if (高設定確率 >= 60) { 判定 = '高設定期待大'; 色 = 'var(--green)'; アイコン = '🟢'; }
-  else if (最有力設定 >= 4) { 判定 = '中間以上'; 色 = 'var(--gold)'; アイコン = '🟡'; }
-  else if (最有力設定 >= 2) { 判定 = '低中間'; 色 = 'var(--gold)'; アイコン = '🟡'; }
-  else { 判定 = '低設定濃厚・ヤメ推奨'; 色 = 'var(--red)'; アイコン = '🔴'; }
-
-  // 必要G数算出（追加でN G打ったら傾向確定するか）
-  let 確定予測 = '';
-  if (G < 5000 && 最有力設定 >= 4) {
-    const 必要G = 5000 - G;
-    確定予測 = `あと${必要G}G消化で精度向上`;
-  }
-
-  el.innerHTML = `
-    <div style="background:var(--bg3);border:2px solid ${色};border-radius:6px;padding:16px;box-shadow:0 0 12px ${色}33">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
-        <div style="font-size:28px">${アイコン}</div>
-        <div style="flex:1">
-          <div style="font-family:'Orbitron',monospace;font-size:18px;font-weight:900;color:${色};text-shadow:0 0 8px ${色}66">設定${最有力設定} 最有力（${最有力確率}%）</div>
-          <div style="font-size:12px;color:var(--text2);margin-top:4px">${判定}</div>
-        </div>
-      </div>
-
-      <div style="font-size:11px;color:var(--muted);margin-bottom:8px;letter-spacing:1px">▼ 事後確率（緑=高設定/黄=中間/赤=低設定）/ 右の数字は理論合算分母</div>
-      ${バーHTML}
-
-      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:14px;margin-bottom:8px">
-        <div class="エリア統計項目">
-          <div class="エリア統計ラベル">高設定(4-6)合算</div>
-          <div class="エリア統計値" style="color:${高設定確率>=60?'var(--green)':高設定確率>=40?'var(--gold)':'var(--red)'}">${高設定確率}%</div>
-        </div>
-        <div class="エリア統計項目">
-          <div class="エリア統計ラベル">現在合算</div>
-          <div class="エリア統計値 青">1/${合算分母.toFixed(1)}</div>
-        </div>
-        <div class="エリア統計項目">
-          <div class="エリア統計ラベル">偶数判定</div>
-          <div class="エリア統計値" style="color:${偶数>奇数?'var(--cyan)':'var(--muted)'}">${Math.round(偶数*100)}%</div>
-        </div>
-        <div class="エリア統計項目">
-          <div class="エリア統計ラベル">奇数判定</div>
-          <div class="エリア統計値" style="color:${奇数>偶数?'var(--cyan)':'var(--muted)'}">${Math.round(奇数*100)}%</div>
-        </div>
-      </div>
-
-      ${確定予測 ? `<div style="background:rgba(64,232,255,0.08);padding:8px 12px;border-left:2px solid var(--cyan);border-radius:3px;font-size:12px">💡 ${確定予測}</div>` : ''}
-
-      <div style="font-size:10px;color:var(--muted);margin-top:10px;line-height:1.6">
-        🤖 ベイズ統計（ポアソン分布）で計算。データが多いほど精度UP。BB/RB別の設定差を最大活用。
-      </div>
-    </div>
-  `;
-}
-
-// ════════════════════════════════════════
-// ── 🎮 ミリオンゴッド シミュレータ ──
-// ════════════════════════════════════════
-// 図柄定義: 実機準拠リアル版（SVG + グラデーション）
-const G_SYM_SVG = {
-  god: `<svg viewBox="0 0 60 60" style="width:46px;height:46px;filter:drop-shadow(0 0 8px #ffd700) drop-shadow(0 0 16px #ff6600)">
-    <defs>
-      <radialGradient id="godG" cx="50%" cy="40%"><stop offset="0%" stop-color="#fff5d6"/><stop offset="40%" stop-color="#ffd700"/><stop offset="70%" stop-color="#ff8c00"/><stop offset="100%" stop-color="#3a0000"/></radialGradient>
-    </defs>
-    <circle cx="30" cy="30" r="28" fill="url(#godG)"/>
-    <text x="30" y="42" text-anchor="middle" font-family="Orbitron,serif" font-size="28" font-weight="900" fill="#1a0000" stroke="#ffd700" stroke-width="0.5" style="filter:drop-shadow(0 1px 1px rgba(0,0,0,0.5))">G</text>
-  </svg>`,
-  red7: `<svg viewBox="0 0 60 60" style="width:50px;height:50px;filter:drop-shadow(0 0 6px #ff4d6d) drop-shadow(0 0 12px #ff0040)">
-    <defs>
-      <linearGradient id="red7G" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ff8888"/><stop offset="50%" stop-color="#ff0040"/><stop offset="100%" stop-color="#660014"/></linearGradient>
-    </defs>
-    <text x="30" y="48" text-anchor="middle" font-family="Impact,sans-serif" font-size="58" font-weight="900" fill="url(#red7G)" stroke="#fff" stroke-width="1.5">7</text>
-  </svg>`,
-  y7a: `<svg viewBox="0 0 60 60" style="width:50px;height:50px;filter:drop-shadow(0 0 6px #ffd700) drop-shadow(0 0 12px #ffaa00)">
-    <defs>
-      <linearGradient id="y7G" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#fff5a0"/><stop offset="50%" stop-color="#ffd700"/><stop offset="100%" stop-color="#665500"/></linearGradient>
-    </defs>
-    <text x="30" y="48" text-anchor="middle" font-family="Impact,sans-serif" font-size="58" font-weight="900" fill="url(#y7G)" stroke="#000" stroke-width="1.5">7</text>
-  </svg>`,
-  y7b: `<svg viewBox="0 0 60 60" style="width:50px;height:50px;filter:drop-shadow(0 0 6px #ff8c00)">
-    <defs>
-      <linearGradient id="y7bG" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffcc66"/><stop offset="50%" stop-color="#ff8c00"/><stop offset="100%" stop-color="#553300"/></linearGradient>
-    </defs>
-    <text x="30" y="48" text-anchor="middle" font-family="Impact,sans-serif" font-size="58" font-weight="900" fill="url(#y7bG)" stroke="#fff" stroke-width="1">7</text>
-  </svg>`,
-  gaia: `<svg viewBox="0 0 60 60" style="width:44px;height:44px;filter:drop-shadow(0 0 8px #88f4ff) drop-shadow(0 0 14px #00aaff)">
-    <defs>
-      <linearGradient id="gaiaG" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e0fbff"/><stop offset="50%" stop-color="#88f4ff"/><stop offset="100%" stop-color="#003355"/></linearGradient>
-    </defs>
-    <polygon points="30,4 50,30 30,56 10,30" fill="url(#gaiaG)" stroke="#fff" stroke-width="1.5"/>
-    <polygon points="30,12 42,30 30,48 18,30" fill="rgba(255,255,255,0.4)"/>
-  </svg>`,
-  bell: `<svg viewBox="0 0 60 60" style="width:44px;height:44px;filter:drop-shadow(0 0 6px #ffcc44)">
-    <defs>
-      <linearGradient id="bellG" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#fff0a0"/><stop offset="50%" stop-color="#ffcc44"/><stop offset="100%" stop-color="#664400"/></linearGradient>
-    </defs>
-    <path d="M30 8 Q44 8, 44 28 L46 42 L14 42 L16 28 Q16 8, 30 8 Z" fill="url(#bellG)" stroke="#332200" stroke-width="1.5"/>
-    <circle cx="30" cy="50" r="4" fill="url(#bellG)" stroke="#332200" stroke-width="1.5"/>
-  </svg>`,
-  rep: `<svg viewBox="0 0 60 60" style="width:44px;height:44px;filter:drop-shadow(0 0 6px #4ad9ff)">
-    <defs>
-      <radialGradient id="repG"><stop offset="0%" stop-color="#a0e9ff"/><stop offset="60%" stop-color="#4ad9ff"/><stop offset="100%" stop-color="#003366"/></radialGradient>
-    </defs>
-    <circle cx="30" cy="30" r="26" fill="url(#repG)" stroke="#fff" stroke-width="1"/>
-    <text x="30" y="38" text-anchor="middle" font-family="Orbitron,sans-serif" font-size="18" font-weight="900" fill="#fff" stroke="#003366" stroke-width="0.5">REP</text>
-  </svg>`,
-};
-
-const G_SYMBOLS = {
-  god:  { label: 'GOD',  glow: '#ffd700' },
-  red7: { label: '赤7',  glow: '#ff4d6d' },
-  y7a:  { label: '黄7',  glow: '#ffd700' },
-  y7b:  { label: '黄7B', glow: '#ff8c00' },
-  gaia: { label: 'GAIA', glow: '#88f4ff' },
-  bell: { label: 'ベル', glow: '#ffcc44' },
-  rep:  { label: 'REP',  glow: '#4ad9ff' },
-};
-
-// 各リールの図柄並び（実機準拠：チェリー・スイカは存在しない）
-// 21コマ、リプレイメイン、要所に7・GOD
-const G_REELS_DEF = [
-  // 左リール
-  ['rep','y7a','bell','rep','gaia','rep','y7b','rep','bell','red7','rep','y7a','bell','rep','gaia','rep','god','rep','y7b','bell','rep'],
-  // 中リール
-  ['rep','y7a','rep','bell','y7b','rep','gaia','rep','red7','rep','y7a','rep','bell','god','rep','y7b','rep','bell','rep','gaia','rep'],
-  // 右リール
-  ['rep','y7a','bell','rep','y7b','rep','gaia','rep','bell','red7','rep','y7a','rep','god','bell','rep','y7b','rep','gaia','rep','bell'],
-];
-
-const SYMBOL_HEIGHT = 60;  // 各図柄のpx高さ
-
-// 実機準拠の設定別初当たり確率（設定6）
-const G_SETTING = 6;  // 高設定で遊べる
-const G_AT_RATE = G_SETTING === 6 ? 274.7 : 525.4;  // 1/X
-const G_CEILING = 1480;  // 天井1480G
-
-let gState = {
-  credit: 300,
-  diff: 0,
-  games: 0,           // 通常時G数（天井カウンター）
-  totalGames: 0,
-  ggCount: 0,
-  godCount: 0,
-  streak: 0,
-  maxStreak: 0,
-  maxGain: 0,
-  inGG: false,
-  inCZ: false,        // ハーデスチャンス中
-  czRemain: 0,
-  ggSets: 0,
-  ggRemainSets: 0,
-  ggInSetG: 0,        // GG中の現セット消化数
-  loopRate: 0,
-  zZone: false,
-  mode: 0,            // 0=通常 1=天国 2=超天国
-  reels: [0, 0, 0],
-  spinning: [false, false, false],
-  reelSpeed: [0, 0, 0],
-  reelTargets: [null, null, null],
-  spinning_all: false,
-  autoMode: false,
-  pendingResult: null,
-  history: [],
-  startCredit: 300,
-};
-
-function gInit() {
-  // 初期リール描画
-  for (let r = 0; r < 3; r++) {
-    const reel = document.querySelector(`.g-reel[data-r="${r}"] .g-reel-inner`);
-    if (!reel || reel.dataset.init === '1') continue;
-    reel.dataset.init = '1';
-    let html = '';
-    for (let i = 0; i < 5; i++) {
-      G_REELS_DEF[r].forEach(symId => {
-        const sym = G_SYMBOLS[symId];
-        const svg = G_SYM_SVG[symId];
-        html += `<div style="height:${SYMBOL_HEIGHT}px;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#1a1a1a 0%,#000 50%,#1a1a1a 100%);border-bottom:2px solid #000;box-shadow:inset 0 1px 0 rgba(255,255,255,0.05),inset 0 0 12px rgba(0,0,0,0.8);position:relative">${svg}</div>`;
-      });
-    }
-    reel.innerHTML = html;
-    reel.style.transform = `translateY(-${G_REELS_DEF[r].length * 2 * SYMBOL_HEIGHT}px)`;
-  }
-  gScreenSet('READY', '神々の軌跡', 'READY TO SPIN');
-  gUpdateUI();
-}
-
-// 液晶表示
-function gScreenSet(title, big, sub) {
-  const c = document.getElementById('g-screen-content');
-  if (!c) return;
-  c.innerHTML = `
-    <div style="font-size:11px;color:#ffd700;letter-spacing:4px;opacity:0.7">${title}</div>
-    <div style="font-size:18px;color:#ffd700;font-weight:900;text-shadow:0 0 10px #ffd700;letter-spacing:3px;margin-top:4px">${big}</div>
-    <div style="font-size:9px;color:#aaa;margin-top:8px">${sub}</div>
-  `;
-}
-
-// 液晶エフェクト演出（神殿・神々・雷フル装備）
-function gScreenEffect(type) {
-  const bg = document.getElementById('g-screen-bg');
-  const c = document.getElementById('g-screen-content');
-  const gods = document.getElementById('g-gods');
-  const thunder = document.getElementById('g-thunder');
-  const screen = document.getElementById('g-screen');
-  if (!bg || !c) return;
-
-  // リセット
-  if (gods) gods.style.display = 'none';
-  if (thunder) thunder.style.opacity = '0';
-  if (screen) screen.style.animation = '';
-
-  if (type === 'gg') {
-    bg.style.background = 'radial-gradient(circle at 50% 50%,rgba(255,214,0,0.5),rgba(255,140,0,0.3),transparent 70%)';
-    bg.style.animation = 'gradient-shift 0.8s linear infinite';
-    if (thunder) thunder.style.opacity = '0.6';
-    if (thunder) thunder.style.animation = 'flicker 0.3s infinite';
-    c.innerHTML = `
-      <div style="font-size:14px;color:#fff;letter-spacing:3px;text-shadow:0 0 8px #ffd700;animation:pulse-glow-gold 0.5s ease infinite">⚡ GOD GAME ⚡</div>
-      <div style="font-size:32px;color:#ffd700;font-weight:900;text-shadow:0 0 18px #ffd700,0 0 36px #ff8c00,0 2px 4px #000;letter-spacing:4px;margin-top:6px;animation:icon-bounce 0.5s ease infinite">CHANCE!!</div>
-      <div style="font-size:11px;color:#fff;margin-top:10px;text-shadow:0 0 6px #ff8c00">純増 +7枚/G</div>
-    `;
-  } else if (type === 'god') {
-    bg.style.background = 'radial-gradient(circle at 50% 50%,#fff 0%,#ffd700 30%,#ff0000 60%,#000 100%)';
-    bg.style.animation = 'gradient-shift 0.25s linear infinite';
-    if (gods) {
-      gods.style.display = 'flex';
-      gods.style.animation = 'gods-rise 1s cubic-bezier(0.34, 1.56, 0.64, 1)';
-    }
-    if (thunder) {
-      thunder.style.opacity = '1';
-      thunder.style.animation = 'thunder-strike 0.6s infinite';
-    }
-    const rays2 = document.getElementById('g-rays-screen');
-    if (rays2) { rays2.style.opacity = '1'; rays2.style.animation = 'conic-spin 2s linear infinite'; }
-    if (screen) screen.style.animation = 'screen-shake 0.5s infinite';
-    c.innerHTML = `
-      <div class="g-metal-text" style="font-size:72px;font-weight:900;letter-spacing:8px;animation:text-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),icon-bounce 0.3s ease 0.6s infinite;font-family:'Orbitron',monospace">GOD!!</div>
-      <div style="font-size:16px;color:#ffd700;margin-top:12px;text-shadow:0 0 12px #ffd700,0 0 24px #ff4500;letter-spacing:4px;animation:pulse-glow-gold 0.3s ease infinite">PREMIUM GOD GAME</div>
-    `;
-  } else if (type === 'sgg') {
-    bg.style.background = 'radial-gradient(circle at 50% 50%,rgba(255,0,0,0.6),rgba(255,140,0,0.4),#000)';
-    bg.style.animation = 'gradient-shift 0.5s linear infinite';
-    if (thunder) {
-      thunder.style.opacity = '0.8';
-      thunder.style.animation = 'flicker 0.2s infinite';
-    }
-    c.innerHTML = `
-      <div style="font-size:48px;font-weight:900;color:#ff4d6d;text-shadow:0 0 24px #ff4d6d,0 0 48px #ff0000;letter-spacing:6px;animation:icon-bounce 0.3s ease infinite">SGG!!</div>
-      <div style="font-size:14px;color:#ffd700;margin-top:8px;text-shadow:0 0 10px #ffd700">SUPER GOD GAME</div>
-    `;
-  } else if (type === 'hades') {
-    bg.style.background = 'radial-gradient(circle at 50% 50%,rgba(138,43,226,0.6),rgba(255,140,0,0.3),#000)';
-    bg.style.animation = 'gradient-shift 1s linear infinite';
-    if (thunder) thunder.style.opacity = '0.4';
-    c.innerHTML = `
-      <div style="font-size:14px;color:#fff;letter-spacing:3px;text-shadow:0 0 8px #8a2be2">⚡ HADES CHANCE</div>
-      <div style="font-size:32px;color:#ff8c00;font-weight:900;text-shadow:0 0 18px #ff4500,0 0 36px #8a2be2;letter-spacing:3px;margin-top:6px;animation:pulse-glow-gold 0.6s infinite">ハーデス</div>
-      <div style="font-size:11px;color:#ff8c00;margin-top:10px">GG突入！</div>
-    `;
-  } else if (type === 'win') {
-    bg.style.background = 'radial-gradient(circle at 50% 50%,rgba(95,255,95,0.4),transparent 70%)';
-    c.innerHTML = `
-      <div style="font-size:38px;color:#5fff5f;font-weight:900;text-shadow:0 0 18px #5fff5f,0 2px 4px #000;letter-spacing:3px;animation:icon-bounce 0.5s ease infinite">WIN</div>
-      <div style="font-size:11px;color:#fff;margin-top:6px">役成立</div>
-    `;
-  } else if (type === 'spin') {
-    bg.style.background = 'radial-gradient(circle at 50% 50%,rgba(0,229,255,0.25),transparent 70%)';
-    bg.style.animation = 'gradient-shift 0.5s linear infinite';
-    c.innerHTML = `
-      <div style="font-size:12px;color:#40e8ff;letter-spacing:4px;text-shadow:0 0 6px #40e8ff">SPINNING</div>
-      <div style="font-size:26px;color:#40e8ff;font-weight:900;text-shadow:0 0 12px #40e8ff,0 2px 4px #000;letter-spacing:3px;margin-top:4px;animation:flicker 0.8s infinite">PUSH STOP</div>
-    `;
-  } else if (type === 'stock') {
-    bg.style.background = 'radial-gradient(circle at 50% 50%,rgba(255,214,0,0.6),transparent 70%)';
-    if (thunder) thunder.style.opacity = '0.3';
-    c.innerHTML = `
-      <div style="font-size:14px;color:#fff;text-shadow:0 0 6px #ffd700;letter-spacing:3px">STOCK GET!</div>
-      <div style="font-size:36px;color:#ffd700;font-weight:900;text-shadow:0 0 18px #ffd700,0 2px 4px #000;letter-spacing:3px;margin-top:6px;animation:icon-bounce 0.4s ease infinite">+1</div>
-      <div style="font-size:11px;color:#fff;margin-top:8px">継続濃厚！</div>
-    `;
-  } else if (type === 'zzone') {
-    bg.style.background = 'conic-gradient(from 0deg,#ffd700,#ff8c00,#ff0000,#ffd700,#ff8c00,#ffd700)';
-    bg.style.animation = 'conic-spin 1s linear infinite';
-    if (thunder) thunder.style.opacity = '0.8';
-    c.innerHTML = `
-      <div style="font-size:14px;color:#fff;letter-spacing:5px;text-shadow:0 0 6px #ff8c00">PREMIUM</div>
-      <div style="font-size:42px;color:#fff;font-weight:900;text-shadow:0 0 24px #ffd700,0 0 48px #ff0000,0 2px 4px #000;letter-spacing:6px;margin-top:4px;animation:icon-bounce 0.3s ease infinite;font-family:'Orbitron',monospace">Z-ZONE</div>
-      <div style="font-size:11px;color:#ffd700;margin-top:6px;animation:pulse-glow-gold 0.5s infinite">純増7枚/G 確定継続</div>
-    `;
-  } else if (type === 'tenjo') {
-    bg.style.background = 'radial-gradient(circle at 50% 50%,#fff 0%,#ffd700 30%,#ff4500 70%,#000 100%)';
-    bg.style.animation = 'gradient-shift 0.4s linear infinite';
-    if (thunder) { thunder.style.opacity = '0.8'; thunder.style.animation = 'flicker 0.2s infinite'; }
-    c.innerHTML = `
-      <div style="font-size:13px;color:#fff;letter-spacing:4px;text-shadow:0 0 8px #ffd700">⚡ 1480G 天井到達 ⚡</div>
-      <div class="g-metal-text" style="font-size:48px;font-weight:900;letter-spacing:4px;margin-top:6px;animation:text-pop 0.6s cubic-bezier(0.34,1.56,0.64,1)">天井GG</div>
-      <div style="font-size:12px;color:#ffd700;margin-top:8px;text-shadow:0 0 8px #ffd700">高継続率1/2でループ</div>
-    `;
-  } else {
-    bg.style.animation = '';
-    bg.style.background = 'radial-gradient(circle at 50% 50%,rgba(255,214,0,0.15),transparent 70%)';
-  }
-}
-
-// 🔢 偶奇示唆ナンバー生成（リール回転毎・1geki法則準拠）
-function g偶奇示唆生成() {
-  const cells = document.querySelectorAll('.g-suji-cell');
-  const label = document.getElementById('g-suji-label');
-  if (!cells.length) return;
-
-  // モード抽選（実機の頻度準拠）
-  // 60%: 混在（示唆なし）
-  // 18%: 全偶数（偶数示唆）
-  // 18%: 全奇数（奇数示唆）
-  // 3%: ゾロ目（強示唆）
-  // 1%: 高設定示唆（246/468/666 などの特殊パターン）
-  const r = Math.random();
-  let mode, numbers, color, glow, labelText;
-
-  if (r < 0.01) {
-    // 特殊パターン（高設定示唆）
-    const specials = [[2,4,6],[4,6,8],[6,6,6],[2,4,6],[1,3,5],[3,5,7],[5,5,5]];
-    numbers = specials[Math.floor(Math.random()*specials.length)];
-    const isEven = numbers[0] % 2 === 0;
-    mode = isEven ? 'kousettei-even' : 'kousettei-odd';
-    color = isEven ? '#40e8ff' : '#ff8cc8';
-    glow = color;
-    labelText = isEven ? '⚡ 高設定示唆（偶数）' : '⚡ 高設定示唆（奇数）';
-  } else if (r < 0.04) {
-    // ゾロ目
-    const n = Math.floor(Math.random()*8)+1;
-    numbers = [n, n, n];
-    const isEven = n % 2 === 0;
-    mode = 'zoro';
-    color = isEven ? '#88f4ff' : '#ff6699';
-    glow = color;
-    labelText = isEven ? `🎯 ゾロ目 偶数示唆` : `🎯 ゾロ目 奇数示唆`;
-  } else if (r < 0.22) {
-    // 全偶数
-    const evens = [2,4,6,8];
-    numbers = [evens[Math.floor(Math.random()*4)], evens[Math.floor(Math.random()*4)], evens[Math.floor(Math.random()*4)]];
-    mode = 'even';
-    color = '#40e8ff';
-    glow = '#40e8ff';
-    labelText = '偶数示唆';
-  } else if (r < 0.40) {
-    // 全奇数
-    const odds = [1,3,5,7];
-    numbers = [odds[Math.floor(Math.random()*4)], odds[Math.floor(Math.random()*4)], odds[Math.floor(Math.random()*4)]];
-    mode = 'odd';
-    color = '#ff8cc8';
-    glow = '#ff8cc8';
-    labelText = '奇数示唆';
-  } else {
-    // 混在（示唆なし）
-    numbers = [Math.floor(Math.random()*8)+1, Math.floor(Math.random()*8)+1, Math.floor(Math.random()*8)+1];
-    mode = 'mixed';
-    color = '#888';
-    glow = '#888';
-    labelText = '';
-  }
-
-  // 数字をルーレット風に回転して停止
-  cells.forEach((cell, i) => {
-    cell.style.color = '#ccc';
-    cell.style.textShadow = '0 0 4px #fff';
-    let frame = 0;
-    const rollInterval = setInterval(() => {
-      cell.textContent = Math.floor(Math.random()*8)+1;
-      frame++;
-      if (frame >= 8 + i*4) {
-        clearInterval(rollInterval);
-        cell.textContent = numbers[i];
-        cell.style.color = color;
-        cell.style.textShadow = `0 0 12px ${glow},0 0 24px ${glow},0 2px 4px #000`;
-        // ポップアニメ
-        cell.style.animation = 'count-up 0.3s ease';
-        setTimeout(() => { cell.style.animation = ''; }, 350);
-      }
-    }, 60);
-  });
-
-  // ラベル表示
-  setTimeout(() => {
-    if (label) {
-      label.textContent = labelText;
-      label.style.color = color;
-      label.style.opacity = labelText ? '1' : '0';
-      if (labelText) {
-        label.style.animation = 'pulse-glow-gold 1s ease infinite';
-        setTimeout(() => { label.style.animation = ''; }, 2000);
-      }
-    }
-  }, 700);
-}
-
-// 🔥 GODフリーズ演出（稲妻+画面振動+リール枠発光+大型ロゴ）
-function gFreeze(type) {
-  return new Promise(resolve => {
-    const overlay = document.getElementById('g-freeze-overlay');
-    const text = document.getElementById('g-freeze-text');
-    const sub = document.getElementById('g-freeze-sub');
-    const lightning = document.getElementById('g-lightning');
-    const rays = document.getElementById('g-rays');
-    if (!overlay) { resolve(); return; }
-
-    if (type === 'god') {
-      text.textContent = 'GOD!!';
-      text.style.color = '#fff';
-      text.style.textShadow = '0 0 30px #ffd700,0 0 60px #ff0000,0 0 100px #ff4500';
-      sub.innerHTML = '⭐ PREMIUM GOD GAME ⭐<br>4セット確定 + Z-ZONE';
-      sub.style.color = '#ffd700';
-      overlay.style.background = 'radial-gradient(circle at center,#fff 0%,#ffd700 20%,#ff4500 50%,#000 100%)';
-    } else if (type === 'sgg') {
-      text.textContent = 'SGG!!';
-      text.style.color = '#fff';
-      text.style.textShadow = '0 0 30px #ff4d6d,0 0 60px #ff0000';
-      sub.textContent = 'SUPER GOD GAME 確定';
-      sub.style.color = '#ff4d6d';
-      overlay.style.background = 'radial-gradient(circle at center,rgba(255,255,255,0.8) 0%,rgba(255,77,109,0.7) 40%,#000 100%)';
-    }
-
-    overlay.style.opacity = '1';
-    if (rays) rays.style.opacity = '1';
-
-    // 稲妻フラッシュ（3回点滅）
-    let lightningCount = 0;
-    const lightningInterval = setInterval(() => {
-      if (lightning) {
-        lightning.style.opacity = lightningCount % 2 === 0 ? '1' : '0';
-      }
-      lightningCount++;
-      if (lightningCount > 6) {
-        clearInterval(lightningInterval);
-        if (lightning) lightning.style.opacity = '0';
-      }
-    }, 120);
-
-    // 画面振動（body揺らし）
-    document.body.style.animation = 'screen-shake 0.4s ease infinite';
-
-    // リール枠を金色に光らせる
-    document.querySelectorAll('.g-reel-glow').forEach(g => {
-      g.style.border = '3px solid #ffd700';
-      g.style.boxShadow = '0 0 20px #ffd700,0 0 40px #ff8c00,inset 0 0 20px rgba(255,214,0,0.5)';
-    });
-
-    // 振動API
-    if (navigator.vibrate) navigator.vibrate(type === 'god' ? [150,80,150,80,150,80,400,100,800] : [120,60,120,60,300]);
-    if (typeof 七色フラッシュ === 'function') 七色フラッシュ();
-
-    setTimeout(() => {
-      overlay.style.opacity = '0';
-      if (rays) rays.style.opacity = '0';
-      document.body.style.animation = '';
-      document.querySelectorAll('.g-reel-glow').forEach(g => {
-        g.style.border = '2px solid transparent';
-        g.style.boxShadow = '';
-      });
-      setTimeout(resolve, 400);
-    }, type === 'god' ? 3200 : 2000);
-  });
-}
-
-function gUpdateUI() {
-  document.getElementById('g-credit').textContent = gState.credit;
-  document.getElementById('g-diff').textContent = (gState.diff>=0?'+':'') + gState.diff;
-  document.getElementById('g-diff').style.color = gState.diff >= 0 ? 'var(--green)' : 'var(--red)';
-  document.getElementById('g-games').textContent = gState.games;
-  document.getElementById('g-total-games').textContent = gState.totalGames;
-  document.getElementById('g-gg-count').textContent = gState.ggCount;
-  document.getElementById('g-god-count').textContent = gState.godCount;
-  document.getElementById('g-max-streak').textContent = gState.maxStreak;
-  document.getElementById('g-max-gain').textContent = (gState.maxGain>=0?'+':'') + gState.maxGain;
-  if (gState.totalGames > 0) {
-    const totalIn = gState.totalGames * 3;
-    const totalOut = totalIn + gState.diff;
-    const rate = (totalOut / totalIn * 100).toFixed(1);
-    document.getElementById('g-rate').textContent = rate + '%';
-  }
-
-  // GG中表示
-  const st = document.getElementById('g-state');
-  if (gState.inGG) {
-    st.innerHTML = `<div style="background:linear-gradient(135deg,#ffd700,#ff4500,#ffd700);background-size:200% 200%;animation:gradient-shift 1s linear infinite;padding:10px;border-radius:4px;color:#000;font-weight:900;font-family:'Orbitron',monospace;text-shadow:0 0 4px #fff;letter-spacing:2px">
-      ⚡ GOD GAME ${gState.ggRemainSets}セット残 / ループ${Math.round(gState.loopRate*100)}%${gState.zZone?' / Z-ZONE!!':''}
-    </div>`;
-  } else {
-    st.innerHTML = '';
-  }
-
-  // ボタン制御
-  document.getElementById('g-spin').disabled = gState.spinning_all || gState.credit < 3;
-  for (let r = 0; r < 3; r++) {
-    document.getElementById('g-stop-' + r).disabled = !gState.spinning[r];
-  }
-}
-
-function gAutoToggle() {
-  gState.autoMode = !gState.autoMode;
-  document.getElementById('g-auto-btn').textContent = gState.autoMode ? '⚡ AUTO ON' : '⚡ AUTO OFF';
-  if (gState.autoMode) gAutoLoop();
-}
-
-function gAutoLoop() {
-  if (!gState.autoMode) return;
-  if (gState.spinning_all) {
-    // 全停止
-    for (let r = 0; r < 3; r++) if (gState.spinning[r]) gStopReel(r);
-    setTimeout(gAutoLoop, 50);
-  } else if (gState.credit >= 3) {
-    gSpin();
-    setTimeout(gAutoLoop, 100);
-  } else {
-    gState.autoMode = false;
-    document.getElementById('g-auto-btn').textContent = '⚡ AUTO OFF';
-  }
-}
-
-function gSpin() {
-  if (gState.spinning_all) return;
-  if (gState.credit < 3) return;
-
-  gState.credit -= 3;
-  gState.totalGames++;
-  // 通常時のみ天井カウンタ加算（GG/CZ中は加算しない）
-  if (!gState.inGG && !gState.inCZ) gState.games++;
-  gState.spinning_all = true;
-  gState.pendingResult = gDecideResult();
-  gScreenEffect('spin');
-  g偶奇示唆生成();
-
-  // リール回転開始
-  for (let r = 0; r < 3; r++) {
-    gState.spinning[r] = true;
-    gState.reelSpeed[r] = 1;
-    gAnimateReel(r);
-  }
-  gUpdateUI();
-}
-
-function gDecideResult() {
-  if (gState.inGG) {
-    // GG中: 純増7枚/G、AT継続抽選はセット終了時
-    return { type: 'gg-game', payout: 10, symbol: 'rep' };
-  }
-
-  if (gState.inCZ) {
-    // ハーデスチャンス中（50%でGG）
-    return { type: 'cz-game', payout: 3, symbol: 'rep' };
-  }
-
-  // 天井到達チェック
-  if (gState.games >= G_CEILING) {
-    return { type: 'tenjo', payout: 0, symbol: 'god' };
-  }
-
-  const rand = Math.random();
-  // 実機準拠: AT当選率 設定6で 1/274.7
-  const atProb = 1 / G_AT_RATE;
-  // GOD揃い: AT当選の約8%
-  if (rand < atProb * 0.08) return { type: 'god', payout: 0, symbol: 'god', freeze: true };
-  // 赤7揃い (SGG): AT当選の約12%
-  if (rand < atProb * 0.20) return { type: 'red7', payout: 0, symbol: 'red7', freeze: true };
-  // 黄7揃い (GG直撃): AT当選の約30%
-  if (rand < atProb * 0.50) return { type: 'gg-direct', payout: 0, symbol: 'y7a' };
-  // 残りのAT当選: ハーデスチャンス経由
-  if (rand < atProb) return { type: 'hades-trigger', payout: 0, symbol: 'gaia' };
-
-  // 通常役
-  if (rand < 0.02) return { type: 'y7', payout: 50, symbol: 'y7a' };
-  if (rand < 0.10) return { type: 'gaia', payout: 0, symbol: 'gaia' };
-  if (rand < 0.20) return { type: 'bell', payout: 9, symbol: 'bell' };
-  // リプレイ系（4号機凱旋準拠：リプ確率約1/7.3 = 13.7%）
-  if (rand < 0.34) return { type: 'rep-mid', payout: 3, symbol: 'rep' };
-  if (rand < 0.36) return { type: 'rep-down', payout: 3, symbol: 'rep' };
-  if (rand < 0.37) return { type: 'rep-up', payout: 3, symbol: 'rep' };
-  return { type: 'hazure', payout: 0, symbol: null };
-}
-
-function gAnimateReel(r) {
-  const reel = document.querySelector(`.g-reel[data-r="${r}"] .g-reel-inner`);
-  if (!reel) return;
-  let y = parseFloat(reel.style.transform.replace('translateY(', '').replace('px)', '')) || 0;
-  // 回転中はブラー（実機のリール回転感）
-  reel.style.filter = 'blur(2px) brightness(1.1)';
-
-  function tick() {
-    if (!gState.spinning[r]) return;
-    y -= 28; // ちょっと遅めにして見やすく
-    const max = G_REELS_DEF[r].length * SYMBOL_HEIGHT;
-    if (y < -max * 4) y += max;
-    reel.style.transform = `translateY(${y}px)`;
-    requestAnimationFrame(tick);
-  }
-  tick();
-}
-
-function gStopReel(r) {
-  if (!gState.spinning[r]) return;
-
-  const result = gState.pendingResult;
-  const reelSyms = G_REELS_DEF[r];
-  let targetIdx = Math.floor(Math.random() * reelSyms.length);
-  let targetSym = result.symbol;
-
-  // リプレイの種類で停止位置を変化
-  if (result.type === 'rep-mid') {
-    // 中段揃い（同じインデックス）
-    const idxs = reelSyms.map((s, i) => s === 'rep' ? i : -1).filter(i => i >= 0);
-    if (idxs.length > 0) targetIdx = idxs[Math.floor(Math.random() * idxs.length)];
-  } else if (result.type === 'rep-down') {
-    // 右下がり: r=0は上段rep、r=1は中段rep、r=2は下段rep
-    const idxs = reelSyms.map((s, i) => s === 'rep' ? i : -1).filter(i => i >= 0);
-    if (idxs.length > 0) {
-      const base = idxs[0];
-      targetIdx = (base + r) % reelSyms.length;
-    }
-  } else if (result.type === 'rep-up') {
-    // 右上がり: r=0は下段rep、r=1は中段rep、r=2は上段rep
-    const idxs = reelSyms.map((s, i) => s === 'rep' ? i : -1).filter(i => i >= 0);
-    if (idxs.length > 0) {
-      const base = idxs[0];
-      targetIdx = (base - r + reelSyms.length) % reelSyms.length;
-    }
-  } else if (targetSym && reelSyms.includes(targetSym)) {
-    const idx = reelSyms.indexOf(targetSym);
-    if (idx >= 0) targetIdx = idx;
-  }
-
-  // 停止位置を計算（中段に targetIdx が来るように）
-  const reel = document.querySelector(`.g-reel[data-r="${r}"] .g-reel-inner`);
-  const reelLen = reelSyms.length;
-  // 5周分のうち中央周のtargetIdxを中段（reel高さ180、図柄60、中段=top 60px）
-  const baseOffset = reelLen * 2 * SYMBOL_HEIGHT; // 中央周開始位置
-  // 表示エリア中段は top:60 〜 120（中段）
-  const targetY = -(baseOffset + targetIdx * SYMBOL_HEIGHT - 60);
-
-  gState.spinning[r] = false;
-  // 停止時はブラー解除＋バウンス
-  reel.style.filter = '';
-  reel.style.transition = 'transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.2s';
-  reel.style.transform = `translateY(${targetY}px)`;
-  gState.reels[r] = targetIdx;
-
-  // 停止フラッシュ
-  const reelEl = document.querySelector(`.g-reel[data-r="${r}"] .g-reel-glow`);
-  if (reelEl) {
-    reelEl.style.border = '2px solid #ffd700';
-    reelEl.style.boxShadow = '0 0 12px #ffd700';
-    setTimeout(() => {
-      reelEl.style.border = '2px solid transparent';
-      reelEl.style.boxShadow = '';
-    }, 250);
-  }
-
-  setTimeout(() => { reel.style.transition = ''; }, 400);
-
-  // 全停止チェック
-  if (gState.spinning.every(s => !s)) {
-    setTimeout(gAfterStop, 200);
-  }
-  gUpdateUI();
-}
-
-async function gAfterStop() {
-  gState.spinning_all = false;
-  const r = gState.pendingResult;
-
-  if (r.type === 'tenjo') {
-    // 天井到達
-    gState.games = 0;
-    gScreenEffect('tenjo');
-    if (navigator.vibrate) navigator.vibrate([100, 50, 100, 50, 300]);
-    // 天井恩恵: 50% で 1% ループ / 50% で 80% ループ
-    gStartGG(1, Math.random() < 0.5 ? 'TENJO_HIGH' : 'TENJO_LOW');
-    if (gState.diff > gState.maxGain) gState.maxGain = gState.diff;
-    gUpdateUI();
-    return;
-  }
-
-  if (r.type === 'hades-trigger') {
-    // ハーデスチャンス突入
-    gState.inCZ = true;
-    gState.czRemain = 7;  // 7G継続
-    gScreenEffect('hades');
-    gUpdateUI();
-    return;
-  }
-
-  if (r.type === 'cz-game') {
-    // ハーデスチャンス中
-    gState.czRemain--;
-    gState.credit += 3;  // リプレイ
-    if (gState.czRemain <= 0) {
-      // CZ終了：50%でGG突入
-      gState.inCZ = false;
-      if (Math.random() < 0.5) {
-        gScreenEffect('gg');
-        if (navigator.vibrate) navigator.vibrate([80, 40, 80]);
-        gStartGG(1, 'CZ');
-      } else {
-        gScreenSet('READY', '神々の軌跡', 'CZ FAIL');
-        setTimeout(() => gScreenSet('READY', '神々の軌跡', 'READY TO SPIN'), 1500);
-      }
-    }
-    if (gState.diff > gState.maxGain) gState.maxGain = gState.diff;
-    gUpdateUI();
-    return;
-  }
-
-  if (r.type === 'god') {
-    gState.godCount++;
-    gScreenEffect('god');
-    await gFreeze('god'); // フリーズ演出
-    gStartGG(4, 'GOD');
-  } else if (r.type === 'red7') {
-    gScreenEffect('sgg');
-    await gFreeze('sgg');
-    gStartGG(1, 'SGG');
-  } else if (r.type === 'gg-direct') {
-    gScreenEffect('gg');
-    if (navigator.vibrate) navigator.vibrate([80,40,80]);
-    gStartGG(1, 'AT');
-  } else if (r.type === 'y7') {
-    gState.credit += r.payout;
-    gState.diff += r.payout - 3;
-    gScreenEffect('win');
-    setTimeout(() => gScreenSet('READY','神々の軌跡','BONUS!'), 800);
-  } else if (r.type === 'rep-down' || r.type === 'rep-up') {
-    gState.credit += r.payout;
-    gState.diff += 0; // リプレイは差し引き0
-    gScreenEffect('win');
-    const c = document.getElementById('g-screen-content');
-    if (c) c.innerHTML = `<div style="font-size:24px;color:#4ad9ff;font-weight:900;text-shadow:0 0 12px #4ad9ff">${r.type==='rep-down'?'右下がり':'右上がり'}REP</div><div style="font-size:12px;color:#ffd700;margin-top:6px">⚡ チャンス！</div>`;
-    setTimeout(() => gScreenSet('READY','神々の軌跡','READY TO SPIN'), 1200);
-  } else if (r.type === 'rep-mid') {
-    gState.credit += r.payout;
-    gState.diff += 0;
-  } else if (r.type === 'bell') {
-    gState.credit += r.payout;
-    gState.diff += r.payout - 3;
-  } else if (r.type === 'gaia') {
-    const c = document.getElementById('g-screen-content');
-    if (c) c.innerHTML = `<div style="font-size:24px;color:#88f4ff;font-weight:900;text-shadow:0 0 12px #88f4ff">GAIA!</div><div style="font-size:11px;color:#ffd700;margin-top:6px">チャンス目</div>`;
-    setTimeout(() => gScreenSet('READY','神々の軌跡','READY TO SPIN'), 1200);
-  } else if (r.type === 'gg-game') {
-    gState.credit += r.payout;
-    gState.diff += r.payout - 3;
-    gState.ggRemainSets -= 1/30;
-    if (gState.ggRemainSets <= 0) gEndGGSet();
-  }
-
-  if (gState.diff > gState.maxGain) gState.maxGain = gState.diff;
-  gUpdateUI();
-}
-
-function gStartGG(sets, type) {
-  gState.inGG = true;
-  gState.games = 0;  // 天井カウンタリセット
-  gState.ggCount++;
-  gState.ggInSetG = 0;
-  if (gState.streak === 0) gState.streak = 1;
-  else gState.streak++;
-  if (gState.streak > gState.maxStreak) gState.maxStreak = gState.streak;
-
-  // ループストック抽選
-  const r = Math.random();
-  if (type === 'GOD') {
-    // GODは強力ループ
-    if (r < 0.5) gState.loopRate = 0.8;
-    else if (r < 0.8) gState.loopRate = 0.5;
-    else gState.loopRate = 0.99;
-    gState.zZone = true;
-    gState.ggSets = sets;
-    gState.ggRemainSets = sets;
-  } else {
-    // 通常GG / SGG
-    if (r < 0.167) gState.loopRate = 0.01;
-    else if (r < 0.334) gState.loopRate = 0.25;
-    else if (r < 0.501) gState.loopRate = 0.5;
-    else if (r < 0.668) gState.loopRate = 0.8;
-    else { gState.loopRate = 0.01; gState.zZone = true; }
-    gState.ggSets = 1;
-    gState.ggRemainSets = 1;
-  }
-}
-
-function gEndGGSet() {
-  // ループストック判定
-  if (Math.random() < gState.loopRate) {
-    gState.ggRemainSets += 1;
-    gState.streak++;
-    if (gState.streak > gState.maxStreak) gState.maxStreak = gState.streak;
-    // STOCK演出
-    gScreenEffect(gState.zZone ? 'zzone' : 'stock');
-    setTimeout(() => { if (gState.inGG) gScreenEffect('gg'); }, 1500);
-  } else {
-    // GG終了 → 終了画面表示
-    gShowEndScreen();
-    gState.inGG = false;
-    gState.loopRate = 0;
-    gState.zZone = false;
-    gState.streak = 0;
-  }
-}
-
-// 🎬 GG終了画面（実機の終了画面示唆を再現）
-function gShowEndScreen() {
-  const r = Math.random();
-  let chara, label, color;
-  // 終了画面振分（実機準拠）
-  // 通常: ハーデス, ゼウス, アテナ
-  // レア: 全員集合(設定示唆), ハデス・ゼウス・アテナ集合(設定2以上), 6体(設定6濃厚)
-  if (r < 0.005) {
-    chara = '👁️'; label = '6体集合 - 設定6濃厚！'; color = '#ff0000';
-  } else if (r < 0.02) {
-    chara = '⚡'; label = '全員集合 - 高設定示唆'; color = '#ffd700';
-  } else if (r < 0.06) {
-    chara = '🔱'; label = '夕焼け背景 - 設定2以上'; color = '#ff8c00';
-  } else if (r < 0.15) {
-    chara = '🌅'; label = '朝焼け - 通常'; color = '#ffe066';
-  } else if (r < 0.40) {
-    chara = '👹'; label = 'ハーデス - 通常'; color = '#aa66ff';
-  } else if (r < 0.70) {
-    chara = '⚔️'; label = 'ゼウス - 通常'; color = '#88f4ff';
-  } else {
-    chara = '🛡️'; label = 'アテナ - 通常'; color = '#ff8cc8';
-  }
-
-  const c = document.getElementById('g-screen-content');
-  const bg = document.getElementById('g-screen-bg');
-  const gods = document.getElementById('g-gods');
-  if (!c) return;
-  if (gods) gods.style.display = 'none';
-  if (bg) {
-    bg.style.background = `radial-gradient(circle at 50% 50%,${color}22,#000)`;
-    bg.style.animation = '';
-  }
-  c.innerHTML = `
-    <div style="font-size:11px;color:${color};letter-spacing:3px;text-shadow:0 0 6px ${color}">GG END</div>
-    <div style="font-size:64px;margin:4px 0;filter:drop-shadow(0 0 12px ${color})">${chara}</div>
-    <div style="font-size:13px;color:${color};text-shadow:0 0 8px ${color},0 2px 4px #000;font-weight:700;letter-spacing:2px">${label}</div>
-  `;
-  // 5秒後に通常画面に戻す
-  setTimeout(() => {
-    if (!gState.inGG && !gState.inCZ) gScreenSet('READY', '神々の軌跡', 'READY TO SPIN');
-  }, 4500);
-}
-
-function gFlashScreen(type) {
-  if (typeof 七色フラッシュ === 'function') 七色フラッシュ();
-  if (navigator.vibrate) navigator.vibrate(type === 'GOD' ? [100,50,100,50,300] : [80,40,80]);
-}
-
-function gReset() {
-  gState = {
-    credit: 300, diff: 0, games: 0, totalGames: 0, ggCount: 0, godCount: 0,
-    streak: 0, maxStreak: 0, maxGain: 0, inGG: false, ggSets: 0, ggRemainSets: 0,
-    loopRate: 0, zZone: false, reels: [0,0,0], spinning: [false,false,false],
-    reelSpeed: [0,0,0], reelTargets: [null,null,null], spinning_all: false,
-    autoMode: false, pendingResult: null, history: [], startCredit: 300,
-  };
-  document.getElementById('g-auto-btn').textContent = '⚡ AUTO OFF';
-  gUpdateUI();
-}
 
 // ════════════════════════════════════════
 // ── ⚠️ 損切り・勝ち逃げアラート ──
@@ -9784,106 +7990,6 @@ function 近くのホール取得() {
   }, { enableHighAccuracy: true, timeout: 10000 });
 }
 
-// ════════════════════════════════════════
-// ── 🎯 設定推測ツール（ベイズ推論）──
-// ════════════════════════════════════════
-const ジャグラー機種データ = {
-  // [設定1, 設定2, 設定3, 設定4, 設定5, 設定6] の分母
-  mai: {
-    名: 'マイジャグラーV',
-    BB: [273.07, 270.81, 264.26, 257.97, 248.24, 240.94],
-    RB: [439.65, 399.61, 364.09, 327.68, 277.41, 268.62],
-    ぶどう: [6.35, 6.31, 6.26, 6.23, 6.16, 6.07],
-  },
-  aim: {
-    名: 'SアイムジャグラーEX',
-    BB: [273.07, 273.07, 273.07, 256.00, 256.00, 240.94],
-    RB: [439.83, 399.61, 364.09, 314.18, 277.41, 255.50],
-    ぶどう: [6.35, 6.31, 6.26, 6.21, 6.15, 6.07],
-  },
-  funky: {
-    名: 'ファンキージャグラー2KT',
-    BB: [273.07, 270.81, 264.26, 257.97, 251.96, 240.94],
-    RB: [546.13, 481.88, 425.98, 364.09, 312.38, 273.07],
-    ぶどう: [5.82, 5.78, 5.74, 5.68, 5.61, 5.51],
-  },
-  happy: {
-    名: 'ハッピージャグラーVIII',
-    BB: [273.07, 270.81, 264.26, 257.97, 248.24, 240.94],
-    RB: [468.11, 423.72, 384.00, 348.46, 297.89, 270.81],
-    ぶどう: [6.16, 6.12, 6.06, 6.02, 5.93, 5.83],
-  },
-  neo: {
-    名: 'ネオアイムジャグラーEX',
-    BB: [273.07, 273.07, 273.07, 256.00, 256.00, 240.94],
-    RB: [439.83, 399.61, 364.09, 314.18, 277.41, 255.50],
-    ぶどう: [6.35, 6.31, 6.26, 6.21, 6.15, 6.07],
-  },
-};
-
-// ポアソン近似で観測確率を計算
-function 観測確率(回数, 分母, ゲーム数) {
-  const λ = ゲーム数 / 分母;
-  if (λ === 0) return 回数 === 0 ? 1 : 0;
-  // log P で計算（精度確保）
-  let logP = -λ + 回数 * Math.log(λ);
-  for (let i = 1; i <= 回数; i++) logP -= Math.log(i);
-  return Math.exp(logP);
-}
-
-function 設定推測実行() {
-  const key = document.getElementById('ja-machine').value;
-  const G = parseInt(document.getElementById('ja-games').value);
-  const BB = parseInt(document.getElementById('ja-bb').value);
-  const RB = parseInt(document.getElementById('ja-rb').value);
-  const ぶどう = parseInt(document.getElementById('ja-budo').value) || 0;
-  const data = ジャグラー機種データ[key];
-  const resultEl = document.getElementById('設定推測結果');
-
-  if (!G || isNaN(BB) || isNaN(RB)) {
-    resultEl.innerHTML = '<div style="color:var(--red);font-size:13px">⚠️ 総ゲーム数・BB回数・RB回数を入力してください</div>';
-    return;
-  }
-
-  // 各設定の尤度計算
-  const 尤度 = [];
-  for (let s = 0; s < 6; s++) {
-    let p = 観測確率(BB, data.BB[s], G) * 観測確率(RB, data.RB[s], G);
-    if (ぶどう > 0) p *= 観測確率(ぶどう, data.ぶどう[s], G);
-    尤度.push(p);
-  }
-  const 合計 = 尤度.reduce((a, b) => a + b, 0);
-  const 確率 = 尤度.map(p => 合計 > 0 ? p / 合計 * 100 : 0);
-
-  const 合算 = BB + RB > 0 ? `1/${(G / (BB + RB)).toFixed(1)}` : '-';
-  const ぶどう確率 = ぶどう > 0 ? `1/${(G / ぶどう).toFixed(2)}` : '-';
-  const 最高設定 = 確率.indexOf(Math.max(...確率)) + 1;
-
-  resultEl.innerHTML = `
-    <div style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:14px">
-      <div style="font-size:13px;color:var(--text2);margin-bottom:10px">
-        ${data.名} / ${G.toLocaleString()}G / BB ${BB} / RB ${RB} / 合算 ${合算} / ぶどう ${ぶどう確率}
-      </div>
-      <div style="font-size:14px;font-weight:700;color:var(--cyan);margin-bottom:12px">
-        🎯 最有力: <span style="color:${最高設定>=5?'var(--green)':最高設定>=3?'var(--gold)':'var(--red)'};font-size:18px">設定${最高設定}</span>
-      </div>
-      ${確率.map((p, i) => {
-        const 設定 = i + 1;
-        const 色 = 設定 >= 5 ? 'var(--green)' : 設定 >= 3 ? 'var(--gold)' : 'var(--muted)';
-        return `<div style="display:grid;grid-template-columns:60px 1fr 50px;gap:8px;align-items:center;margin-bottom:5px;font-size:12px">
-          <div style="color:${色};font-weight:700">設定${設定}</div>
-          <div style="background:var(--bg2);height:14px;border-radius:2px;overflow:hidden">
-            <div style="width:${p}%;height:100%;background:${色};box-shadow:0 0 8px ${色}80"></div>
-          </div>
-          <div style="text-align:right;font-family:'Orbitron',monospace;font-weight:700;color:${色}">${p.toFixed(1)}%</div>
-        </div>`;
-      }).join('')}
-      <div style="font-size:11px;color:var(--muted);margin-top:10px;line-height:1.6">
-        💡 推奨アクション：${最高設定 >= 5 ? '<strong style="color:var(--green)">続行推奨。高設定濃厚</strong>' : 最高設定 >= 3 ? '<strong style="color:var(--gold)">様子見。データ蓄積で再判断</strong>' : '<strong style="color:var(--red)">低設定濃厚。撤退検討</strong>'}
-      </div>
-    </div>
-  `;
-}
 
 // ════════════════════════════════════════
 // ── ⏰ 天井期待値計算機 ──
