@@ -1,5 +1,5 @@
 // スロット管理システム サービスワーカー
-const CACHE_NAME = 'v21-spec-database';
+const CACHE_NAME = 'v22-calendar-report';
 const ASSETS = [
   './',
   './index.html',

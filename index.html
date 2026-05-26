@@ -2041,6 +2041,65 @@ header h1 {
   color: var(--text) !important;
   text-shadow: none !important;
 }
+
+/* ===== Cycle#20: 月次レポートモーダル ===== */
+.report-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 20px; overflow-y: auto; }
+.report-inner { background: var(--bg2); border: 1px solid var(--cyan); border-radius: 16px; padding: 0; max-width: 480px; width: 100%; box-shadow: 0 0 60px rgba(124,92,255,0.4); max-height: 90vh; display: flex; flex-direction: column; }
+.report-header { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.report-title { font-family: var(--font-display); font-weight: 900; font-size: 16px; color: var(--text); }
+.report-close-x { background: transparent; border: none; color: var(--muted); font-size: 18px; cursor: pointer; }
+.report-body { padding: 16px 20px; overflow-y: auto; flex: 1; }
+.report-hero { padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 14px; }
+.report-hero.positive { background: linear-gradient(135deg, rgba(34,211,163,0.15), var(--bg3)); border: 1px solid rgba(34,211,163,0.3); }
+.report-hero.negative { background: linear-gradient(135deg, rgba(255,77,109,0.15), var(--bg3)); border: 1px solid rgba(255,77,109,0.3); }
+.report-hero-label { font-size: 11px; color: var(--muted); letter-spacing: 2px; }
+.report-hero-num { font-family: var(--font-mono); font-size: 32px; font-weight: 900; margin: 6px 0; }
+.report-hero.positive .report-hero-num { color: #22d3a3; }
+.report-hero.negative .report-hero-num { color: #ff4d6d; }
+.report-hero-sub { font-size: 12px; color: var(--text2); }
+.report-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 14px; }
+.report-stat { padding: 12px; background: var(--bg3); border-radius: 10px; text-align: center; }
+.report-stat-label { font-size: 10px; color: var(--muted); letter-spacing: 1px; }
+.report-stat-val { font-family: var(--font-mono); font-size: 18px; font-weight: 800; margin-top: 4px; }
+.report-stat-val.pos { color: #22d3a3; }
+.report-stat-val.neg { color: #ff4d6d; }
+.report-stat-sub { font-size: 9px; color: var(--muted); margin-top: 2px; }
+.report-section { padding: 12px; background: var(--bg3); border-radius: 10px; margin-bottom: 10px; }
+.report-section-title { font-size: 12px; font-weight: 700; color: var(--text2); margin-bottom: 8px; }
+.report-chip { padding: 4px 10px; background: var(--bg2); border-radius: 99px; font-size: 11px; color: var(--text2); }
+.advice-section { background: linear-gradient(135deg, rgba(124,92,255,0.08), var(--bg3)); border: 1px solid rgba(124,92,255,0.2); }
+.report-advice { padding: 8px 10px; background: var(--bg2); border-radius: 6px; margin: 4px 0; font-size: 12px; color: var(--text2); line-height: 1.5; }
+.report-footer { padding: 12px 20px; border-top: 1px solid var(--border); }
+.report-close { width: 100%; padding: 12px; background: var(--cyan); color: #fff; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; }
+
+/* ===== Cycle#20: 出撃カレンダー ===== */
+.cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.cal-title { font-family: var(--font-display); font-weight: 800; font-size: 14px; }
+.cal-nav { background: var(--bg3); border: 1px solid var(--border); color: var(--text); border-radius: 6px; padding: 4px 10px; cursor: pointer; }
+.cal-grid-head, .cal-grid-body { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+.cal-weekday { text-align: center; padding: 6px 0; font-size: 10px; color: var(--muted); font-weight: 700; }
+.cal-weekday.sun { color: #ff4d6d; }
+.cal-weekday.sat { color: #7c5cff; }
+.cal-cell { position: relative; aspect-ratio: 1; padding: 4px; background: var(--bg3); border: 1px solid transparent; border-radius: 6px; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 2px; transition: all 0.15s; }
+.cal-cell:hover { border-color: var(--cyan); }
+.cal-cell.empty { background: transparent; pointer-events: none; }
+.cal-cell.today { border-color: var(--cyan); box-shadow: 0 0 0 1px var(--cyan); }
+.cal-cell.day-8 { background: rgba(255,181,71,0.15); border-color: rgba(255,181,71,0.4); }
+.cal-cell.day-5 { background: rgba(192,192,192,0.10); border-color: rgba(192,192,192,0.3); }
+.cal-cell.payday { background: rgba(34,211,163,0.15); border-color: rgba(34,211,163,0.4); }
+.cal-cell.bonus { background: rgba(124,92,255,0.20); border-color: rgba(124,92,255,0.4); }
+.cal-cell.marked::after { content: '●'; position: absolute; top: 2px; right: 4px; font-size: 8px; color: var(--cyan); }
+.cal-num { font-family: var(--font-mono); font-size: 13px; font-weight: 700; }
+.cal-sa { font-family: var(--font-mono); font-size: 9px; font-weight: 700; }
+.cal-sa.pos { color: #22d3a3; }
+.cal-sa.neg { color: #ff4d6d; }
+.cal-note { font-size: 8px; color: var(--text2); text-align: center; overflow: hidden; }
+.cal-legend { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; font-size: 10px; color: var(--muted); }
+.leg-dot { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 3px; vertical-align: middle; }
+.leg-dot.day-8 { background: #ffb547; }
+.leg-dot.day-5 { background: #c0c0c0; }
+.leg-dot.payday { background: #22d3a3; }
+.leg-dot.bonus { background: #7c5cff; }
 </style>
 </head>
 <body>
@@ -2274,6 +2333,14 @@ header h1 {
           <div style="color:var(--muted);font-size:12px">読み込み中…</div>
         </div>
       </div>
+    </div>
+  </details>
+
+  <!-- ===== Cycle#20 出撃カレンダー ===== -->
+  <details class="acc-card" id="acc-calendar">
+    <summary>📅 出撃カレンダー</summary>
+    <div class="acc-body">
+      <div id="カレンダー本体"></div>
     </div>
   </details>
 
@@ -3854,6 +3921,13 @@ header h1 {
     </div>
   </div>
 
+  <!-- ===== Cycle#20 月次振り返りレポート ===== -->
+  <div class="カード">
+    <div class="カードタイトル">▶ 📊 月次振り返り</div>
+    <p style="font-size:12px;color:var(--text2);margin-bottom:10px">今月の収支・勝率・撤退理由を集計してアドバイス</p>
+    <button class="ボタン主" style="width:100%" onclick="月次レポートモーダル()">📊 今月のレポートを見る</button>
+  </div>
+
 </div>
 
 <!-- ===== 設定ページ ===== -->
@@ -5131,6 +5205,210 @@ function renderHome() {
   document.getElementById('ホールトップ5').innerHTML = sorted.length===0
     ? '<div class="空表示"><div class="アイコン">🏢</div>データがありません</div>'
     : sorted.map(([name,d],i)=>`<div class="ホールカード"><div><div class="ホール名">${i+1}. ${name}</div><div class="ホールメタ">${d.count}回 | 勝率${Math.round(d.wins/d.count*100)}% | 平均${Math.round(d.pnl/d.count).toLocaleString()}円/回</div></div><div class="ホール収支 ${d.pnl>=0?'プラス':'マイナス'}">${(d.pnl>=0?'+':'')+d.pnl.toLocaleString()}円</div></div>`).join('');
+
+  // Cycle#20: 出撃カレンダー描画
+  try { if (typeof カレンダー描画 === 'function') カレンダー描画(_cal_state.year, _cal_state.month); } catch(e) { console.warn('cal render err', e); }
+}
+
+// ===== Cycle#20: 月次振り返りレポート =====
+function 月次レポート生成(year, month) {
+  const records = JSON.parse(localStorage.getItem('records') || '[]');
+  const ymPrefix = year + '-' + String(month).padStart(2,'0');
+  const recs = records.filter(r => (r.date||'').startsWith(ymPrefix));
+  if (!recs.length) return null;
+
+  const conf = (typeof 年間目標取得 === 'function') ? 年間目標取得() : { rate_yen_per_piece: 20 };
+  const totalSa = recs.reduce((s,r) => s + (parseInt(r.差枚) || 0), 0);
+  const totalYen = totalSa * conf.rate_yen_per_piece;
+  const winDays = recs.filter(r => (parseInt(r.差枚) || 0) > 0).length;
+  const winRate = Math.round(winDays / recs.length * 100);
+  const sas = recs.map(r => parseInt(r.差枚) || 0);
+  const maxWin = Math.max(...sas);
+  const maxLoss = Math.min(...sas);
+
+  const reasons = { '損切り':0, '勝ち逃げ':0, '通常終了':0, '未選択':0 };
+  recs.forEach(r => {
+    const reason = r['撤退理由'] || '未選択';
+    if (reasons[reason] != null) reasons[reason]++;
+    else reasons['未選択']++;
+  });
+
+  const liveRecs = recs.filter(r => r['開始'] && r['終了']);
+  let avgMin = null;
+  if (liveRecs.length) {
+    const totalMin = liveRecs.reduce((s,r) => s + (new Date(r['終了']) - new Date(r['開始']))/60000, 0);
+    avgMin = Math.round(totalMin / liveRecs.length);
+  }
+
+  const preSelected = recs.filter(r => r.pre_selected === true);
+  const preWins = preSelected.filter(r => (parseInt(r.差枚) || 0) > 0).length;
+  const preHitRate = preSelected.length ? Math.round(preWins / preSelected.length * 100) : null;
+
+  const advice = [];
+  if (winRate < 40) advice.push('💡 勝率が40%未満。事前選択Top候補に絞り、低期待値機種は避けましょう。');
+  if (reasons['損切り'] === 0 && totalYen < 0) advice.push('⚠️ 損切り0回で月収支マイナス。損切りラインを明確に設定して守りましょう。');
+  if (preHitRate !== null && preHitRate > winRate + 15) advice.push('✅ 事前選択戦略が機能しています。このまま継続を推奨。');
+  if (reasons['勝ち逃げ'] >= 3) advice.push('🏆 勝ち逃げ多数。規律が確立されています。');
+  if (advice.length === 0) advice.push('📊 月次データが安定してきました。継続して記録を蓄積しましょう。');
+
+  return { year, month, records: recs.length, total_sa: totalSa, total_yen: totalYen, win_rate: winRate, win_days: winDays, max_win: maxWin, max_loss: maxLoss, reasons, avg_minutes: avgMin, pre_selected_count: preSelected.length, pre_hit_rate: preHitRate, advice };
+}
+
+function 月次レポートモーダル(year, month) {
+  const y = year || new Date().getFullYear();
+  const m = month || (new Date().getMonth()+1);
+  const r = 月次レポート生成(y, m);
+
+  const overlay = document.createElement('div');
+  overlay.className = 'report-modal';
+  if (!r) {
+    overlay.innerHTML = `<div class="report-inner"><div class="report-header"><div class="report-title">${y}年${m}月 レポート</div></div><div style="padding:20px;color:var(--muted);text-align:center">この月の記録がありません</div><div class="report-footer"><button class="report-close" onclick="this.closest('.report-modal').remove()">閉じる</button></div></div>`;
+    document.body.appendChild(overlay);
+    return;
+  }
+
+  const reasonsList = Object.entries(r.reasons).filter(([k,v]) => v > 0).map(([k,v]) => `<span class="report-chip">${k}: ${v}</span>`).join('');
+
+  overlay.innerHTML = `
+    <div class="report-inner">
+      <div class="report-header">
+        <div class="report-title">📊 ${y}年${m}月 振り返り</div>
+        <button class="report-close-x" onclick="this.closest('.report-modal').remove()">✕</button>
+      </div>
+      <div class="report-body">
+        <div class="report-hero ${r.total_yen >= 0 ? 'positive' : 'negative'}">
+          <div class="report-hero-label">月間収支</div>
+          <div class="report-hero-num">${r.total_yen >= 0 ? '+' : ''}${r.total_yen.toLocaleString()}円</div>
+          <div class="report-hero-sub">差枚 ${r.total_sa >= 0 ? '+' : ''}${r.total_sa.toLocaleString()} / ${r.records}日記録</div>
+        </div>
+        <div class="report-grid">
+          <div class="report-stat"><div class="report-stat-label">勝率</div><div class="report-stat-val">${r.win_rate}%</div><div class="report-stat-sub">${r.win_days}/${r.records}日</div></div>
+          <div class="report-stat"><div class="report-stat-label">最大勝ち</div><div class="report-stat-val pos">+${r.max_win.toLocaleString()}</div><div class="report-stat-sub">差枚</div></div>
+          <div class="report-stat"><div class="report-stat-label">最大負け</div><div class="report-stat-val neg">${r.max_loss.toLocaleString()}</div><div class="report-stat-sub">差枚</div></div>
+          <div class="report-stat"><div class="report-stat-label">平均滞在</div><div class="report-stat-val">${r.avg_minutes!=null ? r.avg_minutes+'分' : '--'}</div><div class="report-stat-sub">来店記録</div></div>
+        </div>
+        ${r.pre_hit_rate !== null ? `
+        <div class="report-section">
+          <div class="report-section-title">🎯 事前選択ヒット率</div>
+          <div style="display:flex;gap:10px;align-items:baseline">
+            <div style="font-family:var(--font-mono);font-size:24px;font-weight:900;color:${r.pre_hit_rate >= 60 ? '#22d3a3' : '#ff4d6d'}">${r.pre_hit_rate}%</div>
+            <div style="font-size:11px;color:var(--muted)">n=${r.pre_selected_count} (vs 全体勝率 ${r.win_rate}%)</div>
+          </div>
+        </div>` : ''}
+        <div class="report-section">
+          <div class="report-section-title">🏁 撤退理由</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px">${reasonsList}</div>
+        </div>
+        <div class="report-section advice-section">
+          <div class="report-section-title">💡 アドバイス</div>
+          ${r.advice.map(a => `<div class="report-advice">${a}</div>`).join('')}
+        </div>
+      </div>
+      <div class="report-footer">
+        <button class="report-close" onclick="this.closest('.report-modal').remove()">閉じる</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+}
+
+// ===== Cycle#20: 出撃カレンダー =====
+let _cal_state = { year: new Date().getFullYear(), month: new Date().getMonth() + 1 };
+
+function カレンダー描画(year, month) {
+  const y = year || _cal_state.year || new Date().getFullYear();
+  const m = month || _cal_state.month || (new Date().getMonth()+1);
+  _cal_state = { year: y, month: m };
+  const cont = document.getElementById('カレンダー本体');
+  if (!cont) return;
+
+  const allMarks = JSON.parse(localStorage.getItem('calendar_marks') || '{}');
+  const ymKey = y + '-' + String(m).padStart(2,'0');
+  const marks = allMarks[ymKey] || {};
+  const records = JSON.parse(localStorage.getItem('records') || '[]');
+
+  const recsByDate = {};
+  records.forEach(r => { if ((r.date||'').startsWith(ymKey)) {
+    if (!recsByDate[r.date]) recsByDate[r.date] = [];
+    recsByDate[r.date].push(r);
+  }});
+
+  const firstDay = new Date(y, m-1, 1);
+  const lastDay = new Date(y, m, 0);
+  const startWeekday = firstDay.getDay();
+  const daysInMonth = lastDay.getDate();
+
+  let html = `<div class="cal-header"><button class="cal-nav" onclick="カレンダー前月(${y},${m})">←</button><div class="cal-title">${y}年${m}月</div><button class="cal-nav" onclick="カレンダー次月(${y},${m})">→</button></div>`;
+  html += '<div class="cal-grid-head">' + ['日','月','火','水','木','金','土'].map((d,i) => `<div class="cal-weekday ${i===0?'sun':i===6?'sat':''}">${d}</div>`).join('') + '</div>';
+  html += '<div class="cal-grid-body">';
+
+  for (let i = 0; i < startWeekday; i++) html += '<div class="cal-cell empty"></div>';
+
+  const today = new Date();
+  const isCurrentMonth = y === today.getFullYear() && m === today.getMonth() + 1;
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const dateStr = `${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const lastDigit = d % 10;
+    const isToday = isCurrentMonth && d === today.getDate();
+
+    let classes = ['cal-cell'];
+    if (isToday) classes.push('today');
+    if (lastDigit === 8) classes.push('day-8');
+    if (lastDigit === 5) classes.push('day-5');
+    if (d === 20) classes.push('payday');
+    if ((m === 7 && d === 10) || (m === 12 && d === 10)) classes.push('bonus');
+    if (marks[dateStr]) classes.push('marked');
+
+    const rec = recsByDate[dateStr];
+    const totalSa = rec ? rec.reduce((s,r) => s + (parseInt(r.差枚)||0), 0) : null;
+
+    let inner = `<div class="cal-num">${d}</div>`;
+    if (totalSa != null) {
+      inner += `<div class="cal-sa ${totalSa>=0?'pos':'neg'}">${totalSa>=0?'+':''}${totalSa}</div>`;
+    } else if (marks[dateStr] && marks[dateStr].note) {
+      inner += `<div class="cal-note">${marks[dateStr].note.slice(0,4)}</div>`;
+    }
+
+    html += `<div class="${classes.join(' ')}" onclick="カレンダーセル編集('${dateStr}')">${inner}</div>`;
+  }
+
+  html += '</div>';
+  html += `<div class="cal-legend">
+    <span><span class="leg-dot day-8"></span>8のつく日</span>
+    <span><span class="leg-dot day-5"></span>5のつく日</span>
+    <span><span class="leg-dot payday"></span>給料日</span>
+    <span><span class="leg-dot bonus"></span>ボーナス</span>
+  </div>`;
+
+  cont.innerHTML = html;
+}
+
+function カレンダー前月(y, m) {
+  if (m === 1) { y--; m = 12; } else m--;
+  _cal_state = { year: y, month: m };
+  カレンダー描画(y, m);
+}
+function カレンダー次月(y, m) {
+  if (m === 12) { y++; m = 1; } else m++;
+  _cal_state = { year: y, month: m };
+  カレンダー描画(y, m);
+}
+
+function カレンダーセル編集(dateStr) {
+  const allMarks = JSON.parse(localStorage.getItem('calendar_marks') || '{}');
+  const ymKey = dateStr.slice(0,7);
+  if (!allMarks[ymKey]) allMarks[ymKey] = {};
+  const cur = allMarks[ymKey][dateStr] || { note: '' };
+  const note = prompt(`${dateStr} のメモ（想定機種・予算など、空欄で削除）`, cur.note || '');
+  if (note === null) return;
+  if (note.trim() === '') {
+    delete allMarks[ymKey][dateStr];
+  } else {
+    allMarks[ymKey][dateStr] = { type: 'plan', note: note.trim() };
+  }
+  localStorage.setItem('calendar_marks', JSON.stringify(allMarks));
+  カレンダー描画(_cal_state.year, _cal_state.month);
 }
 
 // ── 履歴 ──
