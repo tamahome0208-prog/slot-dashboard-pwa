@@ -2669,13 +2669,12 @@ header h1 {
   <!-- 🌟 ロイヤル登別 詳細分析（DMM出玉ランキング連動） -->
   <div class="カード" style="border-left-color: var(--gold);background: linear-gradient(135deg, var(--bg2) 0%, rgba(255,214,0,0.04) 100%)">
     <div class="カードタイトル" style="color:var(--gold);text-shadow:0 0 8px rgba(255,214,0,0.4)">
-      🌟 ロイヤル登別 詳細分析（<span id="top10日付">--</span>・DMM最新）
+      🌟 ロイヤル登別 詳細分析（DMM最新）
     </div>
 
     <div style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:14px;margin-bottom:14px">
       <div style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:10px">
         <strong style="color:var(--cyan)">📡 出典：</strong> DMMぱちタウン 出玉ランキング<br>
-        <strong style="color:var(--cyan)">📅 最終更新：</strong> <span id="top10日付_2">--</span><br>
         <strong style="color:var(--cyan)">🏢 規模：</strong> 800台（パチ520+スロ280）　住所：登別市栄町1-15-1
       </div>
     </div>
@@ -2692,22 +2691,6 @@ header h1 {
         <div style="margin-bottom:6px"><strong style="color:var(--cyan)">L 甲鉄城のカバネリ</strong> 単独+13,853枚（台番号705）</div>
         <div style="margin-bottom:6px"><strong style="color:var(--cyan)">L モンキーターン</strong> 単独+13,430枚（台番号660）</div>
         <div><strong style="color:var(--cyan)">L 北斗の拳 転生の章2</strong> 単独+12,894枚（台番号549）</div>
-      </div>
-    </div>
-
-    <!-- 🏆 スロット出玉TOP10（royal_history.json から動的生成） -->
-    <div style="margin-bottom:14px">
-      <div style="font-size:13px;font-weight:700;color:var(--cyan);text-shadow:var(--glow-c);margin-bottom:10px">
-        🏆 スロット出玉TOP10（<span id="top10日付">--</span>）
-      </div>
-      <div class="テーブル枠">
-        <table style="font-size:12px">
-          <thead><tr><th>順位</th><th>機種名</th><th>差枚</th></tr></thead>
-          <tbody id="top10テーブル"></tbody>
-        </table>
-      </div>
-      <div style="font-size:11px;color:var(--muted);margin-top:8px;line-height:1.6">
-        ※ 直近スクレイピング結果。差枚降順上位10機種。
       </div>
     </div>
 
@@ -3026,19 +3009,6 @@ header h1 {
         </div>
       </div>
     </div>
-  </div>
-
-  <!-- 🏆 出玉ランキングTOP10 -->
-  <div class="カード">
-    <div class="カードタイトル">▶ 🏆 出玉ランキングTOP10（<span id="top10日付">--</span>）</div>
-    <div style="font-size:11px;color:var(--muted);margin-bottom:10px">出典: DMMぱちタウン公式（royal_history.json 自動更新）</div>
-    <div class="テーブル枠">
-      <table style="font-size:12px">
-        <thead><tr><th>順位</th><th>機種名</th><th>差枚</th></tr></thead>
-        <tbody id="top10テーブル"></tbody>
-      </table>
-    </div>
-    <div style="font-size:11px;color:var(--muted);margin-top:8px">直近スクレイピング結果から自動生成</div>
   </div>
 
   <!-- 📊 全機種実績テーブル -->
@@ -4069,7 +4039,7 @@ function 鉄板3台拡張情報(name, history) {
   });
   const winRate10 = app > 0 ? Math.round(wins/app*100) : null;
   const boost = (typeof 日付ブースト判定 === 'function') ? 日付ブースト判定(new Date()) : {boost:1.0};
-  const showScore = (winRate10 || 50) * boost.boost;
+  const showScore = (winRate10 != null ? winRate10 : 50) * boost.boost;
   let action = '通常狙い';
   if (spec && spec.reset_advantage === 'A') action = '⏰ 朝1番乗り推奨';
   else if (spec && spec.tenjo_g > 0) action = `🎯 ${spec.tenjo_g}G台があれば狙い`;
@@ -4452,13 +4422,16 @@ function 来店時刻更新() {
 // Cycle#23: 来店EV計算
 function 来店EV計算(session) {
   const spec = (typeof 機種スペック取得 === 'function') ? 機種スペック取得(session.machine) : null;
-  const elapsedMin = (Date.now() - new Date(session.start_time).getTime()) / 60000;
+  const startMs = session.start_time ? new Date(session.start_time).getTime() : Date.now();
+  const elapsedMin = isFinite(startMs) ? (Date.now() - startMs) / 60000 : 0;
   const estimatedG = session.game_count || Math.round(elapsedMin * 9);
   const realPerG = estimatedG > 0 ? session.current_sa / estimatedG : 0;
-  const machineEV = spec ? ((spec.kikai_warii[4] - 100) / 100) * 3 : 0;
+  const w4 = spec && spec.kikai_warii && spec.kikai_warii[4] != null ? spec.kikai_warii[4] : 100;
+  const machineEV = ((w4 - 100) / 100) * 3;
   const isOverTenjo = spec && spec.tenjo_g > 0 && estimatedG >= spec.tenjo_g + 200;
   const isLongLoss = elapsedMin >= 30 && session.current_sa <= -1000;
-  const isFastInvest = (session.investment_yen / Math.max(elapsedMin, 1)) > 666;
+  const investment = session.investment_yen || 0;
+  const isFastInvest = (investment / Math.max(elapsedMin, 1)) > 666;
   return {
     estimatedG,
     realPerG: Math.round(realPerG * 100) / 100,
