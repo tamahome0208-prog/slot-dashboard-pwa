@@ -1862,6 +1862,28 @@ body::after {
   letter-spacing: -0.02em;
 }
 
+/* Cycle#19: signal-banner-compact */
+.signal-banner-compact { padding: 10px 14px; gap: 10px; }
+.signal-banner-compact .signal-icon { font-size: 28px; }
+.signal-banner-compact .signal-label { display: none; }
+.signal-banner-compact .signal-verdict { font-size: 14px; }
+.signal-banner-compact .signal-reason { font-size: 11px; }
+
+/* Cycle#19: 機種スペック1行 */
+.spec-line { font-family: var(--font-mono); font-size: 11px; color: var(--text2); padding: 4px 8px; background: rgba(255,255,255,0.03); border-radius: 6px; margin-top: 6px; display: inline-block; }
+
+/* Cycle#19: 避けたい候補エリア */
+#避けたいエリア { margin-bottom: 20px; padding: 14px; background: linear-gradient(135deg, rgba(239,68,68,0.05), var(--bg2)); border: 1px solid rgba(239,68,68,0.25); border-radius: 14px; }
+.avoid-header { margin-bottom: 10px; }
+.avoid-title { font-family: var(--font-display); font-size: 15px; font-weight: 900; color: #ff4d6d; letter-spacing: -0.01em; }
+.avoid-sub { font-size: 10px; color: var(--muted); margin-top: 2px; }
+.avoid-card { display:flex; align-items:center; gap:10px; padding:10px 12px; background: rgba(239,68,68,0.04); border-left: 3px solid #ff4d6d; border-radius: 8px; margin-bottom: 6px; }
+.avoid-num { font-family: var(--font-mono); font-size: 16px; font-weight: 900; color: #ff4d6d; width: 22px; }
+.avoid-info { flex: 1; min-width: 0; }
+.avoid-name { font-size: 13px; font-weight: 700; color: var(--text); }
+.avoid-meta { font-size: 10px; color: var(--muted); margin-top: 2px; }
+.avoid-cross { font-size: 18px; color: #ff4d6d; opacity: 0.5; }
+
 .tetsuban-card {
   background: var(--glass-bg) !important;
   backdrop-filter: blur(20px) saturate(140%);
@@ -2098,10 +2120,40 @@ header h1 {
     <button class="live-end-btn" onclick="来店モード終了()">🏁 終了 & 記録へ転記</button>
   </div>
 
+  <!-- ===== Cycle#13 鉄板3台 (Cycle#19で先頭に移動) ===== -->
+  <div id="鉄板3台エリア">
+    <div class="tetsuban-header">
+      <div class="tetsuban-title">🔥 今日打つべき鉄板3台</div>
+      <div class="tetsuban-sub">直近5日+長期データ+日付ブースト合成スコア(100点満点)</div>
+    </div>
+    <div id="鉄板3台リスト"></div>
+    <button class="calc-toggle" onclick="calcToggle('calc-tetsuban')">ⓘ どう計算してる？</button>
+    <div class="calc-body" id="calc-tetsuban">
+      <strong>計算方法</strong>: 6つの指標を100点満点で合成<br>
+      <strong>A. 長期実績(0-30点)</strong>: 過去全期間の平均差枚<br>
+      <strong>B. 直近5日勝率(0-25点)</strong>: 過去5日で差枚プラスだった日の割合<br>
+      <strong>C. 直近5日累積(0-20点)</strong>: 過去5日の合計差枚<br>
+      <strong>D. 日付ブースト(0-10点)</strong>: 8/5のつく日加点<br>
+      <strong>E. TOP10常連度(0-10点)</strong>: 過去30日でTOP10入りした日数<br>
+      <strong>F. 長期勝率ボーナス(0-5点)</strong>: 過去全期間の勝率<br>
+      <strong>データソース</strong>: data/royal_history.json (毎朝7時自動更新)<br>
+      <strong>注意</strong>: 過去データの統計分析であり未来を保証するものではありません。
+    </div>
+  </div>
+
+  <!-- ===== Cycle#19 避けたい候補 ===== -->
+  <div id="避けたいエリア">
+    <div class="avoid-header">
+      <div class="avoid-title">⛔ 今日は避けたい候補</div>
+      <div class="avoid-sub">過去60日で平均-200枚以下 & 勝率40%以下</div>
+    </div>
+    <div id="避けたい5台リスト"></div>
+  </div>
+
   <!-- ===== Cycle#11 HERO: 3秒で分かる ===== -->
   <div id="hero-signal-area">
     <div id="data-fresh-slot"></div>
-    <div class="signal-banner signal-caution" id="signal-banner">
+    <div class="signal-banner signal-banner-compact signal-caution" id="signal-banner">
       <div class="signal-icon" id="signal-icon">🟡</div>
       <div class="signal-text">
         <div class="signal-label">// TODAY'S VERDICT</div>
@@ -2173,27 +2225,6 @@ header h1 {
     </div>
 
     <div class="acc-hint">↓ 詳細データはこの下から開けます</div>
-  </div>
-
-  <!-- ===== Cycle#13 鉄板3台 ===== -->
-  <div id="鉄板3台エリア">
-    <div class="tetsuban-header">
-      <div class="tetsuban-title">🔥 今日打つべき鉄板3台</div>
-      <div class="tetsuban-sub">直近5日+長期データ+日付ブースト合成スコア(100点満点)</div>
-    </div>
-    <div id="鉄板3台リスト"></div>
-    <button class="calc-toggle" onclick="calcToggle('calc-tetsuban')">ⓘ どう計算してる？</button>
-    <div class="calc-body" id="calc-tetsuban">
-      <strong>計算方法</strong>: 6つの指標を100点満点で合成<br>
-      <strong>A. 長期実績(0-30点)</strong>: 過去全期間の平均差枚<br>
-      <strong>B. 直近5日勝率(0-25点)</strong>: 過去5日で差枚プラスだった日の割合<br>
-      <strong>C. 直近5日累積(0-20点)</strong>: 過去5日の合計差枚<br>
-      <strong>D. 日付ブースト(0-10点)</strong>: 8/5のつく日加点<br>
-      <strong>E. TOP10常連度(0-10点)</strong>: 過去30日でTOP10入りした日数<br>
-      <strong>F. 長期勝率ボーナス(0-5点)</strong>: 過去全期間の勝率<br>
-      <strong>データソース</strong>: data/royal_history.json (毎朝7時自動更新)<br>
-      <strong>注意</strong>: 過去データの統計分析であり未来を保証するものではありません。
-    </div>
   </div>
 
   <!-- ===== 詳細アコーディオン群 ===== -->
@@ -4429,7 +4460,7 @@ function ヒーロー描画() {
     const j = 今日の判断();
     const banner = document.getElementById('signal-banner');
     if (!banner) return;
-    banner.className = 'signal-banner signal-' + j.signal.toLowerCase();
+    banner.className = 'signal-banner signal-banner-compact signal-' + j.signal.toLowerCase();
     const iconEl = document.getElementById('signal-icon'); if (iconEl) iconEl.textContent = j.icon;
     const vEl = document.getElementById('signal-verdict'); if (vEl) vEl.textContent = j.verdict;
     const rEl = document.getElementById('signal-reason'); if (rEl) rEl.textContent = j.reason;
@@ -4458,6 +4489,103 @@ function ヒーロー描画() {
       }).catch(()=>{ cEl.textContent = '--'; });
     }
   } catch(e) { console.warn('ヒーロー描画失敗', e); }
+}
+
+// ===== Cycle#19: 機種スペックDB =====
+const MACHINE_SPEC_DB = {
+  "スマスロ北斗の拳 転生の章2": { kikai_warii:{1:97.6,2:98.5,4:100.5,5:103.8,6:110.3}, tenjo_g:1480, ev_threshold_g:600, type:"AT" },
+  "L東京喰種": { kikai_warii:{1:97.8,2:99.0,4:101.5,5:104.2,6:110.0}, tenjo_g:1000, ev_threshold_g:500, type:"AT" },
+  "スマスロ甲鉄城のカバネリ 海門決戦": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:109.8}, tenjo_g:999, ev_threshold_g:350, type:"AT" },
+  "スマスロとある科学の超電磁砲2": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:899, ev_threshold_g:400, type:"AT" },
+  "スマスロ鉄拳6": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:1199, ev_threshold_g:500, type:"AT" },
+  "L咲-Saki-頂上決戦": { kikai_warii:{1:97.5,2:98.5,4:100.8,5:103.5,6:110.0}, tenjo_g:1300, ev_threshold_g:600, type:"AT" },
+  "L虚構推理": { kikai_warii:{1:97.5,2:98.5,4:101.0,5:103.5,6:110.0}, tenjo_g:1280, ev_threshold_g:550, type:"AT" },
+  "スマスロ サンダーV": { kikai_warii:{1:96.5,2:98.5,4:100.5,5:103.5,6:111.5}, tenjo_g:0, ev_threshold_g:0, type:"A" },
+  "スマスロ ハナビ": { kikai_warii:{1:97.0,2:98.5,4:101.0,5:103.5,6:110.0}, tenjo_g:0, ev_threshold_g:0, type:"A" },
+  "A-SLOT+ ディスクアップ ULTRAREMIX": { kikai_warii:{1:98.0,2:99.5,4:101.5,5:103.0,6:107.0}, tenjo_g:0, ev_threshold_g:0, type:"A" },
+  "スマスロ新鬼武者3": { kikai_warii:{1:97.8,2:99.0,4:101.0,5:103.5,6:109.5}, tenjo_g:1500, ev_threshold_g:700, type:"AT" },
+  "L ULTRAMAN": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.8,6:110.0}, tenjo_g:1100, ev_threshold_g:500, type:"AT" },
+  "スマスロ北斗の拳": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:1280, ev_threshold_g:550, type:"AT" },
+  "スマスロ デビルメイクライ5 スタイリッシュトライブ": { kikai_warii:{1:97.5,2:99.0,4:101.0,5:103.8,6:110.0}, tenjo_g:1100, ev_threshold_g:500, type:"AT" },
+  "スマスロ 緑ドン VIVA!情熱南米編 REVIVAL": { kikai_warii:{1:97.5,2:98.5,4:100.5,5:103.0,6:108.5}, tenjo_g:1200, ev_threshold_g:600, type:"AT" },
+  "スマスロ 戦国乙女": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:1380, ev_threshold_g:600, type:"AT" },
+  "Lパチスロ ダンベル何キロ持てる？": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:109.5}, tenjo_g:1100, ev_threshold_g:500, type:"AT" },
+  "Lパチスロ炎炎ノ消防隊": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:1300, ev_threshold_g:600, type:"AT" },
+  "Lパチスロ炎炎ノ消防隊2": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:1180, ev_threshold_g:500, type:"AT" },
+  "Lダーリン・イン・ザ・フランキス": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:1200, ev_threshold_g:500, type:"AT" },
+  "スマスロ化物語": { kikai_warii:{1:97.5,2:99.0,4:101.0,5:103.5,6:110.0}, tenjo_g:1200, ev_threshold_g:500, type:"AT" },
+  "クレアの秘宝伝～はじまりの扉と太陽の石～ボーナストリガーver": { kikai_warii:{1:97.0,2:98.5,4:100.8,5:103.5,6:109.5}, tenjo_g:0, ev_threshold_g:0, type:"A" },
+  "A-SLOT+異世界かるてっとBT": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:0, ev_threshold_g:0, type:"A" },
+  "L無職転生～異世界行ったら本気だす～": { kikai_warii:{1:97.8,2:99.2,4:101.5,5:103.8,6:110.5}, tenjo_g:1280, ev_threshold_g:550, type:"AT" },
+  "パチスロ わたしの幸せな結婚": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:1180, ev_threshold_g:500, type:"AT" },
+  "パチスロ 転生したら剣でした": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:1480, ev_threshold_g:700, type:"AT" },
+  "スマスロ スーパーブラックジャック": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:1200, ev_threshold_g:500, type:"AT" },
+  "スマスロネオプラネット": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:1300, ev_threshold_g:600, type:"AT" },
+  "L戦国乙女４ 戦乱に閃く炯眼の軍師": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:1300, ev_threshold_g:600, type:"AT" },
+  "バーニングエクスプレス": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:1200, ev_threshold_g:500, type:"AT" },
+  "バーサスリヴァイズ": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:1100, ev_threshold_g:500, type:"AT" },
+  "真打 吉宗": { kikai_warii:{1:96.5,2:98.5,4:100.5,5:103.0,6:108.5}, tenjo_g:1500, ev_threshold_g:700, type:"AT" }
+};
+
+function 機種スペック取得(name){
+  if (!name) return null;
+  if (MACHINE_SPEC_DB[name]) return MACHINE_SPEC_DB[name];
+  for (const k of Object.keys(MACHINE_SPEC_DB)) {
+    if (name.includes(k.slice(0,8)) || k.includes(name.slice(0,8))) return MACHINE_SPEC_DB[k];
+  }
+  return null;
+}
+
+// ===== Cycle#19: 避けたい5台 =====
+async function 今日の避けたい5台生成() {
+  try {
+    const r = await fetch('data/royal_history.json', {cache:'no-store'});
+    const hist = await r.json();
+    hist.sort((a,b)=>(parseInt(b.id)||0)-(parseInt(a.id)||0));
+    const recent = hist.slice(0, 60);
+    const stats = {};
+    recent.forEach(d => {
+      const seen = new Set();
+      (d.machines||[]).forEach(m => {
+        if (m.sa == null) return;
+        if (seen.has(m.name)) return;
+        seen.add(m.name);
+        if (!stats[m.name]) stats[m.name] = { sum: 0, days: 0, wins: 0 };
+        stats[m.name].sum += m.sa;
+        stats[m.name].days += 1;
+        if (m.sa > 0) stats[m.name].wins += 1;
+      });
+    });
+    const candidates = Object.entries(stats)
+      .filter(([n, s]) => s.days >= 3)
+      .map(([n, s]) => ({ name: n, avg_sa: Math.round(s.sum/s.days), days: s.days, win_rate: Math.round(s.wins/s.days*100) }))
+      .filter(c => c.avg_sa < -200 && c.win_rate < 40)
+      .sort((a,b) => a.avg_sa - b.avg_sa)
+      .slice(0, 5);
+    return candidates;
+  } catch(e) { console.warn('避けたい5台失敗', e); return []; }
+}
+
+async function 避けたい5台描画() {
+  const cont = document.getElementById('避けたい5台リスト');
+  if (!cont) return;
+  cont.innerHTML = '<div style="padding:12px;color:var(--muted);font-size:12px">分析中...</div>';
+  const list = await 今日の避けたい5台生成();
+  if (!list.length) {
+    cont.innerHTML = '<div style="padding:12px;color:var(--muted);font-size:12px;text-align:center">該当機種なし（良好）</div>';
+    return;
+  }
+  const safe = s => String(s).replace(/[<>&"]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]));
+  cont.innerHTML = list.map((m, i) => `
+    <div class="avoid-card">
+      <div class="avoid-num">${i+1}</div>
+      <div class="avoid-info">
+        <div class="avoid-name">${safe(m.name).slice(0,30)}</div>
+        <div class="avoid-meta">過去60日: 平均${m.avg_sa}枚 / 勝率${m.win_rate}% / ${m.days}日出現</div>
+      </div>
+      <div class="avoid-cross">✗</div>
+    </div>
+  `).join('');
 }
 
 async function 今日の鉄板3台生成() {
@@ -4536,6 +4664,8 @@ async function 鉄板3台描画() {
     if (m.topAppear >= 5) reasons.push(`直近30日で<strong>${m.topAppear}日</strong>TOP10入り（常連）`);
     if (m.win_rate_long >= 60) reasons.push(`長期勝率 <strong>${Math.round(m.win_rate_long)}%</strong>`);
     const b = m.breakdown;
+    const spec = 機種スペック取得(m.name);
+    const specLine = spec ? `<div class="spec-line">⚙ 設定6: ${spec.kikai_warii[6]}% ${spec.tenjo_g>0 ? '/ 天井: '+spec.tenjo_g+'G' : '/ '+spec.type+'タイプ'}</div>` : '';
     return `<div class="tetsuban-card tetsuban-card-${rank}">
       <div class="tetsuban-top">
         <div class="tetsuban-medal">${medal}</div>
@@ -4545,6 +4675,7 @@ async function 鉄板3台描画() {
         </div>
         <div class="tetsuban-score-badge">${m.total}</div>
       </div>
+      ${specLine}
       <ul class="tetsuban-reasons">${reasons.map(r=>`<li>${r}</li>`).join('')}</ul>
       <div class="tetsuban-breakdown">
         <span class="tetsuban-chip"><strong>A長期</strong>${b.A}</span>
@@ -4902,6 +5033,7 @@ function renderHome() {
   try { データ鮮度表示(); } catch(e) { console.warn(e); }
   try { ヒーロー描画(); } catch(e) { console.warn(e); }
   try { 鉄板3台描画(); } catch(e) { console.warn(e); }
+  try { 避けたい5台描画(); } catch(e) { console.warn('避けたい5台描画失敗', e); }
   try { 年間トラッカー描画(); } catch(e) { console.warn('年間トラッカー描画失敗', e); }
   try { 月予算描画(); } catch(e) { console.warn('月予算描画失敗', e); }
   try { 来店モード描画(); if (来店セッション取得()) 来店タイマー開始(); } catch(e) { console.warn('来店モード描画失敗', e); }

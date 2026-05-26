@@ -1,5 +1,5 @@
 // スロット管理システム サービスワーカー
-const CACHE_NAME = 'v20-aurora';
+const CACHE_NAME = 'v21-spec-database';
 const ASSETS = [
   './',
   './index.html',
