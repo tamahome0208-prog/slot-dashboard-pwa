@@ -2100,6 +2100,30 @@ header h1 {
 .leg-dot.day-5 { background: #c0c0c0; }
 .leg-dot.payday { background: #22d3a3; }
 .leg-dot.bonus { background: #7c5cff; }
+
+/* ===== クイック記録 ===== */
+.qrec-wrap { margin-bottom: 16px; }
+.qrec-section { padding: 14px; background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 12px; margin-bottom: 10px; }
+.qrec-section-title { font-size: 11px; color: var(--muted); letter-spacing: 2px; margin-bottom: 10px; font-weight: 700; }
+.qrec-machine-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.qrec-mbtn { padding: 12px 10px; background: var(--bg3); border: 1.5px solid var(--border); color: var(--text); border-radius: 10px; font-weight: 700; font-size: 12px; cursor: pointer; text-align: left; transition: all 0.15s; font-family: inherit; }
+.qrec-mbtn:hover { border-color: rgba(124,92,255,0.4); }
+.qrec-mbtn.active { border-color: var(--cyan); background: rgba(124,92,255,0.15); box-shadow: 0 0 0 1px var(--cyan); }
+.qrec-mbtn-spec { font-size: 9px; color: var(--muted); margin-top: 3px; font-family: var(--font-mono); }
+.qrec-sa-display { text-align: center; padding: 14px; background: var(--bg3); border-radius: 10px; margin-bottom: 8px; }
+.qrec-sa-num { font-family: var(--font-mono); font-size: 36px; font-weight: 900; line-height: 1; }
+.qrec-sa-num.pos { color: #22d3a3; }
+.qrec-sa-num.neg { color: #ff4d6d; }
+.qrec-sa-buttons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.qrec-sa-btn { padding: 12px 4px; background: var(--bg3); border: 1px solid var(--border); color: var(--text); border-radius: 8px; font-weight: 700; font-family: var(--font-mono); cursor: pointer; font-size: 13px; }
+.qrec-sa-btn:hover { border-color: var(--cyan); }
+.qrec-sa-btn.minus { color: #ff4d6d; }
+.qrec-sa-btn.plus { color: #22d3a3; }
+.qrec-reason-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.qrec-rbtn { padding: 12px 4px; background: var(--bg3); border: 1.5px solid var(--border); color: var(--text); border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 12px; font-family: inherit; transition: all 0.15s; }
+.qrec-rbtn.active { border-color: var(--cyan); background: rgba(124,92,255,0.15); }
+.qrec-save-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #7c5cff, #22d3a3); color: #fff; border: none; border-radius: 12px; font-size: 16px; font-weight: 900; cursor: pointer; box-shadow: 0 4px 20px rgba(124,92,255,0.3); margin-top: 8px; font-family: inherit; }
+.qrec-save-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(124,92,255,0.4); }
 </style>
 </head>
 <body>
@@ -2382,6 +2406,65 @@ header h1 {
 
 <!-- ===== 入力ページ ===== -->
 <div id="page-record" class="page">
+
+<div id="クイック記録エリア" class="qrec-wrap">
+  <div class="qrec-section">
+    <div class="qrec-section-title">▶ 🎰 クイック記録（1タップ）</div>
+  </div>
+
+  <div class="qrec-section">
+    <div class="qrec-section-title">機種を選ぶ</div>
+    <div id="qrec-machine-grid" class="qrec-machine-grid"></div>
+    <input id="qrec-machine-other" type="text" placeholder="その他機種名" list="qrec-machine-list" style="display:none;margin-top:6px;width:100%;padding:10px;background:var(--bg3);border:1px solid var(--border);color:var(--text);border-radius:8px;font-family:inherit"/>
+    <datalist id="qrec-machine-list"></datalist>
+  </div>
+
+  <div class="qrec-section">
+    <div class="qrec-section-title">差枚</div>
+    <div class="qrec-sa-display">
+      <div id="qrec-sa-num" class="qrec-sa-num">+0</div>
+    </div>
+    <div class="qrec-sa-buttons">
+      <button class="qrec-sa-btn minus" onclick="クイック差枚調整(-2000)">-2000</button>
+      <button class="qrec-sa-btn minus" onclick="クイック差枚調整(-1000)">-1000</button>
+      <button class="qrec-sa-btn minus" onclick="クイック差枚調整(-500)">-500</button>
+      <button class="qrec-sa-btn plus" onclick="クイック差枚調整(500)">+500</button>
+      <button class="qrec-sa-btn plus" onclick="クイック差枚調整(1000)">+1000</button>
+      <button class="qrec-sa-btn plus" onclick="クイック差枚調整(2000)">+2000</button>
+    </div>
+    <div class="qrec-sa-buttons" style="margin-top:6px">
+      <button class="qrec-sa-btn" onclick="クイック差枚クリア()">0クリア</button>
+      <button class="qrec-sa-btn" onclick="クイック差枚編集()">✎ 編集</button>
+    </div>
+  </div>
+
+  <div class="qrec-section">
+    <div class="qrec-section-title">投資</div>
+    <div class="qrec-sa-display" style="padding:10px">
+      <div id="qrec-invest-num" class="qrec-sa-num" style="font-size:24px;color:var(--text)">¥0</div>
+    </div>
+    <div class="qrec-sa-buttons">
+      <button class="qrec-sa-btn" onclick="クイック投資追加(1000)">+1k</button>
+      <button class="qrec-sa-btn" onclick="クイック投資追加(5000)">+5k</button>
+      <button class="qrec-sa-btn" onclick="クイック投資追加(10000)">+10k</button>
+      <button class="qrec-sa-btn" onclick="クイック投資クリア()">0クリア</button>
+      <button class="qrec-sa-btn" onclick="クイック投資編集()">✎</button>
+    </div>
+  </div>
+
+  <div class="qrec-section">
+    <div class="qrec-section-title">撤退理由</div>
+    <div class="qrec-reason-row">
+      <button id="qrec-r-stop" class="qrec-rbtn" onclick="クイック理由選択('損切り')">🛡️ 損切り</button>
+      <button id="qrec-r-take" class="qrec-rbtn" onclick="クイック理由選択('勝ち逃げ')">🏆 勝ち逃げ</button>
+      <button id="qrec-r-normal" class="qrec-rbtn active" onclick="クイック理由選択('通常終了')">通常終了</button>
+    </div>
+  </div>
+
+  <button class="qrec-save-btn" onclick="クイック保存()">💾 1タップ保存</button>
+</div>
+
+<details class="acc-card"><summary>⚙️ 詳細入力（細かく設定）</summary><div class="acc-body">
   <div class="カード" style="border-left-color: var(--gold)">
     <div class="カードタイトル" style="color:var(--gold);text-shadow:0 0 6px rgba(255,214,0,0.4)">▶ 📷 写真から自動入力（AI）</div>
     <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:10px">
@@ -2471,6 +2554,7 @@ header h1 {
 
     <button class="ボタン主" onclick="記録保存()">【 記録を保存する 】</button>
   </div>
+</div></div></details>
 </div>
 
 <!-- ===== 履歴ページ ===== -->
@@ -4144,7 +4228,7 @@ let _currentSub = { record:'record', myhall:'myhall', machine:'machine' };
 
 function _renderForPage(id) {
   if (id === 'home') renderHome();
-  if (id === 'record') { /* 入力フォーム静的 */ }
+  if (id === 'record') { if (typeof クイック記録初期化 === 'function') クイック記録初期化(); }
   if (id === 'history') renderHistory();
   if (id === 'hall') renderHall();
   if (id === 'area') renderArea();
@@ -10555,6 +10639,136 @@ try { Telemetry.inc('session_count'); } catch {}
 データリスト更新();
 renderHome();
 自動取得チェック();
+
+// ===== クイック記録（Cycle#21）=====
+let _quick_machine = null;
+let _quick_sa = 0;
+let _quick_invest = 0;
+let _quick_reason = '通常終了';
+
+function よく打つ機種Top3() {
+  const records = JSON.parse(localStorage.getItem('records') || '[]');
+  const since = Date.now() - 30*86400000;
+  const recent = records.filter(r => new Date(r.date).getTime() >= since);
+  const count = {};
+  recent.forEach(r => { const n = r['機種']; if (n) count[n] = (count[n] || 0) + 1; });
+  return Object.entries(count).sort((a,b) => b[1] - a[1]).slice(0, 3).map(([n]) => n);
+}
+
+function クイック機種候補描画() {
+  const grid = document.getElementById('qrec-machine-grid');
+  if (!grid) return;
+  let top3 = よく打つ機種Top3();
+  if (top3.length < 3 && typeof MACHINE_SPEC_DB !== 'undefined') {
+    const additional = Object.keys(MACHINE_SPEC_DB).filter(n => !top3.includes(n)).slice(0, 3 - top3.length);
+    top3 = [...top3, ...additional];
+  }
+  const safe = s => String(s).replace(/[<>&"]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]));
+  let html = top3.map(name => {
+    const spec = (typeof 機種スペック取得 === 'function') ? 機種スペック取得(name) : null;
+    const specStr = (spec && spec.kikai_warii && spec.tenjo_g) ? `設定6: ${spec.kikai_warii[6]}% / 天井${spec.tenjo_g}G` : '';
+    return `<button class="qrec-mbtn ${name === _quick_machine ? 'active' : ''}" onclick="クイック機種選択('${safe(name).replace(/'/g,'\\\'')}')">
+      <div>${safe(name).slice(0,18)}</div>
+      ${specStr ? `<div class="qrec-mbtn-spec">${specStr}</div>` : ''}
+    </button>`;
+  }).join('');
+  html += `<button class="qrec-mbtn" onclick="クイック機種その他()">＋その他</button>`;
+  grid.innerHTML = html;
+  const dl = document.getElementById('qrec-machine-list');
+  if (dl && typeof MACHINE_SPEC_DB !== 'undefined') {
+    dl.innerHTML = Object.keys(MACHINE_SPEC_DB).map(n => `<option value="${safe(n)}">`).join('');
+  }
+}
+
+function クイック機種選択(name) {
+  _quick_machine = name;
+  const inp = document.getElementById('qrec-machine-other');
+  if (inp) inp.style.display = 'none';
+  クイック機種候補描画();
+}
+
+function クイック機種その他() {
+  const inp = document.getElementById('qrec-machine-other');
+  if (!inp) return;
+  inp.style.display = '';
+  inp.focus();
+  inp.oninput = e => { _quick_machine = e.target.value || null; };
+}
+
+function クイック差枚調整(delta) { _quick_sa += delta; クイック差枚表示更新(); }
+function クイック差枚クリア() { _quick_sa = 0; クイック差枚表示更新(); }
+function クイック差枚編集() {
+  const v = parseInt(prompt('差枚を直接入力', _quick_sa));
+  if (!isNaN(v)) { _quick_sa = v; クイック差枚表示更新(); }
+}
+function クイック差枚表示更新() {
+  const el = document.getElementById('qrec-sa-num');
+  if (!el) return;
+  el.textContent = (_quick_sa >= 0 ? '+' : '') + _quick_sa.toLocaleString();
+  el.className = 'qrec-sa-num ' + (_quick_sa >= 0 ? 'pos' : 'neg');
+}
+
+function クイック投資追加(yen) { _quick_invest += yen; クイック投資表示更新(); }
+function クイック投資クリア() { _quick_invest = 0; クイック投資表示更新(); }
+function クイック投資編集() {
+  const v = parseInt(prompt('投資額(円)', _quick_invest));
+  if (!isNaN(v)) { _quick_invest = v; クイック投資表示更新(); }
+}
+function クイック投資表示更新() {
+  const el = document.getElementById('qrec-invest-num');
+  if (el) el.textContent = '¥' + _quick_invest.toLocaleString();
+}
+
+function クイック理由選択(reason) {
+  _quick_reason = reason;
+  ['stop','take','normal'].forEach(k => {
+    const btn = document.getElementById('qrec-r-' + k);
+    if (btn) btn.classList.remove('active');
+  });
+  const map = { '損切り': 'stop', '勝ち逃げ': 'take', '通常終了': 'normal' };
+  const target = document.getElementById('qrec-r-' + map[reason]);
+  if (target) target.classList.add('active');
+}
+
+async function クイック保存() {
+  if (!_quick_machine) { alert('機種を選んでください'); return; }
+  const today = new Date().toISOString().slice(0, 10);
+  let preSelected = false;
+  if (typeof 事前選択マッチ === 'function') {
+    try { preSelected = await 事前選択マッチ(_quick_machine); } catch(e){}
+  }
+  const rec = {
+    date: today,
+    hall: localStorage.getItem('default_hall') || 'ロイヤル登別店',
+    機種: _quick_machine,
+    台番号: '',
+    差枚: _quick_sa,
+    投資: _quick_invest,
+    撤退理由: _quick_reason || '通常終了',
+    source: 'quick',
+    pre_selected: preSelected
+  };
+  const records = JSON.parse(localStorage.getItem('records') || '[]');
+  records.push(rec);
+  localStorage.setItem('records', JSON.stringify(records));
+
+  _quick_machine = null; _quick_sa = 0; _quick_invest = 0; _quick_reason = '通常終了';
+  クイック機種候補描画();
+  クイック差枚表示更新();
+  クイック投資表示更新();
+  クイック理由選択('通常終了');
+  const inp = document.getElementById('qrec-machine-other');
+  if (inp) { inp.style.display = 'none'; inp.value = ''; }
+
+  if (typeof 通知表示 === 'function') 通知表示('✅ 記録を保存しました');
+  if (typeof renderHome === 'function') renderHome();
+}
+
+function クイック記録初期化() {
+  クイック機種候補描画();
+  クイック差枚表示更新();
+  クイック投資表示更新();
+}
 </script>
 </body>
 </html>
