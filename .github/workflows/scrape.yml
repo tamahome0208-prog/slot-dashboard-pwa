@@ -44,5 +44,14 @@ jobs:
           else
             LATEST=$(python -c "import json; h=json.load(open('data/royal_history.json',encoding='utf-8')); h.sort(key=lambda x:int(x.get('id','0') or 0),reverse=True); print(f\"{len(h)}日, 最新{h[0].get('date_str','?')}\")" 2>/dev/null || echo "")
             git commit -m "🤖 台データ自動更新 $(date +'%Y-%m-%d') ($LATEST)"
-            git push
+            # push競合対策: pull --rebase + retry 最大3回
+            for i in 1 2 3; do
+              if git pull --rebase --autostash origin main && git push; then
+                echo "Push成功 (attempt $i)"
+                break
+              else
+                echo "Push失敗 (attempt $i)、5秒後にretry..."
+                sleep 5
+              fi
+            done
           fi

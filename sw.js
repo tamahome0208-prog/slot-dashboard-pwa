@@ -1,5 +1,5 @@
 // スロット管理システム サービスワーカー
-const CACHE_NAME = 'v25b-cleanup-boost-fix';
+const CACHE_NAME = 'v26-bugfix';
 const ASSETS = [
   './',
   './index.html',

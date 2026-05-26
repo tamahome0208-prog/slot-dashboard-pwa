@@ -2289,11 +2289,6 @@ header h1 {
     <div id="ホールトップ5"></div>
   </div>
 
-  <!-- 📊 規律パフォーマンスKPI（Cycle#10） -->
-  <div class="カード" id="規律KPIカード" style="border-left-color:#10b981;background:linear-gradient(135deg, var(--bg2) 0%, rgba(16,185,129,0.06) 100%)">
-    <div class="カードタイトル" style="color:#10b981;text-shadow:0 0 6px rgba(16,185,129,0.4)">▶ 📊 規律パフォーマンス</div>
-    <div id="規律KPI内容"></div>
-  </div>
 </div>
 
 <!-- ===== 入力ページ ===== -->
@@ -4531,7 +4526,6 @@ function renderHome() {
   ブースト判定描画();
   戦略エッジ表示();
   try { 事前選択描画(); } catch(e) { console.warn(e); }
-  try { 規律KPI描画(); } catch(e) { console.warn('規律KPI描画失敗', e); }
   const records = 記録取得();
   const s = 設定取得();
   const year = s.year || new Date().getFullYear();
@@ -5508,7 +5502,7 @@ function テレメトリ描画() {
       '📑 タブ表示数:<br>' +
       '<span style="margin-left:14px;display:inline-block">' +
         '🏠 収支 ' + (tv.home||0) + ' / ✏️ 記録 ' + (tv.record||0) + ' / 🏆 マイホ ' + (tv.myhall||0) + '<br>' +
-        '🎰 機種 ' + (tv.machine||0) + ' / 🛠️ ツール ' + (tv.tools||0) + ' / 🎮 GAME ' + (tv.game||0) + ' / ⚙️ 設定 ' + (tv.settings||0) +
+        '🎰 機種 ' + (tv.machine||0) + ' / 🛠️ ツール ' + (tv.tools||0) + ' / ⚙️ 設定 ' + (tv.settings||0) +
       '</span><br>' +
       '🕒 初回: <span style="color:var(--muted)">' + fmt(t.first_seen) + '</span><br>' +
       '🕒 最終: <span style="color:var(--muted)">' + fmt(t.last_seen) + '</span>';
@@ -6256,90 +6250,6 @@ function ブースト判定描画() {
   rateEl.textContent = '×' + r.boost.toFixed(1);
   labelEl.style.color = r.boost >= 1.5 ? 'var(--gold)' : (r.boost >= 1.1 ? '#c0c0c0' : 'var(--text)');
   if (evEl) evEl.textContent = r.evidence ? ('※' + r.evidence) : '';
-}
-
-// ════════════════════════════════════════
-// ── 📊 規律パフォーマンスKPI（Cycle#10） ──
-// localStorageから規律ストリーク/バッジ/衝動ログ/AI推奨実行を集計
-// ════════════════════════════════════════
-function 規律KPI描画() {
-  const el = document.getElementById('規律KPI内容');
-  if (!el) return;
-
-  // streak
-  let streak = { current: 0, longest: 0 };
-  try {
-    const raw = localStorage.getItem('discipline_streak');
-    if (raw) {
-      const j = JSON.parse(raw);
-      streak.current = j.current | 0;
-      streak.longest = j.longest | 0;
-    }
-  } catch {}
-
-  // badges
-  let badges = { total_retreated: 0, total_take_profit: 0 };
-  try {
-    const raw = localStorage.getItem('discipline_badges');
-    if (raw) {
-      const j = JSON.parse(raw);
-      badges.total_retreated = j.total_retreated | 0;
-      badges.total_take_profit = j.total_take_profit | 0;
-    }
-  } catch {}
-
-  // urge log
-  let urgeTotal = 0, urgeRetreated = 0, urgeDeltaSum = 0, urgeDeltaN = 0;
-  try {
-    const arr = JSON.parse(localStorage.getItem('urge_log') || '[]');
-    if (Array.isArray(arr)) {
-      urgeTotal = arr.length;
-      arr.forEach(r => {
-        if (r && r.action === 'やめた') urgeRetreated++;
-        if (r && typeof r.urge_before === 'number' && typeof r.urge_after === 'number') {
-          urgeDeltaSum += (r.urge_before - r.urge_after);
-          urgeDeltaN++;
-        }
-      });
-    }
-  } catch {}
-  const urgeRetreatRate = urgeTotal > 0 ? Math.round((urgeRetreated / urgeTotal) * 100) : 0;
-  const urgeDeltaAvg = urgeDeltaN > 0 ? (urgeDeltaSum / urgeDeltaN).toFixed(1) : '0.0';
-
-  // AI picks log
-  let aiTotal = 0, aiExecuted = 0;
-  try {
-    const arr = JSON.parse(localStorage.getItem('ai_picks_log') || '[]');
-    if (Array.isArray(arr)) {
-      aiTotal = arr.length;
-      arr.forEach(r => {
-        if (r && (r.executed === true || r.action === '実行' || r.played === true)) aiExecuted++;
-      });
-    }
-  } catch {}
-
-  const card = (label, value, sub, color) => `
-    <div style="background:var(--bg);border:1px solid var(--bord);border-radius:10px;padding:10px 8px;text-align:center">
-      <div style="font-size:10px;color:var(--muted);margin-bottom:3px">${label}</div>
-      <div style="font-size:20px;font-weight:800;color:${color};line-height:1.1">${value}</div>
-      <div style="font-size:9px;color:var(--muted);margin-top:2px">${sub}</div>
-    </div>`;
-
-  el.innerHTML = `
-    <div class="kpi-grid" style="margin-bottom:8px">
-      ${card('🔥 現在ストリーク', streak.current + '日', '最長 ' + streak.longest + '日', '#f59e0b')}
-      ${card('🛡️ 撤退/勝ち逃げ', (badges.total_retreated + badges.total_take_profit), `撤${badges.total_retreated} / 逃${badges.total_take_profit}`, '#10b981')}
-      ${card('⚡ 衝動チェック', urgeTotal + '回', `撤退率 ${urgeRetreatRate}%`, '#ef4444')}
-      ${card('🧊 衝動減衰', '-' + urgeDeltaAvg, `平均(${urgeDeltaN}件)`, '#06b6d4')}
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-      ${card('🤖 AI推奨', aiTotal + '件', `実行 ${aiExecuted}件`, '#a78bfa')}
-      ${card('🏆 規律スコア', Math.min(100, streak.current * 3 + badges.total_retreated * 2 + badges.total_take_profit * 2 + urgeRetreated), 'AI推奨/撤退/逃 合算', '#fbbf24')}
-    </div>
-    <div style="font-size:10px;color:var(--muted);margin-top:8px;text-align:center;line-height:1.5">
-      ※ localStorage集計。データが少ない初期は0表示。
-    </div>
-  `;
 }
 
 // ════════════════════════════════════════
