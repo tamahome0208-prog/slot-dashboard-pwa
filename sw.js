@@ -1,5 +1,5 @@
 // スロット管理システム サービスワーカー
-const CACHE_NAME = 'v23-quick-record';
+const CACHE_NAME = 'v24-pnl-charts';
 const ASSETS = [
   './',
   './index.html',
