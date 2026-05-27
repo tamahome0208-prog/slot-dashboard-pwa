@@ -2010,6 +2010,16 @@ header h1 {
 .ev-row strong { color: var(--cyan); font-family: var(--font-mono); margin-left: 6px; }
 .live-cooloff { margin-top: 8px; padding: 8px; background: rgba(245,158,71,0.15); color: #ffb547; border-radius: 6px; font-weight: 700; text-align: center; }
 .live-warning { margin-top: 8px; padding: 8px; background: rgba(255,77,109,0.15); color: #ff4d6d; border-radius: 6px; font-weight: 700; text-align: center; }
+
+/* Cycle#25: バックアップ */
+.backup-status { padding: 10px 12px; border-radius: 8px; background: var(--bg3); font-size: 12px; margin-bottom: 10px; }
+.backup-status.ok { color: #22d3a3; }
+.backup-status.warn { color: #ffb547; }
+.backup-status.bad { color: #ff4d6d; }
+.backup-actions { display: grid; grid-template-columns: 1fr; gap: 8px; margin-bottom: 10px; }
+@media (min-width: 480px) { .backup-actions { grid-template-columns: 1fr 1fr 1fr; } }
+.backup-note { font-size: 11px; color: var(--muted); padding: 8px; background: var(--bg3); border-radius: 6px; }
+
 </style>
 </head>
 <body>
@@ -3480,6 +3490,19 @@ header h1 {
     <p style="font-size:12px;color:var(--muted);margin-bottom:10px">このアプリの使用状況（端末内のみ記録・外部送信なし）</p>
     <div id="テレメトリ表示" style="font-size:13px;line-height:1.9;color:var(--text2)"></div>
   </div>
+
+  <div class="カード">
+    <div class="カードタイトル">▶ 💾 データバックアップ</div>
+    <div id="backup-status" class="backup-status">最終バックアップ: --</div>
+    <div class="backup-actions">
+      <button class="ボタン主" onclick="データエクスポート()">📥 JSONで保存</button>
+      <input id="backup-file-input" type="file" accept=".json" style="display:none" onchange="データインポート(event, false)">
+      <input id="backup-file-merge" type="file" accept=".json" style="display:none" onchange="データインポート(event, true)">
+      <button class="ボタン副" onclick="document.getElementById('backup-file-input').click()">📤 上書きインポート</button>
+      <button class="ボタン副" onclick="document.getElementById('backup-file-merge').click()">📤 マージインポート(記録のみ)</button>
+    </div>
+    <div class="backup-note">バックアップは記録・年間目標・カレンダー・衝動ログ・AI推奨ログ等localStorage全データを含みます。</div>
+  </div>
 </div>
 
 <div id="通知"></div>
@@ -4514,6 +4537,83 @@ function 来店モード終了() {
   if (typeof renderHome === 'function') renderHome();
 }
 
+// ── Cycle#25: データバックアップ復元 ──
+const BACKUP_KEYS = ['records','annual_target','monthly_loss_limit','calendar_marks','urge_log','ai_picks_log','default_hall','telemetry','harness_kpi','live_session'];
+
+function データエクスポート() {
+  const data = { _meta: { exported_at: new Date().toISOString(), version: 1, app: 'slot-dashboard-pwa' }};
+  BACKUP_KEYS.forEach(k => {
+    const v = localStorage.getItem(k);
+    if (v != null) data[k] = v;
+  });
+  const json = JSON.stringify(data, null, 2);
+  const blob = new Blob([json], {type: 'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const today = new Date().toISOString().slice(0,10);
+  a.href = url;
+  a.download = `slot-pwa-backup-${today}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  localStorage.setItem('last_backup_at', new Date().toISOString());
+  バックアップ状態表示();
+  if (typeof 通知表示 === 'function') 通知表示('✅ バックアップを保存しました');
+}
+
+function データインポート(event, mergeMode) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (!data._meta || data._meta.app !== 'slot-dashboard-pwa') {
+        if (!confirm('このファイルは本アプリのバックアップではない可能性があります。続行しますか？')) return;
+      }
+      if (mergeMode) {
+        const existing = JSON.parse(localStorage.getItem('records') || '[]');
+        const incoming = JSON.parse(data.records || '[]');
+        const seen = new Set(existing.map(r => `${r.date}|${r['機種']}|${r['差枚']}`));
+        const merged = [...existing];
+        incoming.forEach(r => {
+          const k = `${r.date}|${r['機種']}|${r['差枚']}`;
+          if (!seen.has(k)) { merged.push(r); seen.add(k); }
+        });
+        localStorage.setItem('records', JSON.stringify(merged));
+        alert(`マージ完了: ${incoming.length}件 → 重複除去後 ${merged.length}件`);
+      } else {
+        if (!confirm(`現在のデータを完全に上書きします。よろしいですか？\n(エクスポート日時: ${data._meta?.exported_at || '不明'})`)) return;
+        BACKUP_KEYS.forEach(k => {
+          if (data[k] != null) localStorage.setItem(k, data[k]);
+          else localStorage.removeItem(k);
+        });
+        alert('復元完了。ページを再読込します。');
+        location.reload();
+      }
+    } catch(err) {
+      alert('インポート失敗: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
+function バックアップ状態表示() {
+  const el = document.getElementById('backup-status');
+  if (!el) return;
+  const ts = localStorage.getItem('last_backup_at');
+  if (!ts) { el.innerHTML = '⚠️ 最終バックアップ: <strong>未実施</strong>'; el.className = 'backup-status warn'; return; }
+  const days = Math.floor((Date.now() - new Date(ts).getTime()) / 86400000);
+  let cls = 'backup-status ok', icon = '✅';
+  if (days >= 14) { cls = 'backup-status warn'; icon = '⚠️'; }
+  if (days >= 30) { cls = 'backup-status bad'; icon = '🚨'; }
+  el.className = cls;
+  el.innerHTML = `${icon} 最終バックアップ: <strong>${days === 0 ? '今日' : days + '日前'}</strong>`;
+}
+
+
 function renderHome() {
   try { データ鮮度表示(); } catch(e) { console.warn(e); }
   try { ヒーロー描画(); } catch(e) { console.warn(e); }
@@ -5488,6 +5588,7 @@ function renderSettings() {
   if (ocrSt) ocrSt.textContent = s.geminiKey ? '✅ APIキー設定済み（写真OCR利用可能）' : '※ APIキー未設定（写真OCRは利用不可）';
   テレメトリ描画();
   if (typeof AI推奨的中率描画 === 'function') AI推奨的中率描画();
+  if (typeof バックアップ状態表示 === 'function') バックアップ状態表示();
 }
 function テレメトリ描画() {
   const el = document.getElementById('テレメトリ表示');
