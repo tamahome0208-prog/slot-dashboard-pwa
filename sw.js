@@ -1,5 +1,5 @@
 // スロット管理システム サービスワーカー
-const CACHE_NAME = 'v27-backup';
+const CACHE_NAME = 'v28-recap';
 const ASSETS = [
   './',
   './index.html',

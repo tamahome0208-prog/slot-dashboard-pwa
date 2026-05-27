@@ -2020,6 +2020,30 @@ header h1 {
 @media (min-width: 480px) { .backup-actions { grid-template-columns: 1fr 1fr 1fr; } }
 .backup-note { font-size: 11px; color: var(--muted); padding: 8px; background: var(--bg3); border-radius: 6px; }
 
+/* Cycle#26: 来店振り返りモーダル */
+.recap-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 20px; overflow-y: auto; }
+.recap-inner { background: var(--bg2); border: 2px solid var(--cyan); border-radius: 16px; padding: 0; max-width: 460px; width: 100%; box-shadow: 0 0 60px rgba(124,92,255,0.4); }
+.recap-header { padding: 14px 18px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+.recap-title { font-family: var(--font-display); font-weight: 900; font-size: 16px; }
+.recap-close-x { background: transparent; border: none; color: var(--muted); font-size: 18px; cursor: pointer; }
+.recap-body { padding: 16px 18px; }
+.recap-hero { padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 14px; }
+.recap-hero.positive { background: linear-gradient(135deg, rgba(34,211,163,0.15), var(--bg3)); border: 1px solid rgba(34,211,163,0.3); }
+.recap-hero.negative { background: linear-gradient(135deg, rgba(255,77,109,0.15), var(--bg3)); border: 1px solid rgba(255,77,109,0.3); }
+.recap-hero-label { font-size: 11px; color: var(--muted); letter-spacing: 2px; }
+.recap-hero-num { font-family: var(--font-mono); font-size: 36px; font-weight: 900; margin: 6px 0; }
+.recap-hero.positive .recap-hero-num { color: #22d3a3; }
+.recap-hero.negative .recap-hero-num { color: #ff4d6d; }
+.recap-hero-sub { font-size: 11px; color: var(--text2); }
+.recap-praise { padding: 12px; background: linear-gradient(135deg, rgba(124,92,255,0.08), var(--bg3)); border-radius: 10px; font-size: 13px; color: var(--text); text-align: center; margin-bottom: 12px; border: 1px solid rgba(124,92,255,0.2); }
+.recap-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.recap-stat { padding: 12px; background: var(--bg3); border-radius: 10px; text-align: center; }
+.recap-stat-label { font-size: 10px; color: var(--muted); letter-spacing: 1px; }
+.recap-stat-val { font-family: var(--font-mono); font-size: 16px; font-weight: 800; margin-top: 4px; }
+.recap-stat-val.pos { color: #22d3a3; }
+.recap-stat-val.neg { color: #ff4d6d; }
+.recap-ok { width: 100%; padding: 14px; background: linear-gradient(135deg, var(--cyan), #22d3a3); color: #fff; border: none; border-radius: 10px; font-weight: 900; cursor: pointer; }
+.recap-footer { padding: 12px 18px; border-top: 1px solid var(--border); }
 </style>
 </head>
 <body>
@@ -4534,7 +4558,75 @@ function 来店モード終了() {
   if (_live_timer_handle) { clearInterval(_live_timer_handle); _live_timer_handle = null; }
   来店モード描画();
   if (typeof 通知表示 === 'function') 通知表示('記録に転記しました');
-  if (typeof renderHome === 'function') renderHome();
+  // Cycle#26: 振り返りモーダルで終了演出（OK時に renderHome）
+  const rec = records[records.length - 1];
+  if (typeof 来店振り返りモーダル === 'function') 来店振り返りモーダル(rec);
+  else if (typeof renderHome === 'function') renderHome();
+}
+
+// ── Cycle#26: 来店振り返りモーダル ──
+function 来店振り返りモーダル(rec) {
+  if (!rec) { if (typeof renderHome === 'function') renderHome(); return; }
+  const conf = (typeof 年間目標取得 === 'function') ? 年間目標取得() : { target_yen: 1000000, rate_yen_per_piece: 20 };
+  const sa = parseInt(rec['差枚']) || 0;
+  const yen = sa * (conf.rate_yen_per_piece || 20);
+  const invest = rec['投資'] || 0;
+  const net = yen - invest;
+
+  const startTime = rec['開始'] ? new Date(rec['開始']).getTime() : null;
+  const endTime = rec['終了'] ? new Date(rec['終了']).getTime() : Date.now();
+  const minutes = startTime ? Math.floor((endTime - startTime) / 60000) : null;
+
+  const records = JSON.parse(localStorage.getItem('records') || '[]');
+  const ym = new Date().toISOString().slice(0,7);
+  const monthRecs = records.filter(r => (r.date||'').startsWith(ym));
+  const monthSa = monthRecs.reduce((s,r) => s + (parseInt(r['差枚']) || 0), 0);
+  const monthYen = monthSa * (conf.rate_yen_per_piece || 20);
+
+  const year = new Date().getFullYear();
+  const yearRecs = records.filter(r => (r.date||'').startsWith(year + ''));
+  const yearYen = yearRecs.reduce((s,r) => s + (parseInt(r['差枚']) || 0) * (conf.rate_yen_per_piece || 20), 0);
+  const remain = (conf.target_yen || 1000000) - yearYen;
+
+  let praise = '';
+  const reason = rec['撤退理由'];
+  if (reason === '勝ち逃げ' && net > 0) praise = '🏆 完璧な勝ち逃げ！規律が育っています。';
+  else if (reason === '損切り') praise = '🛡️ 損切り達成。次の機会へ。';
+  else if (net > 0) praise = '✨ プラス収支。次も継続を。';
+  else if (net < -3000) praise = '💡 機種選定を再考。鉄板3台優先で。';
+  else praise = '📊 記録継続が勝利への第一歩。';
+
+  const overlay = document.createElement('div');
+  overlay.className = 'recap-modal';
+  overlay.innerHTML = `
+    <div class="recap-inner">
+      <div class="recap-header">
+        <div class="recap-title">🏁 来店終了 振り返り</div>
+        <button class="recap-close-x" onclick="this.closest('.recap-modal').remove(); if(typeof renderHome==='function')renderHome();">✕</button>
+      </div>
+      <div class="recap-body">
+        <div class="recap-hero ${net >= 0 ? 'positive' : 'negative'}">
+          <div class="recap-hero-label">今回の収支</div>
+          <div class="recap-hero-num">${net >= 0 ? '+' : ''}${net.toLocaleString()}円</div>
+          <div class="recap-hero-sub">差枚 ${sa >= 0 ? '+' : ''}${sa.toLocaleString()} / 投資 ¥${invest.toLocaleString()}${minutes != null ? ' / 滞在 ' + minutes + '分' : ''}</div>
+        </div>
+        <div class="recap-praise">${praise}</div>
+        <div class="recap-grid">
+          <div class="recap-stat">
+            <div class="recap-stat-label">今月累計</div>
+            <div class="recap-stat-val ${monthYen >= 0 ? 'pos' : 'neg'}">${monthYen >= 0 ? '+' : ''}${monthYen.toLocaleString()}円</div>
+          </div>
+          <div class="recap-stat">
+            <div class="recap-stat-label">年間目標まで</div>
+            <div class="recap-stat-val">${remain.toLocaleString()}円</div>
+          </div>
+        </div>
+      </div>
+      <div class="recap-footer">
+        <button class="recap-ok" onclick="this.closest('.recap-modal').remove(); if(typeof renderHome==='function')renderHome();">OK</button>
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
 }
 
 // ── Cycle#25: データバックアップ復元 ──
