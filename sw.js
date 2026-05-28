@@ -1,5 +1,5 @@
 // スロット管理システム サービスワーカー
-const CACHE_NAME = 'v28-recap';
+const CACHE_NAME = 'v29-minimal-sportsbet';
 const ASSETS = [
   './',
   './index.html',
