@@ -1964,6 +1964,33 @@ header h1 {
 .extra-line { padding: 2px 0; }
 .extra-line strong { color: var(--cyan); font-family: var(--font-mono); }
 
+/* Cycle#28: 鉄板3台 もっと詳しく */
+.info-toggle {
+  width: 100%; margin-top: 10px; padding: 8px 12px;
+  background: var(--bg3); color: var(--accent);
+  border: 1px solid rgba(255,107,0,0.3); border-radius: 8px;
+  font-weight: 700; font-size: 11px; cursor: pointer;
+  text-transform: uppercase; letter-spacing: 0.5px;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+.info-toggle:hover { background: rgba(255,107,0,0.10); }
+.info-detail {
+  margin-top: 8px; padding: 10px;
+  background: rgba(0,0,0,0.25); border-radius: 8px;
+  border-left: 3px solid var(--accent);
+}
+.detail-section { margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+.detail-section:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+.detail-section-title {
+  font-size: 11px; font-weight: 900; color: var(--accent);
+  letter-spacing: 1px; margin-bottom: 6px; text-transform: uppercase;
+}
+.detail-row { padding: 3px 0; font-size: 12px; color: var(--text2); line-height: 1.5; }
+.detail-row strong { color: var(--text); font-family: var(--font-mono); }
+.detail-row strong.pos { color: var(--accent2); }
+.detail-row strong.neg { color: var(--danger); }
+
 /* Cycle#23: 年間トラッカー 詳細 */
 .annual-detail { margin-top: 10px; padding: 10px; background: var(--bg3); border-radius: 8px; }
 .annual-detail-row { display: flex; justify-content: space-between; font-size: 12px; margin: 4px 0; }
@@ -2485,32 +2512,32 @@ function calcToggle(id) {
 
 // ===== Cycle#19: 機種スペックDB =====
 const MACHINE_SPEC_DB = {
-  "スマスロ北斗の拳 転生の章2": { kikai_warii:{1:97.6,2:98.5,4:100.5,5:103.8,6:110.3}, tenjo_g:1480, ev_threshold_g:600, type:"AT", reset_advantage:"B" },
-  "L東京喰種": { kikai_warii:{1:97.8,2:99.0,4:101.5,5:104.2,6:110.0}, tenjo_g:1000, ev_threshold_g:500, type:"AT", reset_advantage:"B" },
-  "スマスロ甲鉄城のカバネリ 海門決戦": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:109.8}, tenjo_g:999, ev_threshold_g:350, type:"AT" },
-  "スマスロとある科学の超電磁砲2": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:899, ev_threshold_g:400, type:"AT" },
-  "スマスロ鉄拳6": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:1199, ev_threshold_g:500, type:"AT" },
-  "L咲-Saki-頂上決戦": { kikai_warii:{1:97.5,2:98.5,4:100.8,5:103.5,6:110.0}, tenjo_g:1300, ev_threshold_g:600, type:"AT", reset_advantage:"C" },
-  "L虚構推理": { kikai_warii:{1:97.5,2:98.5,4:101.0,5:103.5,6:110.0}, tenjo_g:1280, ev_threshold_g:550, type:"AT" },
-  "スマスロ サンダーV": { kikai_warii:{1:96.5,2:98.5,4:100.5,5:103.5,6:111.5}, tenjo_g:0, ev_threshold_g:0, type:"A", reset_advantage:"A" },
-  "スマスロ ハナビ": { kikai_warii:{1:97.0,2:98.5,4:101.0,5:103.5,6:110.0}, tenjo_g:0, ev_threshold_g:0, type:"A", reset_advantage:"A" },
-  "A-SLOT+ ディスクアップ ULTRAREMIX": { kikai_warii:{1:98.0,2:99.5,4:101.5,5:103.0,6:107.0}, tenjo_g:0, ev_threshold_g:0, type:"A", reset_advantage:"A" },
-  "スマスロ新鬼武者3": { kikai_warii:{1:97.8,2:99.0,4:101.0,5:103.5,6:109.5}, tenjo_g:1500, ev_threshold_g:700, type:"AT" },
-  "L ULTRAMAN": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.8,6:110.0}, tenjo_g:1100, ev_threshold_g:500, type:"AT" },
-  "スマスロ北斗の拳": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:1280, ev_threshold_g:550, type:"AT", reset_advantage:"B" },
-  "スマスロ デビルメイクライ5 スタイリッシュトライブ": { kikai_warii:{1:97.5,2:99.0,4:101.0,5:103.8,6:110.0}, tenjo_g:1100, ev_threshold_g:500, type:"AT" },
-  "スマスロ 緑ドン VIVA!情熱南米編 REVIVAL": { kikai_warii:{1:97.5,2:98.5,4:100.5,5:103.0,6:108.5}, tenjo_g:1200, ev_threshold_g:600, type:"AT" },
+  "スマスロ北斗の拳 転生の章2": { kikai_warii:{1:97.6,2:98.5,4:100.5,5:103.8,6:110.3}, tenjo_g:1480, ev_threshold_g:600, type:"AT", reset_advantage:"B", uchikata:"左1stで神拳BAR/青BAR狙い、スイカ時は中右に赤7目安でスイカフォロー(中押し/逆押しはペナルティ)", yamedoki:"AT後余剰あべし少なめなら即やめ、天国天井128あべしで20-30は深追いせずやめ", settei_diff:"神拳勝舞終了時サミートロフィー出現で設定2以上濃厚(設定5・6でも8000Gで20%程度)", reset_target:"設定変更後は天井1280あべしに短縮、1473あべし以降AT当選でATレベル3以上恩恵" },
+  "L東京喰種": { kikai_warii:{1:97.8,2:99.0,4:101.5,5:104.2,6:110.0}, tenjo_g:1000, ev_threshold_g:500, type:"AT", reset_advantage:"B", uchikata:"左リールBAR目押しでレア役フォロー、下段BAR停止/チェリー停止時は中右フリー打ちOK", yamedoki:"AT後の引き戻し前兆を確認しヤメ、東京上空非突入なら14G程度でヤメ", settei_diff:"高設定はCZ/AT終了後100G以内のG数CZ当選率優遇、エピボ・大喰い利世出現率に大きな設定差", reset_target:"朝一リセットは特殊モード滞在でCZ最大G数が200G+αに短縮、0-200狙い目" },
+  "スマスロ甲鉄城のカバネリ 海門決戦": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:109.8}, tenjo_g:999, ev_threshold_g:350, type:"AT", uchikata:"左1st遵守で全リール適当打ちOK(中押し・逆押しはペナルティ)", yamedoki:"ST駆け抜け後/景之ST終了後は短縮天井なので継続価値あり、景之ST後は次回STまで打つ", settei_diff:"設定5勝率80%/設定6勝率85%と高め、下段ベルやキャラ紹介が判別要素", reset_target:"輪廻くじ「一廻以内に好機あり」「二廻以内に好機あり」表示台は積極的に拾う" },
+  "スマスロとある科学の超電磁砲2": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:899, ev_threshold_g:400, type:"AT", uchikata:"順押し黒BAR狙い(左リール上段)、押し順ナビ・狙えカットイン時はナビ/指定図柄に従う", yamedoki:"通常時の状態と天井残Gを見て判断、リセット時は天井短縮で狙い目", settei_diff:"AT確率に大きな設定差、CZ確率も高設定優遇で上位CZ当選率は約3倍差、超電磁砲コイン揃いも高設定有利", reset_target:"リセット時は天井699G+αに短縮、0-700狙い目" },
+  "スマスロ鉄拳6": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:1199, ev_threshold_g:500, type:"AT", uchikata:"左リール上段付近にBAR目押し、スイカ停止時のみ中リール目押し、それ以外は中右フリー打ちOK", yamedoki:"AT終了後100ptのゾーンでAT直撃を確認、引き戻しモード時は100pt鉄拳ゾーンまでフォロー", settei_diff:"ボーナス/AT直撃/CZ確率に設定差、鉄拳チャンス中のBIG後背景にも設定差", reset_target:"設定変更後は鉄拳ポイント天井が最大500pt+αに短縮、青7BIGスルー回数天井も2連続に短縮" },
+  "L咲-Saki-頂上決戦": { kikai_warii:{1:97.5,2:98.5,4:100.8,5:103.5,6:110.0}, tenjo_g:1300, ev_threshold_g:600, type:"AT", reset_advantage:"C", uchikata:"左リールBAR狙いでチェリー/スイカをフォロー", yamedoki:"AT終了後1周期目までは機械割100%超なので即ヤメせず1周期フォロー", settei_diff:"通常時はCZ確率に設定差、AT中はクジラッキートロフィー・エンディング中レア役成立時の和ランプが判別要素", reset_target:"リセットでボーナス間天井は短縮、恩恵自体は通常時と同じ" },
+  "L虚構推理": { kikai_warii:{1:97.5,2:98.5,4:101.0,5:103.5,6:110.0}, tenjo_g:1280, ev_threshold_g:550, type:"AT", uchikata:"左1st推奨でBAR/赤7狙い、スイカ時は中リールBAR目安(中押し・逆押しペナルティ)", yamedoki:"初回CZ後の引き戻し確認後ヤメ、虚構連モード中は霧晴れまでやめない、エピ進行4以上なら次CZまで継続", settei_diff:"設定1と6の機械割差14.3ポイントとスマスロ屈指の大きさ", reset_target:"朝一リセットは天井最大700Gに短縮(300Gが選ばれる事も)、350-450狙い目" },
+  "スマスロ サンダーV": { kikai_warii:{1:96.5,2:98.5,4:100.5,5:103.5,6:111.5}, tenjo_g:0, ev_threshold_g:0, type:"A", reset_advantage:"A", uchikata:"左単V or 赤7、中黒バー or 赤7、右にV狙いで全小役フォロー、BB中はビタ押し技術介入で枚数UP", yamedoki:"Aタイプのためボーナス後即ヤメOK、BB後の単独V揃いに注意", settei_diff:"BB偏向型でREG優先判別、合算1/150前後が設定5以上目安、スイカは設定5最高、ベル/スイカ/チェリーAに設定差", reset_target:"Aタイプのためリセット特恩恵なし、設定狙いがメイン" },
+  "スマスロ ハナビ": { kikai_warii:{1:97.0,2:98.5,4:101.0,5:103.5,6:110.0}, tenjo_g:0, ev_threshold_g:0, type:"A", reset_advantage:"A", uchikata:"順押しBAR狙い(左リール上段)、風鈴・チェリー・スイカの小役フォロー", yamedoki:"花火チャレンジ(RT)はボーナス成立or20G消化で終了、RT終了後即ヤメOK", settei_diff:"REG確率に大きな設定差、風鈴/チェリーB確率にも段階的な設定差あり", reset_target:"Aタイプでリセット特恩恵なし、コンプリート(19000枚)時は設定変更で解除" },
+  "A-SLOT+ ディスクアップ ULTRAREMIX": { kikai_warii:{1:98.0,2:99.5,4:101.5,5:103.0,6:107.0}, tenjo_g:0, ev_threshold_g:0, type:"A", reset_advantage:"A", uchikata:"左1stでBAR狙い、スイカはハサミ打ち、ボーナス中はREADYで中リール枠下白7ビタ押し技術介入", yamedoki:"通常時いつでもヤメOK、最後の1Gは左BAR狙いでボーナス非当選を確認してからヤメ", settei_diff:"確定チェリーに大きな設定差、スイカA/3枚役は設定1-6で約1.1倍差なので大量サンプル要", reset_target:"Aタイプでリセット特恩恵なし、技術介入の精度勝負" },
+  "スマスロ新鬼武者3": { kikai_warii:{1:97.8,2:99.0,4:101.0,5:103.5,6:109.5}, tenjo_g:1500, ev_threshold_g:700, type:"AT", uchikata:"左リールBAR狙いでチェリー/スイカフォロー、スイカ中段時は中リールBAR目安", yamedoki:"ボーナス後128G+α消化してヤメ、ファイナルJAC示唆・サブ液晶タッチ示唆を確認", settei_diff:"AT初当り1/379.7(設定1)~1/293.1(設定6)と大きな設定差、鬼ボーナス・AT終了画面・特定獲得枚数が判別要素", reset_target:"リセットで4周期到達天井、恩恵はAT当選で通常時と同じ" },
+  "L ULTRAMAN": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.8,6:110.0}, tenjo_g:1100, ev_threshold_g:500, type:"AT", uchikata:"通常時は左リール黒BAR狙い、チェリー/スイカ停止時は中右にデカリミ図柄狙い", yamedoki:"ウルトラバトルモード敗北後1G目は必ず消化(レア役でAT復帰)、リミッター解除後はリミットブレイク消化", settei_diff:"AT初当り確率に大きな設定差で設定1と6で出玉率17%以上差、中押しウルトラ目出現率の設定差大", reset_target:"リセット狙いは0-300G狙い目、天井1100Gの短縮確認" },
+  "スマスロ北斗の拳": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:1280, ev_threshold_g:550, type:"AT", reset_advantage:"B", uchikata:"中押しで中リール枠上付近に赤7狙い、弱/強スイカ・チャンス目を判別", yamedoki:"AT終了後は内部状態確認後ヤメ、1G連や本前兆移行の可能性ありで即ヤメ避ける", settei_diff:"高設定はBB後の天国移行率が高く、低設定は地獄モード行きやすい、弱チャンス役からの前兆移行率も高設定優遇", reset_target:"リセット時は天井800G+αに短縮、浅いG数でも天井狙いの価値あり" },
+  "スマスロ デビルメイクライ5 スタイリッシュトライブ": { kikai_warii:{1:97.5,2:99.0,4:101.0,5:103.8,6:110.0}, tenjo_g:1100, ev_threshold_g:500, type:"AT", uchikata:"左1st推奨で全リール適当打ちOK、押し順ナビ時は順番に従う", yamedoki:"ST間天井短縮(設定変更後/ST単発後/上位ST後は800G)を確認してヤメ判断", settei_diff:"ST初当り確率に大きな設定差(高設定はエピボが選ばれやすい)、終了画面虹枠=設定6濃厚/金枠=設定4以上濃厚", reset_target:"リセット時は天井800Gに短縮、0-500狙い目" },
+  "スマスロ 緑ドン VIVA!情熱南米編 REVIVAL": { kikai_warii:{1:97.5,2:98.5,4:100.5,5:103.0,6:108.5}, tenjo_g:1200, ev_threshold_g:600, type:"AT", uchikata:"左リールBAR狙いで小役フォロー、スイカ停止時は中リールBAR目安にスイカ狙い", yamedoki:"特に目立ったゾーンなしのためボーナス/AT当選まで打つのが基本、ハマり台狙い", settei_diff:"弱チェリー・弱波・リーチ目リプレイの出現率に設定差、BB/REG終了画面PUSH押下で設定示唆", reset_target:"設定変更時は天井800Gに短縮、0-500狙い目" },
   "スマスロ 戦国乙女": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:1380, ev_threshold_g:600, type:"AT" },
   "Lパチスロ ダンベル何キロ持てる？": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:109.5}, tenjo_g:1100, ev_threshold_g:500, type:"AT" },
   "Lパチスロ炎炎ノ消防隊": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:1300, ev_threshold_g:600, type:"AT" },
   "Lパチスロ炎炎ノ消防隊2": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:1180, ev_threshold_g:500, type:"AT" },
   "Lダーリン・イン・ザ・フランキス": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:1200, ev_threshold_g:500, type:"AT" },
-  "スマスロ化物語": { kikai_warii:{1:97.5,2:99.0,4:101.0,5:103.5,6:110.0}, tenjo_g:1200, ev_threshold_g:500, type:"AT" },
+  "スマスロ化物語": { kikai_warii:{1:97.5,2:99.0,4:101.0,5:103.5,6:110.0}, tenjo_g:1200, ev_threshold_g:500, type:"AT", uchikata:"左リールBAR狙いでチェリー/スイカフォロー、青7狙いで2連青7停止なら強レア役1確", yamedoki:"AT後の引き戻し「夢の時間ヲ終わラセるな」を必ず消化してヤメ", settei_diff:"AT初当り確率に高設定優遇、設定4以上は1/240を切るのが基準、弱チェリーからAT直撃に大きな設定差", reset_target:"リセット時は天井600Gに短縮、350-600狙い目" },
   "クレアの秘宝伝～はじまりの扉と太陽の石～ボーナストリガーver": { kikai_warii:{1:97.0,2:98.5,4:100.8,5:103.5,6:109.5}, tenjo_g:0, ev_threshold_g:0, type:"A" },
-  "A-SLOT+異世界かるてっとBT": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:0, ev_threshold_g:0, type:"A" },
-  "L無職転生～異世界行ったら本気だす～": { kikai_warii:{1:97.8,2:99.2,4:101.5,5:103.8,6:110.5}, tenjo_g:1280, ev_threshold_g:550, type:"AT" },
-  "パチスロ わたしの幸せな結婚": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:1180, ev_threshold_g:500, type:"AT" },
-  "パチスロ 転生したら剣でした": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:1480, ev_threshold_g:700, type:"AT", reset_advantage:"B" },
+  "A-SLOT+異世界かるてっとBT": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:0, ev_threshold_g:0, type:"A", uchikata:"通常時は左リールBAR狙い、スイカ停止時のみ中リールBAR目安にスイカ狙い", yamedoki:"全ボーナス後はBT「えくすとらチャンス」突入のためBT終了まで消化", settei_diff:"リプレイ除く全小役に設定差、単独いせかる目・特殊15枚役は高設定優遇、BIG中ハズレ目も大きな設定差", reset_target:"Aタイプベースのためリセット特恩恵薄、BT継続率約50%超を活用" },
+  "L無職転生～異世界行ったら本気だす～": { kikai_warii:{1:97.8,2:99.2,4:101.5,5:103.8,6:110.5}, tenjo_g:1280, ev_threshold_g:550, type:"AT", uchikata:"左1st推奨、左リール下段にBARを狙えば全リール適当打ちOK", yamedoki:"AT天井狙いはAT後ヤメ、ボーナス天井狙いはボーナス後ヤメ、ステ赤枠は赤枠後ヤメ", settei_diff:"設定差が大きく、AT初当り1/300・ボーナス1/150が設定5以上判別基準", reset_target:"リセット時はAT/ボーナス天井とも短縮、朝一狙い積極推奨" },
+  "パチスロ わたしの幸せな結婚": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:1180, ev_threshold_g:500, type:"AT", uchikata:"左リールBAR狙いでチェリー/スイカフォロー、スイカ時は中リール赤白7目安", yamedoki:"ボーナス後は天国(25%)確認、即ヤメ時はAT後の夢の家(引き戻し)確認後", settei_diff:"ボーナス/AT確率に設定差、わた婚ボーナス中キャラ紹介・AT終了画面、ボーナス間4スルーで5回目がエピソードの示唆", reset_target:"リセット時は天井短縮、0-500狙い目" },
+  "パチスロ 転生したら剣でした": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:1480, ev_threshold_g:700, type:"AT", reset_advantage:"B", uchikata:"左リールチェリー狙いで中右フリー打ちOK、中リールBARはスイカ代用、押し順ナビ・狙えカットインに従う", yamedoki:"フランおやすみ中消化後ヤメ推奨(滞在中ヤメは損)、100G+αまで確認しヤメも可", settei_diff:"フランボーナス中キャラ紹介・AT終了画面が主な判別要素、AT中演出にも設定示唆", reset_target:"リセット時はモードB以上選択で天井最大600G+α以内、モードC/天国の可能性もあり積極狙い" },
   "スマスロ スーパーブラックジャック": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:1200, ev_threshold_g:500, type:"AT" },
   "スマスロネオプラネット": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:1300, ev_threshold_g:600, type:"AT" },
   "L戦国乙女４ 戦乱に閃く炯眼の軍師": { kikai_warii:{1:97.5,2:98.8,4:101.0,5:103.5,6:110.0}, tenjo_g:1300, ev_threshold_g:600, type:"AT" },
@@ -2526,6 +2553,142 @@ function 機種スペック取得(name){
     if (name.includes(k.slice(0,8)) || k.includes(name.slice(0,8))) return MACHINE_SPEC_DB[k];
   }
   return null;
+}
+
+// ===== Cycle#28: 鉄板3台への情報統合 =====
+function 機種攻略情報取得(name) {
+  const spec = 機種スペック取得(name);
+  if (!spec) return null;
+  return {
+    uchikata: spec.uchikata || null,
+    yamedoki: spec.yamedoki || null,
+    settei_diff: spec.settei_diff || null,
+    reset_target: spec.reset_target || null,
+  };
+}
+
+async function 今日の店舗傾向(machineName) {
+  const boost = (typeof 日付ブースト判定 === 'function') ? 日付ブースト判定(new Date()) : {label:'通常'};
+  let r = null;
+  try {
+    const res = await fetch('data/royal_history.json', {cache:'no-store'});
+    const hist = await res.json();
+    hist.sort((a,b) => (parseInt(b.id)||0) - (parseInt(a.id)||0));
+    const todayDigit = new Date().getDate() % 10;
+    const sameDigitDays = hist.filter(d => {
+      const day = parseInt((d.date_str||'').split('/')[1] || 0);
+      return day % 10 === todayDigit;
+    });
+    let typeAvg = null;
+    if (sameDigitDays.length >= 3) {
+      const sums = sameDigitDays.map(d => (d.machines||[]).reduce((s,m) => s + (m.sa||0), 0));
+      typeAvg = Math.round(sums.reduce((s,v)=>s+v,0) / sums.length);
+    }
+    let machineAvg = null;
+    if (machineName) {
+      const recent = hist.slice(0, 90);
+      let sum = 0, count = 0;
+      recent.forEach(d => {
+        const ms = (d.machines||[]).filter(m => m.name === machineName && m.sa != null);
+        ms.forEach(m => { sum += m.sa; count++; });
+      });
+      if (count >= 3) machineAvg = Math.round(sum / count);
+    }
+    r = { boost_label: boost.label, type_avg: typeAvg, machine_avg: machineAvg };
+  } catch(e) { console.warn(e); }
+  return r;
+}
+
+function 個人勝ちパターン(machineName) {
+  let records = [];
+  try { records = JSON.parse(localStorage.getItem('records') || '[]'); } catch(e) { records = []; }
+  const machineRecs = records.filter(r => r['機種'] === machineName || r.machine === machineName);
+  if (machineRecs.length < 3) return null;
+  const dowMap = { 0:'日', 1:'月', 2:'火', 3:'水', 4:'木', 5:'金', 6:'土' };
+  const dowStats = {};
+  machineRecs.forEach(r => {
+    const dow = dowMap[new Date(r.date).getDay()];
+    if (!dowStats[dow]) dowStats[dow] = { wins: 0, total: 0, sumSa: 0 };
+    dowStats[dow].total++;
+    const sa = parseInt(r['差枚'] || r.sa) || 0;
+    if (sa > 0) dowStats[dow].wins++;
+    dowStats[dow].sumSa += sa;
+  });
+  let bestDow = null, bestRate = 0;
+  Object.entries(dowStats).forEach(([dow, s]) => {
+    if (s.total < 2) return;
+    const rate = Math.round(s.wins/s.total*100);
+    if (rate > bestRate) { bestRate = rate; bestDow = dow; }
+  });
+  const totalWins = machineRecs.filter(r => (parseInt(r['差枚']||r.sa)||0) > 0).length;
+  const totalSa = machineRecs.reduce((s,r) => s + (parseInt(r['差枚']||r.sa)||0), 0);
+  const conf = (typeof 年間目標取得 === 'function') ? 年間目標取得() : {rate_yen_per_piece:20};
+  const totalYen = totalSa * (conf.rate_yen_per_piece || 20);
+  return {
+    plays: machineRecs.length,
+    best_dow: bestDow,
+    best_rate: bestRate,
+    total_yen: totalYen,
+    overall_rate: Math.round(totalWins / machineRecs.length * 100),
+  };
+}
+
+async function 鉄板詳細描画(rank, machineName) {
+  const el = document.getElementById('detail-' + rank);
+  if (!el) return;
+  const safe = s => String(s||'').replace(/[<>&"]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]));
+  const guide = 機種攻略情報取得(machineName);
+  const hall = await 今日の店舗傾向(machineName);
+  const personal = 個人勝ちパターン(machineName);
+  let html = '';
+  if (guide && (guide.uchikata || guide.yamedoki || guide.settei_diff || guide.reset_target)) {
+    html += '<div class="detail-section"><div class="detail-section-title">📖 機種攻略</div>';
+    if (guide.uchikata) html += `<div class="detail-row">✋ 打ち方: ${safe(guide.uchikata)}</div>`;
+    if (guide.yamedoki) html += `<div class="detail-row">🛑 辞め時: ${safe(guide.yamedoki)}</div>`;
+    if (guide.settei_diff) html += `<div class="detail-row">🔍 設定差: ${safe(guide.settei_diff)}</div>`;
+    if (guide.reset_target) html += `<div class="detail-row">🔄 リセット: ${safe(guide.reset_target)}</div>`;
+    html += '</div>';
+  }
+  if (hall) {
+    html += '<div class="detail-section"><div class="detail-section-title">🏢 店舗傾向</div>';
+    if (hall.boost_label && hall.boost_label !== '通常') {
+      html += `<div class="detail-row">📅 今日: <strong>${safe(hall.boost_label)}</strong></div>`;
+    }
+    if (hall.type_avg !== null && hall.type_avg !== undefined) {
+      const sign = hall.type_avg >= 0 ? '+' : '';
+      html += `<div class="detail-row">📊 同日タイプ過去avg: <strong class="${hall.type_avg >= 0 ? 'pos' : 'neg'}">${sign}${hall.type_avg.toLocaleString()}枚/日</strong></div>`;
+    }
+    if (hall.machine_avg !== null && hall.machine_avg !== undefined) {
+      const sign = hall.machine_avg >= 0 ? '+' : '';
+      html += `<div class="detail-row">🎰 この機種の店舗実績(90日): <strong class="${hall.machine_avg >= 0 ? 'pos' : 'neg'}">${sign}${hall.machine_avg.toLocaleString()}枚</strong></div>`;
+    }
+    html += '</div>';
+  }
+  if (personal) {
+    html += '<div class="detail-section"><div class="detail-section-title">🎯 あなたのパターン</div>';
+    if (personal.best_dow && personal.best_rate > 0) {
+      html += `<div class="detail-row">🏆 ${personal.best_dow}曜が得意: <strong>${personal.best_rate}%</strong>勝率</div>`;
+    }
+    html += `<div class="detail-row">📈 通算: ${personal.plays}戦 / 勝率${personal.overall_rate}% / <strong class="${personal.total_yen >= 0 ? 'pos' : 'neg'}">${personal.total_yen >= 0 ? '+' : ''}${personal.total_yen.toLocaleString()}円</strong></div>`;
+    html += '</div>';
+  } else {
+    html += '<div class="detail-section"><div class="detail-row" style="color:var(--muted)">🎯 個人実績: この機種の記録が3戦未満</div></div>';
+  }
+  if (!html) html = '<div class="detail-row" style="color:var(--muted)">情報がまだ収集できていません</div>';
+  el.innerHTML = html;
+}
+
+function 情報展開(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  if (el.style.display === 'none' || !el.style.display) {
+    el.style.display = 'block';
+    const rank = id.replace('detail-', '');
+    const machineName = el.dataset.machine;
+    if (machineName) 鉄板詳細描画(rank, machineName);
+  } else {
+    el.style.display = 'none';
+  }
 }
 
 // ===== Cycle#19: 避けたい5台 =====
@@ -2642,6 +2805,8 @@ async function 鉄板3台描画() {
         <span class="tetsuban-chip"><strong>ETOP常連</strong>${b.E}</span>
         <span class="tetsuban-chip"><strong>F長期勝率</strong>${b.F}</span>
       </div>
+      <button class="info-toggle" onclick="情報展開('detail-${rank}')">💡 もっと詳しく</button>
+      <div class="info-detail" id="detail-${rank}" data-machine="${safe(m.name)}" style="display:none"></div>
     </div>`;
   }).join('');
 }
