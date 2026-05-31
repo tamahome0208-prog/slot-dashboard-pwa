@@ -1,13 +1,27 @@
 {
-  "updated": "2026-05-30T17:01:16.255993+09:00",
-  "sample": 447,
+  "updated": "2026-05-31T17:31:23.842182+09:00",
+  "sample": 477,
   "top": [
     {
       "name": "パチスロＡｎｇｅｌ　Ｂｅａｔｓ！",
-      "avg_sa": 1755,
-      "avg_p": 79.7,
-      "days": 4,
-      "win_rate": 50
+      "avg_sa": 1304,
+      "avg_p": 82.9,
+      "days": 5,
+      "win_rate": 40
+    },
+    {
+      "name": "アバサー",
+      "avg_sa": 1163,
+      "avg_p": 70.1,
+      "days": 3,
+      "win_rate": 33
+    },
+    {
+      "name": "Lスーパービンゴネオ",
+      "avg_sa": 1152,
+      "avg_p": 95.4,
+      "days": 13,
+      "win_rate": 46
     },
     {
       "name": "麻雀格闘倶楽部２",
@@ -59,32 +73,25 @@
       "win_rate": 67
     },
     {
-      "name": "Ｒｅ：ゼロから始める異世界生活",
-      "avg_sa": 634,
-      "avg_p": 99.3,
-      "days": 23,
-      "win_rate": 57
+      "name": "スマスロ 七つの魔剣が支配する",
+      "avg_sa": 616,
+      "avg_p": 94.2,
+      "days": 79,
+      "win_rate": 41
     },
     {
-      "name": "Lスーパービンゴネオ",
-      "avg_sa": 626,
-      "avg_p": 85.4,
-      "days": 9,
-      "win_rate": 33
+      "name": "Ｒｅ：ゼロから始める異世界生活",
+      "avg_sa": 597,
+      "avg_p": 98.7,
+      "days": 24,
+      "win_rate": 54
     },
     {
       "name": "パチスロ わたしの幸せな結婚",
-      "avg_sa": 605,
-      "avg_p": 87.5,
-      "days": 24,
+      "avg_sa": 582,
+      "avg_p": 86.5,
+      "days": 27,
       "win_rate": 33
-    },
-    {
-      "name": "スマスロ 七つの魔剣が支配する",
-      "avg_sa": 583,
-      "avg_p": 93.3,
-      "days": 70,
-      "win_rate": 39
     },
     {
       "name": "Lパチスロ　ベルセルク無双",
@@ -122,13 +129,6 @@
       "win_rate": 33
     },
     {
-      "name": "スマスロ北斗の拳 転生の章2",
-      "avg_sa": 497,
-      "avg_p": 103.7,
-      "days": 247,
-      "win_rate": 60
-    },
-    {
       "name": "押忍！番長３",
       "avg_sa": 483,
       "avg_p": 102.6,
@@ -143,18 +143,18 @@
       "win_rate": 54
     },
     {
-      "name": "L無職転生～異世界行ったら本気だす～",
-      "avg_sa": 464,
-      "avg_p": 91.8,
-      "days": 157,
-      "win_rate": 38
-    },
-    {
       "name": "アナザーゴッドハーデス-奪われたＺＥＵＳｖｅｒ．-",
       "avg_sa": 451,
       "avg_p": 107.2,
       "days": 9,
       "win_rate": 56
+    },
+    {
+      "name": "スマスロ北斗の拳 転生の章2",
+      "avg_sa": 451,
+      "avg_p": 103.2,
+      "days": 277,
+      "win_rate": 59
     },
     {
       "name": "ＧＩ優駿倶楽部",
@@ -164,11 +164,25 @@
       "win_rate": 56
     },
     {
+      "name": "Lパチスロうる星やつら",
+      "avg_sa": 446,
+      "avg_p": 88.6,
+      "days": 5,
+      "win_rate": 60
+    },
+    {
       "name": "パチスロ　ディスクアップ",
       "avg_sa": 436,
       "avg_p": 103.0,
       "days": 21,
       "win_rate": 52
+    },
+    {
+      "name": "スマスロ 銀河英雄伝説 Die Neue These",
+      "avg_sa": 425,
+      "avg_p": 80.3,
+      "days": 35,
+      "win_rate": 43
     },
     {
       "name": "Lゴジラ",
@@ -185,32 +199,18 @@
       "win_rate": 45
     },
     {
+      "name": "L無職転生～異世界行ったら本気だす～",
+      "avg_sa": 413,
+      "avg_p": 92.7,
+      "days": 180,
+      "win_rate": 38
+    },
+    {
       "name": "ハナビ",
       "avg_sa": 396,
       "avg_p": 100.9,
       "days": 21,
       "win_rate": 57
-    },
-    {
-      "name": "スマスロ ビッグドリーム THE GOLDEN PUSHER",
-      "avg_sa": 392,
-      "avg_p": 102.0,
-      "days": 151,
-      "win_rate": 51
-    },
-    {
-      "name": "パチスロ麻雀物語４",
-      "avg_sa": 373,
-      "avg_p": 96.4,
-      "days": 35,
-      "win_rate": 54
-    },
-    {
-      "name": "パチスロ　黄門ちゃまV",
-      "avg_sa": 352,
-      "avg_p": 95.4,
-      "days": 5,
-      "win_rate": 80
     }
   ],
   "bottom": [
@@ -236,13 +236,6 @@
       "win_rate": 0
     },
     {
-      "name": "チバリヨ2プラス",
-      "avg_sa": -520,
-      "avg_p": 86.8,
-      "days": 9,
-      "win_rate": 11
-    },
-    {
       "name": "Lうしおととら 白面決戦",
       "avg_sa": -486,
       "avg_p": 70.9,
@@ -257,11 +250,11 @@
       "win_rate": 33
     },
     {
-      "name": "パチスロ幼女戦記",
-      "avg_sa": -449,
-      "avg_p": 47.0,
-      "days": 7,
-      "win_rate": 14
+      "name": "チバリヨ2プラス",
+      "avg_sa": -471,
+      "avg_p": 88.6,
+      "days": 11,
+      "win_rate": 9
     },
     {
       "name": "アレックス",
@@ -276,20 +269,6 @@
       "avg_p": 95.0,
       "days": 21,
       "win_rate": 29
-    },
-    {
-      "name": "スマスロ ストライク・ザ・ブラッド",
-      "avg_sa": -412,
-      "avg_p": 91.0,
-      "days": 6,
-      "win_rate": 17
-    },
-    {
-      "name": "アニマルスロット ドッチ",
-      "avg_sa": -412,
-      "avg_p": 93.8,
-      "days": 110,
-      "win_rate": 39
     },
     {
       "name": "L新・必殺仕置人 回胴 CRASH SPEC",
@@ -307,9 +286,9 @@
     },
     {
       "name": "L ToLOVEるダークネス TRANCE ver.8.7",
-      "avg_sa": -391,
-      "avg_p": 80.6,
-      "days": 77,
+      "avg_sa": -386,
+      "avg_p": 81.2,
+      "days": 83,
       "win_rate": 27
     },
     {
@@ -318,6 +297,27 @@
       "avg_p": 89.2,
       "days": 8,
       "win_rate": 12
+    },
+    {
+      "name": "パチスロ幼女戦記",
+      "avg_sa": -385,
+      "avg_p": 53.9,
+      "days": 8,
+      "win_rate": 25
+    },
+    {
+      "name": "Lにゃんこ大戦争 超神速",
+      "avg_sa": -382,
+      "avg_p": 90.1,
+      "days": 36,
+      "win_rate": 33
+    },
+    {
+      "name": "アニマルスロット ドッチ",
+      "avg_sa": -375,
+      "avg_p": 94.0,
+      "days": 125,
+      "win_rate": 39
     }
   ]
 }
