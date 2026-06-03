@@ -1,5 +1,5 @@
 // スロット管理システム サービスワーカー
-const CACHE_NAME = 'v32-autoupdate';
+const CACHE_NAME = 'v33-hyena';
 const ASSETS = [
   './',
   './index.html',

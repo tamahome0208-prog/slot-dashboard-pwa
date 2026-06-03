@@ -36,6 +36,7 @@
   --cyan:      #ff6b00;
   --green:     #00d68f;
   --red:       #ff3b5c;
+  --danger:    #ff3b5c;
   --gold:      #ffc73e;
   --text:      #f8f9fc;
   --text2:     #b8bcd0;
@@ -62,6 +63,7 @@
   --cyan:   #0099cc;
   --green:  #2eaa2e;
   --red:    #d93651;
+  --danger: #d93651;
   --gold:   #cc9900;
   --text:   #1a1a2a;
   --text2:  #3a3a4a;
@@ -2138,6 +2140,54 @@ nav button .nv-ic { font-size: 22px; }
 .tetsuban-card-3 .tetsuban-score-badge { background: #CD7F32 !important; color: #fff !important; }
 
 header { box-shadow: none !important; }
+
+/* ===== Cycle#31: ハイエナ判定 ===== */
+.hyena-btn {
+  width: 100%; padding: 20px; margin-bottom: 16px;
+  background: linear-gradient(135deg, #ff6b00, #ffc73e);
+  color: #000; border: none; border-radius: 12px;
+  font-weight: 900; font-size: 20px; cursor: pointer;
+  box-shadow: 0 4px 0 #c54f00;
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+}
+.hyena-btn-sub { font-size: 12px; font-weight: 700; opacity: 0.8; }
+.hyena-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 10000; display: flex; align-items: flex-start; justify-content: center; padding: 16px; overflow-y: auto; }
+.hyena-inner { background: var(--bg2); border-radius: 16px; max-width: 480px; width: 100%; margin-top: 20px; }
+.hyena-header { display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid var(--border); }
+.hyena-title { font-size: 18px; font-weight: 900; }
+.hyena-close { background: transparent; border: none; color: var(--muted); font-size: 20px; cursor: pointer; min-height: 44px; min-width: 44px; }
+.hyena-body { padding: 16px; }
+.hyena-label { font-size: 11px; color: var(--muted); letter-spacing: 2px; margin: 12px 0 8px; text-transform: uppercase; }
+.hyena-machines { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.hyena-mbtn { padding: 16px 10px; background: var(--bg3); border: 2px solid var(--border); border-radius: 10px; color: var(--text); font-weight: 700; font-size: 13px; cursor: pointer; min-height: 56px; }
+.hyena-mbtn.active { border-color: var(--accent); background: rgba(255,107,0,0.15); }
+.hyena-g-display { font-family: var(--font-mono); font-size: 48px; font-weight: 900; text-align: center; color: var(--accent); padding: 12px; background: var(--bg3); border-radius: 12px; margin-bottom: 8px; font-variant-numeric: tabular-nums; }
+.hyena-g-buttons { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.hyena-g-buttons button { padding: 16px 4px; background: var(--bg3); border: 1px solid var(--border); color: var(--text); border-radius: 8px; font-weight: 700; font-family: var(--font-mono); cursor: pointer; min-height: 48px; }
+.hyena-result { margin-top: 16px; padding: 20px; border-radius: 12px; text-align: center; }
+.hyena-result.go { background: rgba(0,214,143,0.12); border: 2px solid var(--accent2); }
+.hyena-result.caution { background: rgba(255,199,62,0.12); border: 2px solid var(--gold); }
+.hyena-result.stop { background: rgba(255,59,92,0.12); border: 2px solid var(--danger); }
+.hyena-ev { font-family: var(--font-mono); font-size: 48px; font-weight: 900; margin: 8px 0; font-variant-numeric: tabular-nums; }
+.hyena-ev.pos { color: var(--accent2); }
+.hyena-ev.neg { color: var(--danger); }
+.hyena-detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 12px 0; }
+.hyena-detail { padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px; }
+.hyena-detail-label { font-size: 10px; color: var(--muted); }
+.hyena-detail-val { font-family: var(--font-mono); font-size: 16px; font-weight: 700; margin-top: 2px; font-variant-numeric: tabular-nums; }
+.hyena-verdict { font-size: 20px; font-weight: 900; margin-top: 8px; }
+.hyena-verdict.go { color: var(--accent2); }
+.hyena-verdict.caution { color: var(--gold); }
+.hyena-verdict.stop { color: var(--danger); }
+.hyena-na { padding: 20px; text-align: center; color: var(--muted); }
+
+/* ===== Cycle#31: 現場タップ最適化 ===== */
+.btn-primary, .ボタン主, .btn-secondary, .ボタン副 { min-height: 48px; }
+nav button { min-height: 56px; }
+.hero-btn, .qrec-mbtn, .tetsuban-card { min-height: 48px; }
+/* セクション余白UP */
+.card, .カード { margin-bottom: 16px; }
+.section-title, .カードタイトル { font-size: 15px; margin-bottom: 14px; }
 </style>
 </head>
 <body>
@@ -2165,6 +2215,33 @@ header { box-shadow: none !important; }
 <!-- ===== 収支ページ ===== -->
 <div id="page-home" class="page active">
   <div id="data-info" class="data-info">📊 データ: --</div>
+
+  <button class="hyena-btn" onclick="ハイエナ判定開く()">
+    🎰 ハイエナ判定 <span class="hyena-btn-sub">この台、打つべき？</span>
+  </button>
+
+  <div id="hyena-modal" class="hyena-modal" style="display:none">
+    <div class="hyena-inner">
+      <div class="hyena-header">
+        <div class="hyena-title">🎰 ハイエナ判定</div>
+        <button class="hyena-close" onclick="ハイエナ判定閉じる()">✕</button>
+      </div>
+      <div class="hyena-body">
+        <div class="hyena-label">機種を選ぶ</div>
+        <div id="hyena-machines" class="hyena-machines"></div>
+        <div class="hyena-label">現在のG数</div>
+        <div class="hyena-g-display" id="hyena-g">0</div>
+        <div class="hyena-g-buttons">
+          <button onclick="ハイエナG調整(500)">+500</button>
+          <button onclick="ハイエナG調整(100)">+100</button>
+          <button onclick="ハイエナG調整(50)">+50</button>
+          <button onclick="ハイエナG調整(-50)">-50</button>
+          <button onclick="ハイエナGクリア()">C</button>
+        </div>
+        <div id="hyena-result" class="hyena-result"></div>
+      </div>
+    </div>
+  </div>
 
   <div id="鉄板3台エリア">
     <div class="section-title">🔥 今日の鉄板3台</div>
@@ -2211,6 +2288,8 @@ header { box-shadow: none !important; }
       <div id="live-cooloff" class="live-cooloff" style="display:none">⏸️ クーリングオフ推奨</div>
       <div id="live-fastinvest" class="live-warning" style="display:none">🚨 投資ペース注意</div>
     </div>
+    <button class="btn-secondary" style="width:100%;margin-top:8px" onclick="来店ハイエナ判定()">📊 今から続行？判定</button>
+    <div id="live-hyena-result"></div>
     <div class="live-actions">
       <button class="live-btn" onclick="来店差枚調整(-1000)">-1000</button>
       <button class="live-btn" onclick="来店差枚調整(-100)">-100</button>
@@ -5021,6 +5100,138 @@ function よく打つ機種Top3() {
   const count = {};
   recent.forEach(r => { const n = r['機種']; if (n) count[n] = (count[n] || 0) + 1; });
   return Object.entries(count).sort((a,b) => b[1] - a[1]).slice(0, 3).map(([n]) => n);
+}
+
+/* ===== Cycle#31: ハイエナ判定 ===== */
+let _hyena_machine = null;
+let _hyena_g = 0;
+
+function ハイエナ期待値計算(machineName, currentG) {
+  const spec = (typeof 機種スペック取得 === 'function') ? 機種スペック取得(machineName) : null;
+  if (!spec || !spec.tenjo_g || spec.tenjo_g === 0) {
+    return { applicable: false, reason: '天井のない機種(ノーマルタイプ等)' };
+  }
+  const tenjoG = spec.tenjo_g;
+  const borderG = spec.ev_threshold_g || Math.round(tenjoG * 0.4);
+  const remainG = Math.max(0, tenjoG - currentG);
+
+  // 投資見込み: 残りG × 1Gあたりコスト(約3円: 50枚/1000円 → 1G=約3.3円, 通常時)
+  const costPerG = 3.3;
+  const estimatedInvest = Math.round(remainG * costPerG);
+
+  // 天井到達時の期待出玉(機種別、平均的なAT/ART初当たり出玉を仮定)
+  // 簡易: 天井恩恵 = 機種の1撃平均(2400枚相当を等価換算) を上限に、現在地点での期待値
+  // EV = (天井到達による期待差枚×レート) - 投資
+  const conf = (typeof 年間目標取得 === 'function') ? 年間目標取得() : { rate_yen_per_piece: 20 };
+
+  // 天井到達時の平均獲得枚数(機種タイプ別の概算)
+  const tenjoReward = spec.type === 'AT' ? 1500 : spec.type === 'ART' ? 1200 : 800; // 枚
+  const rewardYen = tenjoReward * conf.rate_yen_per_piece;
+
+  // 期待値 = 天井期待出玉円 - 投資円 (現在Gがボーダー以降なら基本プラス)
+  const ev = rewardYen - estimatedInvest;
+
+  // 判定
+  let verdict, color;
+  if (currentG >= borderG) { verdict = '打つ価値あり'; color = 'go'; }
+  else if (currentG >= borderG * 0.7) { verdict = 'ボーダー手前・微妙'; color = 'caution'; }
+  else { verdict = '早い・見送り推奨'; color = 'stop'; }
+
+  return {
+    applicable: true,
+    tenjo_g: tenjoG, border_g: borderG, remain_g: remainG,
+    estimated_invest: estimatedInvest, ev: ev,
+    verdict, color,
+  };
+}
+
+function ハイエナ判定開く() {
+  const m = document.getElementById('hyena-modal');
+  if (m) m.style.display = 'flex';
+  ハイエナ機種候補描画();
+  ハイエナ結果描画();
+}
+function ハイエナ判定閉じる() {
+  const m = document.getElementById('hyena-modal');
+  if (m) m.style.display = 'none';
+}
+
+function ハイエナ機種候補描画() {
+  const wrap = document.getElementById('hyena-machines');
+  if (!wrap) return;
+  let names = (typeof よく打つ機種Top3 === 'function') ? よく打つ機種Top3() : [];
+  // 天井ありの主要機種で補完して最大6機種
+  if (typeof MACHINE_SPEC_DB !== 'undefined') {
+    const tenjoMachines = Object.keys(MACHINE_SPEC_DB).filter(n => {
+      const s = MACHINE_SPEC_DB[n];
+      return s && s.tenjo_g && s.tenjo_g > 0;
+    });
+    // よく打つ機種のうち天井なし機種は判定不能なので、候補は天井ありを優先
+    for (const n of tenjoMachines) {
+      if (names.length >= 6) break;
+      if (!names.includes(n)) names.push(n);
+    }
+  }
+  names = names.slice(0, 6);
+  const safe = s => String(s).replace(/[<>&"]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]));
+  wrap.innerHTML = names.map(name => {
+    const active = (name === _hyena_machine) ? 'active' : '';
+    return `<button class="hyena-mbtn ${active}" onclick="ハイエナ機種選択('${safe(name).replace(/'/g,'\\\'')}')">${safe(name).slice(0,20)}</button>`;
+  }).join('');
+}
+
+function ハイエナ機種選択(name) {
+  _hyena_machine = name;
+  ハイエナ機種候補描画();
+  ハイエナ結果描画();
+}
+
+function ハイエナG調整(delta) {
+  _hyena_g = Math.max(0, _hyena_g + delta);
+  const el = document.getElementById('hyena-g');
+  if (el) el.textContent = _hyena_g.toLocaleString();
+  ハイエナ結果描画();
+}
+function ハイエナGクリア() {
+  _hyena_g = 0;
+  const el = document.getElementById('hyena-g');
+  if (el) el.textContent = '0';
+  ハイエナ結果描画();
+}
+
+function ハイエナ結果描画() {
+  const el = document.getElementById('hyena-result');
+  if (!el) return;
+  if (!_hyena_machine) { el.innerHTML = '<div class="hyena-na">機種を選んでください</div>'; return; }
+  const r = ハイエナ期待値計算(_hyena_machine, _hyena_g);
+  if (!r.applicable) { el.innerHTML = `<div class="hyena-na">${r.reason}</div>`; return; }
+  const evCls = r.ev >= 0 ? 'pos' : 'neg';
+  const icon = r.color === 'go' ? '🟢' : r.color === 'caution' ? '🟡' : '🔴';
+  el.className = 'hyena-result ' + r.color;
+  el.innerHTML = `
+    <div style="font-size:11px;color:var(--muted);letter-spacing:2px">期待値(目安)</div>
+    <div class="hyena-ev ${evCls}">${r.ev >= 0 ? '+' : ''}${r.ev.toLocaleString()}円</div>
+    <div class="hyena-detail-grid">
+      <div class="hyena-detail"><div class="hyena-detail-label">天井まで</div><div class="hyena-detail-val">${r.remain_g}G</div></div>
+      <div class="hyena-detail"><div class="hyena-detail-label">想定投資</div><div class="hyena-detail-val">¥${r.estimated_invest.toLocaleString()}</div></div>
+      <div class="hyena-detail"><div class="hyena-detail-label">ボーダー</div><div class="hyena-detail-val">${r.border_g}G</div></div>
+      <div class="hyena-detail"><div class="hyena-detail-label">天井</div><div class="hyena-detail-val">${r.tenjo_g}G</div></div>
+    </div>
+    <div class="hyena-verdict ${r.color}">${icon} ${r.verdict}</div>
+    <div style="font-size:10px;color:var(--muted);margin-top:8px">※ 期待値は機種タイプからの概算。目安としてご利用ください。</div>
+  `;
+}
+
+function 来店ハイエナ判定() {
+  const s = 来店セッション取得();
+  if (!s) return;
+  const ev = (typeof 来店EV計算 === 'function') ? 来店EV計算(s) : { estimatedG: 0 };
+  const r = ハイエナ期待値計算(s.machine, ev.estimatedG);
+  const el = document.getElementById('live-hyena-result');
+  if (!el) return;
+  if (!r.applicable) { el.innerHTML = `<div class="hyena-na">${r.reason}</div>`; return; }
+  const icon = r.color === 'go' ? '🟢' : r.color === 'caution' ? '🟡' : '🔴';
+  el.innerHTML = `<div class="hyena-result ${r.color}" style="margin-top:8px"><div class="hyena-ev ${r.ev>=0?'pos':'neg'}" style="font-size:32px">${r.ev>=0?'+':''}${r.ev.toLocaleString()}円</div><div class="hyena-verdict ${r.color}">${icon} ${r.verdict}</div><div style="font-size:11px;color:var(--muted)">推定${ev.estimatedG}G / 天井${r.tenjo_g}G</div></div>`;
 }
 
 function クイック機種候補描画() {
