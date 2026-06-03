@@ -2,11 +2,13 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>スロット管理システム</title>
 
 <!-- PWA メタタグ -->
-<meta name="theme-color" content="#0a0a0f">
+<meta name="theme-color" content="#0a0d1a">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="スロット管理">
@@ -4967,10 +4969,35 @@ async function 事前選択マッチ(機種名) {
 
 // ── サービスワーカー登録 ──
 if ('serviceWorker' in navigator) {
+  let _sw_reloading = false;
+  // 新しいSWがコントロールを取ったら自動リロード（最新版を即反映）
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (_sw_reloading) return;
+    _sw_reloading = true;
+    location.reload();
+  });
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('sw.js').then(reg => {
       console.log('SW登録成功:', reg.scope);
+      // 起動毎に更新チェック
+      reg.update();
+      // 新SW検知 → install完了 → skipWaitingで即activate（controllerchangeでリロード）
+      reg.addEventListener('updatefound', () => {
+        const sw = reg.installing;
+        if (!sw) return;
+        sw.addEventListener('statechange', () => {
+          if (sw.state === 'installed' && navigator.serviceWorker.controller) {
+            console.log('新バージョン検知、更新します');
+          }
+        });
+      });
     }).catch(err => console.log('SW登録失敗:', err));
+    // フォアグラウンド復帰時にも更新チェック
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        navigator.serviceWorker.getRegistration().then(r => r && r.update()).catch(()=>{});
+      }
+    });
   });
 }
 

@@ -1,5 +1,5 @@
 // スロット管理システム サービスワーカー
-const CACHE_NAME = 'v31-sapporo';
+const CACHE_NAME = 'v32-autoupdate';
 const ASSETS = [
   './',
   './index.html',
