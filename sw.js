@@ -1,5 +1,5 @@
 // スロット管理システム サービスワーカー
-const CACHE_NAME = 'v30-info-density';
+const CACHE_NAME = 'v31-sapporo';
 const ASSETS = [
   './',
   './index.html',

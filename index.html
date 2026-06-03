@@ -1959,6 +1959,21 @@ header h1 {
 .annual-sparkline-wrap { margin-top: 12px; padding: 8px; background: var(--bg3); border-radius: 8px; }
 .annual-sparkline-label { font-size: 10px; color: var(--muted); letter-spacing: 1px; margin-bottom: 4px; }
 
+/* Cycle#29: 札幌注目台 */
+#札幌注目台エリア { margin-bottom: 24px; padding: 16px; background: linear-gradient(135deg, var(--bg2), rgba(34,197,94,0.05)); border-radius: 16px; border: 1px solid rgba(34,197,94,0.25); }
+.sapporo-disclaimer { font-size: 10px; color: var(--muted); font-weight: 400; margin-left: 6px; }
+.sapporo-store { margin-bottom: 14px; padding: 10px; background: rgba(255,255,255,0.02); border-radius: 10px; }
+.sapporo-store-name { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+.sapporo-store-meta { font-size: 10px; color: var(--muted); font-weight: 400; }
+.sapporo-unit-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 8px; border-radius: 6px; background: rgba(255,255,255,0.02); margin-bottom: 4px; font-size: 11px; }
+.sapporo-unit-left { display: flex; gap: 8px; align-items: center; min-width: 0; flex: 1; }
+.sapporo-unit-num { font-family: var(--font-mono); color: var(--cyan); font-weight: 700; min-width: 38px; }
+.sapporo-unit-name { color: var(--text2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sapporo-unit-sa { font-family: var(--font-mono); font-weight: 700; color: var(--accent); margin-left: 6px; }
+.sapporo-unit-sa.plus { color: #22c55e; }
+.sapporo-unit-sa.minus { color: #ef4444; }
+.empty-msg { font-size: 11px; color: var(--muted); padding: 8px; text-align: center; font-style: italic; }
+
 /* Cycle#23: 鉄板3台 拡張情報 */
 .tetsuban-extras { margin-top: 10px; padding: 8px; background: rgba(255,255,255,0.03); border-radius: 6px; font-size: 11px; color: var(--text2); }
 .extra-line { padding: 2px 0; }
@@ -2152,6 +2167,11 @@ header { box-shadow: none !important; }
   <div id="鉄板3台エリア">
     <div class="section-title">🔥 今日の鉄板3台</div>
     <div id="鉄板3台リスト"></div>
+  </div>
+
+  <div id="札幌注目台エリア">
+    <div class="section-title">📍 札幌の注目台 <span class="sapporo-disclaimer">(過去5日統計値・未来を保証するものではありません)</span></div>
+    <div id="札幌注目台リスト"></div>
   </div>
 
   <div id="来店ボタンエリア">
@@ -3340,8 +3360,69 @@ function renderHome() {
     if (el && latest) el.textContent = '📊 データ更新: ' + (latest.date_str || '--') + ' / ' + h.length + '日分';
   }).catch(()=>{});
   try { 鉄板3台描画(); } catch(e) { console.warn(e); }
+  try { 札幌注目台描画(); } catch(e) { console.warn('札幌注目台描画失敗', e); }
   try { 年間トラッカー描画(); } catch(e) { console.warn('年間トラッカー描画失敗', e); }
   try { 来店モード描画(); if (来店セッション取得()) 来店タイマー開始(); } catch(e) { console.warn('来店モード描画失敗', e); }
+}
+
+// ===== Cycle#29: 札幌5店舗 注目台 =====
+async function 札幌注目台描画() {
+  const cont = document.getElementById('札幌注目台リスト');
+  if (!cont) return;
+  cont.innerHTML = '<div class="empty-msg">読込中...</div>';
+  let data;
+  try {
+    const r = await fetch('data/sapporo_history.json', {cache:'no-store'});
+    data = await r.json();
+  } catch(e) {
+    cont.innerHTML = '<div class="empty-msg">データ取得失敗</div>';
+    return;
+  }
+  const stores = (data && data.stores) || [];
+  if (!stores.length) { cont.innerHTML = '<div class="empty-msg">店舗データなし</div>'; return; }
+  let html = '';
+  for (const s of stores) {
+    const hist = (s.history || []).slice(0, 5);
+    if (!hist.length) {
+      html += `<div class="sapporo-store"><div class="sapporo-store-name">🏪 ${s.name} <span class="sapporo-store-meta">データ無し</span></div></div>`;
+      continue;
+    }
+    // 台番ごとに過去5日の差枚を集計
+    const stats = {};
+    for (const d of hist) {
+      for (const m of (d.machines || [])) {
+        const key = m.unit;
+        if (!key) continue;
+        if (!stats[key]) stats[key] = { unit: m.unit, name: m.name, sa_sum: 0, sa_cnt: 0 };
+        if (typeof m.sa === 'number') { stats[key].sa_sum += m.sa; stats[key].sa_cnt += 1; }
+        stats[key].name = m.name || stats[key].name;
+      }
+    }
+    const rows = Object.values(stats)
+      .filter(x => x.sa_cnt > 0)
+      .map(x => ({ ...x, avg: Math.round(x.sa_sum / x.sa_cnt) }))
+      .sort((a, b) => b.avg - a.avg)
+      .slice(0, 5);
+    html += `<div class="sapporo-store">
+      <div class="sapporo-store-name">🏪 ${s.name} <span class="sapporo-store-meta">直近${hist.length}日</span></div>`;
+    if (!rows.length) {
+      html += '<div class="empty-msg">差枚データなし</div>';
+    } else {
+      for (const r of rows) {
+        const cls = r.avg > 0 ? 'plus' : (r.avg < 0 ? 'minus' : '');
+        const sign = r.avg > 0 ? '+' : '';
+        html += `<div class="sapporo-unit-row">
+          <div class="sapporo-unit-left">
+            <span class="sapporo-unit-num">${r.unit}</span>
+            <span class="sapporo-unit-name">${(r.name||'').slice(0,20)}</span>
+          </div>
+          <span class="sapporo-unit-sa ${cls}">${sign}${r.avg}枚</span>
+        </div>`;
+      }
+    }
+    html += '</div>';
+  }
+  cont.innerHTML = html;
 }
 
 // ===== Cycle#20: 月次振り返りレポート =====

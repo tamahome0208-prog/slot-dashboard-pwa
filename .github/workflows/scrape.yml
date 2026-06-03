@@ -34,6 +34,10 @@ jobs:
         run: python scripts/royal_daily.py
         continue-on-error: false
 
+      - name: 札幌5店舗データ収集
+        run: python scripts/sapporo_daily.py
+        continue-on-error: true
+
       - name: 変更をコミット
         run: |
           git config --local user.email "action@github.com"
