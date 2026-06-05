@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-04T10:49:50.116224",
+  "updated": "2026-06-05T11:00:16.141293",
   "cycle": 0,
   "metrics": {
     "actual_pnl": {
@@ -120,6 +120,13 @@
     },
     {
       "at": "2026-06-04T10:49:50.116235",
+      "best_strategy": "pre_select_top20_best",
+      "win_rate": 77.9,
+      "avg_sa": 1362,
+      "edge_vs_baseline": 1277
+    },
+    {
+      "at": "2026-06-05T11:00:16.141303",
       "best_strategy": "pre_select_top20_best",
       "win_rate": 77.9,
       "avg_sa": 1362,
