@@ -1,13 +1,13 @@
 {
-  "updated": "2026-06-06T17:07:49.476977+09:00",
-  "sample": 639,
+  "updated": "2026-06-07T17:41:57.763133+09:00",
+  "sample": 672,
   "top": [
     {
       "name": "Lスーパービンゴネオ",
-      "avg_sa": 1218,
-      "avg_p": 95.5,
-      "days": 24,
-      "win_rate": 38
+      "avg_sa": 1149,
+      "avg_p": 95.2,
+      "days": 25,
+      "win_rate": 36
     },
     {
       "name": "麻雀格闘倶楽部２",
@@ -25,10 +25,10 @@
     },
     {
       "name": "アバサー",
-      "avg_sa": 872,
-      "avg_p": 52.6,
-      "days": 4,
-      "win_rate": 25
+      "avg_sa": 898,
+      "avg_p": 73.3,
+      "days": 5,
+      "win_rate": 40
     },
     {
       "name": "L島娘",
@@ -94,27 +94,6 @@
       "win_rate": 50
     },
     {
-      "name": "桃太郎電鉄～パチスロも定番！～",
-      "avg_sa": 504,
-      "avg_p": 59.6,
-      "days": 16,
-      "win_rate": 19
-    },
-    {
-      "name": "Lひぐらしのなく頃に業",
-      "avg_sa": 496,
-      "avg_p": 77.7,
-      "days": 12,
-      "win_rate": 50
-    },
-    {
-      "name": "スマスロ 銀河英雄伝説 Die Neue These",
-      "avg_sa": 486,
-      "avg_p": 83.7,
-      "days": 56,
-      "win_rate": 43
-    },
-    {
       "name": "押忍！番長３",
       "avg_sa": 483,
       "avg_p": 102.6,
@@ -127,6 +106,20 @@
       "avg_p": 102.6,
       "days": 13,
       "win_rate": 54
+    },
+    {
+      "name": "パチスロ わたしの幸せな結婚",
+      "avg_sa": 463,
+      "avg_p": 80.5,
+      "days": 50,
+      "win_rate": 32
+    },
+    {
+      "name": "スマスロ 銀河英雄伝説 Die Neue These",
+      "avg_sa": 453,
+      "avg_p": 85.0,
+      "days": 62,
+      "win_rate": 42
     },
     {
       "name": "アナザーゴッドハーデス-奪われたＺＥＵＳｖｅｒ．-",
@@ -143,11 +136,11 @@
       "win_rate": 56
     },
     {
-      "name": "スマスロ北斗の拳 転生の章2",
-      "avg_sa": 438,
-      "avg_p": 103.2,
-      "days": 435,
-      "win_rate": 60
+      "name": "桃太郎電鉄～パチスロも定番！～",
+      "avg_sa": 439,
+      "avg_p": 67.1,
+      "days": 20,
+      "win_rate": 20
     },
     {
       "name": "パチスロ　ディスクアップ",
@@ -157,18 +150,11 @@
       "win_rate": 52
     },
     {
-      "name": "喰霊−零−　運命乱",
-      "avg_sa": 415,
-      "avg_p": 92.5,
-      "days": 11,
-      "win_rate": 45
-    },
-    {
-      "name": "パチスロ わたしの幸せな結婚",
-      "avg_sa": 399,
-      "avg_p": 77.8,
-      "days": 41,
-      "win_rate": 32
+      "name": "スマスロ北斗の拳 転生の章2",
+      "avg_sa": 431,
+      "avg_p": 103.1,
+      "days": 468,
+      "win_rate": 60
     },
     {
       "name": "ハナビ",
@@ -178,32 +164,39 @@
       "win_rate": 57
     },
     {
-      "name": "スマスロワンパンマン",
-      "avg_sa": 375,
-      "avg_p": 34.4,
-      "days": 4,
-      "win_rate": 25
+      "name": "スマスロ 甲鉄城のカバネリ 海門決戦",
+      "avg_sa": 385,
+      "avg_p": 101.8,
+      "days": 451,
+      "win_rate": 58
     },
     {
       "name": "パチスロ麻雀物語４",
-      "avg_sa": 373,
-      "avg_p": 96.4,
-      "days": 35,
+      "avg_sa": 381,
+      "avg_p": 94.3,
+      "days": 37,
       "win_rate": 54
     },
     {
-      "name": "スマスロ 七つの魔剣が支配する",
-      "avg_sa": 357,
-      "avg_p": 86.6,
-      "days": 127,
-      "win_rate": 35
+      "name": "喰霊−零−　運命乱",
+      "avg_sa": 380,
+      "avg_p": 84.8,
+      "days": 12,
+      "win_rate": 42
+    },
+    {
+      "name": "パチスロ盾の勇者の成り上がり",
+      "avg_sa": 375,
+      "avg_p": 78.5,
+      "days": 13,
+      "win_rate": 54
     },
     {
       "name": "L東京喰種",
-      "avg_sa": 356,
+      "avg_sa": 357,
       "avg_p": 101.8,
-      "days": 502,
-      "win_rate": 56
+      "days": 535,
+      "win_rate": 57
     },
     {
       "name": "パチスロ　黄門ちゃまV",
@@ -211,6 +204,13 @@
       "avg_p": 95.4,
       "days": 5,
       "win_rate": 80
+    },
+    {
+      "name": "Lパチスロ革命機ヴァルヴレイヴ2",
+      "avg_sa": 352,
+      "avg_p": 97.1,
+      "days": 469,
+      "win_rate": 50
     }
   ],
   "bottom": [
@@ -227,13 +227,6 @@
       "avg_p": 87.2,
       "days": 6,
       "win_rate": 17
-    },
-    {
-      "name": "Lストライクウィッチーズ2",
-      "avg_sa": -649,
-      "avg_p": 42.0,
-      "days": 10,
-      "win_rate": 10
     },
     {
       "name": "パチスロ新鬼武者",
@@ -285,25 +278,32 @@
       "win_rate": 12
     },
     {
+      "name": "Lストライクウィッチーズ2",
+      "avg_sa": -386,
+      "avg_p": 46.2,
+      "days": 13,
+      "win_rate": 15
+    },
+    {
       "name": "Lにゃんこ大戦争 超神速",
-      "avg_sa": -380,
-      "avg_p": 87.4,
-      "days": 39,
-      "win_rate": 31
+      "avg_sa": -370,
+      "avg_p": 85.2,
+      "days": 40,
+      "win_rate": 30
     },
     {
-      "name": "チバリヨ-30",
-      "avg_sa": -372,
-      "avg_p": 77.7,
-      "days": 4,
-      "win_rate": 0
+      "name": "Lパチスロ戦姫絶唱シンフォギア 正義の歌",
+      "avg_sa": -363,
+      "avg_p": 85.9,
+      "days": 75,
+      "win_rate": 24
     },
     {
-      "name": "パチスロ幼女戦記",
-      "avg_sa": -358,
-      "avg_p": 51.1,
-      "days": 10,
-      "win_rate": 20
+      "name": "Lパチスロ 機動戦士ガンダムSEED",
+      "avg_sa": -356,
+      "avg_p": 69.8,
+      "days": 42,
+      "win_rate": 21
     },
     {
       "name": "闘魂継承アントニオ猪木という名のパチスロ機",
@@ -313,11 +313,11 @@
       "win_rate": 25
     },
     {
-      "name": "Lウルトラマンティガ",
-      "avg_sa": -344,
-      "avg_p": 92.2,
-      "days": 6,
-      "win_rate": 33
+      "name": "チバリヨ-30",
+      "avg_sa": -348,
+      "avg_p": 81.3,
+      "days": 5,
+      "win_rate": 0
     }
   ]
 }
