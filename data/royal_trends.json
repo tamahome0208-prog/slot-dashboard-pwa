@@ -1,6 +1,6 @@
 {
-  "updated": "2026-06-21T07:58:59.142323+09:00",
-  "sample": 987,
+  "updated": "2026-06-22T08:00:23.614104+09:00",
+  "sample": 1017,
   "top": [
     {
       "name": "L島娘",
@@ -14,13 +14,6 @@
       "avg_sa": 1147,
       "avg_p": 102.4,
       "days": 6,
-      "win_rate": 33
-    },
-    {
-      "name": "パチスロ七つの大罪",
-      "avg_sa": 1024,
-      "avg_p": 48.6,
-      "days": 3,
       "win_rate": 33
     },
     {
@@ -38,6 +31,13 @@
       "win_rate": 29
     },
     {
+      "name": "パチスロ七つの大罪",
+      "avg_sa": 768,
+      "avg_p": 36.5,
+      "days": 4,
+      "win_rate": 25
+    },
+    {
       "name": "L ULTRAMAN",
       "avg_sa": 710,
       "avg_p": 108.2,
@@ -45,25 +45,11 @@
       "win_rate": 67
     },
     {
-      "name": "Lスーパービンゴネオ",
-      "avg_sa": 674,
-      "avg_p": 82.7,
-      "days": 40,
-      "win_rate": 30
-    },
-    {
       "name": "SLOT 冴えない彼女の育て方",
       "avg_sa": 660,
       "avg_p": 78.3,
       "days": 7,
       "win_rate": 29
-    },
-    {
-      "name": "桃太郎電鉄～パチスロも定番！～",
-      "avg_sa": 593,
-      "avg_p": 76.3,
-      "days": 40,
-      "win_rate": 30
     },
     {
       "name": "百花繚乱サムライガールズ",
@@ -78,6 +64,20 @@
       "avg_p": 94.7,
       "days": 25,
       "win_rate": 52
+    },
+    {
+      "name": "桃太郎電鉄～パチスロも定番！～",
+      "avg_sa": 573,
+      "avg_p": 76.7,
+      "days": 41,
+      "win_rate": 29
+    },
+    {
+      "name": "Lスーパービンゴネオ",
+      "avg_sa": 561,
+      "avg_p": 83.4,
+      "days": 43,
+      "win_rate": 30
     },
     {
       "name": "ＳＬＯＴえとたま",
@@ -115,11 +115,11 @@
       "win_rate": 25
     },
     {
-      "name": "Lサラリーマン金太郎",
-      "avg_sa": 512,
-      "avg_p": 51.1,
-      "days": 23,
-      "win_rate": 26
+      "name": "パチスロ わたしの幸せな結婚",
+      "avg_sa": 503,
+      "avg_p": 75.2,
+      "days": 72,
+      "win_rate": 32
     },
     {
       "name": "押忍！番長３",
@@ -129,10 +129,17 @@
       "win_rate": 55
     },
     {
+      "name": "Lサラリーマン金太郎",
+      "avg_sa": 470,
+      "avg_p": 52.8,
+      "days": 24,
+      "win_rate": 25
+    },
+    {
       "name": "スマスロ 甲鉄城のカバネリ 海門決戦",
-      "avg_sa": 476,
+      "avg_sa": 460,
       "avg_p": 102.3,
-      "days": 754,
+      "days": 783,
       "win_rate": 59
     },
     {
@@ -157,32 +164,11 @@
       "win_rate": 52
     },
     {
-      "name": "パチスロ わたしの幸せな結婚",
-      "avg_sa": 411,
-      "avg_p": 74.4,
-      "days": 70,
-      "win_rate": 31
-    },
-    {
       "name": "ハナビ",
       "avg_sa": 396,
       "avg_p": 100.9,
       "days": 21,
       "win_rate": 57
-    },
-    {
-      "name": "ドンちゃん２",
-      "avg_sa": 394,
-      "avg_p": 64.2,
-      "days": 5,
-      "win_rate": 40
-    },
-    {
-      "name": "L東京喰種",
-      "avg_sa": 381,
-      "avg_p": 102.0,
-      "days": 841,
-      "win_rate": 56
     },
     {
       "name": "パチスロ戦国無双３",
@@ -192,11 +178,18 @@
       "win_rate": 14
     },
     {
+      "name": "L東京喰種",
+      "avg_sa": 367,
+      "avg_p": 101.8,
+      "days": 871,
+      "win_rate": 55
+    },
+    {
       "name": "スマスロ北斗の拳 転生の章2",
-      "avg_sa": 371,
-      "avg_p": 102.8,
-      "days": 773,
-      "win_rate": 58
+      "avg_sa": 354,
+      "avg_p": 102.7,
+      "days": 802,
+      "win_rate": 57
     },
     {
       "name": "パチスロ　黄門ちゃまV",
@@ -211,6 +204,13 @@
       "avg_p": 78.3,
       "days": 13,
       "win_rate": 38
+    },
+    {
+      "name": "L ００９　ＲＥ：ＣＹＢＯＲＧ",
+      "avg_sa": 343,
+      "avg_p": 91.5,
+      "days": 16,
+      "win_rate": 44
     }
   ],
   "bottom": [
@@ -250,18 +250,18 @@
       "win_rate": 0
     },
     {
+      "name": "Lにゃんこ大戦争 超神速",
+      "avg_sa": -418,
+      "avg_p": 79.0,
+      "days": 45,
+      "win_rate": 27
+    },
+    {
       "name": "押忍！サラリーマン番長",
       "avg_sa": -418,
       "avg_p": 95.0,
       "days": 21,
       "win_rate": 29
-    },
-    {
-      "name": "Lにゃんこ大戦争 超神速",
-      "avg_sa": -394,
-      "avg_p": 79.0,
-      "days": 44,
-      "win_rate": 27
     },
     {
       "name": "Lうしおととら 白面決戦",
@@ -293,10 +293,10 @@
     },
     {
       "name": "Lパチスロ 機動戦士ガンダムSEED",
-      "avg_sa": -332,
-      "avg_p": 69.6,
-      "days": 53,
-      "win_rate": 23
+      "avg_sa": -326,
+      "avg_p": 68.3,
+      "days": 54,
+      "win_rate": 22
     },
     {
       "name": "L絶対衝激～PLATONIC HEART～",
