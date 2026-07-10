@@ -1,6 +1,6 @@
 {
-  "updated": "2026-07-10T08:02:36.167524+09:00",
-  "sample": 1586,
+  "updated": "2026-07-11T07:50:53.418271+09:00",
+  "sample": 1617,
   "top": [
     {
       "name": "麻雀格闘倶楽部２",
@@ -10,18 +10,18 @@
       "win_rate": 33
     },
     {
-      "name": "L島娘",
-      "avg_sa": 1068,
-      "avg_p": 92.5,
-      "days": 14,
-      "win_rate": 57
-    },
-    {
       "name": "スマスロ ストリートファイターV 挑戦者の道",
       "avg_sa": 1043,
       "avg_p": 119.2,
       "days": 3,
       "win_rate": 67
+    },
+    {
+      "name": "L島娘",
+      "avg_sa": 958,
+      "avg_p": 96.3,
+      "days": 16,
+      "win_rate": 56
     },
     {
       "name": "パチスロ　聖闘士星矢海皇覚醒",
@@ -36,13 +36,6 @@
       "avg_p": 39.2,
       "days": 8,
       "win_rate": 25
-    },
-    {
-      "name": "L南国育ち SPECIAL",
-      "avg_sa": 734,
-      "avg_p": 87.1,
-      "days": 42,
-      "win_rate": 48
     },
     {
       "name": "パチスロＡｎｇｅｌ　Ｂｅａｔｓ！",
@@ -73,13 +66,6 @@
       "win_rate": 29
     },
     {
-      "name": "パチスロ　デビル　メイ　クライ５",
-      "avg_sa": 588,
-      "avg_p": 72.8,
-      "days": 6,
-      "win_rate": 50
-    },
-    {
       "name": "パチスロ七つの大罪",
       "avg_sa": 584,
       "avg_p": 44.0,
@@ -99,6 +85,13 @@
       "avg_p": 114.2,
       "days": 4,
       "win_rate": 100
+    },
+    {
+      "name": "L南国育ち SPECIAL",
+      "avg_sa": 534,
+      "avg_p": 89.5,
+      "days": 53,
+      "win_rate": 43
     },
     {
       "name": "バーサス",
@@ -143,6 +136,13 @@
       "win_rate": 55
     },
     {
+      "name": "パチスロ　デビル　メイ　クライ５",
+      "avg_sa": 468,
+      "avg_p": 75.9,
+      "days": 7,
+      "win_rate": 43
+    },
+    {
       "name": "うしおととら雷槍一閃",
       "avg_sa": 455,
       "avg_p": 94.0,
@@ -185,17 +185,17 @@
       "win_rate": 22
     },
     {
-      "name": "スマスロ 甲鉄城のカバネリ 海門決戦",
-      "avg_sa": 399,
-      "avg_p": 101.9,
-      "days": 1331,
-      "win_rate": 57
-    },
-    {
       "name": "ハナビ",
       "avg_sa": 396,
       "avg_p": 100.9,
       "days": 21,
+      "win_rate": 57
+    },
+    {
+      "name": "スマスロ 甲鉄城のカバネリ 海門決戦",
+      "avg_sa": 395,
+      "avg_p": 101.8,
+      "days": 1360,
       "win_rate": 57
     },
     {
@@ -227,6 +227,20 @@
       "avg_p": 87.2,
       "days": 6,
       "win_rate": 17
+    },
+    {
+      "name": "キングクリエーター30",
+      "avg_sa": -583,
+      "avg_p": 84.2,
+      "days": 3,
+      "win_rate": 0
+    },
+    {
+      "name": "L ULTRAMAN 最終決戦",
+      "avg_sa": -525,
+      "avg_p": 86.5,
+      "days": 42,
+      "win_rate": 21
     },
     {
       "name": "パチスロ新鬼武者",
@@ -271,13 +285,6 @@
       "win_rate": 32
     },
     {
-      "name": "Lウルトラマンティガ",
-      "avg_sa": -366,
-      "avg_p": 90.8,
-      "days": 7,
-      "win_rate": 29
-    },
-    {
       "name": "Lうしおととら 白面決戦",
       "avg_sa": -365,
       "avg_p": 59.1,
@@ -299,24 +306,17 @@
       "win_rate": 25
     },
     {
-      "name": "ローティス",
-      "avg_sa": -325,
-      "avg_p": 83.0,
-      "days": 42,
-      "win_rate": 26
-    },
-    {
-      "name": "L ULTRAMAN 最終決戦",
-      "avg_sa": -304,
-      "avg_p": 85.0,
-      "days": 30,
-      "win_rate": 27
+      "name": "Lウルトラマンティガ",
+      "avg_sa": -352,
+      "avg_p": 86.8,
+      "days": 8,
+      "win_rate": 25
     },
     {
       "name": "パチスロ織田信奈の野望　全国版",
-      "avg_sa": -279,
-      "avg_p": 42.2,
-      "days": 45,
+      "avg_sa": -273,
+      "avg_p": 41.2,
+      "days": 46,
       "win_rate": 9
     }
   ]
