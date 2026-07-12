@@ -1,6 +1,6 @@
 {
-  "updated": "2026-07-11T07:50:53.418271+09:00",
-  "sample": 1617,
+  "updated": "2026-07-13T07:38:30.706163+09:00",
+  "sample": 1647,
   "top": [
     {
       "name": "麻雀格闘倶楽部２",
@@ -31,25 +31,11 @@
       "win_rate": 62
     },
     {
-      "name": "パチスロ緋弾のアリアＩＩ",
-      "avg_sa": 744,
-      "avg_p": 39.2,
-      "days": 8,
-      "win_rate": 25
-    },
-    {
       "name": "パチスロＡｎｇｅｌ　Ｂｅａｔｓ！",
       "avg_sa": 660,
       "avg_p": 77.4,
       "days": 15,
       "win_rate": 33
-    },
-    {
-      "name": "Lスーパービンゴネオ",
-      "avg_sa": 621,
-      "avg_p": 87.3,
-      "days": 73,
-      "win_rate": 29
     },
     {
       "name": "L ULTRAMAN",
@@ -66,18 +52,11 @@
       "win_rate": 29
     },
     {
-      "name": "パチスロ七つの大罪",
-      "avg_sa": 584,
-      "avg_p": 44.0,
-      "days": 6,
-      "win_rate": 33
-    },
-    {
-      "name": "ＳＬＯＴえとたま",
-      "avg_sa": 545,
-      "avg_p": 57.6,
-      "days": 3,
-      "win_rate": 33
+      "name": "Lスーパービンゴネオ",
+      "avg_sa": 572,
+      "avg_p": 87.3,
+      "days": 74,
+      "win_rate": 28
     },
     {
       "name": "ハナビ通",
@@ -85,13 +64,6 @@
       "avg_p": 114.2,
       "days": 4,
       "win_rate": 100
-    },
-    {
-      "name": "L南国育ち SPECIAL",
-      "avg_sa": 534,
-      "avg_p": 89.5,
-      "days": 53,
-      "win_rate": 43
     },
     {
       "name": "バーサス",
@@ -117,15 +89,15 @@
     {
       "name": "桃太郎電鉄～パチスロも定番！～",
       "avg_sa": 504,
-      "avg_p": 79.4,
-      "days": 69,
+      "avg_p": 81.7,
+      "days": 71,
       "win_rate": 32
     },
     {
-      "name": "スマスロワンパンマン",
-      "avg_sa": 488,
-      "avg_p": 50.8,
-      "days": 14,
+      "name": "パチスロ七つの大罪",
+      "avg_sa": 500,
+      "avg_p": 37.7,
+      "days": 7,
       "win_rate": 29
     },
     {
@@ -164,11 +136,39 @@
       "win_rate": 56
     },
     {
+      "name": "パチスロ緋弾のアリアＩＩ",
+      "avg_sa": 445,
+      "avg_p": 47.7,
+      "days": 10,
+      "win_rate": 20
+    },
+    {
+      "name": "Lパチスロからくりサーカス2",
+      "avg_sa": 439,
+      "avg_p": 90.6,
+      "days": 116,
+      "win_rate": 49
+    },
+    {
       "name": "パチスロ　ディスクアップ",
       "avg_sa": 436,
       "avg_p": 103.0,
       "days": 21,
       "win_rate": 52
+    },
+    {
+      "name": "ドラゴンハナハナ～閃光～",
+      "avg_sa": 436,
+      "avg_p": 99.2,
+      "days": 15,
+      "win_rate": 47
+    },
+    {
+      "name": "L南国育ち SPECIAL",
+      "avg_sa": 419,
+      "avg_p": 90.8,
+      "days": 64,
+      "win_rate": 42
     },
     {
       "name": "パチスロかまいたちの夜",
@@ -178,11 +178,18 @@
       "win_rate": 67
     },
     {
-      "name": "SLOT 冴えない彼女の育て方",
-      "avg_sa": 400,
-      "avg_p": 80.3,
-      "days": 9,
-      "win_rate": 22
+      "name": "ＳＬＯＴえとたま",
+      "avg_sa": 409,
+      "avg_p": 43.2,
+      "days": 4,
+      "win_rate": 25
+    },
+    {
+      "name": "パチスロ わたしの幸せな結婚",
+      "avg_sa": 399,
+      "avg_p": 71.5,
+      "days": 114,
+      "win_rate": 28
     },
     {
       "name": "ハナビ",
@@ -192,25 +199,18 @@
       "win_rate": 57
     },
     {
-      "name": "スマスロ 甲鉄城のカバネリ 海門決戦",
-      "avg_sa": 395,
-      "avg_p": 101.8,
-      "days": 1360,
-      "win_rate": 57
-    },
-    {
-      "name": "ＣＴザクザク七福神",
-      "avg_sa": 377,
-      "avg_p": 103.0,
+      "name": "這いよれ！ニャル子さん",
+      "avg_sa": 391,
+      "avg_p": 104.6,
       "days": 3,
-      "win_rate": 67
+      "win_rate": 33
     },
     {
-      "name": "ドラゴンハナハナ～閃光～",
-      "avg_sa": 371,
-      "avg_p": 96.4,
-      "days": 14,
-      "win_rate": 43
+      "name": "スマスロ 甲鉄城のカバネリ 海門決戦",
+      "avg_sa": 390,
+      "avg_p": 101.8,
+      "days": 1388,
+      "win_rate": 57
     }
   ],
   "bottom": [
@@ -236,18 +236,18 @@
       "win_rate": 0
     },
     {
-      "name": "L ULTRAMAN 最終決戦",
-      "avg_sa": -525,
-      "avg_p": 86.5,
-      "days": 42,
-      "win_rate": 21
-    },
-    {
       "name": "パチスロ新鬼武者",
       "avg_sa": -489,
       "avg_p": 63.3,
       "days": 3,
       "win_rate": 33
+    },
+    {
+      "name": "L ULTRAMAN 最終決戦",
+      "avg_sa": -484,
+      "avg_p": 88.5,
+      "days": 53,
+      "win_rate": 25
     },
     {
       "name": "地獄少女　あとはあなたが決めることよ",
@@ -313,11 +313,11 @@
       "win_rate": 25
     },
     {
-      "name": "パチスロ織田信奈の野望　全国版",
-      "avg_sa": -273,
-      "avg_p": 41.2,
-      "days": 46,
-      "win_rate": 9
+      "name": "Lゴブリンスレイヤー",
+      "avg_sa": -265,
+      "avg_p": 73.9,
+      "days": 50,
+      "win_rate": 30
     }
   ]
 }
