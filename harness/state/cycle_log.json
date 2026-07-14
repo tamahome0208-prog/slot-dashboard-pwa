@@ -980,6 +980,20 @@
         "baseline_avg_sa": 73,
         "edge_avg_sa": 866
       }
+    },
+    {
+      "at": "2026-07-14T23:15:09.909794",
+      "kind": "daily",
+      "kpi_snapshot": {
+        "value": 65.4,
+        "unit": "%",
+        "source": "pre_select_top20_best",
+        "avg_sa": 924,
+        "days": 1116,
+        "baseline_win_rate": 39.5,
+        "baseline_avg_sa": 70,
+        "edge_avg_sa": 854
+      }
     }
   ],
   "summary": {
