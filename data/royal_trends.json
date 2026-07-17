@@ -1,6 +1,6 @@
 {
-  "updated": "2026-07-17T07:47:47.130670+09:00",
-  "sample": 1739,
+  "updated": "2026-07-18T07:38:39.450964+09:00",
+  "sample": 1769,
   "top": [
     {
       "name": "麻雀格闘倶楽部２",
@@ -45,6 +45,13 @@
       "win_rate": 33
     },
     {
+      "name": "Lスーパービンゴネオ",
+      "avg_sa": 614,
+      "avg_p": 88.8,
+      "days": 78,
+      "win_rate": 29
+    },
+    {
       "name": "L ULTRAMAN",
       "avg_sa": 598,
       "avg_p": 107.3,
@@ -52,18 +59,11 @@
       "win_rate": 62
     },
     {
-      "name": "シンデレラブレイド４",
-      "avg_sa": 594,
-      "avg_p": 48.6,
-      "days": 7,
-      "win_rate": 29
-    },
-    {
-      "name": "Lスーパービンゴネオ",
-      "avg_sa": 590,
-      "avg_p": 88.2,
-      "days": 77,
-      "win_rate": 29
+      "name": "L南国育ち SPECIAL",
+      "avg_sa": 561,
+      "avg_p": 95.5,
+      "days": 106,
+      "win_rate": 45
     },
     {
       "name": "ハナビ通",
@@ -87,6 +87,13 @@
       "win_rate": 50
     },
     {
+      "name": "シンデレラブレイド４",
+      "avg_sa": 520,
+      "avg_p": 42.5,
+      "days": 8,
+      "win_rate": 25
+    },
+    {
       "name": "パチスロ七つの大罪",
       "avg_sa": 500,
       "avg_p": 37.7,
@@ -102,10 +109,10 @@
     },
     {
       "name": "桃太郎電鉄～パチスロも定番！～",
-      "avg_sa": 490,
-      "avg_p": 81.9,
-      "days": 79,
-      "win_rate": 33
+      "avg_sa": 484,
+      "avg_p": 80.9,
+      "days": 80,
+      "win_rate": 32
     },
     {
       "name": "押忍！番長３",
@@ -113,13 +120,6 @@
       "avg_p": 102.6,
       "days": 11,
       "win_rate": 55
-    },
-    {
-      "name": "L南国育ち SPECIAL",
-      "avg_sa": 474,
-      "avg_p": 94.3,
-      "days": 95,
-      "win_rate": 42
     },
     {
       "name": "うしおととら雷槍一閃",
@@ -193,9 +193,9 @@
     },
     {
       "name": "スマスロ 甲鉄城のカバネリ 海門決戦",
-      "avg_sa": 386,
+      "avg_sa": 388,
       "avg_p": 101.9,
-      "days": 1478,
+      "days": 1506,
       "win_rate": 57
     },
     {
@@ -206,11 +206,11 @@
       "win_rate": 67
     },
     {
-      "name": "スロット ソードアート・オンラインⅡ",
-      "avg_sa": 375,
-      "avg_p": 100.3,
-      "days": 867,
-      "win_rate": 46
+      "name": "パチスロ わたしの幸せな結婚",
+      "avg_sa": 369,
+      "avg_p": 70.1,
+      "days": 126,
+      "win_rate": 28
     }
   ],
   "bottom": [
@@ -293,30 +293,30 @@
     },
     {
       "name": "Lにゃんこ大戦争 超神速",
-      "avg_sa": -343,
-      "avg_p": 71.9,
-      "days": 61,
-      "win_rate": 25
+      "avg_sa": -339,
+      "avg_p": 71.8,
+      "days": 62,
+      "win_rate": 24
     },
     {
-      "name": "Lゴブリンスレイヤー",
-      "avg_sa": -265,
-      "avg_p": 73.9,
-      "days": 50,
+      "name": "L ULTRAMAN 最終決戦",
+      "avg_sa": -292,
+      "avg_p": 92.1,
+      "days": 90,
       "win_rate": 30
     },
     {
-      "name": "ぱちスロ　ギャグダー",
-      "avg_sa": -258,
-      "avg_p": 63.1,
-      "days": 9,
-      "win_rate": 22
+      "name": "Lゴブリンスレイヤー",
+      "avg_sa": -262,
+      "avg_p": 72.5,
+      "days": 51,
+      "win_rate": 29
     },
     {
       "name": "パチスロ織田信奈の野望　全国版",
       "avg_sa": -249,
-      "avg_p": 40.9,
-      "days": 49,
+      "avg_p": 41.5,
+      "days": 51,
       "win_rate": 10
     }
   ]
