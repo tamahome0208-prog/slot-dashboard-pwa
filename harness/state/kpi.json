@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-28T23:20:33.879283",
+  "updated": "2026-07-29T23:19:58.863519",
   "cycle": 0,
   "metrics": {
     "actual_pnl": {
@@ -13,14 +13,14 @@
       "source": "今日の狙い目 vs royal_history"
     },
     "backtest_win_rate": {
-      "value": 63.8,
+      "value": 63.7,
       "unit": "%",
       "source": "pre_select_top20_best",
-      "avg_sa": 878,
-      "days": 1217,
-      "baseline_win_rate": 38.7,
-      "baseline_avg_sa": 80,
-      "edge_avg_sa": 798
+      "avg_sa": 875,
+      "days": 1219,
+      "baseline_win_rate": 38.9,
+      "baseline_avg_sa": 87,
+      "edge_avg_sa": 788
     },
     "app_usage": {
       "value": null,
@@ -509,6 +509,13 @@
       "win_rate": 63.8,
       "avg_sa": 878,
       "edge_vs_baseline": 798
+    },
+    {
+      "at": "2026-07-29T23:19:58.863530",
+      "best_strategy": "pre_select_top20_best",
+      "win_rate": 63.7,
+      "avg_sa": 875,
+      "edge_vs_baseline": 788
     }
   ]
 }
