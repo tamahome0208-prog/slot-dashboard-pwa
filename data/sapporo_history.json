@@ -1,11 +1,305 @@
 {
-  "updated": "2026-08-03T07:48:45.148347+09:00",
+  "updated": "2026-08-04T07:55:36.305792+09:00",
   "stores": [
     {
       "id": "hp_minami6",
       "name": "プレイランドハッピー南6条店",
       "tag_url": "https://min-repo.com/tag/%E3%83%97%E3%83%AC%E3%82%A4%E3%83%A9%E3%83%B3%E3%83%89%E3%83%8F%E3%83%83%E3%83%94%E3%83%BC%E5%8D%976%E6%9D%A1%E5%BA%97/",
       "history": [
+        {
+          "date": "8/3",
+          "dow": "月",
+          "id": "3266814",
+          "machines": [
+            {
+              "unit": "1556",
+              "name": "L主役は銭形４",
+              "sa": 7166,
+              "g": 7483,
+              "shutsu_ritsu": 131.9
+            },
+            {
+              "unit": "1525",
+              "name": "スマスロ デビルメイクライ5 スタイリッシュトライブ",
+              "sa": 4033,
+              "g": 5192,
+              "shutsu_ritsu": 125.9
+            },
+            {
+              "unit": "1686",
+              "name": "バーサスリヴァイズ",
+              "sa": 1600,
+              "g": 7042,
+              "shutsu_ritsu": 107.6
+            },
+            {
+              "unit": "1512",
+              "name": "麻雀格闘倶楽部　真",
+              "sa": 644,
+              "g": 6205,
+              "shutsu_ritsu": 103.5
+            },
+            {
+              "unit": "1702",
+              "name": "パチスロ ダンジョンに出会いを求めるのは間違っているだろうか2",
+              "sa": 555,
+              "g": 2275,
+              "shutsu_ritsu": 108.1
+            },
+            {
+              "unit": "1521",
+              "name": "L咲-Saki-頂上決戦",
+              "sa": 538,
+              "g": 931,
+              "shutsu_ritsu": 119.3
+            },
+            {
+              "unit": "1552",
+              "name": "桃太郎電鉄～パチスロも定番！～",
+              "sa": 511,
+              "g": 2602,
+              "shutsu_ritsu": 106.5
+            },
+            {
+              "unit": "1515",
+              "name": "パチスロ　戦姫絶唱シンフォギア　勇気の歌",
+              "sa": 411,
+              "g": 6233,
+              "shutsu_ritsu": 102.2
+            },
+            {
+              "unit": "1507",
+              "name": "回胴式遊技機グランベルム",
+              "sa": 388,
+              "g": 1330,
+              "shutsu_ritsu": 109.7
+            },
+            {
+              "unit": "1700",
+              "name": "ニューゲッターマウス",
+              "sa": 238,
+              "g": 2257,
+              "shutsu_ritsu": 103.5
+            },
+            {
+              "unit": "1553",
+              "name": "スマスロ秘宝伝",
+              "sa": 116,
+              "g": 1966,
+              "shutsu_ritsu": 102
+            },
+            {
+              "unit": "1558",
+              "name": "スロット Re:ゼロから始める異世界生活 season2",
+              "sa": 66,
+              "g": 883,
+              "shutsu_ritsu": 102.5
+            },
+            {
+              "unit": "1511",
+              "name": "パチスロ頭文字Ｄ",
+              "sa": 0,
+              "g": 1429,
+              "shutsu_ritsu": 100
+            },
+            {
+              "unit": "1561",
+              "name": "LBパチスロ ヱヴァンゲリヲン～約束の扉～",
+              "sa": -17,
+              "g": 2640,
+              "shutsu_ritsu": 99.8
+            },
+            {
+              "unit": "1537",
+              "name": "Lマジカルハロウィン8",
+              "sa": -67,
+              "g": 4787,
+              "shutsu_ritsu": 99.5
+            },
+            {
+              "unit": "台番",
+              "name": "機種",
+              "sa": null,
+              "g": null,
+              "shutsu_ritsu": null
+            },
+            {
+              "unit": "1508",
+              "name": "パチスロ　甲鉄城のカバネリ",
+              "sa": -100,
+              "g": 1230,
+              "shutsu_ritsu": 96.5
+            },
+            {
+              "unit": "1513",
+              "name": "楽園追放",
+              "sa": -150,
+              "g": 3049,
+              "shutsu_ritsu": 97.9
+            },
+            {
+              "unit": "1505",
+              "name": "パチスロ　新鬼武者２",
+              "sa": -250,
+              "g": 262,
+              "shutsu_ritsu": 57.5
+            },
+            {
+              "unit": "1687",
+              "name": "ファミスタ回胴版！！",
+              "sa": -250,
+              "g": 4217,
+              "shutsu_ritsu": 97.1
+            },
+            {
+              "unit": "1703",
+              "name": "パチスロひぐらしのなく頃に祭２",
+              "sa": -500,
+              "g": 613,
+              "shutsu_ritsu": 71.6
+            },
+            {
+              "unit": "1555",
+              "name": "L新・必殺仕置人 回胴 CRASH SPEC",
+              "sa": -500,
+              "g": 428,
+              "shutsu_ritsu": 58.9
+            },
+            {
+              "unit": "1518",
+              "name": "プリズムナナ",
+              "sa": -500,
+              "g": 4449,
+              "shutsu_ritsu": 96
+            },
+            {
+              "unit": "1520",
+              "name": "L少女☆歌劇 レヴュースタァライト -The SLOT-",
+              "sa": -500,
+              "g": 1632,
+              "shutsu_ritsu": 87.6
+            },
+            {
+              "unit": "1535",
+              "name": "L戦国乙女４　戦乱に閃く炯眼の軍師",
+              "sa": -500,
+              "g": 1858,
+              "shutsu_ritsu": 88.8
+            },
+            {
+              "unit": "1536",
+              "name": "GI優駿倶楽部黄金",
+              "sa": -500,
+              "g": 820,
+              "shutsu_ritsu": 72.2
+            },
+            {
+              "unit": "1701",
+              "name": "パチスロ戦国恋姫",
+              "sa": -500,
+              "g": 1505,
+              "shutsu_ritsu": 84
+            },
+            {
+              "unit": "1550",
+              "name": "スマスロ ゴールデンカムイ",
+              "sa": -750,
+              "g": 3995,
+              "shutsu_ritsu": 93.1
+            },
+            {
+              "unit": "1551",
+              "name": "スマスロ コードギアス 反逆のルルーシュ 復活のルルーシュ",
+              "sa": -750,
+              "g": 2050,
+              "shutsu_ritsu": 84.8
+            },
+            {
+              "unit": "1523",
+              "name": "スマスロ新鬼武者3",
+              "sa": -1000,
+              "g": 2440,
+              "shutsu_ritsu": 85
+            },
+            {
+              "unit": "1557",
+              "name": "賞金首Angel",
+              "sa": -1000,
+              "g": 805,
+              "shutsu_ritsu": 54
+            },
+            {
+              "unit": "台番",
+              "name": "機種",
+              "sa": null,
+              "g": null,
+              "shutsu_ritsu": null
+            },
+            {
+              "unit": "1705",
+              "name": "コードギアス反逆のルルーシュ３ C.C.&Kallen ver.",
+              "sa": -1000,
+              "g": 3590,
+              "shutsu_ritsu": 89
+            },
+            {
+              "unit": "1538",
+              "name": "スロット ゾンビランドサガ",
+              "sa": -1000,
+              "g": 2646,
+              "shutsu_ritsu": 84.7
+            },
+            {
+              "unit": "1688",
+              "name": "クランキークレスト",
+              "sa": -1000,
+              "g": 2350,
+              "shutsu_ritsu": 81.9
+            },
+            {
+              "unit": "1560",
+              "name": "押忍！番長4",
+              "sa": -1500,
+              "g": 1971,
+              "shutsu_ritsu": 74.1
+            },
+            {
+              "unit": "1516",
+              "name": "パチスロ　マクロスデルタ",
+              "sa": -1500,
+              "g": 1405,
+              "shutsu_ritsu": 60.2
+            },
+            {
+              "unit": "1510",
+              "name": "パチスロハイパーラッシュ",
+              "sa": -1500,
+              "g": 3673,
+              "shutsu_ritsu": 83.8
+            },
+            {
+              "unit": "1506",
+              "name": "パチスロ　バイオハザード　ＲＥ：２",
+              "sa": -2000,
+              "g": 5129,
+              "shutsu_ritsu": 85.3
+            },
+            {
+              "unit": "1522",
+              "name": "Lパチスロガールズ＆パンツァー 最終章",
+              "sa": -2000,
+              "g": 1831,
+              "shutsu_ritsu": 55.9
+            },
+            {
+              "unit": "1517",
+              "name": "スマスロとある科学の超電磁砲2",
+              "sa": -3500,
+              "g": 4336,
+              "shutsu_ritsu": 72.3
+            }
+          ]
+        },
         {
           "date": "8/2",
           "dow": "日",
@@ -2091,160 +2385,6 @@
               "shutsu_ritsu": 70
             }
           ]
-        },
-        {
-          "date": "7/24",
-          "dow": "金",
-          "id": "3247139",
-          "machines": [
-            {
-              "unit": "1736",
-              "name": "パチスロ ダンジョンに出会いを求めるのは間違っているだろうか2",
-              "sa": 4233,
-              "g": 4469,
-              "shutsu_ritsu": 131.6
-            },
-            {
-              "unit": "1561",
-              "name": "LBパチスロ ヱヴァンゲリヲン～約束の扉～",
-              "sa": 3288,
-              "g": 3762,
-              "shutsu_ritsu": 129.1
-            },
-            {
-              "unit": "1735",
-              "name": "パチスロひぐらしのなく頃に祭２",
-              "sa": 800,
-              "g": 1161,
-              "shutsu_ritsu": 123
-            },
-            {
-              "unit": "1733",
-              "name": "コードギアス反逆のルルーシュ３ C.C.&Kallen ver.",
-              "sa": 538,
-              "g": 1320,
-              "shutsu_ritsu": 113.6
-            },
-            {
-              "unit": "1520",
-              "name": "L少女☆歌劇 レヴュースタァライト -The SLOT-",
-              "sa": 433,
-              "g": 3240,
-              "shutsu_ritsu": 104.5
-            },
-            {
-              "unit": "1521",
-              "name": "L咲-Saki-頂上決戦",
-              "sa": 338,
-              "g": 859,
-              "shutsu_ritsu": 113.1
-            },
-            {
-              "unit": "1517",
-              "name": "スマスロとある科学の超電磁砲2",
-              "sa": -100,
-              "g": 585,
-              "shutsu_ritsu": 93
-            },
-            {
-              "unit": "1525",
-              "name": "スマスロ デビルメイクライ5 スタイリッシュトライブ",
-              "sa": -150,
-              "g": 142,
-              "shutsu_ritsu": 64.8
-            },
-            {
-              "unit": "1665",
-              "name": "バーサスリヴァイズ",
-              "sa": -150,
-              "g": 2223,
-              "shutsu_ritsu": 97.5
-            },
-            {
-              "unit": "1667",
-              "name": "クランキークレスト",
-              "sa": -150,
-              "g": 687,
-              "shutsu_ritsu": 91.9
-            },
-            {
-              "unit": "1508",
-              "name": "パチスロ戦国恋姫",
-              "sa": -200,
-              "g": 1536,
-              "shutsu_ritsu": 95.1
-            },
-            {
-              "unit": "1516",
-              "name": "L戦国乙女４　戦乱に閃く炯眼の軍師",
-              "sa": -250,
-              "g": 185,
-              "shutsu_ritsu": 51.9
-            },
-            {
-              "unit": "1535",
-              "name": "Lパチスロうみねこのなく頃に2",
-              "sa": -250,
-              "g": 4354,
-              "shutsu_ritsu": 97.3
-            },
-            {
-              "unit": "1668",
-              "name": "ニューゲッターマウス",
-              "sa": -250,
-              "g": 3209,
-              "shutsu_ritsu": 96.2
-            },
-            {
-              "unit": "1522",
-              "name": "Lパチスロガールズ＆パンツァー 最終章",
-              "sa": -500,
-              "g": 1723,
-              "shutsu_ritsu": 86.2
-            },
-            {
-              "unit": "台番",
-              "name": "機種",
-              "sa": null,
-              "g": null,
-              "shutsu_ritsu": null
-            },
-            {
-              "unit": "1515",
-              "name": "押忍！番長4",
-              "sa": -1000,
-              "g": 1952,
-              "shutsu_ritsu": 79.1
-            },
-            {
-              "unit": "1523",
-              "name": "スマスロ新鬼武者3",
-              "sa": -2000,
-              "g": 3817,
-              "shutsu_ritsu": 81.8
-            },
-            {
-              "unit": "1518",
-              "name": "プリズムナナ",
-              "sa": -2000,
-              "g": 2303,
-              "shutsu_ritsu": 67.5
-            },
-            {
-              "unit": "1666",
-              "name": "ファミスタ回胴版！！",
-              "sa": -2000,
-              "g": 3073,
-              "shutsu_ritsu": 73.2
-            },
-            {
-              "unit": "1507",
-              "name": "回胴式遊技機グランベルム",
-              "sa": 0,
-              "g": 0,
-              "shutsu_ritsu": null
-            }
-          ]
         }
       ]
     },
@@ -2253,6 +2393,118 @@
       "name": "プレイランドハッピー麻生店",
       "tag_url": "https://min-repo.com/tag/%E3%83%97%E3%83%AC%E3%82%A4%E3%83%A9%E3%83%B3%E3%83%89%E3%83%8F%E3%83%83%E3%83%94%E3%83%BC%E9%BA%BB%E7%94%9F%E5%BA%97/",
       "history": [
+        {
+          "date": "8/3",
+          "dow": "月",
+          "id": "3266694",
+          "machines": [
+            {
+              "unit": "633",
+              "name": "Lタクトオーパス デスティニー",
+              "sa": 7955,
+              "g": 4719,
+              "shutsu_ritsu": 156.2
+            },
+            {
+              "unit": "1355",
+              "name": "Lバンドリ！",
+              "sa": 7822,
+              "g": 7022,
+              "shutsu_ritsu": 137.1
+            },
+            {
+              "unit": "1360",
+              "name": "スマスロケロット5BT",
+              "sa": 2622,
+              "g": 9577,
+              "shutsu_ritsu": 109.1
+            },
+            {
+              "unit": "1338",
+              "name": "Lパチスロガールズ＆パンツァー 最終章",
+              "sa": 1200,
+              "g": 2284,
+              "shutsu_ritsu": 117.5
+            },
+            {
+              "unit": "1532",
+              "name": "スマスロ 東京リベンジャーズ",
+              "sa": 1133,
+              "g": 3323,
+              "shutsu_ritsu": 111.4
+            },
+            {
+              "unit": "1350",
+              "name": "スロット ゾンビランドサガ",
+              "sa": 811,
+              "g": 2882,
+              "shutsu_ritsu": 109.4
+            },
+            {
+              "unit": "635",
+              "name": "L ToLOVEるダークネス",
+              "sa": 400,
+              "g": 2042,
+              "shutsu_ritsu": 106.5
+            },
+            {
+              "unit": "1370",
+              "name": "LBパチスロ ヱヴァンゲリヲン～約束の扉～",
+              "sa": 266,
+              "g": 446,
+              "shutsu_ritsu": 119.9
+            },
+            {
+              "unit": "1352",
+              "name": "L少女☆歌劇 レヴュースタァライト -The SLOT-",
+              "sa": -67,
+              "g": 2171,
+              "shutsu_ritsu": 99
+            },
+            {
+              "unit": "1336",
+              "name": "Lマジカルハロウィン8",
+              "sa": -250,
+              "g": 956,
+              "shutsu_ritsu": 86.8
+            },
+            {
+              "unit": "1353",
+              "name": "スマスロ バイオハザードRE:3",
+              "sa": -250,
+              "g": 496,
+              "shutsu_ritsu": 69.4
+            },
+            {
+              "unit": "1337",
+              "name": "スマスロ コードギアス 反逆のルルーシュ 復活のルルーシュ",
+              "sa": -500,
+              "g": 710,
+              "shutsu_ritsu": 72.6
+            },
+            {
+              "unit": "862",
+              "name": "スマスロネオプラネット",
+              "sa": -1500,
+              "g": 2003,
+              "shutsu_ritsu": 72.1
+            },
+            {
+              "unit": "1551",
+              "name": "Lアズールレーン THE ANIMATION",
+              "sa": -2000,
+              "g": 3279,
+              "shutsu_ritsu": 78.8
+            },
+            {
+              "unit": "1351",
+              "name": "スマスロ シャーマンキング",
+              "sa": -2500,
+              "g": 1968,
+              "shutsu_ritsu": 56
+            }
+          ]
+        },
         {
           "date": "8/2",
           "dow": "日",
@@ -3330,132 +3582,6 @@
               "shutsu_ritsu": 66.1
             }
           ]
-        },
-        {
-          "date": "7/24",
-          "dow": "金",
-          "id": "3246657",
-          "machines": [
-            {
-              "unit": "1338",
-              "name": "Lパチスロガールズ＆パンツァー 最終章",
-              "sa": 5822,
-              "g": 2363,
-              "shutsu_ritsu": 182.1
-            },
-            {
-              "unit": "1532",
-              "name": "スマスロ 東京リベンジャーズ",
-              "sa": 750,
-              "g": 2233,
-              "shutsu_ritsu": 111.2
-            },
-            {
-              "unit": "1552",
-              "name": "スマスロ鉄拳6",
-              "sa": 638,
-              "g": 2143,
-              "shutsu_ritsu": 109.9
-            },
-            {
-              "unit": "1360",
-              "name": "スマスロケロット5BT",
-              "sa": 388,
-              "g": 8265,
-              "shutsu_ritsu": 101.6
-            },
-            {
-              "unit": "1571",
-              "name": "Lタクトオーパス デスティニー",
-              "sa": 333,
-              "g": 3272,
-              "shutsu_ritsu": 103.4
-            },
-            {
-              "unit": "1337",
-              "name": "スマスロ コードギアス 反逆のルルーシュ 復活のルルーシュ",
-              "sa": 266,
-              "g": 2241,
-              "shutsu_ritsu": 104
-            },
-            {
-              "unit": "1350",
-              "name": "スロット ゾンビランドサガ",
-              "sa": 266,
-              "g": 653,
-              "shutsu_ritsu": 113.6
-            },
-            {
-              "unit": "633",
-              "name": "ローティス",
-              "sa": 200,
-              "g": 266,
-              "shutsu_ritsu": 125.1
-            },
-            {
-              "unit": "1336",
-              "name": "Lマジカルハロウィン8",
-              "sa": 44,
-              "g": 2873,
-              "shutsu_ritsu": 100.5
-            },
-            {
-              "unit": "1370",
-              "name": "LBパチスロ ヱヴァンゲリヲン～約束の扉～",
-              "sa": -100,
-              "g": 2343,
-              "shutsu_ritsu": 98.5
-            },
-            {
-              "unit": "1355",
-              "name": "Lバンドリ！",
-              "sa": -500,
-              "g": 2367,
-              "shutsu_ritsu": 91.9
-            },
-            {
-              "unit": "1353",
-              "name": "スマスロ バイオハザードRE:3",
-              "sa": -750,
-              "g": 805,
-              "shutsu_ritsu": 61.8
-            },
-            {
-              "unit": "1351",
-              "name": "スマスロ シャーマンキング",
-              "sa": -750,
-              "g": 604,
-              "shutsu_ritsu": 48.2
-            },
-            {
-              "unit": "1352",
-              "name": "L少女☆歌劇 レヴュースタァライト -The SLOT-",
-              "sa": -1000,
-              "g": 803,
-              "shutsu_ritsu": 58
-            },
-            {
-              "unit": "1572",
-              "name": "L ToLOVEるダークネス",
-              "sa": -1500,
-              "g": 3861,
-              "shutsu_ritsu": 85.8
-            },
-            {
-              "unit": "台番",
-              "name": "機種",
-              "sa": null,
-              "g": null,
-              "shutsu_ritsu": null
-            },
-            {
-              "unit": "1551",
-              "name": "Lアズールレーン THE ANIMATION",
-              "sa": -2000,
-              "g": 1652,
-              "shutsu_ritsu": 58.3
-            }
-          ]
         }
       ]
     },
@@ -3464,6 +3590,34 @@
       "name": "KEIZ手稲店",
       "tag_url": "https://min-repo.com/tag/keiz%E6%89%8B%E7%A8%B2%E5%BA%97/",
       "history": [
+        {
+          "date": "8/3",
+          "dow": "月",
+          "id": "3267083",
+          "machines": [
+            {
+              "unit": "843",
+              "name": "アニマルスロット ドッチ",
+              "sa": -150,
+              "g": 1393,
+              "shutsu_ritsu": 96.3
+            },
+            {
+              "unit": "684",
+              "name": "新ハナビ",
+              "sa": -150,
+              "g": 1995,
+              "shutsu_ritsu": 96.8
+            },
+            {
+              "unit": "844",
+              "name": "バーニングエクスプレス",
+              "sa": 0,
+              "g": 0,
+              "shutsu_ritsu": null
+            }
+          ]
+        },
         {
           "date": "8/2",
           "dow": "日",
@@ -3715,34 +3869,6 @@
               "shutsu_ritsu": 78.8
             }
           ]
-        },
-        {
-          "date": "7/24",
-          "dow": "金",
-          "id": "3246729",
-          "machines": [
-            {
-              "unit": "843",
-              "name": "アニマルスロット ドッチ",
-              "sa": 530,
-              "g": 877,
-              "shutsu_ritsu": 120.1
-            },
-            {
-              "unit": "844",
-              "name": "バーニングエクスプレス",
-              "sa": 366,
-              "g": 291,
-              "shutsu_ritsu": 141.9
-            },
-            {
-              "unit": "684",
-              "name": "新ハナビ",
-              "sa": -25,
-              "g": 1993,
-              "shutsu_ritsu": 99.6
-            }
-          ]
         }
       ]
     },
@@ -3751,6 +3877,608 @@
       "name": "ベガスベガス札幌店",
       "tag_url": "https://min-repo.com/tag/%E3%83%99%E3%82%AC%E3%82%B9%E3%83%99%E3%82%AC%E3%82%B9%E6%9C%AD%E5%B9%8C%E5%BA%97/",
       "history": [
+        {
+          "date": "8/3",
+          "dow": "月",
+          "id": "3267674",
+          "machines": [
+            {
+              "unit": "1021",
+              "name": "パチスロ北斗の拳　宿命",
+              "sa": 1,
+              "g": 9,
+              "shutsu_ritsu": null
+            },
+            {
+              "unit": "1023",
+              "name": "アオハル♪操 A-LIVE",
+              "sa": 0,
+              "g": 1558,
+              "shutsu_ritsu": 100
+            },
+            {
+              "unit": "1026",
+              "name": "パチスロＡｎｇｅｌ　Ｂｅａｔｓ！",
+              "sa": -1,
+              "g": 1210,
+              "shutsu_ritsu": 100
+            },
+            {
+              "unit": "1031",
+              "name": "パチスロ　バイオハザード　ＲＥ：２",
+              "sa": 1,
+              "g": 608,
+              "shutsu_ritsu": 100.1
+            },
+            {
+              "unit": "1098",
+              "name": "パチスロ頭文字Ｄ",
+              "sa": -1,
+              "g": 27,
+              "shutsu_ritsu": null
+            },
+            {
+              "unit": "1100",
+              "name": "パチスロ　アイドルマスター　ミリオンライブ！",
+              "sa": -1,
+              "g": 4,
+              "shutsu_ritsu": null
+            },
+            {
+              "unit": "1131",
+              "name": "Lパチスロ炎炎ノ消防隊2",
+              "sa": -1,
+              "g": 955,
+              "shutsu_ritsu": 100
+            },
+            {
+              "unit": "1134",
+              "name": "スマスロ スーパーリオエース2",
+              "sa": -1,
+              "g": 2846,
+              "shutsu_ritsu": 100
+            },
+            {
+              "unit": "1148",
+              "name": "L戦国乙女5 業火を穿つ宿焔の双刃",
+              "sa": 1,
+              "g": 1903,
+              "shutsu_ritsu": 100
+            },
+            {
+              "unit": "1149",
+              "name": "戦国コレクション6",
+              "sa": -1,
+              "g": 3140,
+              "shutsu_ritsu": 100
+            },
+            {
+              "unit": "1150",
+              "name": "Lパチスロからくりサーカス2",
+              "sa": 1,
+              "g": 1264,
+              "shutsu_ritsu": 100
+            },
+            {
+              "unit": "1151",
+              "name": "スマスロ 甲鉄城のカバネリ 海門決戦",
+              "sa": -1,
+              "g": 1556,
+              "shutsu_ritsu": 100
+            },
+            {
+              "unit": "1189",
+              "name": "パチスロかまいたちの夜",
+              "sa": 1,
+              "g": 721,
+              "shutsu_ritsu": 100
+            },
+            {
+              "unit": "1190",
+              "name": "パチスロハイパーラッシュ",
+              "sa": -1,
+              "g": 1379,
+              "shutsu_ritsu": 100
+            },
+            {
+              "unit": "1218",
+              "name": "L防空少女ラブキューレ２～極限の共鳴～",
+              "sa": -1,
+              "g": 2025,
+              "shutsu_ritsu": 100
+            },
+            {
+              "unit": "台番",
+              "name": "機種",
+              "sa": null,
+              "g": null,
+              "shutsu_ritsu": null
+            },
+            {
+              "unit": "1220",
+              "name": "Lスマスロとある魔術の禁書目録",
+              "sa": 1,
+              "g": 720,
+              "shutsu_ritsu": 100
+            },
+            {
+              "unit": "1251",
+              "name": "SLOTドルアーガの塔",
+              "sa": -1,
+              "g": 243,
+              "shutsu_ritsu": 99.9
+            },
+            {
+              "unit": "1253",
+              "name": "ファミスタ回胴版！！",
+              "sa": -1,
+              "g": 82,
+              "shutsu_ritsu": null
+            },
+            {
+              "unit": "1270",
+              "name": "マジカルハロウィン ボーナストリガー",
+              "sa": 1,
+              "g": 1091,
+              "shutsu_ritsu": 100
+            },
+            {
+              "unit": "1271",
+              "name": "A-SLOT+異世界かるてっとBT",
+              "sa": 1,
+              "g": 3889,
+              "shutsu_ritsu": 100
+            },
+            {
+              "unit": "1272",
+              "name": "スマスロネオプラネット",
+              "sa": -1,
+              "g": 533,
+              "shutsu_ritsu": 99.9
+            },
+            {
+              "unit": "1286",
+              "name": "L無職転生～異世界行ったら本気だす～",
+              "sa": -1,
+              "g": 733,
+              "shutsu_ritsu": 100
+            },
+            {
+              "unit": "1287",
+              "name": "スマスロヨルムンガンド",
+              "sa": -1,
+              "g": 1318,
+              "shutsu_ritsu": 100
+            },
+            {
+              "unit": "1321",
+              "name": "L不二子BT",
+              "sa": 1,
+              "g": 429,
+              "shutsu_ritsu": 100.1
+            },
+            {
+              "unit": "1326",
+              "name": "翔べ！ハーレムエース",
+              "sa": -1,
+              "g": 1302,
+              "shutsu_ritsu": 100
+            },
+            {
+              "unit": "1327",
+              "name": "LBジャックポット",
+              "sa": -1,
+              "g": 196,
+              "shutsu_ritsu": 99.8
+            },
+            {
+              "unit": "1328",
+              "name": "LBトリプルクラウン",
+              "sa": 1,
+              "g": 543,
+              "shutsu_ritsu": 100.1
+            },
+            {
+              "unit": "1329",
+              "name": "スマート沖スロ スターハナハナ",
+              "sa": -1,
+              "g": 182,
+              "shutsu_ritsu": 99.8
+            },
+            {
+              "unit": "1333",
+              "name": "スマスロ サンダーV",
+              "sa": 1,
+              "g": 5574,
+              "shutsu_ritsu": 100
+            },
+            {
+              "unit": "1346",
+              "name": "ニューパルサーＳＰＩＩＩ",
+              "sa": -1,
+              "g": 1471,
+              "shutsu_ritsu": 100
+            },
+            {
+              "unit": "台番",
+              "name": "機種",
+              "sa": null,
+              "g": null,
+              "shutsu_ritsu": null
+            },
+            {
+              "unit": "1347",
+              "name": "ハイハイシオサイ２",
+              "sa": 1,
+              "g": 69,
+              "shutsu_ritsu": null
+            },
+            {
+              "unit": "1348",
+              "name": "Ｌｕｃｋｙ海物語",
+              "sa": -1,
+              "g": 121,
+              "shutsu_ritsu": 99.7
+            },
+            {
+              "unit": "1350",
+              "name": "花火絶景",
+              "sa": -1,
+              "g": 241,
+              "shutsu_ritsu": 99.9
+            },
+            {
+              "unit": "1361",
+              "name": "LBプレミアムうまい棒",
+              "sa": -1,
+              "g": 56,
+              "shutsu_ritsu": null
+            },
+            {
+              "unit": "1363",
+              "name": "Lマジカルハロウィン8",
+              "sa": -1,
+              "g": 466,
+              "shutsu_ritsu": 99.9
+            },
+            {
+              "unit": "1366",
+              "name": "スマスロ デビルメイクライ5 スタイリッシュトライブ",
+              "sa": -1,
+              "g": 1993,
+              "shutsu_ritsu": 100
+            },
+            {
+              "unit": "1371",
+              "name": "スロット ゾンビランドサガ",
+              "sa": -1,
+              "g": 493,
+              "shutsu_ritsu": 99.9
+            },
+            {
+              "unit": "1372",
+              "name": "Lリングにかけろ1 V",
+              "sa": 1,
+              "g": 650,
+              "shutsu_ritsu": 100.1
+            },
+            {
+              "unit": "1378",
+              "name": "Lダーリン・イン・ザ・フランキス",
+              "sa": -1,
+              "g": 1178,
+              "shutsu_ritsu": 100
+            },
+            {
+              "unit": "1379",
+              "name": "スマート沖スロ アメイジングライブ",
+              "sa": -1,
+              "g": 123,
+              "shutsu_ritsu": 99.7
+            },
+            {
+              "unit": "1380",
+              "name": "L麻雀格闘倶楽部　覚醒",
+              "sa": -1,
+              "g": 1753,
+              "shutsu_ritsu": 100
+            },
+            {
+              "unit": "1385",
+              "name": "Lパチスロ戦姫絶唱シンフォギア 正義の歌",
+              "sa": -1,
+              "g": 836,
+              "shutsu_ritsu": 100
+            },
+            {
+              "unit": "1386",
+              "name": "L絶対衝激IV",
+              "sa": 1,
+              "g": 937,
+              "shutsu_ritsu": 100
+            },
+            {
+              "unit": "1388",
+              "name": "Lパチスロ 機動戦士ガンダムユニコーン 覚醒DRIVE",
+              "sa": -1,
+              "g": 965,
+              "shutsu_ritsu": 100
+            },
+            {
+              "unit": "1389",
+              "name": "LBパチスロ1000ちゃんA",
+              "sa": -1,
+              "g": 371,
+              "shutsu_ritsu": 99.9
+            },
+            {
+              "unit": "台番",
+              "name": "機種",
+              "sa": null,
+              "g": null,
+              "shutsu_ritsu": null
+            },
+            {
+              "unit": "1391",
+              "name": "今日から俺は!! パチスロ編",
+              "sa": 1,
+              "g": 1728,
+              "shutsu_ritsu": 100
+            },
+            {
+              "unit": "1392",
+              "name": "L ToLOVEるダークネス TRANCE ver.8.7",
+              "sa": -1,
+              "g": 1891,
+              "shutsu_ritsu": 100
+            },
+            {
+              "unit": "1396",
+              "name": "スマスロ 沖ドキ!DUO アンコール",
+              "sa": -1,
+              "g": 217,
+              "shutsu_ritsu": 99.8
+            },
+            {
+              "unit": "1397",
+              "name": "マタドールⅢ",
+              "sa": 1,
+              "g": 661,
+              "shutsu_ritsu": 100.1
+            },
+            {
+              "unit": "1398",
+              "name": "Lストライクウィッチーズ2",
+              "sa": 1,
+              "g": 186,
+              "shutsu_ritsu": 100.2
+            },
+            {
+              "unit": "1399",
+              "name": "スマスロ ドルアーガの塔",
+              "sa": -1,
+              "g": 544,
+              "shutsu_ritsu": 99.9
+            },
+            {
+              "unit": "1400",
+              "name": "L D4DJ Pachi-Slot Mix",
+              "sa": -1,
+              "g": 1868,
+              "shutsu_ritsu": 100
+            },
+            {
+              "unit": "1404",
+              "name": "沖ドキ!ゴージャス 30Φ",
+              "sa": -1,
+              "g": 831,
+              "shutsu_ritsu": 100
+            },
+            {
+              "unit": "1024",
+              "name": "ＳＬＯＴまどか前後編",
+              "sa": 0,
+              "g": 0,
+              "shutsu_ritsu": null
+            },
+            {
+              "unit": "1025",
+              "name": "パチスロ　リング運命の秒刻FL",
+              "sa": 0,
+              "g": 0,
+              "shutsu_ritsu": null
+            },
+            {
+              "unit": "1027",
+              "name": "ワードオブライツⅡ",
+              "sa": 0,
+              "g": 0,
+              "shutsu_ritsu": null
+            },
+            {
+              "unit": "1030",
+              "name": "ＧI優駿倶楽部３",
+              "sa": 0,
+              "g": 0,
+              "shutsu_ritsu": null
+            },
+            {
+              "unit": "1097",
+              "name": "パチスロ　コードギアス反逆のルルーシュ３",
+              "sa": 0,
+              "g": 0,
+              "shutsu_ritsu": null
+            },
+            {
+              "unit": "1099",
+              "name": "パチスロ鉄拳５",
+              "sa": 0,
+              "g": 0,
+              "shutsu_ritsu": null
+            },
+            {
+              "unit": "1130",
+              "name": "真打 吉宗",
+              "sa": 0,
+              "g": 0,
+              "shutsu_ritsu": null
+            },
+            {
+              "unit": "1217",
+              "name": "Lバキ　強くなりたくば喰らえ！！！",
+              "sa": 0,
+              "g": 0,
+              "shutsu_ritsu": null
+            },
+            {
+              "unit": "1219",
+              "name": "Lゴブリンスレイヤー",
+              "sa": 0,
+              "g": 0,
+              "shutsu_ritsu": null
+            },
+            {
+              "unit": "1252",
+              "name": "パチスロ　ナイツ",
+              "sa": 0,
+              "g": 0,
+              "shutsu_ritsu": null
+            },
+            {
+              "unit": "1267",
+              "name": "パチスロなめ猫～液晶ないけどなめんじゃねぇ～",
+              "sa": 0,
+              "g": 0,
+              "shutsu_ritsu": null
+            },
+            {
+              "unit": "1313",
+              "name": "スマスロ ゴブリンスレイヤーⅡ",
+              "sa": 0,
+              "g": 0,
+              "shutsu_ritsu": null
+            },
+            {
+              "unit": "1314",
+              "name": "スマスロBIRDIE WING-Golf Girls’ Story-",
+              "sa": 0,
+              "g": 0,
+              "shutsu_ritsu": null
+            },
+            {
+              "unit": "1315",
+              "name": "Lアズールレーン THE ANIMATION",
+              "sa": 0,
+              "g": 0,
+              "shutsu_ritsu": null
+            },
+            {
+              "unit": "1357",
+              "name": "スターパルサー",
+              "sa": 0,
+              "g": 0,
+              "shutsu_ritsu": null
+            },
+            {
+              "unit": "1364",
+              "name": "スマスロ ストライク・ザ・ブラッド",
+              "sa": 0,
+              "g": 0,
+              "shutsu_ritsu": null
+            },
+            {
+              "unit": "1365",
+              "name": "スマート沖スロ 超華祭",
+              "sa": 0,
+              "g": 0,
+              "shutsu_ritsu": null
+            },
+            {
+              "unit": "1367",
+              "name": "スマスロ シャーマンキング",
+              "sa": 0,
+              "g": 0,
+              "shutsu_ritsu": null
+            },
+            {
+              "unit": "1368",
+              "name": "Sky Love",
+              "sa": 0,
+              "g": 0,
+              "shutsu_ritsu": null
+            },
+            {
+              "unit": "1373",
+              "name": "L主役は銭形5",
+              "sa": 0,
+              "g": 0,
+              "shutsu_ritsu": null
+            },
+            {
+              "unit": "1374",
+              "name": "スマスロ 七つの魔剣が支配する",
+              "sa": 0,
+              "g": 0,
+              "shutsu_ritsu": null
+            },
+            {
+              "unit": "1375",
+              "name": "Lパチスロ マクロスフロンティア4",
+              "sa": 0,
+              "g": 0,
+              "shutsu_ritsu": null
+            },
+            {
+              "unit": "1376",
+              "name": "Lスマスロ　リノヘブン",
+              "sa": 0,
+              "g": 0,
+              "shutsu_ritsu": null
+            },
+            {
+              "unit": "1381",
+              "name": "L少女☆歌劇 レヴュースタァライト -The SLOT-",
+              "sa": 0,
+              "g": 0,
+              "shutsu_ritsu": null
+            },
+            {
+              "unit": "1384",
+              "name": "スマスロ頭文字D 2nd",
+              "sa": 0,
+              "g": 0,
+              "shutsu_ritsu": null
+            },
+            {
+              "unit": "1387",
+              "name": "スマスロ交響詩篇エウレカセブン4 HI-EVOLUTION",
+              "sa": 0,
+              "g": 0,
+              "shutsu_ritsu": null
+            },
+            {
+              "unit": "1390",
+              "name": "Lパチスロ シン・エヴァンゲリオン",
+              "sa": 0,
+              "g": 0,
+              "shutsu_ritsu": null
+            },
+            {
+              "unit": "1394",
+              "name": "Lにゃんこ大戦争 超神速",
+              "sa": 0,
+              "g": 0,
+              "shutsu_ritsu": null
+            },
+            {
+              "unit": "1395",
+              "name": "吉宗",
+              "sa": 0,
+              "g": 0,
+              "shutsu_ritsu": null
+            }
+          ]
+        },
         {
           "date": "8/2",
           "dow": "日",
@@ -9135,601 +9863,6 @@
             {
               "unit": "1398",
               "name": "Lストライクウィッチーズ2",
-              "sa": 0,
-              "g": 0,
-              "shutsu_ritsu": null
-            }
-          ]
-        },
-        {
-          "date": "7/24",
-          "dow": "金",
-          "id": "3247824",
-          "machines": [
-            {
-              "unit": "1021",
-              "name": "パチスロ北斗の拳　宿命",
-              "sa": -1,
-              "g": 785,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "1023",
-              "name": "アオハル♪操 A-LIVE",
-              "sa": -1,
-              "g": 585,
-              "shutsu_ritsu": 99.9
-            },
-            {
-              "unit": "1024",
-              "name": "ＳＬＯＴまどか前後編",
-              "sa": 1,
-              "g": 215,
-              "shutsu_ritsu": 100.2
-            },
-            {
-              "unit": "1025",
-              "name": "パチスロ　リング運命の秒刻FL",
-              "sa": 1,
-              "g": 323,
-              "shutsu_ritsu": 100.1
-            },
-            {
-              "unit": "1027",
-              "name": "ワードオブライツⅡ",
-              "sa": -1,
-              "g": 734,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "1030",
-              "name": "ＧI優駿倶楽部３",
-              "sa": 1,
-              "g": 2409,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "1031",
-              "name": "パチスロ　バイオハザード　ＲＥ：２",
-              "sa": -1,
-              "g": 207,
-              "shutsu_ritsu": 99.8
-            },
-            {
-              "unit": "1098",
-              "name": "パチスロ頭文字Ｄ",
-              "sa": -1,
-              "g": 26,
-              "shutsu_ritsu": null
-            },
-            {
-              "unit": "1130",
-              "name": "真打 吉宗",
-              "sa": -1,
-              "g": 739,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "1131",
-              "name": "Lパチスロ炎炎ノ消防隊2",
-              "sa": 1,
-              "g": 451,
-              "shutsu_ritsu": 100.1
-            },
-            {
-              "unit": "1134",
-              "name": "スマスロ スーパーリオエース2",
-              "sa": -1,
-              "g": 1715,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "1148",
-              "name": "L戦国乙女5 業火を穿つ宿焔の双刃",
-              "sa": 1,
-              "g": 4218,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "1149",
-              "name": "戦国コレクション6",
-              "sa": 1,
-              "g": 441,
-              "shutsu_ritsu": 100.1
-            },
-            {
-              "unit": "1150",
-              "name": "Lパチスロからくりサーカス2",
-              "sa": -1,
-              "g": 5091,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "1151",
-              "name": "スマスロ 甲鉄城のカバネリ 海門決戦",
-              "sa": -1,
-              "g": 1147,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "台番",
-              "name": "機種",
-              "sa": null,
-              "g": null,
-              "shutsu_ritsu": null
-            },
-            {
-              "unit": "1190",
-              "name": "パチスロハイパーラッシュ",
-              "sa": -1,
-              "g": 1006,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "1217",
-              "name": "Lバキ　強くなりたくば喰らえ！！！",
-              "sa": -1,
-              "g": 816,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "1218",
-              "name": "L防空少女ラブキューレ２～極限の共鳴～",
-              "sa": -1,
-              "g": 1136,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "1220",
-              "name": "Lスマスロとある魔術の禁書目録",
-              "sa": -1,
-              "g": 2599,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "1251",
-              "name": "SLOTドルアーガの塔",
-              "sa": 1,
-              "g": 2627,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "1252",
-              "name": "パチスロ　ナイツ",
-              "sa": 1,
-              "g": 1853,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "1253",
-              "name": "ファミスタ回胴版！！",
-              "sa": -1,
-              "g": 893,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "1267",
-              "name": "パチスロなめ猫～液晶ないけどなめんじゃねぇ～",
-              "sa": -1,
-              "g": 153,
-              "shutsu_ritsu": 99.8
-            },
-            {
-              "unit": "1270",
-              "name": "マジカルハロウィン ボーナストリガー",
-              "sa": -1,
-              "g": 1020,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "1271",
-              "name": "A-SLOT+異世界かるてっとBT",
-              "sa": 1,
-              "g": 1150,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "1272",
-              "name": "スマスロネオプラネット",
-              "sa": -1,
-              "g": 449,
-              "shutsu_ritsu": 99.9
-            },
-            {
-              "unit": "1286",
-              "name": "L無職転生～異世界行ったら本気だす～",
-              "sa": -1,
-              "g": 1001,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "1287",
-              "name": "スマスロヨルムンガンド",
-              "sa": -1,
-              "g": 589,
-              "shutsu_ritsu": 99.9
-            },
-            {
-              "unit": "1313",
-              "name": "スマスロ ゴブリンスレイヤーⅡ",
-              "sa": -1,
-              "g": 953,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "1314",
-              "name": "スマスロBIRDIE WING-Golf Girls’ Story-",
-              "sa": -1,
-              "g": 1373,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "台番",
-              "name": "機種",
-              "sa": null,
-              "g": null,
-              "shutsu_ritsu": null
-            },
-            {
-              "unit": "1315",
-              "name": "Lアズールレーン THE ANIMATION",
-              "sa": -1,
-              "g": 832,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "1321",
-              "name": "L不二子BT",
-              "sa": 1,
-              "g": 1345,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "1326",
-              "name": "翔べ！ハーレムエース",
-              "sa": -1,
-              "g": 567,
-              "shutsu_ritsu": 99.9
-            },
-            {
-              "unit": "1327",
-              "name": "LBジャックポット",
-              "sa": -1,
-              "g": 619,
-              "shutsu_ritsu": 99.9
-            },
-            {
-              "unit": "1328",
-              "name": "LBトリプルクラウン",
-              "sa": 1,
-              "g": 1673,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "1329",
-              "name": "スマート沖スロ スターハナハナ",
-              "sa": 1,
-              "g": 1001,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "1333",
-              "name": "スマスロ サンダーV",
-              "sa": -1,
-              "g": 1073,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "1346",
-              "name": "ニューパルサーＳＰＩＩＩ",
-              "sa": 1,
-              "g": 2550,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "1347",
-              "name": "ハイハイシオサイ２",
-              "sa": -1,
-              "g": 319,
-              "shutsu_ritsu": 99.9
-            },
-            {
-              "unit": "1348",
-              "name": "Ｌｕｃｋｙ海物語",
-              "sa": -1,
-              "g": 2187,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "1350",
-              "name": "花火絶景",
-              "sa": -1,
-              "g": 5306,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "1361",
-              "name": "LBプレミアムうまい棒",
-              "sa": -1,
-              "g": 464,
-              "shutsu_ritsu": 99.9
-            },
-            {
-              "unit": "1363",
-              "name": "Lマジカルハロウィン8",
-              "sa": -1,
-              "g": 3205,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "1364",
-              "name": "スマスロ ストライク・ザ・ブラッド",
-              "sa": 1,
-              "g": 464,
-              "shutsu_ritsu": 100.1
-            },
-            {
-              "unit": "1365",
-              "name": "スマート沖スロ 超華祭",
-              "sa": -1,
-              "g": 127,
-              "shutsu_ritsu": 99.7
-            },
-            {
-              "unit": "台番",
-              "name": "機種",
-              "sa": null,
-              "g": null,
-              "shutsu_ritsu": null
-            },
-            {
-              "unit": "1366",
-              "name": "スマスロ デビルメイクライ5 スタイリッシュトライブ",
-              "sa": -1,
-              "g": 1243,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "1367",
-              "name": "スマスロ シャーマンキング",
-              "sa": -1,
-              "g": 518,
-              "shutsu_ritsu": 99.9
-            },
-            {
-              "unit": "1368",
-              "name": "Sky Love",
-              "sa": 1,
-              "g": 774,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "1371",
-              "name": "スロット ゾンビランドサガ",
-              "sa": -1,
-              "g": 927,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "1372",
-              "name": "Lリングにかけろ1 V",
-              "sa": -1,
-              "g": 1047,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "1373",
-              "name": "Lぱちスロ乃木坂４６",
-              "sa": -1,
-              "g": 805,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "1375",
-              "name": "Lパチスロ マクロスフロンティア4",
-              "sa": -1,
-              "g": 199,
-              "shutsu_ritsu": 99.8
-            },
-            {
-              "unit": "1378",
-              "name": "Lダーリン・イン・ザ・フランキス",
-              "sa": 1,
-              "g": 498,
-              "shutsu_ritsu": 100.1
-            },
-            {
-              "unit": "1379",
-              "name": "スマート沖スロ アメイジングライブ",
-              "sa": -1,
-              "g": 113,
-              "shutsu_ritsu": 99.7
-            },
-            {
-              "unit": "1380",
-              "name": "L麻雀格闘倶楽部　覚醒",
-              "sa": -1,
-              "g": 1675,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "1381",
-              "name": "スマスロ 銀河英雄伝説 Die Neue These",
-              "sa": -1,
-              "g": 1560,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "1384",
-              "name": "スマスロ頭文字D 2nd",
-              "sa": -1,
-              "g": 1465,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "1386",
-              "name": "L絶対衝激IV",
-              "sa": 1,
-              "g": 464,
-              "shutsu_ritsu": 100.1
-            },
-            {
-              "unit": "1387",
-              "name": "スマスロ交響詩篇エウレカセブン4 HI-EVOLUTION",
-              "sa": 1,
-              "g": 1038,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "1388",
-              "name": "Lパチスロ 機動戦士ガンダムユニコーン 覚醒DRIVE",
-              "sa": -1,
-              "g": 1628,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "台番",
-              "name": "機種",
-              "sa": null,
-              "g": null,
-              "shutsu_ritsu": null
-            },
-            {
-              "unit": "1389",
-              "name": "LBパチスロ1000ちゃんA",
-              "sa": -1,
-              "g": 203,
-              "shutsu_ritsu": 99.8
-            },
-            {
-              "unit": "1390",
-              "name": "Lパチスロ シン・エヴァンゲリオン",
-              "sa": -1,
-              "g": 1926,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "1391",
-              "name": "今日から俺は!! パチスロ編",
-              "sa": -1,
-              "g": 1397,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "1395",
-              "name": "吉宗",
-              "sa": 1,
-              "g": 416,
-              "shutsu_ritsu": 100.1
-            },
-            {
-              "unit": "1396",
-              "name": "スマスロ 沖ドキ!DUO アンコール",
-              "sa": 1,
-              "g": 568,
-              "shutsu_ritsu": 100.1
-            },
-            {
-              "unit": "1398",
-              "name": "Lストライクウィッチーズ2",
-              "sa": -1,
-              "g": 1163,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "1399",
-              "name": "スマスロ ドルアーガの塔",
-              "sa": -1,
-              "g": 1789,
-              "shutsu_ritsu": 100
-            },
-            {
-              "unit": "1400",
-              "name": "L D4DJ Pachi-Slot Mix",
-              "sa": -1,
-              "g": 133,
-              "shutsu_ritsu": 99.7
-            },
-            {
-              "unit": "1026",
-              "name": "パチスロＡｎｇｅｌ　Ｂｅａｔｓ！",
-              "sa": 0,
-              "g": 0,
-              "shutsu_ritsu": null
-            },
-            {
-              "unit": "1097",
-              "name": "パチスロ　コードギアス反逆のルルーシュ３",
-              "sa": 0,
-              "g": 0,
-              "shutsu_ritsu": null
-            },
-            {
-              "unit": "1099",
-              "name": "パチスロ鉄拳５",
-              "sa": 0,
-              "g": 0,
-              "shutsu_ritsu": null
-            },
-            {
-              "unit": "1100",
-              "name": "パチスロ　アイドルマスター　ミリオンライブ！",
-              "sa": 0,
-              "g": 0,
-              "shutsu_ritsu": null
-            },
-            {
-              "unit": "1189",
-              "name": "パチスロかまいたちの夜",
-              "sa": 0,
-              "g": 0,
-              "shutsu_ritsu": null
-            },
-            {
-              "unit": "1219",
-              "name": "Lゴブリンスレイヤー",
-              "sa": 0,
-              "g": 0,
-              "shutsu_ritsu": null
-            },
-            {
-              "unit": "1374",
-              "name": "スマスロ 七つの魔剣が支配する",
-              "sa": 0,
-              "g": 0,
-              "shutsu_ritsu": null
-            },
-            {
-              "unit": "1376",
-              "name": "Lスマスロ　リノヘブン",
-              "sa": 0,
-              "g": 0,
-              "shutsu_ritsu": null
-            },
-            {
-              "unit": "1385",
-              "name": "Lパチスロ戦姫絶唱シンフォギア 正義の歌",
-              "sa": 0,
-              "g": 0,
-              "shutsu_ritsu": null
-            },
-            {
-              "unit": "1392",
-              "name": "L ToLOVEるダークネス TRANCE ver.8.7",
-              "sa": 0,
-              "g": 0,
-              "shutsu_ritsu": null
-            },
-            {
-              "unit": "1394",
-              "name": "Lにゃんこ大戦争 超神速",
-              "sa": 0,
-              "g": 0,
-              "shutsu_ritsu": null
-            },
-            {
-              "unit": "1397",
-              "name": "マタドールⅢ",
               "sa": 0,
               "g": 0,
               "shutsu_ritsu": null
