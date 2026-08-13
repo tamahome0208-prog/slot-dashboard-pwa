@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-12T23:09:29.601118",
+  "updated": "2026-08-13T23:08:48.367759",
   "cycle": 0,
   "metrics": {
     "actual_pnl": {
@@ -16,11 +16,11 @@
       "value": 63.5,
       "unit": "%",
       "source": "pre_select_top20_best",
-      "avg_sa": 995,
-      "days": 1489,
-      "baseline_win_rate": 39.1,
-      "baseline_avg_sa": 86,
-      "edge_avg_sa": 909
+      "avg_sa": 1005,
+      "days": 1500,
+      "baseline_win_rate": 38.9,
+      "baseline_avg_sa": 80,
+      "edge_avg_sa": 925
     },
     "app_usage": {
       "value": null,
@@ -614,6 +614,13 @@
       "win_rate": 63.5,
       "avg_sa": 995,
       "edge_vs_baseline": 909
+    },
+    {
+      "at": "2026-08-13T23:08:48.367772",
+      "best_strategy": "pre_select_top20_best",
+      "win_rate": 63.5,
+      "avg_sa": 1005,
+      "edge_vs_baseline": 925
     }
   ]
 }
